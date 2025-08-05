@@ -7,4 +7,4 @@
 [Download Project File](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod)
 
 ## Mod Installation Instructions
-[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects)
+[Mod File Installation Guide]([https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#project-import-instructions))
