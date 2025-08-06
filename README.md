@@ -16,7 +16,7 @@ Create a new project in MapleStory Worlds through "Create" > "Create New" using 
 ![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_2.png "Choose any template")
 ### Download the .mod File
 Click download on your desired project below to download the mod file associated with the project. 
-![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_3.png "Download the mod file")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/6939aaf1a5cf15bfa4a2a5169722dd710f9b1448/HowToImportModProject/HowTo_3.png "Download the mod file")
 
 ### Import the .mod File to Maker Project
 Import the .mod file by navigating to File > Import from File to import the project file and overwrite the current project with the project downloaded in the previous step. 
@@ -24,7 +24,7 @@ Import the .mod file by navigating to File > Import from File to import the proj
 
 ### Follow the readme instructions 
 Reference the project page found in the associated github project folder for project specific instructions or additional info (Link to project page also found in the download section below).
-![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_5.png "Reference the project readme")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/6939aaf1a5cf15bfa4a2a5169722dd710f9b1448/HowToImportModProject/HowTo_5.png "Reference the project readme")
  
 ## Download
 
