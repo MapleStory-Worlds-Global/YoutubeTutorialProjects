@@ -1,0 +1,24 @@
+@Logic
+script SoundManager extends Logic
+
+	property string bgmRUID = "087646b059894dc0b68448d8ea41da1d"
+
+	@ExecSpace("Client")
+	method void PlaySFXAtPos(string sfx, Vector3 pos)
+		local localPlayer = _UserService.LocalPlayer
+		
+		_SoundService:PlaySoundAtPos(sfx, pos, localPlayer, 1)
+		
+	end
+
+	@ExecSpace("Client")
+	method void PlayBGM()
+		_SoundService:PlayBGM(self.bgmRUID, 1)
+	end
+
+	@ExecSpace("Server")
+	method void PlaySFX(string sfx)
+		_SoundService:PlaySound(sfx, 1)
+	end
+
+end

@@ -1,0 +1,90 @@
+@Component
+script ZakumPlayerComponent extends Component
+
+	@Sync
+	property boolean isZakum = false
+
+	property string zakumHatRUID = "0e86cfa425ba4194823506bb112db272"
+
+	@Sync
+	property boolean isImmune = false
+
+	property number immunityDuration = 5
+
+	property string zakumEffectRUID = "4bb474c81d884844857dacaca279152b"
+
+	property number zakumSpeed = 1.5
+
+	property number normalSpeed = 1
+
+	@ExecSpace("Server")
+	method void SetZakum()
+		self.isZakum = true
+		self.Entity.CostumeManagerComponent:SetEquip(MapleAvatarItemCategory.Cap, self.zakumHatRUID)
+		
+		self:SetSpeed(self.zakumSpeed)
+		
+		_SoundManager:PlaySFXAtPos(_SFXList.STEALZAKUM, self.Entity.TransformComponent.Position)
+		_EffectService:PlayEffectAttached(self.zakumEffectRUID, self.Entity, Vector3.zero, 0, Vector3.one)
+	end
+
+	@ExecSpace("Server")
+	method void UnsetZakum()
+		self.isZakum = false
+		self.Entity.CostumeManagerComponent:SetEquip(MapleAvatarItemCategory.Cap, "")
+		
+		self:SetSpeed(self.normalSpeed)
+	end
+
+	@ExecSpace("Server")
+	method void Immunity()
+		self.isImmune = true
+		_TimerService:SetTimerOnce(function() 
+			self.isImmune = false
+		end, self.immunityDuration)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		self:SetSpeed(self.normalSpeed)
+	end
+
+	@ExecSpace("Server")
+	method void SetSpeed(number speed)
+		local movementComponent = self.Entity.MovementComponent
+		movementComponent.InputSpeed = speed
+	end
+
+	@EventSender("Self")
+	handler HandleTriggerEnterEvent(TriggerEnterEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: TriggerComponent
+		-- Space: Server, Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local TriggerBodyEntity = event.TriggerBodyEntity
+		---------------------------------------------------------
+		
+		if self:IsClient() then return end
+		
+		local zpc = TriggerBodyEntity.ZakumPlayerComponent
+		
+		if not isvalid(zpc) then return end
+		
+		if zpc.isImmune then 
+			log("Immunity")
+		end
+		
+		if zpc.isZakum and not zpc.isImmune then 
+			local evt = ZakumChangedEvent()
+			evt.userId = self.Entity.Name
+			self:Immunity()
+			
+			_GameManager:SendEvent(evt)
+		end
+		
+		
+	end
+
+end

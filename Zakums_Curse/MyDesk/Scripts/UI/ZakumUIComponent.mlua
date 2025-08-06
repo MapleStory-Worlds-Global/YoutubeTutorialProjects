@@ -1,0 +1,100 @@
+@Component
+script ZakumUIComponent extends Component
+
+	property table timerEffectRUIDs = {}
+
+	property Entity waitingForPlayersUI = "00582ea9-252a-4822-a97a-84a7d229fdfd"
+
+	property Entity gameTimerUI = "c8678fb7-00f1-4c5d-95d0-fef3d16fd81b"
+
+	property string gameStartEffectRUID = "eee4571f66ff4acf8b7f3878860642fa"
+
+	property string gameEndEffectRUID = "ad24ef5bcf8448fa9713a868aff14d6d"
+
+	property Entity gameWinnerUI = "df86c881-67c5-4c82-bcf6-2f15556986ca"
+
+	@ExecSpace("Client")
+	method void TimerEffect(integer timerIndex)
+		if timerIndex > 0 and timerIndex <= #self.timerEffectRUIDs then
+			_EffectService:PlayEffect(self.timerEffectRUIDs[timerIndex], self.Entity, self:GetScreenCenterPos(), 0, Vector3.one)
+		end
+	end
+
+	@ExecSpace("Client")
+	method void GameStartEffect()
+		_EffectService:PlayEffect(self.gameStartEffectRUID, self.Entity, self:GetScreenCenterPos(), 0, Vector3.one)
+	end
+
+	@ExecSpace("Client")
+	method Vector3 GetScreenCenterPos()
+		return _UILogic:ScreenToWorldPosition(Vector2(_UILogic.ScreenWidth/2, _UILogic.ScreenHeight/2)):ToVector3()
+	end
+
+	method void SetWaitingForPlayers()
+		self.waitingForPlayersUI:SetEnable(true)
+		self.gameTimerUI:SetEnable(false)
+	end
+
+	@ExecSpace("Client")
+	method void SetTimer(integer timer)
+		self.gameTimerUI:SetEnable(true)
+		self.waitingForPlayersUI:SetEnable(false)
+		local textComponent = self.gameTimerUI.TextComponent
+		textComponent.Text = tostring(timer) 
+		self:TimerEffect(timer)
+	end
+
+	@ExecSpace("Client")
+	method void GameEndEffect()
+		_EffectService:PlayEffect(self.gameEndEffectRUID, self.Entity, self:GetScreenCenterPos(), 0, Vector3.one)
+	end
+
+	method void ShowWinner(string username)
+		self.gameWinnerUI:SetEnable(true)
+		local winnerText = self.gameWinnerUI:GetChildByName("WinnerText").TextComponent
+		winnerText.Text = username .. " is the winner!"
+	end
+
+	method void HideWinner()
+		self.gameWinnerUI:SetEnable(false)
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnInitialize()
+		self.timerEffectRUIDs = {
+			"c473a5f06a7b423c9aef2329b5b6a88b", -- 1
+			"3ba28a0ef1a1494f8c3c3d3f8bd39073", -- 2
+			"002e270e28204026a3c5def355784939" -- 3
+		}
+	end
+
+	@EventSender("Logic", "GameManager")
+	handler HandleTimerEvent(TimerEvent event)
+		-- Parameters
+		local timerIndex = event.timerIndex
+		---------------------------------------------------------
+		self:SetTimer(timerIndex)
+	end
+
+	@EventSender("Logic", "GameManager")
+	handler HandleGameStartEvent(GameStartEvent event)
+		self:GameStartEffect()
+		self:HideWinner()
+	end
+
+	@EventSender("Logic", "GameManager")
+	handler HandleGameEndEvent(GameEndEvent event)
+		-- Parameters
+		local winnerUserId = event.winnerUserId
+		---------------------------------------------------------
+		self:SetWaitingForPlayers()
+		self:GameEndEffect()
+		
+		local user = _UserService:GetUserEntityByUserId(winnerUserId)
+		if isvalid(user) then 
+			self:ShowWinner(user.PlayerComponent.Nickname)
+		end
+		
+	end
+
+end

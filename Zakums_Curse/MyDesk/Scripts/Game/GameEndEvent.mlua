@@ -1,0 +1,6 @@
+@Event
+script GameEndEvent extends EventType
+
+	property string winnerUserId = ""
+
+end

@@ -1,0 +1,6 @@
+@Event
+script TimerEvent extends EventType
+
+	property number timerIndex = 0
+
+end

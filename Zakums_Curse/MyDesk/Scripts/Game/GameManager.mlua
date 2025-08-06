@@ -1,0 +1,204 @@
+@Logic
+script GameManager extends Logic
+
+	property ZakumPlayerComponent currentZakum = nil
+
+	property string startingAreaId = "fea6c6ae-8389-4ceb-bcdc-11d042210406"
+
+	property number playerCount = 0
+
+	property boolean hasGameStarted = false
+
+	property number gameStartTimer = 0
+
+	property table playersInGame = {}
+
+	property string spawnAreaId = "f0d2b929-063f-4d87-b300-06bf0eddf6da"
+
+	@ExecSpace("Server")
+	method void ChangeZakum(string userId)
+		local newZakum = _UserService:GetUserEntityByUserId(userId)
+		
+		if isvalid(self.currentZakum) then 
+			self.currentZakum:UnsetZakum()
+		end
+		
+		self.currentZakum = newZakum.ZakumPlayerComponent
+		self.currentZakum:SetZakum()
+	end
+
+	@ExecSpace("Server")
+	method void SetRandomZakum()
+		if self.playerCount == 0 then 
+			return
+		end
+		
+		local randomUser = _UtilLogic:RandomIntegerRange(1,self.playerCount)
+		local userKey = table.keys(self.playersInGame)[randomUser]
+		
+		self:ChangeZakum(self.playersInGame[userKey].Name)
+	end
+
+	@ExecSpace("Server")
+	method void TeleportToStartingArea(string userId)
+		if self.hasGameStarted then return end
+		
+		local player = _UserService:GetUserEntityByUserId(userId)
+		
+		_SoundManager:PlaySFXAtPos(_SFXList.PORTAL, player.TransformComponent.Position)
+		
+		player.PlayerComponent:MoveToEntity(self.startingAreaId)
+		
+		self:AddPlayer(userId)
+		self:CheckPlayerCount()
+	end
+
+	@ExecSpace("Server")
+	method void CheckPlayerCount()
+		if self.playerCount < 2 then return end
+		self:BeginCountdown(function() 
+			self:GameStart()
+		end)
+	end
+
+	@ExecSpace("Server")
+	method void BeginCountdown(any onComplete)
+		_TimerService:ClearTimer(self.gameStartTimer)
+		
+		local countdown = 10
+		self.gameStartTimer = _TimerService:SetTimerRepeat(function() 
+			if countdown == 0 then 
+				_TimerService:ClearTimer(self.gameStartTimer)
+				onComplete()
+			else
+				self:CountEvent(countdown)
+				_SoundManager:PlaySFX(_SFXList.COUNT)
+			end
+			countdown -= 1
+		end, 1, 1)
+	end
+
+	method void GameEnd()
+		self.hasGameStarted = false
+		if isvalid(self.currentZakum) then 
+			self.currentZakum:UnsetZakum()
+		end
+		
+		self:MovePlayersToSpawn()
+		
+		_SoundManager:PlaySFX(_SFXList.WINNER)
+		
+		
+		self:GameEndEvent(self.currentZakum.Entity.PlayerComponent.UserId)
+	end
+
+	method void GameStart()
+		self.hasGameStarted = true
+		self:SetRandomZakum()
+		
+		self:GameStartEvent()
+		
+		_SoundManager:PlaySFX(_SFXList.START)
+		
+		self:BeginCountdown(function() 
+			self:GameEnd()
+		end)
+	end
+
+	method void MovePlayersToSpawn()
+		for userId,player in pairs(self.playersInGame) do 
+			player.PlayerComponent:MoveToEntity(self.spawnAreaId)
+		end
+		
+		self.playersInGame = {}
+		self.playerCount = 0
+	end
+
+	@ExecSpace("Client")
+	method void CountEvent(integer timer)
+		local evt = TimerEvent()
+		evt.timerIndex = timer
+		self:SendEvent(evt)
+	end
+
+	@ExecSpace("Client")
+	method void GameStartEvent()
+		local evt = GameStartEvent()
+		self:SendEvent(evt)
+	end
+
+	@ExecSpace("Client")
+	method void GameEndEvent(string winnerUserId)
+		local evt = GameEndEvent()
+		evt.winnerUserId = winnerUserId
+		self:SendEvent(evt)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		_SoundManager:PlayBGM()
+	end
+
+	@ExecSpace("Server")
+	method void AddPlayer(string userId)
+		local player = _UserService:GetUserEntityByUserId(userId)
+		self.playersInGame[userId] = player
+		self.playerCount += 1
+	end
+
+	@ExecSpace("Server")
+	method void RemovePlayer(string userId)
+		local player = _UserService:GetUserEntityByUserId(userId)
+		self.playersInGame[userId] = nil
+		self.playerCount -= 1
+		
+		if player.ZakumPlayerComponent.isZakum then 
+			player.ZakumPlayerComponent:UnsetZakum()
+			self:SetRandomZakum()
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleZakumChangedEvent(ZakumChangedEvent event)
+		-- Parameters
+		local userId = event.userId
+		---------------------------------------------------------
+		self:ChangeZakum(userId)
+	end
+
+	@EventSender("Entity", "588c6e74-d502-4c4b-957a-111f59013720")
+	handler HandlePortalUseEvent(PortalUseEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: PortalComponent
+		-- Space: Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local PortalUser = event.PortalUser
+		---------------------------------------------------------
+		self:TeleportToStartingArea(PortalUser.Name)
+		
+	end
+
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: UserService
+		-- Space: Server
+		---------------------------------------------------------
+		
+		-- Parameters
+		-- local ProfileCode = event.ProfileCode
+		local UserId = event.UserId
+		---------------------------------------------------------
+		
+		---@type Entity
+		local user = self.playersInGame[UserId]
+		
+		if isvalid(user) then 
+			self:RemovePlayer(UserId)
+		end
+	end
+
+end

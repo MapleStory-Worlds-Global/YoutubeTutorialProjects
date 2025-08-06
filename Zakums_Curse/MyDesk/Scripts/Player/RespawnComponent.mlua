@@ -1,0 +1,24 @@
+@Component
+script RespawnComponent extends Component
+
+	property string respawnLocation = "fea6c6ae-8389-4ceb-bcdc-11d042210406"
+
+	@EventSender("Entity", "b2fce237-ded0-4e96-9335-5e761da7157a")
+	handler HandleTriggerEnterEvent(TriggerEnterEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: TriggerComponent
+		-- Space: Server, Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local TriggerBodyEntity = event.TriggerBodyEntity
+		---------------------------------------------------------
+		
+		local pc = TriggerBodyEntity.PlayerComponent
+		
+		if isvalid(pc) then
+			pc:MoveToEntity(self.respawnLocation)
+		end
+	end
+
+end

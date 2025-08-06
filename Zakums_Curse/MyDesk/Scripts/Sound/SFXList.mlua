@@ -1,0 +1,14 @@
+@Logic
+script SFXList extends Logic
+
+	property string STEALZAKUM = "e6a3b57a2cb04718aafcfc3aef3e0b90"
+
+	property string WINNER = "401ca227c0c844569422a53bd21ab647"
+
+	property string START = "c27eff42e89b4781a6f9e5d7d446dd31"
+
+	property string COUNT = "449f5f8be2a0485b907b9bd0579d1701"
+
+	property string PORTAL = "bcc51ef9cf164d8ba10851c4889a35ae"
+
+end

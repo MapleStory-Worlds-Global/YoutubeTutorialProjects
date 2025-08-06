@@ -1,0 +1,6 @@
+@Event
+script ZakumChangedEvent extends EventType
+
+	property string userId = ""
+
+end
