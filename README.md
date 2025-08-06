@@ -50,7 +50,7 @@ As a rule of thumb, if you're importing a package from MapleStory-Worlds-Global 
 
 ### Follow the readme instructions 
 Reference the project page found in the associated github project folder for project specific instructions or additional info (Link to project page also found in the download section).
-![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7fe64477e9e49f86623a5bba007bc62bf78e0d31/HowToImportModPackage/HowTo_4.png "Check the documentation") 
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/18f8f68f49394534977320c98e18b8b5aae6c126/HowToImportModPackage/HowTo_4.png "Check the documentation") 
 ![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7fe64477e9e49f86623a5bba007bc62bf78e0d31/HowToImportModPackage/HowTo_5.png "Reference documentation for more information!")
 
 ## Download
