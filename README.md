@@ -11,26 +11,26 @@ See the README file in each package for detailed usage information.
 ## Project Import Instructions
 
 ### Create a new Project
-Create a new project in MapleStory Worlds using any template (The project will be overwritten by the project files.)
-![MSW Tutorial](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_1.png "MSW Tutorial Image")
-![MSW Tutorial](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_2.png "MSW Tutorial Image")
+Create a new project in MapleStory Worlds through "Create" > "Create New" using any template  (The project will be overwritten by the project files.)
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_1.png "Create a new Project")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_2.png "Choose any template")
 ### Download the .mod File
 Click download on your desired project below to download the mod file associated with the project. 
-![MSW Tutorial](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_2.png "MSW Tutorial Image")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_3.png "Download the mod file")
 
 ### Import the .mod File to Maker Project
 Import the .mod file by navigating to File > Import from File to import the project file and overwrite the current project with the project downloaded in the previous step. 
-![MSW Tutorial](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_4.png "MSW Tutorial Image")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_4.png "Import the mod into your new project")
 
 ### Follow the readme instructions 
 Reference the project page found in the associated github project folder for project specific instructions or additional info (Link to project page also found in the download section below).
-![MSW Tutorial](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_2.png "MSW Tutorial Image")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_5.png "Reference the project readme")
  
 ## Download
 
 | Projects | Description | Project Page | Project Files Download |
-|---------|-------------|------|--------------------|
-| Zakum's Curse | Learn to create your first project by following along with this tutorial! | [Project Page](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Zakums_Curse) | [Download](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod) |
+|---------|-------------|---------|--------------------|
+| Zakum's Curse | Learn to create your first project by following along with this tutorial! | [Page](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Zakums_Curse) | [Download](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod) |
 
 ## License
 
