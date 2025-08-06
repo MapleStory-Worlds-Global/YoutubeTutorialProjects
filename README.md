@@ -28,7 +28,8 @@ Import the .mod file by navigating to File > Import from File to import the proj
 
 ### Follow the readme instructions 
 Reference the project page found in the associated github project folder for project specific instructions or additional info (Link to project page also found in the download section).
-![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/6939aaf1a5cf15bfa4a2a5169722dd710f9b1448/HowToImportModProject/HowTo_5.png "Reference the project readme")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/73e469e91cebc7846d0ade51292dacb56be0f0bc/HowToImportModProject/HowTo_5.png "Reference the project readme")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/73e469e91cebc7846d0ade51292dacb56be0f0bc/HowToImportModProject/HowTo_6.png "Reference the project readme")
  
 ## ModPackage File Import Instructions
 
