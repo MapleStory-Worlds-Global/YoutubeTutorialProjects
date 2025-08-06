@@ -20,7 +20,7 @@ Create a new project in MapleStory Worlds through "Create" > "Create New" using 
 
 ### Download the .mod File
 Click download on your desired project in the download section to download the mod file associated with the project. 
-![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/6939aaf1a5cf15bfa4a2a5169722dd710f9b1448/HowToImportModProject/HowTo_3.png "Download the mod file")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/73e469e91cebc7846d0ade51292dacb56be0f0bc/HowToImportModProject/HowTo_3.png "Download the mod file")
 
 ### Import the .mod File to Maker Project
 Import the .mod file by navigating to File > Import from File to import the project file and overwrite the current project with the project downloaded in the previous step. 
