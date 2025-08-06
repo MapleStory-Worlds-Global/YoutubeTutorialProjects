@@ -30,7 +30,7 @@ Reference the project page found in the associated github project folder for pro
 
 | Projects | Description | Project Page | Project Files Download |
 |---------|-------------|---------|--------------------|
-| Zakum's Curse | Learn to create your first project by following along with this tutorial! | [Page](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Zakums_Curse) | [Download](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod) |
+| Zakum's Curse | Learn to create your first project by following along with this tutorial! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Zakums_Curse) | [Download](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod) |
 
 ## License
 
