@@ -23,6 +23,8 @@ A mod file contains a copy of a full project that can be imported into a MapleSt
 
 ### Create a new Project
 Create a new project in MapleStory Worlds through "Create" > "Create New" using any template  (The project will be overwritten by the project files.)
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7090461064b890e909107c4b0669c884aed47a4a/HowToImportModProject/HowTo_1.png "Create new Project")
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7090461064b890e909107c4b0669c884aed47a4a/HowToImportModProject/HowTo_2.png "Start from an empty project")
 
 ### Download the .mod File
 Click download on your desired project in the download section to download the mod file associated with the project. 
