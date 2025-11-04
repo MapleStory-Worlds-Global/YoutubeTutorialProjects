@@ -1,0 +1,128 @@
+@Logic
+script WorldManagement extends Logic
+	@ExecSpace("Server")
+	---@description "Find the next open world instance and teleport users"
+	method any FindOpenInstance(integer usersToMove)
+		local result, pages = _WorldInstanceService:GetWorldInstanceInfoPagesAndWait()
+    
+		if pages == nil then
+			return nil 
+		end
+
+		local info = nil
+		while true do
+		
+			-- You can get a list of current pages with GetCurrentPageDatas().
+			local datas = pages:GetCurrentPageDatas() 
+			
+			for _, data in pairs(datas) do
+				-- if data.Id == _WorldInstanceService.WorldInstanceId then
+				-- 	continue
+				-- end
+
+				if data.CurrentUserCount + usersToMove <= data.MaxUserCount then
+					log("World Instance Found!")
+					log(data.Id)
+					info = data
+					break
+				end
+				
+			end
+			
+			--You can check if the current page is the last page by using the IsLastPage property.
+			if pages.IsLastPage == true then 
+				break
+			end
+			
+			--You can move to the next page with MoveToNextPageAndWait().
+			pages:MoveToNextPageAndWait() 
+			
+		end
+
+		return info
+	end
+
+	@ExecSpace("Server")
+	---@description "Warp All users to the next open instance"
+	method void WarpToOpenInstance(table users)
+		local warpData = {["coins"] = 100}
+   		local serializedData = _UtilLogic:TableToString(warpData)
+		
+		---@type WorldInstanceInfo
+		local openInstanceInfo = self:FindOpenInstance(#users)
+		if openInstanceInfo == nil then
+			log_warning("No Open instance found")
+			return
+		end
+
+		_TeleportService:WarpUsersToWorldAndWait(users, openInstanceInfo.Id, serializedData)
+	end
+
+
+	method void CreateSharedNumber(string space, string variableName, number variableValue)
+		local success = false
+		local code, mem = _WorldInstanceService:GetSharedMemory(space)
+		if code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to GetSharedMemory.")
+			return
+		end
+
+		-- Save the room title in a variable named 'roomTitle'.
+		local setResult = mem:CreateVariableAndWait(variableName, tostring(variableValue))
+
+		if setResult.Code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to SetSharedVariableAndWait " .. tostring(setResult.Code))
+		end
+	end
+
+	method number GetSharedNumber(string space, string variableName)
+		local value = nil 
+
+		local code, mem = _WorldInstanceService:GetSharedMemory(space)
+		if code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to GetSharedMemory.")
+			return nil
+		end
+
+		local getCounter = mem:GetVariableAndWait(variableName)
+		if getCounter.Code ~= SharedMemoryResultCode.OK then
+			value = 0
+			self:CreateSharedNumber(space, variableName, value)
+			log("Variable does not exist. Created new Variable")
+		else
+			value = tonumber(getCounter.Info.Value) 
+			if value == nil then
+				log_error ("Failed to convert " .. getCounter.Info.Value .. " to number")
+			end
+		end
+
+		return value
+	end
+
+	method void UpdateSharedNumber(string space, string variableName, number variableValue)
+
+		local code, mem = _WorldInstanceService:GetSharedMemory(space)
+		if code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to GetSharedMemory.")
+			return
+		end
+
+		local getCounter = mem:GetVariableAndWait(variableName)
+		if getCounter.Code ~= SharedMemoryResultCode.OK then
+			self:CreateSharedNumber(space, variableName, variableValue)
+			log("Variable does not exist. Created new Variable")
+		else
+			local value = tonumber(getCounter.Info.Value) 
+			local keyInfo = SharedVariableKeyInfo(getCounter.Info.Name, getCounter.Info.ETag)
+		
+			if value == nil then
+				log_error ("Failed to convert " .. getCounter.Info.Value .. " to number")
+			end
+
+			local updated = mem:UpdateVariableAndWait(keyInfo, tostring(value + 1))
+			if updated.Code == SharedMemoryResultCode.PreconditionFailed then
+				log_error ("Update Failed. ETag Mismatch.")
+			end
+		end
+	end
+end

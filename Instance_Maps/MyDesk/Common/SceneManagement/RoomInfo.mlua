@@ -1,0 +1,6 @@
+@Struct
+script RoomInfo
+	property string roomId = ""
+	property number maxCapacity = 10
+	property table<string> maps = {}
+end

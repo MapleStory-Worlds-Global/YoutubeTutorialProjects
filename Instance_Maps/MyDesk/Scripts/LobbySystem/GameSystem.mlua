@@ -1,0 +1,107 @@
+@Logic
+script GameSystem extends Logic
+	property Entity startButton = "7da83c1a-b787-499a-b1e4-4a23c40fdadf"
+	
+	method void OnBeginPlay()
+		if self:IsClient() then
+			self.startButton:ConnectEvent(ButtonClickEvent, function ()
+			if _RoomService:IsInstanceRoom() then
+				self:MovePlayersToStarting()
+			else
+				self:MovePlayersToInstance()
+			end
+		end)
+		else
+			self:InitInstance()
+		end
+	end
+
+	method void InitInstance()
+		local maps = {"Instance_Room1", "Instance_Room2"}
+		local instanceName = "GameInstance"
+		local maxCapacity = 10
+		_SceneManagement:InitInstanceRoom(maps, instanceName, maxCapacity)
+	end
+
+	@ExecSpace("Server")
+	method void MovePlayersToInstance()
+		local toSendPlayers = {}
+
+		--Only move players from starting map 
+		local users = _UserService:GetUsersByMapName("Static_Starting")
+		
+		for k, v in pairs(users) do
+			local userId = v.PlayerComponent.UserId
+			toSendPlayers[#toSendPlayers+1] = userId
+		end
+
+		--Update shared storage
+		local num = _SceneManagement:GetSharedNumber("GlobalCounters", "MyCounter")
+		_SceneManagement:UpdateSharedNumber("GlobalCounters", "MyCounter", num + 1)
+
+		--Create Room event to be read in HandleRoomEnteredEvent()
+		local evt = RoomEnteredEvent()
+		evt.message = "New competitors have entered the room!"
+		_SceneManagement:MoveUsersToInstance(toSendPlayers, "GameInstance", "Instance_Room1", evt)
+	end
+
+	@ExecSpace("Server")
+	method void MovePlayersToStarting()
+		local toSendPlayers = {}
+		
+		--Move All players back to starting
+		local users = _UserService.UserEntities
+
+		for k, v in pairs(users) do
+			local userId = v.PlayerComponent.UserId
+			toSendPlayers[#toSendPlayers+1] = userId
+		end
+
+		_SceneManagement:ReturnUsersToStatic(toSendPlayers, "Static_Starting")
+	end
+
+	@EventSender("Service", "RoomService")
+	handler HandleRoomEnteredEvent(RoomEnteredEvent event)
+		local msg = event.message
+		_UIToast:ShowMessage(msg)
+	end
+
+	@ExecSpace("Client")
+	method void ShowPopup(string value)
+		_UIPopup:Open("The value is " .. value, nil, nil)
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Service", "UserService")
+	handler UserEnterEvent(UserEnterEvent event)
+		local UserId = event.UserId
+
+		local warpRecord = _TeleportService:GetWarpRecord(UserId)
+
+		-- If warp record exists, deserialize player data
+		if warpRecord ~= nil then 
+			local userData = _UtilLogic:StringToTable(warpRecord.Data)
+			log(userData.coins)
+		end
+
+		--Load Shared Mem Value
+		if _UtilLogic:Contains(_RoomService.RoomKey, "main") then
+			return
+		end
+
+		local value = _SceneManagement:GetSharedNumber("GlobalCounters", "MyCounter")
+		if (value ~= nil) then
+			self:ShowPopup(tostring(value), UserId)
+		end
+
+		
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Service", "InputService")
+	handler OnKeyDown(KeyDownEvent event)
+		if event.key == KeyboardKey.F1 then
+			_WorldManagement:WarpToOpenInstance({_UserService.LocalPlayer.PlayerComponent.UserId})
+		end
+	end
+end

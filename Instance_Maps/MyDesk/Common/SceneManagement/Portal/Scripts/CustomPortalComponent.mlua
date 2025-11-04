@@ -1,0 +1,38 @@
+@Component
+script CustomPortalComponent extends PortalComponent
+
+	property boolean isInstanceRoom = false
+
+	property string roomName = ""
+	property EntityRef customPortalEntity = nil
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		_SceneManagement:InitInstanceRoom({self.roomName}, self.Entity.Id, 2)
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandlePortalUseEvent(PortalUseEvent event)
+		if isvalid(self.PortalEntityRef) then
+			log("Teleported to Target Portal")
+			
+		else
+			local localUserId = _UserService.LocalPlayer.PlayerComponent.UserId
+			local isInstance = _RoomService:IsInstanceRoom()
+			--If entity is within the same type of room as target
+			if (isInstance == self.isInstanceRoom) then
+				_SceneManagement:MoveToMap(localUserId, self.roomName, self.customPortalEntity)
+			else
+				if (isInstance) then 
+					_SceneManagement:ReturnToStatic(localUserId, self.roomName)
+				else
+					_SceneManagement:CreateAndEnterInstanceMap(localUserId, self.Entity.Id, self.roomName)
+				end
+			end
+		end
+	end
+
+
+
+end

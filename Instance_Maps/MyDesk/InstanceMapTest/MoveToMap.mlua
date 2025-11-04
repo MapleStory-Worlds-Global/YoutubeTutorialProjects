@@ -1,0 +1,62 @@
+@Component
+script MoveToMap extends Component
+
+	property integer roomIdx = 0
+
+	property string mapName = "map02"
+
+	@ExecSpace("Server")
+	method any GetOrCreateInstanceRoom()
+		-- Use RoomService to create an Instance Room and increase roomIdx by 1.
+		    -- Use roomIdx as a key to create an Instance Room so that a brand new InstanceRoom is created each time.
+		    local instanceRoom = _RoomService:GetOrCreateInstanceRoom("Map"..tostring(self.roomIdx))
+		    self.roomIdx = self.roomIdx + 1
+		    return instanceRoom
+	end
+
+	@ExecSpace("Server")
+	method void MoveToInstance()
+		local map = self:GetOrCreateInstanceRoom()
+		local toSendPlayers = {}
+		
+		for k, v in pairs(_UserService.UserEntities) do
+			local userId = v.PlayerComponent.UserId
+			toSendPlayers[#toSendPlayers+1] = userId
+		end
+		
+		-- Uses players' information to send them to the corresponding Instance Room.
+		-- This example assumes the existence of a map (With instance setting toggled on) that matches the property mapName value.
+		_RoomService:MoveUsersToInstanceRoom(map.InstanceKey, toSendPlayers, self.mapName)
+	end
+
+	@ExecSpace("Server")
+	method void MoveToStatic()
+		local toSendPlayers = {}
+		
+		for k, v in pairs(_UserService.UserEntities) do
+			local userId = v.PlayerComponent.UserId
+			toSendPlayers[#toSendPlayers+1] = userId
+		end
+		
+		-- Uses players' information to send them to the corresponding Instance Room.
+		_RoomService:MoveUsersToStaticRoom(toSendPlayers, "map01")
+	end
+
+	@EventSender("Service", "InputService")
+	handler HandleKeyDownEvent(KeyDownEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: InputService
+		-- Space: Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local key = event.key
+		---------------------------------------------------------
+		if key == KeyboardKey.M then 
+			self:MoveToInstance()
+		elseif key == KeyboardKey.N then 
+			self:MoveToStatic()
+		end
+	end
+
+end

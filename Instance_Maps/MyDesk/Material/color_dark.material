@@ -1,0 +1,32 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "material://1aaac6c5-fa9f-4b0e-a1fc-5f5f5091f3e5",
+  "ContentType": "x-mod/material",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "name": "color_dark",
+      "id": "1aaac6c5-fa9f-4b0e-a1fc-5f5f5091f3e5",
+      "shadertype": "BlendOverlay",
+      "BlendColor": {
+        "r": 0.0287437439,
+        "g": 0.205396339,
+        "b": 0.267578125,
+        "a": 1.0
+      },
+      "BlendIntensity": 0.8,
+      "TimeOffset": 0.0,
+      "TimeScale": 0.0,
+      "worldCoreVersion": "1.10.0.0",
+      "worldStudioVersion": "0.1.0.0"
+    }
+  }
+}

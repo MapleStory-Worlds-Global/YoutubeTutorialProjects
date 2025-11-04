@@ -1,0 +1,210 @@
+@Logic
+script SceneManagement extends Logic
+
+	property table<string, RoomInfo> rooms = {}
+
+	property table roomIdx = {}
+
+	@ExecSpace("Server")
+	---@description "Move players back to a target static room. This method only works if called from an instance room."
+	method void ReturnUsersToStatic(table<string> users, string mapName)
+		-- Uses players' information to send them to the corresponding Instance Room.
+		_RoomService:MoveUsersToStaticRoom(users, mapName)
+	end
+
+	@ExecSpace("Server")
+	---@description "Move a Player to a map. This function only works from static -> static, or instance -> instance"
+	method void MoveToMap(string userId, string mapName, Entity customPortalEntity)
+		local targetEntity = customPortalEntity
+		if targetEntity == nil then
+			local path = "/maps/" .. mapName 
+			targetEntity = _EntityService:GetEntityByPath(path)
+		end
+		
+		
+		if isvalid(targetEntity) == false then
+			log_warning("Could not teleport to map")
+			return 
+		end
+		
+		local user = _UserService:GetUserEntityByUserId(userId)
+		_TeleportService:TeleportToEntity(user, targetEntity)
+	end
+
+	@ExecSpace("Server")
+	---@description "Return a single player back to a target static room. This method only works if called from an instance room."
+	method void ReturnToStatic(string userId, string mapName)
+		log("Moving User to Static")
+		_RoomService:MoveUserToStaticRoom(userId, mapName)
+	end
+
+	@ExecSpace("Server")
+	method void CreateAndEnterInstanceMap(string userId, string instanceName, string mapName)
+		local instanceRoom = _RoomService:GetOrCreateInstanceRoom(instanceName)
+		instanceRoom:MoveUser(userId)
+	end
+
+	@ExecSpace("Server")
+	---@description "Initialize Instance Room for creation"
+	method void InitInstanceRoom(table maps, string instanceName, integer maxCapacity)
+		if self.rooms[instanceName] ~= nil then log_warning("Room already initialized!") return end
+		
+		--Create a new room info and add to list. 
+		local roomInfo = RoomInfo()
+		roomInfo.maxCapacity = maxCapacity
+		roomInfo.roomId = instanceName
+		roomInfo.maps = maps
+
+		self.rooms[instanceName] = roomInfo
+	end
+
+	@ExecSpace("Server")
+	---@description "Create instance room based on intialized instance room info data. Rooms must be initialized first with InitInstanceRoom() prior to calling this function!"
+	method any CreateInstanceRoom(string instanceName)
+		-- Use RoomService to create an Instance Room and increase roomIdx by 1.
+		-- Use roomIdx as a key to create an Instance Room so that a brand new InstanceRoom is created each time.
+		
+		local roomInfo = self.rooms[instanceName]
+		if self.rooms[instanceName] == nil then log_warning("Room not initialized! Please inialize room first") return end
+
+
+		local idx = self.roomIdx[instanceName]
+		if (idx == nil) then
+			idx = 0
+		end
+
+		local instanceRoom = _RoomService:CreateInstanceRoom(string.format("%s_%d", instanceName, idx), roomInfo.maps)
+		self.roomIdx[instanceName] = idx + 1
+		
+		return instanceRoom
+	end
+
+	@ExecSpace("Server")
+	---@description "finds and returnds the instance ID of the next open instance room associated with the instanceName"
+	method string GetOpenInstance(string instanceName, integer usersToMove)
+		local rooms = _RoomService.InstanceRooms
+		
+		local openRoom = nil
+		local roomInfo = self.rooms[instanceName]
+
+		for instanceKey, room in pairs(rooms) do
+			log("Searching instance: " .. instanceKey .. "/" .. instanceName)
+
+			local t = {}
+			for str in string.gmatch(instanceKey, "([^_])") do
+				table.insert(t, str)
+			end
+			
+			local id = t[1]
+			log(id)
+			if (id ~= nil) then
+				local userCount = room:GetUserCount()
+				
+				if roomInfo ~= nil then
+					if userCount + usersToMove <= roomInfo.maxCapacity then
+						openRoom = room.InstanceKey
+						break
+					end
+				else
+					log_warning("Instance " .. instanceName .. " Not Initialized. Please initialize room first. ")
+				end
+			end
+		end
+
+		if openRoom == nil and roomInfo ~= nil then
+			log("Creating new Instance")
+			---@type InstanceRoom
+			local instanceRoom = self:CreateInstanceRoom(instanceName)
+			openRoom = instanceRoom.InstanceKey
+		else
+			log_warning("Instance " .. instanceName .. " Not Initialized. Please initialize room first. ")
+		end
+		
+		return openRoom
+	end
+
+	@ExecSpace("Server")
+	---@description "Move players to an instance"
+	method void MoveUsersToInstance(table<string> users, string instanceName, string mapName, any withEvent)
+		---@type string
+		local roomInfo = self:GetOpenInstance(instanceName, #users)
+
+		if (roomInfo == nil) then
+			log_warning("Could not find instance " .. instanceName)
+		end
+		
+		log("Attempting move to instance " .. roomInfo)
+		_RoomService:MoveUsersToInstanceRoom(roomInfo, users, mapName)
+		if (withEvent ~= nil) then
+			_RoomService:RequestSendEventToRoomAndWait(withEvent, roomInfo)
+		end
+	end
+
+	method void CreateSharedNumber(string space, string variableName, number variableValue)
+		local success = false
+		local code, mem = _RoomService:GetSharedMemory(space)
+		if code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to GetSharedMemory.")
+			return
+		end
+
+		-- Save the room title in a variable named 'roomTitle'.
+		local setResult = mem:CreateVariableAndWait(variableName, tostring(variableValue))
+
+		if setResult.Code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to SetSharedVariableAndWait " .. tostring(setResult.Code))
+		end
+	end
+
+	method number GetSharedNumber(string space, string variableName)
+		local value = nil 
+
+		local code, mem = _RoomService:GetSharedMemory(space)
+		if code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to GetSharedMemory.")
+			return nil
+		end
+
+		local getCounter = mem:GetVariableAndWait(variableName)
+		if getCounter.Code ~= SharedMemoryResultCode.OK then
+			value = 0
+			self:CreateSharedNumber(space, variableName, value)
+			log("Variable does not exist. Created new Variable")
+		else
+			value = tonumber(getCounter.Info.Value) 
+			if value == nil then
+				log_error ("Failed to convert " .. getCounter.Info.Value .. " to number")
+			end
+		end
+
+		return value
+	end
+
+	method void UpdateSharedNumber(string space, string variableName, number variableValue)
+
+		local code, mem = _RoomService:GetSharedMemory(space)
+		if code ~= SharedMemoryResultCode.OK then
+			log_error ("Failed to GetSharedMemory.")
+			return
+		end
+
+		local getCounter = mem:GetVariableAndWait(variableName)
+		if getCounter.Code ~= SharedMemoryResultCode.OK then
+			self:CreateSharedNumber(space, variableName, variableValue)
+			log("Variable does not exist. Created new Variable")
+		else
+			local value = tonumber(getCounter.Info.Value) 
+			local keyInfo = SharedVariableKeyInfo(getCounter.Info.Name, getCounter.Info.ETag)
+		
+			if value == nil then
+				log_error ("Failed to convert " .. getCounter.Info.Value .. " to number")
+			end
+
+			local updated = mem:UpdateVariableAndWait(keyInfo, tostring(value + 1))
+			if updated.Code == SharedMemoryResultCode.PreconditionFailed then
+				log_error ("Update Failed. ETag Mismatch.")
+			end
+		end
+	end
+
+end

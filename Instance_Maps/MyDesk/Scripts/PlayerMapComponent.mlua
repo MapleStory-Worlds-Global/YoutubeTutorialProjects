@@ -1,0 +1,4 @@
+@Component
+script PlayerMapComponent extends Component
+
+end

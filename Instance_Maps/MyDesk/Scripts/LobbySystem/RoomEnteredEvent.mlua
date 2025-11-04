@@ -1,0 +1,4 @@
+@Event
+script RoomEnteredEvent extends EventType
+	property string message = ""
+end
