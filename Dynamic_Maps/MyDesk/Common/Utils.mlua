@@ -1,0 +1,16 @@
+@Logic
+script Utils extends Logic
+
+	method boolean Contains(table targetList, any toCheck)
+		local contains = false
+		for key, value in pairs(targetList) do 
+			if value == toCheck then 
+				contains = true
+				break
+			end
+		end
+		
+		return contains
+	end
+
+end

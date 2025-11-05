@@ -1,0 +1,219 @@
+@Struct
+script DynamicMapInfo
+
+	property number maxPlayers = 10
+
+	property string mapName = ""
+
+	property integer idx = 1
+
+	property table users = {}
+
+	property table reservations = {}
+
+	@ExecSpace("ServerOnly")
+	method void Init(integer maxPlayers, string mapName)
+		self.mapName = mapName
+		self.maxPlayers = maxPlayers
+		self.reservations = {}
+		self.users = {}
+	end
+
+	method string GenerateMap()
+		local newMapName = string.format("%s_%d",self.mapName, self.idx)
+		self.idx += 1
+		
+		local resultCode = _DynamicMapService:CreateDynamicMap(self.mapName, newMapName)
+		if resultCode ~= DynamicMapResultCode.Success then 
+			log(tostring(resultCode))
+		end
+		
+		self.users[newMapName] = {}
+		
+		return newMapName
+	end
+
+	method void EnterMap(string instanceName, string userId)
+		local userTable = self.users[instanceName]
+		if (userTable == nil) then 
+			log_warning("Could not Enter Map. Map doesn't exist")
+			return
+		end
+		
+		if #userTable >= self.maxPlayers then 
+			log_warning("Could not enter map. Map is full")
+			return
+		end
+		
+		table.insert(userTable, userId)
+		
+		local user = _UserService:GetUserEntityByUserId(userId)
+		_TeleportService:TeleportToMapPosition(user, Vector3(0,10,0), instanceName)
+	end
+
+	method void LeaveMap(string userId, string instanceName)
+		local userTable = self.users[instanceName]
+		if (userTable == nil) then 
+			log_warning("Could not remove user. Map doesn't exist")
+			return
+		end
+		
+		if #userTable == 0 then 
+			log_warning("Could not remove user. User table empty")
+			return
+		end
+		
+		local foundUser = nil
+		local foundIndex = 1
+		for index, value in ipairs(userTable) do
+			if value == userId then 
+				foundUser = userId
+				foundIndex = index
+				break
+			end
+		end
+		
+		
+		if foundUser ~= nil then 
+			table.remove(userTable, foundIndex)
+			if #userTable == 0 then 
+				log("Instance Destroyed " .. instanceName)
+				userTable = nil
+				_DynamicMapService:DestroyDynamicMap(instanceName)
+			end
+			self.users[instanceName] = userTable
+			log("Removed User " .. userId)
+		else
+			log("Remove Failed User Does not exist: " .. userId)
+		end
+	end
+
+	method string FindOpenMap()
+		local foundMap = nil
+		for map, userTable in pairs(self.users) do 
+			local userCount = #userTable
+			
+			local reservations = self.reservations[map]
+			if reservations ~= nil then 
+				userCount += #reservations
+			end
+			
+			if userCount < self.maxPlayers then 
+				log("Found world with users: " .. userCount)
+				foundMap = map
+				break
+			end
+		end
+		
+		return foundMap
+	end
+
+	method void ReserveMap(string instanceName, string userId)
+		local userTable = self.users[instanceName]
+		if (userTable == nil) then 
+			log_warning("Could not reserve user. Map doesn't exist")
+			return
+		end
+		
+		log("Reserving: " .. instanceName)
+		local reservations = self.reservations[instanceName]
+		if (reservations == nil) then 
+			reservations = {}
+			self.reservations[instanceName] = reservations
+		end
+		
+		table.insert(reservations, userId)
+	end
+
+	method void MoveReservations(string instanceName)
+		local reservations = self.reservations[instanceName]
+		if (reservations == nil) then 
+			log_warning("Could not move reservations. Reservation doesn't exist")
+			return
+		end
+		
+		for _, userId in pairs(reservations) do 
+			log ("Moving User " .. userId)
+			self:EnterMap(instanceName, userId)
+		end
+		
+		self.reservations[instanceName] = nil
+	end
+
+	method table GetReservations(string instanceName)
+		local reservations = self.reservations[instanceName]
+		if (reservations == nil) then 
+			log_warning("Could not get reservations. Reservation doesn't exist")
+			return nil
+		end
+		
+		return reservations
+	end
+
+	method void UnregisterMap(string instanceName, string userId)
+		log("Unregistering Map: " .. instanceName)
+		local reservations = self.reservations[instanceName]
+		if (reservations == nil) then 
+			log_warning("Could not move reservations. Reservation doesn't exist")
+			return
+		end
+		
+		local foundUser = nil
+		local foundIndex = 1
+		for index, value in ipairs(reservations) do
+			if value == userId then 
+				foundUser = userId
+				foundIndex = index
+				break
+			end
+		end
+		
+		
+		if foundUser ~= nil then 
+			table.remove(reservations, foundIndex)
+			self.reservations[instanceName] = reservations
+			log("Removed User " .. userId)
+		else
+			log("Remove Failed User Does not exist: " .. userId)
+		end
+	end
+
+	method string GetInstance(string userId)
+		-- TODO: Optimize search. Please refrain from overusing this function. 
+		local foundMap = nil
+		for map, userTable in pairs(self.users) do 
+			local userCount = #userTable
+			if _Utils:Contains(userTable, userId) == true then 
+				foundMap = map 
+				break
+			end
+			
+			local reservations = self.reservations[map]
+			if reservations ~= nil then 
+				if _Utils:Contains(reservations, userId) == true then 
+					foundMap = map 
+					break
+				end
+			end
+		end
+		
+		return foundMap
+	end
+
+	method void CloseDynamicMap(string instanceName, string targetMap)
+		local userTable = self.users[instanceName]
+		if (userTable == nil) then 
+			log_warning("Could not remove user. Map doesn't exist")
+			return
+		end
+		
+		for index, userId in ipairs(userTable) do
+			local user = _UserService:GetUserEntityByUserId(userId)
+			_TeleportService:TeleportToMapPosition(user, Vector3(0,10,0), targetMap)
+		end
+		
+		self.users[instanceName] = nil 
+		_DynamicMapService:DestroyDynamicMap(instanceName)
+	end
+
+end

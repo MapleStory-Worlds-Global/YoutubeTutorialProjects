@@ -1,0 +1,4 @@
+@Event
+script EnterDungeonEvent extends EventType
+
+end

@@ -1,0 +1,18 @@
+@Component
+script InstanceDungeonReservationUIItem extends Component
+
+	property TextComponent userText = nil
+
+	method void Init(string userId)
+		self.userText.Text = userId
+	end
+
+	method void Show()
+		self.Entity:SetEnable(true)
+	end
+
+	method void Hide()
+		self.Entity:SetEnable(false)
+	end
+
+end

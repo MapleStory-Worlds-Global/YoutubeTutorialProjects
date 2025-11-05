@@ -1,0 +1,156 @@
+@Logic
+script SceneManager extends Logic
+
+	property table dynamicMapInfos = {}
+
+	@ExecSpace("Server")
+	method string CreateDynamicMap(string mapName)
+		---@type DynamicMapInfo
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not create map %s. Please initialize map first", mapName))
+			return nil
+		end
+		
+		local newMapName = mapInfo:GenerateMap()
+		return newMapName
+	end
+
+	@ExecSpace("Server")
+	method string ReserveDynamicMap(string userId, string mapName)
+		---@type DynamicMapInfo 
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not create map %s. Please initialize map first", mapName))
+			return
+		end
+		
+		local openMap = mapInfo:FindOpenMap()
+		if openMap == nil then 
+			openMap = self:CreateDynamicMap(mapName)
+		else 
+			local users = self:GetReservedUsers(openMap)
+			if _Utils:Contains(users, userId) == true then 
+				log_warning("User already registered. ") 
+				return 
+			end
+		end
+		
+		local user = _UserService:GetUserEntityByUserId(userId)
+		if (isvalid(user)) then 
+			mapInfo:ReserveMap(openMap, userId)
+			
+			local reservations = mapInfo:GetReservations(openMap)
+			for index, user in ipairs(reservations) do 
+				self:SendReservationEvent(openMap, reservations, user)
+			end
+		end
+		return openMap
+	end
+
+	@ExecSpace("Server")
+	method void InitDynamicMap(string mapName, integer maxPlayers)
+		local mapInfo = DynamicMapInfo()
+		mapInfo:Init(maxPlayers, mapName)
+		self.dynamicMapInfos[mapName] = mapInfo
+	end
+
+	@ExecSpace("Server")
+	method void MoveReservationsToMap(string mapInstanceName)
+		local mapName = _UtilLogic:Split(mapInstanceName, "_")[1]
+		---@type DynamicMapInfo 
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not move to map %s. Please initialize map first", mapName))
+			return
+		end
+		
+		mapInfo:MoveReservations(mapInstanceName)
+	end
+
+	@ExecSpace("Client")
+	method void SendReservationEvent(string mapInstanceName, table users)
+		local evt = DynamicMapReservedEvent()
+		evt.mapInstanceId = mapInstanceName
+		evt.users = users
+		self:SendEvent(evt)
+	end
+
+	@ExecSpace("Server")
+	method table GetReservedUsers(string mapInstanceName)
+		local mapName = _UtilLogic:Split(mapInstanceName, "_")[1]
+		---@type DynamicMapInfo 
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not create map %s. Please initialize map first", mapName))
+			return
+		end
+		
+		return mapInfo:GetReservations(mapInstanceName)
+	end
+
+	@ExecSpace("Server")
+	method void UnregisterDynamicMap(string mapInstanceName, string userId)
+		local mapName = _UtilLogic:Split(mapInstanceName, "_")[1]
+		---@type DynamicMapInfo 
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not create map %s. Please initialize map first", mapName))
+			return
+		end
+		
+		mapInfo:UnregisterMap(mapInstanceName, userId)
+		local reservations = mapInfo:GetReservations(mapInstanceName)
+		for index, user in ipairs(reservations) do 
+			self:SendReservationEvent(mapInstanceName, reservations, user)
+		end
+		--Also send event to the user that was removed. 
+		self:SendReservationEvent(mapInstanceName, reservations, userId)
+	end
+
+	@ExecSpace("Server")
+	method string FindInstanceName(string mapName, string userId)
+		---@type DynamicMapInfo 
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not create map %s. Please initialize map first", mapName))
+			return
+		end
+		
+		return mapInfo:GetInstance(userId)
+	end
+
+	@ExecSpace("Server")
+	method void CloseDynamicMap(string mapInstanceName, string targetMap)
+		local mapName = _UtilLogic:Split(mapInstanceName, "_")[1]
+		---@type DynamicMapInfo 
+		local mapInfo = self.dynamicMapInfos[mapName]
+		if mapInfo == nil then 
+			log_warning(string.format("Could not create map %s. Please initialize map first", mapName))
+			return
+		end
+		
+		mapInfo:CloseDynamicMap(mapInstanceName, targetMap)
+	end
+
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: UserService
+		-- Space: Server
+		---------------------------------------------------------
+		
+		-- Parameters
+		-- local ProfileCode = event.ProfileCode
+		local UserId = event.UserId
+		local userEntity = _UserService:GetUserEntityByUserId(UserId)
+		local mapName = _UtilLogic:Split(userEntity.CurrentMapName, "_") 
+		---------------------------------------------------------
+		---@type DynamicMapInfo
+		local mapInfo = self.dynamicMapInfos[mapName[1]]
+		if mapInfo ~= nil then 
+			mapInfo:LeaveMap(UserId, userEntity.CurrentMapName)
+		end
+	end
+
+end

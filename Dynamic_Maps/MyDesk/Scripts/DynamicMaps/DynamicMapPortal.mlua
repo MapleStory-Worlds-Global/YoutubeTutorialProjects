@@ -1,0 +1,160 @@
+@Component
+script DynamicMapPortal extends PortalComponent
+
+	property string mapName = ""
+
+	property number maxPlayers = 5
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		_SceneManager:InitDynamicMap(self.mapName, self.maxPlayers)
+	end
+
+	@ExecSpace("Server")
+	method void EnterMap(string userId)
+		local idx = self._T.idx
+		if (idx == nil) then 
+			idx = 1
+			self._T.idx = idx
+		end
+		
+		self._T.newMapName = self.mapName .. idx
+		
+		local resultCode = _DynamicMapService:CreateDynamicMap(self.mapName, self._T.newMapName)
+		
+		if resultCode ~= DynamicMapResultCode.Success then
+				-- If it fails to generate a dynamic map, an error code is returned.
+				log(resultCode)
+				return
+		end
+		
+		local user = _UserService:GetUserEntityByUserId(userId)
+		_TeleportService:TeleportToMapPosition(user, Vector3(0,10,0), self._T.newMapName)
+		
+		self._T.idx += 1
+	end
+
+	@ExecSpace("Server")
+	method void UsePortal(string userId)
+		_UIManager:ShowDungeonReservation({}, userId)
+	end
+
+	@ExecSpace("Server")
+	method void EnterReservation(string reservedMap)
+		if (reservedMap) ~= nil then
+			local users = _SceneManager:GetReservedUsers(reservedMap)
+			
+			local hasRegistered = _Utils:Contains(users, senderUserId)
+			if hasRegistered == false then 
+				_UIManager:ShowPopup("Please Register First", senderUserId) 
+				return
+			end
+			
+			self:UpdateLocalReservation(nil, senderUserId)
+			
+			log ("Entering Reservation: " .. reservedMap)
+			_SceneManager:MoveReservationsToMap(reservedMap) 
+			
+			for index, user in ipairs(users) do 
+				_UIManager:HideDungeonReservation(user)
+			end
+			
+		else
+			_UIManager:ShowPopup("No Registered Users", senderUserId) 
+		end
+	end
+
+	@ExecSpace("Server")
+	method void ReserveMap(string userId)
+		local mapName = _SceneManager:ReserveDynamicMap(userId, self.mapName)
+		self:UpdateLocalReservation(mapName, userId)
+	end
+
+	@ExecSpace("Client")
+	method void UpdateLocalReservation(string reservedMap)
+		self._T.reservedMap = reservedMap
+		log("Updated Reserved Map: " .. tostring(self._T.reservedMap))
+	end
+
+	@ExecSpace("Client")
+	method void UnReserveMap(string userId)
+		if self._T.reservedMap == nil then 
+			return 
+		end
+		
+		log("Unregistering..")
+		_SceneManager:UnregisterDynamicMap(self._T.reservedMap , userId)
+		self:UpdateLocalReservation(nil)
+	end
+
+	@EventSender("Self")
+	handler HandlePortalUseEvent(PortalUseEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: PortalComponent
+		-- Space: Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local PortalUser = event.PortalUser
+		---------------------------------------------------------
+		if isvalid(self.PortalEntityRef) == false then 
+			local userId = PortalUser.PlayerComponent.UserId
+			--self:EnterMap(userId)
+			self:UsePortal(userId)
+		end
+	end
+
+	@EventSender("Service", "InputService")
+	handler HandleKeyDownEvent(KeyDownEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: InputService
+		-- Space: Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local key = event.key
+		---------------------------------------------------------
+		--Temp until UI Is Implemented 
+		
+		if key == KeyboardKey.F then 
+			self:EnterReservation(self._T.reservedMap)
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandlePlayerRegisteredEvent(PlayerRegisteredEvent event)
+		-- Parameters
+		local userId = event.userId
+		local isRegistered = event.registered
+		---------------------------------------------------------
+		if isRegistered then
+			self:UnReserveMap(userId)
+		else
+			self:ReserveMap(userId)
+		end
+		
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("LocalPlayer")
+	handler HandleEnterDungeonEvent(EnterDungeonEvent event)
+		self:EnterReservation(self._T.reservedMap)
+	end
+
+	@EventSender("Service", "UserService")
+	handler HandleUserLeaveEvent(UserLeaveEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: UserService
+		-- Space: Server
+		---------------------------------------------------------
+		
+		-- Parameters
+		-- local ProfileCode = event.ProfileCode
+		local UserId = event.UserId
+		---------------------------------------------------------
+		local instanceName = _SceneManager:FindInstanceName(self.mapName, UserId)
+		self:UnReserveMap(UserId)
+	end
+
+end

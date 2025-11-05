@@ -1,0 +1,8 @@
+@Event
+script DynamicMapReservedEvent extends EventType
+
+	property string mapInstanceId = ""
+
+	property table users = {}
+
+end

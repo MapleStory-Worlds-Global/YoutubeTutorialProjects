@@ -1,0 +1,21 @@
+@Logic
+script UIManager extends Logic
+
+	property InstanceDungeonReservationUI instanceDungeon = "a869fc03-e701-48a3-8758-333f4c28a086"
+
+	@ExecSpace("Client")
+	method void ShowPopup(string message)
+		log(message)
+	end
+
+	@ExecSpace("Client")
+	method void ShowDungeonReservation(table users)
+		self.instanceDungeon:Show(users)
+	end
+
+	@ExecSpace("Client")
+	method void HideDungeonReservation()
+		self.instanceDungeon:Hide() 
+	end
+
+end

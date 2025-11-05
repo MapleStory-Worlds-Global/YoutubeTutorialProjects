@@ -1,0 +1,45 @@
+@Component
+script InstanceDungeonMonster extends Monster
+
+	property string returnMapOnDefeat = ""
+
+	@ExecSpace("ServerOnly")
+	method void Dead()
+		self.IsDead = true
+		local stateComponent = self.Entity.StateComponent
+		if stateComponent then
+			stateComponent:ChangeState("DEAD")
+			log("monster change state to DEAD")
+		end
+		
+		local delayHide = function()
+			self.Entity:SetVisible(false)
+			self.Entity:SetEnable(false)
+		end
+		
+		_TimerService:SetTimerOnce(delayHide, self.DestroyDelay)
+		self:BossFinish()
+		
+	end
+
+	method void OnBeginPlay()
+		__base:OnBeginPlay()
+		self:BossStart()
+	end
+
+	@ExecSpace("Client")
+	method void BossStart()
+		_EffectService:PlayEffect("eee4571f66ff4acf8b7f3878860642fa", self.Entity, self.Entity.TransformComponent.Position + Vector3.up * 2, 0, Vector3.one)
+	end
+
+	@ExecSpace("Client")
+	method void BossFinish()
+		_EffectService:PlayEffect("ad24ef5bcf8448fa9713a868aff14d6d", self.Entity, self.Entity.TransformComponent.Position + Vector3.up * 2, 0, Vector3.one)
+		_TimerService:SetTimerOnce(function() 
+			local mapName = self.Entity.CurrentMap.Name
+			_SceneManager:CloseDynamicMap(mapName, self.returnMapOnDefeat)
+		end, self.DestroyDelay * 2)
+		
+	end
+
+end

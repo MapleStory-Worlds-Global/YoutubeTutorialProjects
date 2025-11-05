@@ -1,0 +1,8 @@
+@Event
+script PlayerRegisteredEvent extends EventType
+
+	property string userId = ""
+
+	property boolean registered = false
+
+end

@@ -1,0 +1,111 @@
+@Component
+script InstanceDungeonReservationUI extends Component
+
+	property string reservationUIItemModel = "model://9148e3ff-822e-480c-8b6c-46229df821d4"
+
+	property table reservationListItems = {}
+
+	property Entity reservationScrollParent = "22c57a79-e2c9-417b-a79f-ce1ee901a641"
+
+	property Entity buttonRegister = "f5544615-07ff-49b6-b428-3737d04a1936"
+
+	property Entity buttonClose = "8bbd1309-ceca-4820-af1b-4faf1561c6f2"
+
+	property Entity buttonEnter = "89bee144-2e8b-4d47-91c8-aaf4fea096ab"
+
+	@ExecSpace("Client")
+	method void Show(table userIds)
+		self._T.createdListItemsPointer = 1
+		for index, userId in ipairs(userIds) do 
+			local item = self:GetOrCreateReservationItem()
+			local userName = _UserService.Users[userId].Nickname
+			item:Init(userName) 
+			item:Show()
+		end
+		
+		if #self.reservationListItems > 0 then 
+			for index = self._T.createdListItemsPointer, #self.reservationListItems do
+				self.reservationListItems[index]:Hide()
+			end
+		end
+		
+		self.Entity:SetEnable(true)
+	end
+
+	method InstanceDungeonReservationUIItem GetOrCreateReservationItem()
+		local pointer = self._T.createdListItemsPointer
+		
+		local item = self.reservationListItems[pointer]
+		if isvalid(item) == false then 
+			item = _SpawnService:SpawnByModelId(self.reservationUIItemModel, "ReservationListItem_" .. pointer, Vector3.zero, self.reservationScrollParent).InstanceDungeonReservationUIItem
+			table.insert(self.reservationListItems, item)
+		end
+		
+		pointer += 1
+		self._T.createdListItemsPointer = pointer
+		
+		return item
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self.reservationListItems = {}
+		self.buttonRegister:ConnectEvent(ButtonClickEvent, self.PlayerRegistered)
+		self.buttonEnter:ConnectEvent(ButtonClickEvent, self.EnterDungeon)
+		self.buttonClose:ConnectEvent(ButtonClickEvent, self.Hide)
+		self:UpdateRegistered(false)
+	end
+
+	method void PlayerRegistered()
+		local isRegistered = self._T.isRegistered
+		local userId = _UserService.LocalPlayer.PlayerComponent.UserId
+		local evt = PlayerRegisteredEvent()
+		evt.userId = userId
+		evt.registered = isRegistered
+		 _UserService.LocalPlayer:SendEvent(evt)
+	end
+
+	@ExecSpace("Client")
+	method void EnterDungeon()
+		local evt = EnterDungeonEvent()
+		_UserService.LocalPlayer:SendEvent(evt)
+		self:UpdateRegistered(false)
+	end
+
+	@ExecSpace("Client")
+	method void Hide()
+		self.Entity:SetEnable(false)
+		if self._T.isRegistered == true then 
+			--Unregister the Player
+			self:PlayerRegistered()
+		end
+		
+	end
+
+	@ExecSpace("Client")
+	method void UpdateRegistered(boolean isRegistered)
+		self.buttonRegister.TextComponent.Text = isRegistered and "Leave Party" or "Search Party"
+		self._T.isRegistered = isRegistered
+	end
+
+	@EventSender("Logic", "SceneManager")
+	handler HandleDynamicMapReservedEvent(DynamicMapReservedEvent event)
+		-- Parameters
+		local mapInstanceId = event.mapInstanceId
+		local users = event.users
+		---------------------------------------------------------
+		log("Reservation Event Recieved: " .. mapInstanceId )
+		local localUserId = _UserService.LocalPlayer.PlayerComponent.UserId
+		local isRegistered = _Utils:Contains(users, localUserId)
+		self:UpdateRegistered(isRegistered)
+		
+		if self.Entity.EnabledInHierarchy == false then return end 
+		
+		if isRegistered == true then 
+			self:Show(event.users)
+		else
+			self:Show({})
+		end
+	end
+
+end
