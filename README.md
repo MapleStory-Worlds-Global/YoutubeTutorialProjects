@@ -59,6 +59,8 @@ Reference the project page found in the associated github project folder for pro
 | Projects | Description | Documentation | Project Files Download |
 |---------|-------------|---------|--------------------|
 | Zakum's Curse | Learn to create your first project by following along with this tutorial! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Zakums_Curse) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod) |
+| Dynamic Maps Demo | Dynamic Maps open the door to infinite possibilities! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Dynamic_Maps) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/blob/c238059a4c78c1bf75875a6b5f68d04c37620e36/Dynamic_Maps/DynamicMapsTutorial.mod) |
+| Instance Maps Demo | separate players into their own separate map instances or even world instances! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Instance_Maps) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/blob/8a5f8acb5b51b595adf2175bad948005b8be92db/Instance_Maps/Room_World_Instance_Demo.mod) |
 
 ## License
 
