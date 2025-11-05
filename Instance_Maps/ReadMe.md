@@ -13,7 +13,6 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [Setup and Installation](#setup-and-installation)
 - [Script Documentation](#script-documentation)
   - [SceneManagement](#scenemanagement)
   - [RoomInfo](#roominfo)
