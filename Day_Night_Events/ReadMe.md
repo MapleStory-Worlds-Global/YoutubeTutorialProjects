@@ -484,7 +484,7 @@ Responds to an `OnSwitchActivated` event and toggles day/night accordingly.
 
 | Version | Notes |
 |---------|-------|
-| v1.0 | Initial release with scene, portal, and room coordination systems. |
+| v1.0 | Initial release with day night cycle demo. |
 
 ---
 
