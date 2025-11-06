@@ -1,0 +1,23 @@
+@Logic
+script PlayerHUD extends Logic
+
+	property Entity buttonDay = "bdf82c44-d03e-48d9-b6e7-fdcb149f959f"
+
+	property Entity buttonNight = "7210691a-1147-47c3-9b0f-3863ca52a7fc"
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self.buttonDay:ConnectEvent(ButtonClickEvent, function () 
+			self:SetTime(0.0)
+		end)
+		
+		self.buttonNight:ConnectEvent(ButtonClickEvent, function () 
+			self:SetTime(1.0)
+		end)
+	end
+
+	method void SetTime(number value)
+		_WorldTimeManagement:SetTime(value)
+	end
+
+end

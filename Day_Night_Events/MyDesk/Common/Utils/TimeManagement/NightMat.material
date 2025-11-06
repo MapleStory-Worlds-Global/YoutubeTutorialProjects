@@ -1,0 +1,32 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "material://7ac2daa2-3d8e-4ea1-a4a0-f34bfee77f22",
+  "ContentType": "x-mod/material",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.25.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "name": "NightMat",
+      "id": "7ac2daa2-3d8e-4ea1-a4a0-f34bfee77f22",
+      "shadertype": "BlendMultiply",
+      "BlendColor": {
+        "r": 0.1928482,
+        "g": 0.386641562,
+        "b": 0.61328125,
+        "a": 1.0
+      },
+      "BlendIntensity": 0.0,
+      "TimeOffset": 0.0,
+      "TimeScale": 0.0,
+      "IsUIMaterial": false,
+      "RequiresUIStencilStateChange": false
+    }
+  }
+}

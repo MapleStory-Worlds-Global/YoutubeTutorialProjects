@@ -1,0 +1,51 @@
+@Component
+script SwitchComponent extends Component
+
+	property string triggerOnRUID = ""
+
+	property string triggerOffRUID = ""
+
+	@Sync
+	property boolean triggerState = false
+
+	@ExecSpace("ServerOnly")
+	method void OnInitialize()
+		self.triggerState = true
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		self.Entity.SpriteRendererComponent.SpriteRUID = self.triggerOnRUID
+	end
+
+	@ExecSpace("Server")
+	method void ToggleTrigger()
+		local state = not self.triggerState 
+		local triggerRUID = state and self.triggerOnRUID or self.triggerOffRUID
+		self.Entity.SpriteRendererComponent.SpriteRUID = triggerRUID
+		self.triggerState = state
+	end
+
+	@ExecSpace("Server")
+	method void SendTriggerEvent(Entity entity)
+		local evt = OnSwitchActivated()
+		evt.state = self.triggerState
+		entity:SendEvent(evt)
+	end
+
+	@EventSender("Self")
+	handler HandleTriggerEnterEvent(TriggerEnterEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: TriggerComponent
+		-- Space: Server, Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local TriggerBodyEntity = event.TriggerBodyEntity
+		---------------------------------------------------------
+		if self:IsClient() then return end 
+		self:ToggleTrigger()
+		self:SendTriggerEvent(TriggerBodyEntity)
+	end
+
+end

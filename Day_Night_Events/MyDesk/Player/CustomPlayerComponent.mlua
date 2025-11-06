@@ -1,0 +1,22 @@
+@Component
+script CustomPlayerComponent extends Component
+
+	@ExecSpace("Server")
+	method void ToggleDay(boolean state)
+		if state == false then 
+			_WorldTimeManagement:SetTime(1.0)
+		else
+			_WorldTimeManagement:SetTime(0.0)
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleOnSwitchActivated(OnSwitchActivated event)
+		-- Parameters
+		local state = event.state
+		---------------------------------------------------------
+		self:ToggleDay(state)
+	end
+
+end

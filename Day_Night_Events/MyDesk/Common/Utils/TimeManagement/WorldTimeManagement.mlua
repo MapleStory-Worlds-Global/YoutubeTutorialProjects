@@ -1,0 +1,37 @@
+@Logic
+script WorldTimeManagement extends Logic
+
+	property string colorHex = "#31639c"
+
+	property BackgroundComponent bg = "7ee4456d-3399-46c6-b9eb-fbf5228839e1"
+
+	property TileMapComponent tileMap = "c9a3018a-f6fa-4c4b-b91e-404ac5ce9858"
+
+	property table materialProps = {}
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self._T.color = Color.FromHexCode(self.colorHex)
+		self._T.color.a = 1
+		self._T.matId = self.bg.MaterialId
+		
+		self.materialProps = {["BlendIntensity"] = 0}
+	end
+
+	@ExecSpace("Client")
+	method void SetTime(number time)
+		if isvalid(self._T.currentTween) then 
+			self._T.currentTween:Stop()
+		end
+		local tween = _TweenLogic:MakeTween(self.materialProps.BlendIntensity, time, 2.0, EaseType.Linear, self.OnTween)
+		tween:Play()
+		self._T.currentTween = tween
+	end
+
+	method void OnTween(number value)
+		self.materialProps.BlendIntensity = value
+		_MaterialService:ChangeMaterialProperty(self._T.matId, self.materialProps)
+		self.tileMap.Color = Color.Lerp(Color.white, self._T.color, value)
+	end
+
+end

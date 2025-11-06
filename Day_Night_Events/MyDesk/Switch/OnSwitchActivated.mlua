@@ -1,0 +1,6 @@
+@Event
+script OnSwitchActivated extends EventType
+
+	property boolean state = false
+
+end
