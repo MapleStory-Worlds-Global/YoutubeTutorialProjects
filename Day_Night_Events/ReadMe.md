@@ -1,7 +1,7 @@
 # Day night Cycles with Events
 
 ## Youtube Tutorial
-[![Youtube Tutorial](https://img.youtube.com/vi/yjMLMl5KotY/0.jpg)](https://youtube.com/playlist?list=PLYnmZFABLxZzFWegbGAriHwqYU4WFFVno&si=V_Iu8BNT14kQUAvP "Day night Cycles with Events")
+[![Youtube Tutorial](https://img.youtube.com/vi/uF-DGHIF3jg/0.jpg)](https://youtu.be/uF-DGHIF3jg?si=KB6xS1eMN80AE9Du "Day night Cycles with Events")
 
 ## Mod Installation Instructions
 [Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#project-import-instructions)
@@ -221,7 +221,6 @@ Sends the requested time/blend value to the world-time manager.
 
 ---
 
-```markdown
 ## OnSwitchActivated
 
 **Purpose**  
@@ -249,7 +248,7 @@ _No methods defined in this script._
 - **World/Interaction Logic** – Listens to this event to enable/disable mechanics tied to the switch.  
 - **UI/HUD** – May reflect the switch’s current state to the player.  
 - **Scripting/Trigger System** – Emits this event whenever a switch is toggled.
-```
+
 
 ## SwitchComponent
 
