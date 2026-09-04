@@ -1,0 +1,10 @@
+---@description "Outputs the damage skin when a hit event occurs on the Entity."
+@Component
+script DamageSkinSpawnerComponent extends Component
+
+	---@description "Sets the location for the damage skin to be output."
+	---@sealed
+	@Sync
+	property Vector2 DamageSkinOffset = Vector2(0.000, 0.000)
+
+end

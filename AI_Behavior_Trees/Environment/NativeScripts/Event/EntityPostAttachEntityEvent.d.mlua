@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event is raised when an entity is attached to another entity. Recommend using fallback with EntityChangedParentEvent."
+@Event
+script EntityPostAttachEntityEvent extends EventType
+
+	---@description "The old parent entity of an entity."
+	---@sealed
+	property Entity PrevParent
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostAttachEntityEvent(Entity entity = nil, Entity prevParent = nil) end
+
+end

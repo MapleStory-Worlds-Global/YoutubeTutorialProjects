@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs every frame when TriggerComponent's area overlaps. Please be aware that this may negatively affect your World's function."
+@Event
+script TriggerStayEvent extends EventType
+
+	---@description "The entity of the collided TriggerBody."
+	---@sealed
+	property Entity TriggerBodyEntity
+
+	constructor TriggerStayEvent(Entity triggerBodyEntity = nil) end
+
+end

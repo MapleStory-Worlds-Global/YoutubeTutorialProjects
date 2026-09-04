@@ -1,0 +1,15 @@
+---@sealed
+---@description "Represents a climbing animation."
+@Enum
+script ClimbableType
+	---@description "The climbing animation is a rope type."
+	member Rope = 0
+	---@description "The climbing animation is a ladder type."
+	member Ladder = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method ClimbableType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ClimbableType CastFrom(string value) end
+end

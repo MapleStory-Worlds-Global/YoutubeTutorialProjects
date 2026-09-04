@@ -1,0 +1,66 @@
+@Component
+script ObjectPoolComponent extends Component
+	property table pools = {}
+	property table createCallback = {}
+
+	method void Fill(integer count, string modelID, string poolName)
+		if self.pools[poolName] ~= nil then
+			log("Pool with name " .. poolName .. " already exists.")
+			return
+		end
+		
+		self.pools[poolName] = {}
+		local id = modelID
+		local name = poolName
+		local parent = self.Entity
+		self.createCallback[poolName] = function ()
+			local spawn = _SpawnService:SpawnByModelId(id, name, Vector3.zero, parent)
+			local poolObj = spawn:AddComponent(PooledObject).Entity.PooledObject
+			poolObj:Init() 
+			return spawn
+		end
+
+		for i = 1, count do
+			local spawn = self.createCallback[poolName]()
+			spawn:SetEnable(false)
+			table.insert(self.pools[poolName], spawn)
+		end
+	end
+
+	method Entity Get(string poolName)
+		local pool = self.pools[poolName]
+		if pool == nil then
+			log("No pool found with name: " .. poolName)
+			return nil
+		end
+
+		if #pool == 0 then
+			log("Failed. Pool is Empty. Creating new entity")
+			return self.createCallback[poolName]()
+		end
+
+		local entity = pool[#pool]
+		entity:SetEnable(true)
+		table.remove(pool, #pool)
+		return entity
+	end
+
+	method void Release(Entity entity)
+		local poolName = entity.Name
+		local pool = self.pools[poolName]
+		if pool == nil then
+			log("No pool found with name: " .. poolName)
+			return
+		end
+
+		local pooledObj = entity.PooledObject
+		if isvalid(pooledObj) == false then
+			log("Entity is not a pooled Object!")
+			return
+		end
+
+		pooledObj:Return()
+		entity:SetEnable(false)
+		table.insert(pool, entity)
+	end
+end

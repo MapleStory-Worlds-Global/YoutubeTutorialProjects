@@ -1,0 +1,58 @@
+---@description "Draws a line and provides the ability to set the properties of the line."
+@Component
+script LineRendererComponent extends Component
+
+	---@description "Adjusts the width of the bending part. It is applied when IsFlexible is true."
+	---@sealed
+	@Sync
+	property float Flexibility = 3
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Sets whether to draw the bending part continuously or separately."
+	---@sealed
+	@Sync
+	property boolean IsFlexible = true
+
+	---@description "Draws a smooth curve if true, draws a sharp line if false."
+	---@sealed
+	@Sync
+	property boolean IsSmooth = false
+
+	---@description "If true, a closed line will be drawn automatically connecting the start and end points."
+	---@sealed
+	@Sync
+	property boolean Loop = false
+
+	---@description "Specifies the Id of the material that the renderer will use."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "Determines the priority within the same Layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "The group of dots that form a line."
+	---@sealed
+	@Sync
+	property SyncList<LinePoint> Points
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

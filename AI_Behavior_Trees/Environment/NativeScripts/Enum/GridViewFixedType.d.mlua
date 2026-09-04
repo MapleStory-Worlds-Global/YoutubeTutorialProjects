@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates whether rows and columns are frozen in GridViewComponent."
+@Enum
+script GridViewFixedType
+	---@description "Freeze the column."
+	member ColumnCountFixed = 0
+	---@description "Freeze the row."
+	member RowCountFixed = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method GridViewFixedType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method GridViewFixedType CastFrom(string value) end
+end

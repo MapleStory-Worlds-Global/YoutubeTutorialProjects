@@ -1,0 +1,27 @@
+@BTNode
+script SpawnAtPosition extends ActionNode
+	property string positionKey = "bb_spawnPosition"
+	property string modelID = ""
+	property string entityName = ""
+
+	
+	method any OnBehave(number delta)
+
+		local parentAI = self.ParentAI
+		if isvalid(parentAI) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local spawnPosition = parentAI.BlackBoard:GetVector2(self.positionKey)
+		if isvalid(spawnPosition) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local spawnedEntity = _SpawnService:SpawnByModelId(self.modelID, self.entityName, spawnPosition:ToVector3(), self.ParentAI.Entity.CurrentMap)
+		if isvalid(spawnedEntity) == false then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		return BehaviourTreeStatus.Success
+	end
+end

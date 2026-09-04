@@ -1,0 +1,24 @@
+@Component
+script CustomStateAnimationComponent extends StateAnimationComponent
+
+	method void ReceiveStateChangeEvent(IEventSender sender, StateChangeEvent stateEvent)
+		local spriteRenderer = self.Entity.SpriteRendererComponent
+		local stateName = stateEvent.CurrentStateName
+		
+		if isvalid(spriteRenderer) then
+			local animKey = self:StateStringToAnimationKey(stateName)
+			if animKey ~= nil then
+				local animRuid = self.ActionSheet[animKey]
+				if animRuid ~= nil then
+					
+					spriteRenderer.SpriteRUID = animRuid
+				end
+			end
+		end
+	end
+
+	method string StateStringtoAnimationRUID(string stateName)
+		local key = self:StateStringToAnimationKey(stateName)
+		return self.ActionSheet[key]
+	end
+end

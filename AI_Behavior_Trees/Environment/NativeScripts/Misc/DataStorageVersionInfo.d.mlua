@@ -1,0 +1,14 @@
+---@sealed
+---@description "Represents the data version information of DataStorage."
+@Misc
+script DataStorageVersionInfo
+
+	---@description "The time when the version was created."
+	---@sealed
+	readonly property DateTime CreateTime
+
+	---@description "The name of the version."
+	---@sealed
+	readonly property string Version
+
+end

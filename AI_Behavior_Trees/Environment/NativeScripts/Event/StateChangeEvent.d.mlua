@@ -1,0 +1,16 @@
+---@sealed
+---@description "Occurs when changing state."
+@Event
+script StateChangeEvent extends EventType
+
+	---@description "The state after change."
+	---@sealed
+	property string CurrentStateName
+
+	---@description "The state before change."
+	---@sealed
+	property string PrevStateName
+
+	constructor StateChangeEvent(string currentStateName = nil, string prevStateName = nil) end
+
+end

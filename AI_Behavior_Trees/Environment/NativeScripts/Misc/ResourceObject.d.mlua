@@ -1,0 +1,18 @@
+---@sealed
+---@description "A resource abstract class for representing the various resources of MSW."
+@Misc
+script ResourceObject
+
+	---@description "A flag to check whether the resource has successfully loaded. All resources in MSW can be used only after loading is completed."
+	---@sealed
+	readonly property boolean IsLoadComplete = false
+
+	---@description "The RUID of the resource."
+	---@sealed
+	readonly property string RUID
+
+	---@description "The type of the resource."
+	---@sealed
+	readonly property ResourceType Type
+
+end

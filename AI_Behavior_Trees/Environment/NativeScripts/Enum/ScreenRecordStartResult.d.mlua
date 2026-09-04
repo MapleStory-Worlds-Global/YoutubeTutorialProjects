@@ -1,0 +1,21 @@
+---@sealed
+---@description "Indicates the screen recording state."
+@Enum
+script ScreenRecordStartResult
+	---@description "Screen recording has started."
+	member Success = 0
+	---@description "Your device does not support screen recording."
+	member DeviceNotSupported = 1
+	---@description "Screen recording already in progress."
+	member AlreadyInProgress = 2
+	---@description "Failed to start screen recording."
+	member Failed = 3
+	---@description "Failed to access photo library or file storage."
+	member DeniedStorageAccess = 4
+
+	---@description "Converts a number to the applicable type."
+	static method ScreenRecordStartResult CastFrom(number value) end
+
+	---@description "Converts a string to the applicable type."
+	static method ScreenRecordStartResult CastFrom(string value) end
+end

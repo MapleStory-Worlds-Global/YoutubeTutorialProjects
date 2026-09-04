@@ -1,0 +1,58 @@
+---@sealed
+---@description "Provides functions for Tween."
+@Logic
+script TweenLogic extends Logic
+
+	---@description "Interpolates between the start and end values. Interpolates tweenTime divided by duration."
+	---@sealed
+	method float Ease(float startValue, float endValue, float duration, EaseType type, float tweenTime) end
+
+	---@description "Creates a Tweener entity that automatically calls a native component's method and performs the interpolation between the start value and end value. Only the native component can be set as targetComponent."
+	---@sealed
+	method Tweener MakeNativeTween(float startValue, float endValue, float duration, EaseType type, Component targetComponent, string methodName) end
+
+	---@description "Creates a Tweener Entity performing the interpolation between the start and end values."
+	---@sealed
+	method Tweener MakeTween(Vector2 startValue, Vector2 endValue, float duration, EaseType type, func<Vector2> tweenFunction) end
+
+	---@description "Creates a Tweener Entity performing the interpolation between the start and end values."
+	---@sealed
+	method Tweener MakeTween(Vector3 startValue, Vector3 endValue, float duration, EaseType type, func<Vector3> tweenFunction) end
+
+	---@description "Creates a Tweener Entity performing the interpolation between the start and end values."
+	---@sealed
+	method Tweener MakeTween(float startValue, float endValue, float duration, EaseType type, func<float> tweenFunction) end
+
+	---@description "Creates and plays the Tweener that moves the entity as much as offset based on the current location."
+	---@sealed
+	method Tweener MoveOffset(Entity entity, Vector2 offset, float duration, EaseType type) end
+
+	---@description "Creates and plays the Tweener that moves the entity to the destination."
+	---@sealed
+	method Tweener MoveTo(Entity entity, Vector2 destination, float duration, EaseType type) end
+
+	---@description "Creates and plays the Tweener entity performing the interpolation between the start and end values. Tweener sets the interpolated value as a parameter and calls tweenFunction."
+	---@sealed
+	method Tweener PlayTween(Vector2 startValue, Vector2 endValue, float duration, EaseType type, func<Vector2> tweenFunction) end
+
+	---@description "Creates and plays the Tweener entity performing the interpolation between the start and end values. Tweener sets the interpolated value as a parameter and calls tweenFunction."
+	---@sealed
+	method Tweener PlayTween(Vector3 startValue, Vector3 endValue, float duration, EaseType type, func<Vector3> tweenFunction) end
+
+	---@description "Creates and plays the Tweener entity performing the interpolation between the start and end values. Tweener sets the interpolated value as a parameter and calls tweenFunction."
+	---@sealed
+	method Tweener PlayTween(float startValue, float endValue, float duration, EaseType type, func<float> tweenFunction) end
+
+	---@description "Creates and plays the Tweener, which rotates the entity counterclockwise as much as the angle on the offset axis."
+	---@sealed
+	method Tweener RotateAroundOffset(Entity entity, float angle, Vector2 offset, boolean lookOffset, float duration, EaseType type) end
+
+	---@description "Creates and plays the Tweener, which rotates the entity counterclockwise as much as the angle."
+	---@sealed
+	method Tweener RotateTo(Entity entity, float angle, float duration, EaseType type) end
+
+	---@description "Creates and plays the Tweener, which enlarges or reduces the entity as much as targetScale."
+	---@sealed
+	method Tweener ScaleTo(Entity entity, Vector2 targetScale, float duration, EaseType type) end
+
+end

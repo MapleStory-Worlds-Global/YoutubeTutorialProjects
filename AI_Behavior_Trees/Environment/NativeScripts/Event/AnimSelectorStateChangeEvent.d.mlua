@@ -1,0 +1,10 @@
+---@sealed
+@Event
+script AnimSelectorStateChangeEvent extends EventType
+
+	---@sealed
+	readonly property string State
+
+	constructor AnimSelectorStateChangeEvent() end
+
+end

@@ -1,0 +1,143 @@
+---@sealed
+---@description "Provides the function to move an entity to a specific location and warp users to another World instance."
+@Service
+script TeleportService extends Service
+
+	---@description "Cancels scheduled teleports."
+	---@sealed
+	@ExecSpace("Server")
+	method void ClearReservation() end
+
+	---@description "This function is now deprecated. Use the other ClearReservation() function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method void ClearReservation(Entity messageOwnerEntity = nil) end
+
+	---@description "Acquires the warp records of the user corresponding to userId."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method WarpRecord GetWarpRecord(string userId) end
+
+	---@description "Schedules a teleport to the same location as the Entity set as the destination."
+	---@sealed
+	@ExecSpace("Server")
+	method boolean ReserveTeleportToEntity(Entity targetEntity, Entity destinationEntity, boolean overridePrevious = true) end
+
+	---@description "This function is now deprecated. Use the other ReserveTeleportToEntity(Entity, Entity, boolean) function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method boolean ReserveTeleportToEntity(Entity targetEntity, Entity destinationEntity, boolean overridePrevious = true, Entity messageOwnerEntity = nil) end
+
+	---@description "Schedules a teleport to your destination location."
+	---@sealed
+	@ExecSpace("Server")
+	method boolean ReserveTeleportToMapPosition(Entity targetEntity, Vector3 destinationPosition, string destinationMapName = "", boolean overridePrevious = true) end
+
+	---@description "This function is now deprecated. Use the other ReserveTeleportToMapPosition (Entity, Vector3, string, boolean) function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method boolean ReserveTeleportToMapPosition(Entity targetEntity, Vector3 destinationPosition, string destinationMapName = "", boolean overridePrevious = true, Entity messageOwnerEntity = nil) end
+
+	---@description "Executes scheduled teleports."
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportReservedEntities() end
+
+	---@description "This function is now deprecated. Use the other TeleportReservedEntities() function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportReservedEntities(Entity messageOwnerEntity = nil) end
+
+	---@description "Teleports the Entity to the location of the destination Entity."
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportToEntity(Entity targetEntity, Entity destinationEntity) end
+
+	---@description "This function is now deprecated. Use the other TeleportToEntity(Entity, Entity) function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportToEntity(Entity targetEntity, Entity destinationEntity, Entity messageOwnerEntity = nil) end
+
+	---@description "Teleports the Entity to the location of the destination Path."
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportToEntityPath(Entity targetEntity, string destinationEntityPath) end
+
+	---@description "This function is now deprecated. Use the other TeleportToEntityPath(Entity, string)."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportToEntityPath(Entity targetEntity, string destinationEntityPath, Entity messageOwnerEntity = nil) end
+
+	---@description "Teleports an Entity to the destination location."
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportToMapPosition(Entity targetEntity, Vector3 destinationPosition, string destinationMapName = "") end
+
+	---@description "This function is now deprecated. Use the other TeleportToMapPosition (Entity, Vector3, string) function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method void TeleportToMapPosition(Entity targetEntity, Vector3 destinationPosition, string destinationMapName = "", Entity messageOwnerEntity = nil) end
+
+	---@description "Cancels scheduled teleports."
+	---@sealed
+	@ExecSpace("Server")
+	method void UnReserveTeleport(Entity targetEntity) end
+
+	---@description "This function is now deprecated. Use the other UnReserveTeleport(Entity) function."
+	---@deprecated
+	---@sealed
+	@ExecSpace("Server")
+	method void UnReserveTeleport(Entity targetEntity, Entity messageOwnerEntity = nil) end
+
+	---@description "Warps a creator with world creation permissions or a cooperation group member to a world instance and returns the success status. Warp is only available to released worlds that are public. Script executions are suspended during the performance. This function only acts in release environments. Returns false when executed from Maker. Entry is possible even if there is no room in a world instance and an entry will not be reflected on the player list. The userId is the Id of the user that will be warped, and the destinationWorldInstanceId is the destination world's instance Id. Data delivered with warpData can be viewed from the GetWarpRecord function. "
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method boolean WarpAdminToWorldInstanceAndWait(string userId, string destinationWorldInstanceId, string warpData) end
+
+	---@description "Warps a creator with world creation permissions or a cooperation group member to a world instance. Warp is only available to released worlds that are public. This function only acts in release environments. Returns false when executed from Maker. This work is executed asynchronously, and when the work is complete, it calls the function that was delivered to callbackFunction as well as the success status. Entry is possible even if there is no room in a world instance and an entry will not be reflected on the player list. The userId is the Id of the user that will be warped, and the destinationWorldInstanceId is the destination world's instance Id. Data delivered with warpData can be viewed from the GetWarpRecord function."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method void WarpAdminToWorldInstanceAsync(string userId, string destinationWorldInstanceId, string warpData, func<boolean> callbackFunction) end
+
+	---@description "Warps a user to another World and returns whether the operation was successful or not. Only the open World among the released Worlds can be set as a target World. Script executions are suspended during operation. userId is the Id of the user who will be warped, and destinationWorldId is the Id of the target World. Data passed to warpData can be checked using the GetWarpRecord function."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean WarpUserToWorldAndWait(string userId, string destinationWorldId, string warpData) end
+
+	---@description "Warps a user to another World. Only the open Worlds among the released games can be set as a target World. This operation is performed asynchronously, and the function passed to callbackFunction is called with whether successful or not upon completion of the operation. The userId is the Id of the user who will be warped, and destinationWorldId is the Id of the target World. Data passed to warpData can be checked using the GetWarpRecord function."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void WarpUserToWorldAsync(string userId, string destinationWorldId, string warpData, func<boolean> callbackFunction) end
+
+	---@description "Warps a user to another World instance and returns whether the operation was successful or not. Only the open Worlds among the released games can be set as a target World. Script executions are suspended during operation. The userId is the Id of the user who will be warped, and destinationWorldInstanceId is the Id of the target World instance. Data passed to warpData can be checked using the GetWarpRecord function. This function only works in the release environment. If executed in the Maker, nil will be returned."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method boolean WarpUserToWorldInstanceAndWait(string userId, string destinationWorldInstanceId, string warpData) end
+
+	---@description "Warps a user to another World instance. Only the open Worlds among the released games can be set as a target World. This operation is performed asynchronously, and the function passed to callbackFunction is called whether successful or not upon completion of the operation. The userId is the Id of the user who will be warped, and destinationWorldInstanceId is the Id of the target World instance. Data passed to warpData can be checked using the GetWarpRecord function. This function only works in the release environment. If executed in the Maker, false will be returned."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method void WarpUserToWorldInstanceAsync(string userId, string destinationWorldInstanceId, string warpData, func<boolean> callbackFunction) end
+
+	---@description "Warps users to another World and returns whether the operation was successful or not. Only the open Worlds among the released games can be set as a target World. Script executions are suspended during operation. userIds are the Ids of the users who will be warped, and destinationWorldInstanceId is the Id of the target World instance. Data passed to warpData can be checked using the GetWarpRecord function."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean WarpUsersToWorldAndWait(table<string> userIds, string destinationWorldId, string warpData) end
+
+	---@description "Warps users to another World. Only the open Worlds among the released games can be set as a target World. This operation is performed asynchronously, and the function passed to callbackFunction is called whether successful or not upon completion of the operation. The userId is the Id of the user who will be warped, and destinationWorldId is the Id of the target World. Data passed to warpData can be checked using the GetWarpRecord function."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void WarpUsersToWorldAsync(table<string> userIds, string destinationWorldId, string warpData, func<boolean> callbackFunction) end
+
+end

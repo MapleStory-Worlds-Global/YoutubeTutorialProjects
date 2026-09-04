@@ -1,0 +1,83 @@
+---@description "Sets the values within the minimum and maximum ranges, and graphically displays the values."
+@Component
+script SliderComponent extends Component
+
+	---@description "Sets the direction to display the minimum to maximum values graphically."
+	---@sealed
+	property SliderDirection Direction = SliderDirection.LeftToRight
+
+	---@description "The color of the area to represent the value graphically."
+	---@sealed
+	property Color FillRectColor = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "The image RUID of the area to represent the value graphically."
+	---@sealed
+	property DataRef FillRectImageRUID
+
+	---@description "Sets the free space of the area to display the value graphically."
+	---@sealed
+	property RectOffset FillRectPadding
+
+	---@description "The free space in the movable area with the slider handle."
+	---@sealed
+	property RectOffset HandleAreaPadding
+
+	---@description "The color of the slider handle."
+	---@sealed
+	property Color HandleColor = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "The image RUID of the slider handle."
+	---@sealed
+	property DataRef HandleImageRUID
+
+	---@description "The size of the slider handle."
+	---@sealed
+	property Vector2 HandleSize = Vector2(50.000, 50.000)
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "The maximum Value."
+	---@sealed
+	property float MaxValue = 1
+
+	---@description "The minimum Value."
+	---@sealed
+	property float MinValue = 0
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "Determines whether to set the SortingLayer and OrderInLayer values manually."
+	---@sealed
+	@Sync
+	property boolean OverrideSorting = false
+
+	---@description "When two or more entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "UI"
+
+	---@description "Sets whether to use the handle."
+	---@sealed
+	property boolean UseHandle = false
+
+	---@description "Sets whether to use the value only as an integer."
+	---@sealed
+	property boolean UseIntegerValue = false
+
+	---@description "Current value."
+	---@sealed
+	property float Value = 1
+
+	emitter EmitSliderValueChangedEvent(SliderValueChangedEvent event) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

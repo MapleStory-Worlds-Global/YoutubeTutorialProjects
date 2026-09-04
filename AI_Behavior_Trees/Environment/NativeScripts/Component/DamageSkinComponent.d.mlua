@@ -1,0 +1,5 @@
+---@description "Configure damage skins in this component to visually express damage. Specify the format in the attacker Entity's DamageSkinSettingComponent."
+@Component
+script DamageSkinComponent extends Component
+
+end

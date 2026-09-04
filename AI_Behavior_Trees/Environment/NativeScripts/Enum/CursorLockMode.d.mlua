@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates how to control the mouse cursor."
+@Enum
+script CursorLockMode
+	---@description "You can move the cursor freely."
+	member None = 0
+	---@description "The mouse cursor is fixed at the center of the client window."
+	member Locked = 1
+	---@description "The mouse cursor is restricted to move only within the client window."
+	member Confined = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method CursorLockMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method CursorLockMode CastFrom(string value) end
+end

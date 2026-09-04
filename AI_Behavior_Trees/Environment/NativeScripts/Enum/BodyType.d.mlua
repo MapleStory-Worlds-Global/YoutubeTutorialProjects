@@ -1,0 +1,17 @@
+---@sealed
+---@description "The type of physics rigid body."
+@Enum
+script BodyType
+	---@description "This is treated as a rigid body with an infinitely large mass. It is not moved by the physics engine. Only Dynamic collides."
+	member Static = 0
+	---@description "This is treated as a rigid body with an infinitely large mass, but can be moved by giving it speed."
+	member Kinematic = 1
+	---@description "This can collide with any BodyType, controlled by the physics engine."
+	member Dynamic = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method BodyType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method BodyType CastFrom(string value) end
+end

@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs before initializing the additional components of an entity."
+@Event
+script EntityPreInitAdditionalComponentsEvent extends EventType
+
+	---@description "A list of additional components."
+	---@sealed
+	property List<string> AdditionalComponents
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreInitAdditionalComponentsEvent(Entity entity = nil, List<string> additionalComponents = nil) end
+
+end

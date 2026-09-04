@@ -1,0 +1,21 @@
+---@description "Manages information for each layer of the map."
+@Component
+script MapLayerComponent extends Component
+
+	---@description "Indicates whether the layer is rendered or not. Invisible in the Maker scene if false."
+	---@sealed
+	property boolean IsVisible = true
+
+	---@description "The priority order of the layers. Smaller values are drawn in lower layers and behind them."
+	---@sealed
+	property int32 LayerSortOrder = 0
+
+	---@description "Indicates whether the layer is locked. The maker prevents editing when locked."
+	---@sealed
+	property boolean Locked
+
+	---@description "The name of the map layer."
+	---@sealed
+	property string MapLayerName = ""
+
+end

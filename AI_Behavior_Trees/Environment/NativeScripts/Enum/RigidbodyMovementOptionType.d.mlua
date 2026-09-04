@@ -1,0 +1,15 @@
+---@sealed
+---@description "Sets options to apply to the RigidbodyComponent above the foothold."
+@Enum
+script RigidbodyMovementOptionType
+	---@description "Apply inertia on the x axis, not the y axis. If the player moves in the opposite direction of the foothold, speed decreases. If it moves in the same direction, speed increases."
+	member RelativeX = 0
+	---@description "Constant speed regardless of direction."
+	member Absolute = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method RigidbodyMovementOptionType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method RigidbodyMovementOptionType CastFrom(string value) end
+end

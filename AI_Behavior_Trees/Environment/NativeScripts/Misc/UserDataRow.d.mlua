@@ -1,0 +1,14 @@
+---@sealed
+---@description "Indicates a row of the data table produced by users."
+@Misc
+script UserDataRow extends Data
+
+	---@description "Returns the total number of columns in a row."
+	---@sealed
+	method int32 Count() end
+
+	---@description " Returns the cell content of the column corresponding to columnName."
+	---@sealed
+	method string GetItem(string columnName) end
+
+end

@@ -1,0 +1,33 @@
+@BTNode
+script HasTarget extends DecoratorNode
+
+	property string targetEntityKey = "bb_Target"
+
+	property boolean compareValue = false
+
+	property boolean finishIfStarted = false
+
+	@HideFromInspector
+	property boolean hasStarted = false
+
+	method void OnInit()
+		self.hasStarted = false
+	end
+
+	method any OnBehave(number delta)
+		if self.hasStarted and self.finishIfStarted then
+			return self:ChildBehave(delta)
+		end
+
+		if isvalid(self.ParentAI.BlackBoard:GetEntity(self.targetEntityKey)) == self.compareValue then
+			local status = self:ChildBehave(delta)
+			if status == BehaviourTreeStatus.Running then
+				self.hasStarted = true
+			end
+			return status
+		else
+			return BehaviourTreeStatus.Failure
+		end
+	end
+
+end

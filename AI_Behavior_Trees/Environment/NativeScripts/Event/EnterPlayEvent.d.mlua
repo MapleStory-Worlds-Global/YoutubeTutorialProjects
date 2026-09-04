@@ -1,0 +1,8 @@
+---@sealed
+---@description "This event occurs when entering play mode."
+@Event
+script EnterPlayEvent extends EventType
+
+	constructor EnterPlayEvent() end
+
+end

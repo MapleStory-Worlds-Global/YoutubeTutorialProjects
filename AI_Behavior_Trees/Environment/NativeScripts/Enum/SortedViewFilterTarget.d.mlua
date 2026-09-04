@@ -1,0 +1,10 @@
+---@sealed
+@Enum
+script SortedViewFilterTarget
+	member MetadataKey = 0
+	member MetadataValue = 1
+
+	static method SortedViewFilterTarget CastFrom(number value) end
+
+	static method SortedViewFilterTarget CastFrom(string value) end
+end

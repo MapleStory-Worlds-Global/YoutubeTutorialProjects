@@ -1,0 +1,7 @@
+@Struct
+script AttackInfo
+	property number Damage = 1
+	property string effectRUID = ""
+
+	
+end

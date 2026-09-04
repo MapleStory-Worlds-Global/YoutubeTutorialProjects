@@ -1,0 +1,93 @@
+---@sealed
+---@description "The shape of a graph that shows the change in values over time. The graph shape is flattened in the order of Expo > Quint > Quart > Cubic > Quad > Sine > Linear."
+@Enum
+script EaseType
+	---@description "Linear graph. It moves at a constant speed over time."
+	member Linear = 0
+	---@description "This is a graph using a quadratic function. Position changes over time, starting slightly faster and gradually slowing down."
+	member QuadEaseOut = 1
+	---@description "This is a graph using a quadratic function. Position changes over time, starting slightly slow and gradually going faster."
+	member QuadEaseIn = 2
+	---@description "This is a graph using a quadratic function. Over time, it moves through QuadEaseIn to the midpoint and then along QuadEaseOut."
+	member QuadEaseInOut = 3
+	---@description "This is a graph using a quadratic function. Over time, it moves through QuadEaseOut to the midpoint and then along QuadEaseIn."
+	member QuadEaseOutIn = 4
+	---@description "This is a graph using an exponential function. The change in position over time is more abrupt than QuintEaseOut."
+	member ExpoEaseOut = 5
+	---@description "This is a graph using an exponential function. The change in position over time is more abrupt than QuintEaseIn."
+	member ExpoEaseIn = 6
+	---@description "This is a graph using an exponential function. The change in position over time is more abrupt than QuintEaseInOut. It follows ExpoEaseIn until the midpoint of the position change, and then ExpoEaseOut thereafter. "
+	member ExpoEaseInOut = 7
+	---@description "This is a graph using an exponential function. The change in position over time is more abrupt than QuintEaseOutIn. It follows ExpoEaseOut until the midpoint of the position change, and then ExpoEaseIn thereafter. "
+	member ExpoEaseOutIn = 8
+	---@description "This is a graph using a cubic function. The change in position over time is more abrupt than QuadEaseOut."
+	member CubicEaseOut = 9
+	---@description "This is a graph using a cubic function. The change in position over time is more abrupt than QuadEaseIn."
+	member CubicEaseIn = 10
+	---@description "This is a graph using a cubic function. The change in position over time is more abrupt than QuadEaseInOut. It follows CubicEaseIn until the midpoint of the position change, and then CubicEaseOut thereafter."
+	member CubicEaseInOut = 11
+	---@description "This is a graph using a cubic function. The change in position over time is more abrupt than QuadEaseOutIn. It follows CubicEaseIn until the midpoint of the position change, and then CubicEaseIn thereafter."
+	member CubicEaseOutIn = 12
+	---@description "This is a graph using a quartic function. The change in position over time is more abrupt than CubicEaseOut."
+	member QuartEaseOut = 13
+	---@description "This is a graph using a quartic function. The change in position over time is more abrupt than CubicEaseIn."
+	member QuartEaseIn = 14
+	---@description "This is a graph using a quartic function. The change in position over time is more abrupt than CubicEaseInOut. It follows QuartEaseIn until the midpoint of the position change, and then QuartEaseOut thereafter."
+	member QuartEaseInOut = 15
+	---@description "This is a graph using a quartic function. The change in position over time is more abrupt than CubicEaseOutIn. It follows QuartEaseOut until the midpoint of the position change, and then QuartEaseIn thereafter."
+	member QuartEaseOutIn = 16
+	---@description "This is a graph using a 5th order function. The change in position over time is more abrupt than QuartEaseOut."
+	member QuintEaseOut = 17
+	---@description "This is a graph using a 5th order function. The change in position over time is more abrupt than QuartEaseIn."
+	member QuintEaseIn = 18
+	---@description "This is a graph using a 5th order function. The change in position over time is more abrupt than QuartEaseInOut. It follows QuintEaseIn until the midpoint of the position change, and then QuintEaseOut thereafter."
+	member QuintEaseInOut = 19
+	---@description "This is a graph using a 5th order function. The change in position over time is more abrupt than QuartEaseOutIn. It follows QuintEaseOut until the midpoint of the position change, and then QuintEaseIn thereafter."
+	member QuintEaseOutIn = 20
+	---@description "This is a graph using a circular function. It accelerates very quickly over time, gradually decelerating to its destination."
+	member CircEaseOut = 21
+	---@description "This is a graph using a circular function. It starts accelerating very slowly over time and accelerates to the destination very quickly."
+	member CircEaseIn = 22
+	---@description "This is a graph using a circular function. Over time, it follows EaseIn up to the midpoint and then EaseOut."
+	member CircEaseInOut = 23
+	---@description "This is a graph using a circular function. Over time, it follows EaseOut up to the midpoint and then EaseIn."
+	member CircEaseOutIn = 24
+	---@description "This is a graph using the sine function. The change in position over time is flatter than QuadEaseOut."
+	member SineEaseOut = 25
+	---@description "This is a graph using the sine function. The change in position over time is flatter than QuadEaseIn."
+	member SineEaseIn = 26
+	---@description "This is a graph using the sine function. The change in position over time is flatter than QuadEaseInOut. It follows SineEaseIn until the midpoint of the position change, and then SineEaseOut thereafter."
+	member SineEaseInOut = 27
+	---@description "This is a graph using the sine function. The change in position over time is flatter than QuadEaseOutIn. It follows SineEaseOut until the midpoint of the position change, and then SineEaseIn thereafter."
+	member SineEaseOutIn = 28
+	---@description "This looks like a spring that moves back and forth until it stops. It fluctuates greatly over time and then gradually stops."
+	member ElasticEaseOut = 29
+	---@description "This looks like a spring that moves back and forth until it stops. It starts from a stationary state over time and gradually moves back and forth in large increments."
+	member ElasticEaseIn = 30
+	---@description "This looks like a spring that moves back and forth until it stops. Over time, it follows ElasticEaseIn up to the midpoint and then ElasticEaseOut."
+	member ElasticEaseInOut = 31
+	---@description "This looks like a spring that moves back and forth until it stops. Over time, it follows ElasticEaseOut up to the midpoint and then ElasticEaseIn."
+	member ElasticEaseOutIn = 32
+	---@description "This looks like a bouncing ball with elasticity. As time passes, it moves like a ball that has been dropped from a high place and gradually bounces lower."
+	member BounceEaseOut = 33
+	---@description "This looks like a bouncing ball with elasticity. As time passes, it bounces less, and then it bounces and moves in a big way."
+	member BounceEaseIn = 34
+	---@description "This looks like a bouncing ball with elasticity. Over time, it follows BounceEaseIn up to the midpoint and then BounceEaseOut."
+	member BounceEaseInOut = 35
+	---@description "This looks like a bouncing ball with elasticity. Over time, it follows BounceEaseOut up to the midpoint and then BounceEaseIn."
+	member BounceEaseOutIn = 36
+	---@description "As time passes, this backs up in the opposite direction of its destination and then moves back to its destination."
+	member BackEaseOut = 37
+	---@description "As time passes, this slightly passes the destination and then moves back to the destination."
+	member BackEaseIn = 38
+	---@description "Over time, this follows BackEaseIn up to the midpoint and then BackEaseOut."
+	member BackEaseInOut = 39
+	---@description "Over time, this follows BackEaseOut up to the midpoint and then BackEaseIn."
+	member BackEaseOutIn = 40
+
+	---@description "Converts numbers to the applicable type."
+	static method EaseType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method EaseType CastFrom(string value) end
+end

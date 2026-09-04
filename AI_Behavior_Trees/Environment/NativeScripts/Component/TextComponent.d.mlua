@@ -1,0 +1,153 @@
+---@description "Prints text to the screen."
+@Component
+script TextComponent extends Component
+
+	---@description "How to align text."
+	---@sealed
+	property TextAlignmentType Alignment = TextAlignmentType.MiddleCenter
+
+	---@description "Adjust the font size to fit the area size."
+	---@sealed
+	property boolean BestFit = false
+
+	---@description "Sets whether to use bold text."
+	---@sealed
+	property boolean Bold = false
+
+	---@description "Sets the maximum width to limit. Operates when sizefit is true."
+	---@sealed
+	property float ConstraintX = 100
+
+	---@description "Sets the maximum height to limit. Operates when sizefit is true."
+	---@sealed
+	property float ConstraintY = 100
+
+	---@description "Sets whether to output the shadow of text."
+	---@sealed
+	property boolean DropShadow = false
+
+	---@description "Sets the angle of the shadow."
+	---@sealed
+	property float DropShadowAngle = 30
+
+	---@description "The shadow color."
+	---@sealed
+	property Color DropShadowColor = Color(0.000, 0.000, 0.000, 0.720)
+
+	---@description "Distance between the text and the shadow."
+	---@sealed
+	property float DropShadowDistance = 32
+
+	---@description "Font types."
+	---@sealed
+	property FontType Font = FontType.Default
+
+	---@description "The color to use to render the text."
+	---@sealed
+	property Color FontColor = Color(0.000, 0.000, 0.000, 1.000)
+
+	---@description "Font size."
+	---@sealed
+	property int32 FontSize = 20
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Sets whether to use rich text."
+	---@sealed
+	property boolean IsRichText = true
+
+	---@description "Adjusts line spacing."
+	---@sealed
+	property float LineSpacing = 1
+
+	---@description "Determines the maximum font size."
+	---@sealed
+	property int32 MaxSize = 40
+
+	---@description "Determines the minimum font size."
+	---@sealed
+	property int32 MinSize = 10
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "The color of the text's outline."
+	---@sealed
+	property Color OutlineColor = Color(0.700, 0.700, 0.700, 1.000)
+
+	---@description "This is a deprecated property. Use OutlineWidth."
+	---@deprecated
+	---@sealed
+	property Vector2 OutlineDistance = Vector2(1.000, -1.000)
+
+	---@description "Sets the width of the text outline."
+	---@sealed
+	property float OutlineWidth = 1
+
+	---@description "Sets the handling method for when the text exceeds the horizontal area."
+	---@sealed
+	property OverflowType Overflow = OverflowType.Overflow
+
+	---@description "Determines whether to set the SortingLayer and OrderInLayer values manually."
+	---@sealed
+	@Sync
+	property boolean OverrideSorting = false
+
+	---@description "Sets the margin of the text area."
+	---@sealed
+	property RectOffset Padding
+
+	---@description "Resizes the text area to fit the text."
+	---@sealed
+	property boolean SizeFit
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "UI"
+
+	---@description "The content to be displayed."
+	---@sealed
+	property string Text = "Text"
+
+	---@description "Sets the width to be limited using the ConstraintX value."
+	---@sealed
+	property boolean UseConstraintX = false
+
+	---@description "Sets the height to be limited using the ConstraintY value."
+	---@sealed
+	property boolean UseConstraintY = false
+
+	---@description "Specifies whether to enable line breaking at the character level. Line breaking is determined by characters, so the line breaks immediately when a character reaches the end of the line if the value is set to true. The line breaks by words to avoid incorrect line breaking if the value is set to false."
+	---@sealed
+	property boolean UseNBSP = false
+
+	---@description "Use the outline effect."
+	---@sealed
+	property boolean UseOutLine = false
+
+	---@description "Returns the text matching the current language settings in LocaleDataSet when IsLocalizationKey's value is true. A Key will be used as Text's property value."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetLocalizedText() end
+
+	---@description "Gets the height of the text area that is outputted to a fixed-width space."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method float GetPreferredHeight(string preferredText, float width) end
+
+	---@description "Gets the width of the input text area."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method float GetPreferredWidth(string preferredText) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

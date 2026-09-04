@@ -1,0 +1,46 @@
+---@sealed
+---@description "Product information obtained from WorldShopService."
+@Misc
+script WorldShopProduct
+
+	---@description "The description of the product."
+	---@sealed
+	property string Description
+
+	---@description "Date and time of the end of the sale. It has a valid value only when HasSalesPeriod is true."
+	---@sealed
+	property DateTime EndSalesPeriod
+
+	---@description "Makes sure the sales period is set."
+	---@sealed
+	property boolean HasSalesPeriod
+
+	---@description "The identifier of the product."
+	---@sealed
+	property string Id
+
+	---@description "The name of the product."
+	---@sealed
+	property string Name
+
+	---@description "The price of the product."
+	---@sealed
+	property int32 Price
+
+	---@description "Date and time of starting the sale. It has a valid value only when HasSalesPeriod is true."
+	---@sealed
+	property DateTime StartSalesPeriod
+
+	---@description "The sale status of the product."
+	---@sealed
+	property WorldShopProductStatus Status
+
+	---@description "The RUID of the world thumbnail image."
+	---@sealed
+	property string ThumbnailRUID
+
+	---@description "The type of the product."
+	---@sealed
+	property WorldShopProductType Type
+
+end

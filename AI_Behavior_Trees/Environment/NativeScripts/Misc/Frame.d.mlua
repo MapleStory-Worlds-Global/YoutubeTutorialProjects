@@ -1,0 +1,20 @@
+---@sealed
+@Misc
+script Frame
+
+	---@sealed
+	property float Delay
+
+	---@sealed
+	property string EventTag
+
+	---@sealed
+	property int32 FrameIndex
+
+	---@sealed
+	property Sprite FrameSprite
+
+	---@sealed
+	property Vector2 Offset
+
+end

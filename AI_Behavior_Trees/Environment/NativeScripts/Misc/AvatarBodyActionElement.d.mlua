@@ -1,0 +1,20 @@
+---@sealed
+---@description "AvatarBodyActionState represents various kinds of information."
+@Misc
+script AvatarBodyActionElement
+
+	---@description "The name of AvatarBodyActionState."
+	---@sealed
+	property string AvatarBodyActionStateName
+
+	---@description "Control the speed of the avatar's animation."
+	---@sealed
+	property float PlayRate
+
+	---@description "Initializes AvatarBodyActionElement to the default value."
+	constructor AvatarBodyActionElement() end
+
+	---@description "Initializes AvatarBodyActionElement to the specified value of avatarbodyActionStateName and playRate."
+	constructor AvatarBodyActionElement(string avatarBodyActionStateName, float playRate) end
+
+end

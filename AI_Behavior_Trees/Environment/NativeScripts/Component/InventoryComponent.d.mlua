@@ -1,0 +1,25 @@
+---@description "The component which manages owned items."
+@Component
+script InventoryComponent extends Component
+
+	---@description "Checks whether inventory initialization is complete. InventoryComponent-related functions will work normally after initialization."
+	---@sealed
+	property boolean IsInitialized = false
+
+	---@description "Gets the owned items."
+	---@sealed
+	method table<Item> GetItemList() end
+
+	---@description "Brings the input type item among the owned ones."
+	---@sealed
+	method table<Item> GetItemsWithType(Type itemType) end
+
+	emitter EmitInventoryItemAddedEvent(InventoryItemAddedEvent event) end
+
+	emitter EmitInventoryItemInitEvent(InventoryItemInitEvent event) end
+
+	emitter EmitInventoryItemModifiedEvent(InventoryItemModifiedEvent event) end
+
+	emitter EmitInventoryItemRemovedEvent(InventoryItemRemovedEvent event) end
+
+end

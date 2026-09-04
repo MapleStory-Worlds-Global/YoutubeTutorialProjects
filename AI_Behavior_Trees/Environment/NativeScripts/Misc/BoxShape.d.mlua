@@ -1,0 +1,21 @@
+---@sealed
+---@description "Represents a rectangular shape to be utilized for collision-related functions."
+@Misc
+script BoxShape extends Shape
+
+	---@description "Rotated angle."
+	---@sealed
+	property float Angle
+
+	---@description "The width and height of the rectangle."
+	---@sealed
+	property Vector2 Size
+
+	---@description "Initializes the BoxShape with the specified values."
+	constructor BoxShape(Vector2 position, Vector2 size, float angle) end
+
+	---@description "This is a deprecated constructor."
+	---@deprecated
+	constructor BoxShape(Vector2 size, float angle) end
+
+end

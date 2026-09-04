@@ -1,0 +1,409 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "behaviourtree://b7ec780e-80ee-4f1f-8a47-65fd12fa4fba",
+  "ContentType": "x-mod/behaviourtree",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "behaviourtree://b7ec780e-80ee-4f1f-8a47-65fd12fa4fba",
+      "name": "BossMechanicsDemo",
+      "RootNode": {
+        "startNodeId": "80cc97ea-9b4e-400d-b5ac-439109b67f41",
+        "nodePosition": {
+          "x": -10.09524,
+          "y": 215.61908
+        }
+      },
+      "Blackboard": {
+        "Variables": [
+          {
+            "Name": "bb_attackPos",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          },
+          {
+            "Name": "bb_TargetMelee",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          },
+          {
+            "Name": "bb_IsDead",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": false
+          },
+          {
+            "Name": "bb_warningEntity",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          },
+          {
+            "Name": "bb_moveSpeed",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": 1.2
+          },
+          {
+            "Name": "bb_movePos1",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector3, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": -5.0,
+              "y": 5.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Name": "bb_movePos2",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector3, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": -3.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Name": "bb_movePos3",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector3, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": 3.0,
+              "y": 5.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Name": "bb_warningRadius",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": 2.0
+          },
+          {
+            "Name": "bb_isMethodComplete",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": false
+          },
+          {
+            "Name": "bb_animationDuration",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": 0.0
+          },
+          {
+            "Name": "bb_TargetRange",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          },
+          {
+            "Name": "bb_Target",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          }
+        ]
+      },
+      "Nodes": [
+        {
+          "nodeId": "6e842bdc-5300-4675-925e-b39748b52574",
+          "nodeName": "MoveToTarget",
+          "definitionId": "codeblock://32f3e268-c1dd-44e4-84b0-cac0335c494e",
+          "btNodeType": 0,
+          "nodeParentId": "1ffbbbfa-e640-45d9-a76c-131a0f285649",
+          "nodeProperties": [
+            {
+              "propertyKey": "TargetEntityKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_Target"
+            },
+            {
+              "propertyKey": "ArrivalThreshold",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 0.5
+            },
+            {
+              "propertyKey": "moveToLastKnownPosition",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            }
+          ],
+          "nodePosition": {
+            "x": 10.7631254,
+            "y": -93.99501
+          }
+        },
+        {
+          "nodeId": "1ffbbbfa-e640-45d9-a76c-131a0f285649",
+          "nodeName": "Move and Attack",
+          "definitionId": "SequenceNode",
+          "btNodeType": 1,
+          "nodeParentId": "80cc97ea-9b4e-400d-b5ac-439109b67f41",
+          "nodePosition": {
+            "x": 179.945572,
+            "y": 34.32727
+          },
+          "childNodes": [
+            "6f6ea7d2-3362-4f5a-b091-80f22f104371",
+            "6e842bdc-5300-4675-925e-b39748b52574",
+            "4d5eef30-e346-40f9-87e1-0be5c10ed326",
+            "ffcf3700-fcf0-452b-b6a1-541f8a0a7ded"
+          ]
+        },
+        {
+          "nodeId": "80cc97ea-9b4e-400d-b5ac-439109b67f41",
+          "nodeName": "SelectorNode",
+          "definitionId": "SelectorNode",
+          "btNodeType": 1,
+          "nodeParentId": "",
+          "nodePosition": {
+            "x": -11.1516542,
+            "y": 131.840149
+          },
+          "childNodes": [
+            "ebff2dd0-01d2-45be-971c-3b17a9ec164e",
+            "1ffbbbfa-e640-45d9-a76c-131a0f285649"
+          ]
+        },
+        {
+          "nodeId": "d6317e58-ed25-4012-ab9b-c5c151d96d86",
+          "nodeName": "Wait",
+          "definitionId": "codeblock://c999cab1-2f49-40cf-90da-688e6423e02f",
+          "btNodeType": 0,
+          "nodeParentId": "ebff2dd0-01d2-45be-971c-3b17a9ec164e",
+          "nodeProperties": [
+            {
+              "propertyKey": "WaitTime",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 5.0
+            }
+          ],
+          "nodePosition": {
+            "x": -629.1517,
+            "y": -17.58847
+          }
+        },
+        {
+          "nodeId": "ebff2dd0-01d2-45be-971c-3b17a9ec164e",
+          "nodeName": "BlackboardCondition_Bool",
+          "definitionId": "codeblock://edb7b1e1-8d01-44fa-8544-50f1873d253e",
+          "btNodeType": 2,
+          "nodeParentId": "80cc97ea-9b4e-400d-b5ac-439109b67f41",
+          "nodeProperties": [
+            {
+              "propertyKey": "CompareValue",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            },
+            {
+              "propertyKey": "Key",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_IsDead"
+            },
+            {
+              "propertyKey": "Operator",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 1
+            }
+          ],
+          "decoChildNodes": "d6317e58-ed25-4012-ab9b-c5c151d96d86"
+        },
+        {
+          "nodeId": "fce26d4e-a768-4a3f-ba1b-34152d5bf7d8",
+          "nodeName": "Melee Attack",
+          "definitionId": "codeblock://1683939c-77ea-4a9d-9a8b-eb27cf201c69",
+          "btNodeType": 0,
+          "nodeParentId": "0e142e21-5594-490a-8c31-694bf4649b5b",
+          "nodeProperties": [
+            {
+              "propertyKey": "methodName",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "AttackMelee"
+            }
+          ],
+          "nodePosition": {
+            "x": 64.19967,
+            "y": -232.510254
+          }
+        },
+        {
+          "nodeId": "3a6c2f70-463e-4ce7-99fc-83c3247c2064",
+          "nodeName": "Ranged Attack",
+          "definitionId": "codeblock://1683939c-77ea-4a9d-9a8b-eb27cf201c69",
+          "btNodeType": 0,
+          "nodeParentId": "4d5eef30-e346-40f9-87e1-0be5c10ed326",
+          "nodeProperties": [
+            {
+              "propertyKey": "methodName",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "AttackRange"
+            }
+          ],
+          "nodePosition": {
+            "x": 348.1269,
+            "y": -232.986237
+          }
+        },
+        {
+          "nodeId": "0e142e21-5594-490a-8c31-694bf4649b5b",
+          "nodeName": "HasTarget",
+          "definitionId": "codeblock://7d25952b-19b4-4b22-9ce3-e46f04aedff6",
+          "btNodeType": 2,
+          "nodeParentId": "4d5eef30-e346-40f9-87e1-0be5c10ed326",
+          "nodeProperties": [
+            {
+              "propertyKey": "targetEntityKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_TargetMelee"
+            },
+            {
+              "propertyKey": "compareValue",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            },
+            {
+              "propertyKey": "finishIfStarted",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            }
+          ],
+          "decoChildNodes": "fce26d4e-a768-4a3f-ba1b-34152d5bf7d8"
+        },
+        {
+          "nodeId": "6f6ea7d2-3362-4f5a-b091-80f22f104371",
+          "nodeName": "SetState",
+          "definitionId": "codeblock://46389d4b-9873-4eaf-beef-64ec2286b299",
+          "btNodeType": 0,
+          "nodeParentId": "1ffbbbfa-e640-45d9-a76c-131a0f285649",
+          "nodeProperties": [
+            {
+              "propertyKey": "stateString",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "MOVE"
+            }
+          ],
+          "nodePosition": {
+            "x": -213.450668,
+            "y": -93.17771
+          }
+        },
+        {
+          "nodeId": "ffcf3700-fcf0-452b-b6a1-541f8a0a7ded",
+          "nodeName": "Wait",
+          "definitionId": "codeblock://c999cab1-2f49-40cf-90da-688e6423e02f",
+          "btNodeType": 0,
+          "nodeParentId": "1ffbbbfa-e640-45d9-a76c-131a0f285649",
+          "nodeProperties": [
+            {
+              "propertyKey": "WaitTime",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 2.0
+            }
+          ],
+          "nodePosition": {
+            "x": 423.316223,
+            "y": -87.03746
+          }
+        },
+        {
+          "nodeId": "4d5eef30-e346-40f9-87e1-0be5c10ed326",
+          "nodeName": "SelectorNode",
+          "definitionId": "SelectorNode",
+          "btNodeType": 1,
+          "nodeParentId": "1ffbbbfa-e640-45d9-a76c-131a0f285649",
+          "nodePosition": {
+            "x": 232.798523,
+            "y": -87.06422
+          },
+          "childNodes": [
+            "0e142e21-5594-490a-8c31-694bf4649b5b",
+            "3a6c2f70-463e-4ce7-99fc-83c3247c2064"
+          ]
+        }
+      ]
+    }
+  }
+}

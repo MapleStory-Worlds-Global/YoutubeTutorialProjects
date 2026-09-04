@@ -1,0 +1,32 @@
+---@sealed
+---@description "This event occurs when RigidBodyComponent collides with the foothold."
+@Event
+script FootholdCollisionEvent extends EventType
+
+	---@description "The foothold's Id."
+	---@sealed
+	readonly property int32 FootholdId
+
+	---@description "The normal direction of the footing."
+	---@sealed
+	readonly property Vector2 FootholdNormal
+
+	---@description "Displays the direction that the entity moves upon collision."
+	---@sealed
+	readonly property Vector2 ImpactDir
+
+	---@description "The entity's movement speed upon collision."
+	---@sealed
+	readonly property float ImpactForce
+
+	---@description "The direction the collision is reflected by the foothold."
+	---@sealed
+	readonly property Vector2 ReflectDir
+
+	---@description "The RigidbodyComponent of the generated entity."
+	---@sealed
+	readonly property RigidbodyComponent Rigidbody
+
+	constructor FootholdCollisionEvent(RigidbodyComponent rigidbody = nil, Vector2 impactDir = Vector2(0, 0), float impactForce = 0, Vector2 footholdNormal = Vector2(0, 0), Vector2 reflectDir = Vector2(0, 0), int32 footholdId = 0) end
+
+end

@@ -1,0 +1,22 @@
+---@sealed
+---@description "Represents information for each tile defined in the tile set."
+@Misc
+script RectTileInfo
+
+	---@description "The index number of the tileset that is automatically assigned. It starts at 1. "
+	---@sealed
+	property int32 Index = 0
+
+	---@description "Indicates whether there is a collision. If true, the player cannot pass over tiles."
+	---@sealed
+	property boolean IsCollidable = false
+
+	---@description "The name of the tile."
+	---@sealed
+	property string Name
+
+	---@description "The RUID of the sprite."
+	---@sealed
+	property string SpriteRUID
+
+end

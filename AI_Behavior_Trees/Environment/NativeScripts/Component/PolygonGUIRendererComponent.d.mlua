@@ -1,0 +1,35 @@
+---@description "This feature allows you to draw polygons in UI."
+@Component
+script PolygonGUIRendererComponent extends Component
+
+	---@description "The color of the polygon."
+	---@sealed
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "The group of dots that form a polygon."
+	---@sealed
+	property SyncList<Vector2> Points
+
+	---@description "Sets the vertex's UV. It must have the same length as Points."
+	---@sealed
+	property SyncList<Vector2> UVs
+
+	---@description "If true, the UV value ​​set in the UVs is applied to the shape."
+	---@sealed
+	property boolean UseCustomUVs = false
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Connect dots saved in Points property to see if they make up a polygon. The polygon will not be completed if any lines cross with one another."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsDrawable() end
+
+end

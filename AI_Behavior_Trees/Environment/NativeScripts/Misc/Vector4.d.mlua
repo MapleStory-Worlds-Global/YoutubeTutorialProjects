@@ -1,0 +1,121 @@
+---@sealed
+---@description "A four-dimensional vector."
+@Misc
+script Vector4
+
+	---@description "You can simply use Vector4(-inf, -inf, -inf, -inf)."
+	static readonly property Vector4 negativeInfinity
+
+	---@description "You can simply use Vector4(1, 1, 1, 1)."
+	static readonly property Vector4 one
+
+	---@description "You can simply use Vector4(inf, inf, inf, inf)."
+	static readonly property Vector4 positiveInfinity
+
+	---@description "The w-axis value of the Vector."
+	---@sealed
+	property float w
+
+	---@description "The x-axis value of the vector."
+	---@sealed
+	property float x
+
+	---@description "The y-axis value of the vector."
+	---@sealed
+	property float y
+
+	---@description "The z-axis value of the vector."
+	---@sealed
+	property float z
+
+	---@description "You can simply use Vector4(0, 0, 0, 0)."
+	static readonly property Vector4 zero
+
+	---@description "Initializes Vector4 to the specified value."
+	constructor Vector4(float x, float y, float z, float w) end
+
+	---@description "Finds the distance between two vectors."
+	static method float Distance(Vector4 a, Vector4 b) end
+
+	---@description "Finds the distance between two vectors."
+	---@sealed
+	method float Distance(Vector4 b) end
+
+	---@description "Finds the inner product of two vectors."
+	static method float Dot(Vector4 a, Vector4 b) end
+
+	---@description "Finds the inner product of two vectors."
+	---@sealed
+	method float Dot(Vector4 b) end
+
+	---@description "Creates a Vector4 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	static method Vector4 Lerp(Vector4 a, Vector4 b, float t) end
+
+	---@description "Creates a Vector4 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	---@sealed
+	method Vector4 Lerp(Vector4 b, float t) end
+
+	---@description "Creates a Vector4 entity that linearly interpolates two Vectors with t and then returns it."
+	static method Vector4 LerpUnclamped(Vector4 a, Vector4 b, float t) end
+
+	---@description "Creates a Vector4 entity that linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method Vector4 LerpUnclamped(Vector4 b, float t) end
+
+	---@description "Finds the size of a vector."
+	static method float Magnitude(Vector4 a) end
+
+	---@description "Finds the size of a vector."
+	---@sealed
+	method float Magnitude() end
+
+	---@description "Finds the Vector that has the same direction and a size of 1."
+	static method Vector4 Normalize(Vector4 a) end
+
+	---@description "Finds the Vector that has the same direction and a size of 1."
+	---@sealed
+	method Vector4 Normalize() end
+
+	---@description "Creates the Vector4 entity, which projects a with b, and returns it."
+	static method Vector4 Project(Vector4 a, Vector4 b) end
+
+	---@description "Finds the Vector projected by Vector into b."
+	---@sealed
+	method Vector4 Project(Vector4 b) end
+
+	---@description "Finds the square of the size of a Vector."
+	static method float SqrMagnitude(Vector4 a) end
+
+	---@description "Finds the square of the size of a Vector."
+	---@sealed
+	method float SqrMagnitude() end
+
+	---@description "Checks if the two values are different. Returns false if they're the same. Otherwise, true."
+	static operator boolean Inequality(Vector4 left, Vector4 right) end
+
+	---@description "Returns a new Vector4 entity by multiplying the vector by a real number."
+	static operator Vector4 Multiply(Vector4 left, float right) end
+
+	---@description "Returns a new Vector4 entity by multiplying the vector by a real number."
+	static operator Vector4 Multiply(float left, Vector4 right) end
+
+	---@description "Returns a new Vector4 entity obtained by adding two vectors."
+	static operator Vector4 Addition(Vector4 left, Vector4 right) end
+
+	---@description "Returns a new Vector4 entity that represents a reversed vector."
+	static operator Vector4 UnaryNegation(Vector4 value) end
+
+	---@description "Returns a new Vector4 entity obtained by subtracting two vectors."
+	static operator Vector4 Subtraction(Vector4 left, Vector4 right) end
+
+	---@description "Returns a new Vector4 entity by dividing the vector by a real number."
+	static operator Vector4 Division(Vector4 left, float right) end
+
+	---@description "Checks if the two vectors are the same. Returns true if they're the same. Otherwise, returns false."
+	static operator boolean Equality(Vector4 left, Vector4 right) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method Vector4 Clone() end
+
+end

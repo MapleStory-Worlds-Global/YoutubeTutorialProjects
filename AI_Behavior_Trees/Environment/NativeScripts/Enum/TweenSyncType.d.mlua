@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates how to operate TweenComponent."
+@Enum
+script TweenSyncType
+	---@description "TweenComponent works on each client."
+	member ClientOnly = 1
+	---@description "TweenComponent works on the server and syncs to all clients."
+	member Default = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method TweenSyncType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TweenSyncType CastFrom(string value) end
+end

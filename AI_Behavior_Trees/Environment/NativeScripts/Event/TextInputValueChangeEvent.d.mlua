@@ -1,0 +1,12 @@
+---@sealed
+---@description "The event occurs when changing the value of InputField."
+@Event
+script TextInputValueChangeEvent extends EventType
+
+	---@description "Changed text."
+	---@sealed
+	property string text
+
+	constructor TextInputValueChangeEvent(string text = nil) end
+
+end

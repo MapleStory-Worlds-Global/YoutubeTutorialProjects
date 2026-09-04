@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates the data format contained in the Content sent by the Http request."
+@Enum
+script HttpContentType
+	---@description "The content is in string/json format."
+	member ApplicationJson = 0
+	---@description "The content is in URL-encoded format."
+	member ApplicationUrlEncoded = 1
+	---@description "The content is in utf8 string format."
+	member TextPlain = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method HttpContentType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method HttpContentType CastFrom(string value) end
+end

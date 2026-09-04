@@ -1,0 +1,17 @@
+---@sealed
+---@description "Identifies the avatar's attack behavior."
+@Enum
+script MapleAvatarWeaponPoseType
+	---@description "This is the default. Not used."
+	member Invalid = 0
+	---@description "Outputs a lying down attack action."
+	member Prone = 1
+	---@description "Outputs a standing attack action."
+	member Stand = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method MapleAvatarWeaponPoseType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MapleAvatarWeaponPoseType CastFrom(string value) end
+end

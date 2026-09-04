@@ -1,0 +1,88 @@
+@Component
+script BossProjectile extends Component
+	property number moveSpeed = 3
+	property number flyDuration = 1
+
+	@HideFromInspector
+	property ProjectileAttackComponent attackComp = nil
+	@HideFromInspector
+	property AttackInfo attackInfo = nil
+	@HideFromInspector
+	property boolean isDead = false
+
+	method void Init(AttackInfo info)
+		-- Add Boolean and calculate fly duration based on animation time. 
+		self.attackComp = self.Entity.ProjectileAttackComponent
+		self.attackComp:Init(info.Damage) -- Set Damage Value
+		self.attackInfo = info
+
+		local myRUID = self.Entity.SpriteRendererComponent.SpriteRUID
+		self.flyDuration = _SpriteUtils:GetAnimationLength(myRUID, 1, 999)
+
+	end
+
+	method void Launch(Vector2 targetPos)
+		local transform = self.Entity.TransformComponent
+		local moveSpeed = self.moveSpeed
+		local delta = 1/30
+		local elapsedTime = 0
+		local flyTimer = 0
+
+		local moveFunc = function()
+			if isvalid(transform) then
+				local currentPos = transform.WorldPosition:ToVector2()
+				local hasReachedTarget = _MathUtils:DistanceSquared(currentPos, targetPos) < 0.25
+				if hasReachedTarget or elapsedTime >= self.flyDuration then
+					_TimerService:ClearTimer(flyTimer)
+					self:Explode()
+					return
+				end
+				
+				local dir = (targetPos - currentPos):Normalize() * moveSpeed * delta
+				transform:Translate(dir.x, dir.y)
+				elapsedTime = elapsedTime + delta
+			end
+		end
+
+		flyTimer = _TimerService:SetTimerRepeat(moveFunc, delta, 0)
+	end
+
+	method void Explode()
+		--Hide Sprite
+		self.Entity:SetVisible(false)
+		--Play Explode Effect
+		local myPos = self.Entity.TransformComponent.WorldPosition:ToVector2()
+		local spriteSize = _SpriteUtils:GetSpriteAnimSize(self.attackInfo.effectRUID, Vector2.zero, 1)["SIZE"]
+		local explosionRadius = spriteSize.x * 0.5 --Calculate Radius based on Explosion Sprite
+		_EffectService:PlayEffect(self.attackInfo.effectRUID, self.Entity, myPos:ToVector3(), 0, Vector3.one)
+		--Deal Damage
+		if isvalid(self.attackComp) then
+			
+			self.attackComp:AttackFast(CircleShape(myPos, explosionRadius), "", CollisionGroups.Player)
+		end
+		self.isDead = true
+		_PoolManager:Release(self.Entity)
+	end
+
+	method void Reset()
+		self.isDead = false
+		self.Entity:SetVisible(true)
+	end
+
+	@EventSender("Self")
+	handler OnTriggerEnter(TriggerEnterEvent event)
+		if self.isDead then
+			return
+		end
+
+		local playerComp = event.TriggerBodyEntity.PlayerComponent
+		if isvalid(playerComp) then
+			self:Explode()
+		end
+	end
+
+	@EventSender("Self")
+	handler OnPoolRelease(OnPoolRelease event)
+		self:Reset()
+	end
+end

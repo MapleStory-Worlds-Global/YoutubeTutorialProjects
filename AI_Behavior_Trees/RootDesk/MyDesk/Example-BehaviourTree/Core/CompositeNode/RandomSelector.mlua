@@ -1,0 +1,20 @@
+@BTNode
+script RandomSelector extends CompositeNode
+
+	method any OnBehave(number delta)
+		-- Grab Current Index Value
+		local curIndex = self._T.randSequence
+		
+		-- Run Active Child Node
+		return self:ChildBehave(curIndex, delta)
+		
+	end
+
+	method void OnInit()
+		local newSequence = self._T.randSequence
+		repeat
+			newSequence = _UtilLogic:RandomIntegerRange(1, self.ChildCount)
+		until newSequence ~= self._T.randSequence
+		self._T.randSequence = newSequence
+	end
+end

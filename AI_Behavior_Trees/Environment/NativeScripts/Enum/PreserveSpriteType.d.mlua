@@ -1,0 +1,17 @@
+---@sealed
+---@description "Defines how the image is scaled, sized, and pivoted."
+@Enum
+script PreserveSpriteType
+	---@description "No retention is set. The size is set according to the RectSize of UITransformComponent."
+	member None = 0
+	---@description "Resizes and positions the original image while maintaining its proportions."
+	member AspectOnly = 1
+	---@description "Sets the position using the original image size as it is."
+	member NativeSize = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method PreserveSpriteType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method PreserveSpriteType CastFrom(string value) end
+end

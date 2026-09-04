@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs after setting the target model of an entity."
+@Event
+script EntityPostModelSetEvent extends EventType
+
+	---@description "A model that has been set."
+	---@sealed
+	property Model Model
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostModelSetEvent(Entity entity = nil, Model model = nil) end
+
+end

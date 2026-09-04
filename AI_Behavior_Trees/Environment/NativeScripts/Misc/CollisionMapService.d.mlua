@@ -1,0 +1,17 @@
+---@sealed
+---@description "This type is deprecated. Use CollisionSimulator."
+---@deprecated
+@Misc
+script CollisionMapService
+
+	---@description "This function is deprecated. Use the OverlapBoxAll property of CollisionSimulator."
+	---@deprecated
+	---@sealed
+	method List<Component> OverlapBox(string name, Vector2 position, Vector2 size) end
+
+	---@description "This function is deprecated. Use the OverlapPointAll property of CollisionSimulator."
+	---@deprecated
+	---@sealed
+	method List<Component> RaycastAll(string name, Vector2 position) end
+
+end

@@ -1,0 +1,19 @@
+---@sealed
+---@description "Indicates how the image is displayed in ImageComponent."
+@Enum
+script ImageType
+	---@description "Outputs the original image."
+	member Simple = 0
+	---@description "The sprite slice area is reflected and output. Outputs without distortion when the image is resized."
+	member Sliced = 1
+	---@description "Prints the image repeatedly. Repeats the same image as a tile."
+	member Tiled = 2
+	---@description "Prints only a specific part of the image in an area."
+	member Filled = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method ImageType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ImageType CastFrom(string value) end
+end

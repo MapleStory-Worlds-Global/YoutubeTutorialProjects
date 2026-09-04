@@ -1,0 +1,69 @@
+---@description "An array of dynamic size. It's possible to access elements with a 1-based index and provide functions to add, remove, and search data. V represents the data type that can be added to the array."
+@Misc
+script List<V>
+
+	---@description "Gets the number of elements in the List."
+	---@sealed
+	readonly property number Count
+
+	---@description "Checks whether the List contains an element."
+	---@sealed
+	method boolean Contains(V item) end
+
+	---@description "Returns the index of the first element in the List."
+	---@sealed
+	method number IndexOf(V item) end
+
+	---@description "Generates a table with the elements included in the List."
+	---@sealed
+	method table ToTable() end
+
+	---@description "Adds an element to the end of the List."
+	---@sealed
+	method void Add(V item) end
+
+	---@description "Adds the table element to the end of the List."
+	---@sealed
+	method void AddRange(table items) end
+
+	---@description "Removes all elements in the List."
+	---@sealed
+	method void Clear() end
+
+	---@description "Inserts an element into the List at the specified index."
+	---@sealed
+	method void Insert(number index, V item) end
+
+	---@description "Returns the index of the last element in the List."
+	---@sealed
+	method number LastIndexOf(V item) end
+
+	---@description "Removes the first occurrence of the specific element in the List."
+	---@sealed
+	method boolean Remove(V item) end
+
+	---@description "Removes the element at the specified index from the List."
+	---@sealed
+	method void RemoveAt(number index) end
+
+	---@description "Removes the element from the List according to the specified range."
+	---@sealed
+	method void RemoveRange(number index, number count) end
+
+	---@description "Generates a table with the elements from the List according to the specified range."
+	---@sealed
+	method table<V> GetRange(number index, number count) end
+
+	---@description "Reverses the order of elements in a List."
+	---@sealed
+	method void Reverse() end
+
+	---@description "Reverses the order of elements within the specified range."
+	---@sealed
+	method void Reverse(number index, number count) end
+
+	---@description "Arranges all elements of the List."
+	---@sealed
+	method void Sort() end
+
+end

@@ -1,0 +1,208 @@
+---@sealed
+---@description "A two-dimensional vector."
+@Misc
+script Vector2
+
+	---@description "You can simply use Vector2(0, -1)."
+	static readonly property Vector2 down
+
+	---@description "You can simply use Vector2(-1, 0)."
+	static readonly property Vector2 left
+
+	---@description "You can simply use Vector2(-inf, -inf). "
+	static readonly property Vector2 negativeInfinity
+
+	---@description "You can simply use Vector2(1, 1)."
+	static readonly property Vector2 one
+
+	---@description "You can simply use Vector2(inf, inf). "
+	static readonly property Vector2 positiveInfinity
+
+	---@description "You can simply use Vector2(1, 0)."
+	static readonly property Vector2 right
+
+	---@description "You can simply use Vector2(0, 1)."
+	static readonly property Vector2 up
+
+	---@description "The x-axis value of the vector."
+	---@sealed
+	property float x
+
+	---@description "The y-axis value of the vector."
+	---@sealed
+	property float y
+
+	---@description "You can simply use Vector2(0, 0)."
+	static readonly property Vector2 zero
+
+	---@description "Initializes Vector2 to the specified value."
+	constructor Vector2(float x, float y) end
+
+	---@description "Finds the angle between two vectors. Returns a value between 0 and 180."
+	static method float Angle(Vector2 a, Vector2 b) end
+
+	---@description "Finds the angle between two vectors. Returns a value between 0 and 180."
+	---@sealed
+	method float Angle(Vector2 b) end
+
+	---@description "Creates a Vector2Int entity with the value rounded up for each element and then returns it."
+	static method Vector2Int CeilToInt(Vector2 a) end
+
+	---@description "Creates a Vector2Int Entity composed of the value that rounds up each element, and then returns it."
+	---@sealed
+	method Vector2Int CeilToInt() end
+
+	---@description "Finds the distance between two vectors."
+	static method float Distance(Vector2 a, Vector2 b) end
+
+	---@description "Finds the distance between two vectors."
+	---@sealed
+	method float Distance(Vector2 b) end
+
+	---@description "Finds the inner product of two vectors."
+	static method float Dot(Vector2 a, Vector2 b) end
+
+	---@description "Finds the inner product of two vectors."
+	---@sealed
+	method float Dot(Vector2 b) end
+
+	---@description "Creates a Vector2Int entity with the value rounded down for each element and then returns it."
+	static method Vector2Int FloorToInt(Vector2 a) end
+
+	---@description "Creates a Vector2Int Entity composed of the value that rounds down each element, and then returns it."
+	---@sealed
+	method Vector2Int FloorToInt() end
+
+	---@description "Creates Vector2 having the value using linear interpolation with t between two Vectors and then returns it."
+	static method Vector2 Lerp(Vector2 a, Vector2 b, float t) end
+
+	---@description "Creates Vector2 having the value using linear interpolation with t between two Vectors and then returns it."
+	---@sealed
+	method Vector2 Lerp(Vector2 b, float t) end
+
+	---@description "Creates a Vector2 entity that linearly interpolates two Vectors with t and then returns it."
+	static method Vector2 LerpUnclamped(Vector2 a, Vector2 b, float t) end
+
+	---@description "Creates a Vector2 entity that linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method Vector2 LerpUnclamped(Vector2 b, float t) end
+
+	---@description "Finds the size of a vector."
+	static method float Magnitude(Vector2 a) end
+
+	---@description "Finds the size of a vector."
+	---@sealed
+	method float Magnitude() end
+
+	---@description "Creates the Vector2 entity with the same direction and size of 1 and then returns it."
+	static method Vector2 Normalize(Vector2 a) end
+
+	---@description "Creates the Vector2 entity with the same direction and size of 1 and then returns it."
+	---@sealed
+	method Vector2 Normalize() end
+
+	---@description "Creates a Vector2 entity by rotating the Vector by 90 degrees counterclockwise and then returns it."
+	static method Vector2 Perpendicular(Vector2 a) end
+
+	---@description "Creates a Vector2 entity by rotating the Vector by 90 degrees counterclockwise and then returns it."
+	---@sealed
+	method Vector2 Perpendicular() end
+
+	---@description "Creates a Vector2 entity, which projected a to b, and returns it."
+	static method Vector2 Project(Vector2 a, Vector2 b) end
+
+	---@description "Creates a Vector2 entity, which projected Vector to b and returns it."
+	---@sealed
+	method Vector2 Project(Vector2 b) end
+
+	---@description "Creates a Vector2 entity, which reflects the Vector on the normal, and returns it."
+	static method Vector2 Reflect(Vector2 vector, Vector2 normal) end
+
+	---@description "Creates a Vector2 entity, which reflected Vector on the normal, and returns it."
+	---@sealed
+	method Vector2 Reflect(Vector2 normal) end
+
+	---@description "Creates a Vector2Int entity with the value rounded off for each element and then returns it."
+	static method Vector2Int RoundToInt(Vector2 a) end
+
+	---@description "Creates a Vector2Int entity with the value rounded off for each element and then returns it."
+	---@sealed
+	method Vector2Int RoundToInt() end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	static method float SignedAngle(Vector2 from, Vector2 to) end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	---@sealed
+	method float SignedAngle(Vector2 to) end
+
+	---@description "Creates a Vector2 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	static method Vector2 Slerp(Vector2 a, Vector2 b, float t) end
+
+	---@description "Creates a Vector2 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	---@sealed
+	method Vector2 Slerp(Vector2 b, float t) end
+
+	---@description "Creates a Vector2 entity that spherical-linearly interpolates two Vectors with t and then returns it."
+	static method Vector2 SlerpUnclamped(Vector2 a, Vector2 b, float t) end
+
+	---@description "Creates a Vector2 entity that spherical-linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method Vector2 SlerpUnclamped(Vector2 b, float t) end
+
+	---@description "Finds the square of the size of a Vector."
+	static method float SqrMagnitude(Vector2 a) end
+
+	---@description "Finds the square of the size of a Vector."
+	---@sealed
+	method float SqrMagnitude() end
+
+	---@description "Creates a Vector2Int entity with the value rounded down for each element and then returns it."
+	static method Vector2Int ToVector2Int(Vector2 a) end
+
+	---@description "Creates a Vector2Int entity with the value rounded down for each element and then returns it."
+	---@sealed
+	method Vector2Int ToVector2Int() end
+
+	---@description "Creates the Vector3 entity with x and y elements and z=0, and then returns it."
+	static method Vector3 ToVector3(Vector2 a) end
+
+	---@description "Creates a Vector3 entity with x and y elements and z=0, and then returns it."
+	---@sealed
+	method Vector3 ToVector3() end
+
+	---@description "Checks if the two vectors are different. Returns false if they're the same. Otherwise, returns true."
+	static operator boolean Inequality(Vector2 left, Vector2 right) end
+
+	---@description "Returns a new Vector2 entity by multiplying the same value. The calculation result is Vector2(left.x * right.x, left.y * right.y)."
+	static operator Vector2 Multiply(Vector2 left, Vector2 right) end
+
+	---@description "Returns a new Vector2 entity by multiplying the vector by a real number."
+	static operator Vector2 Multiply(Vector2 left, float right) end
+
+	---@description "Returns a new Vector2 entity by multiplying the vector by a real number."
+	static operator Vector2 Multiply(float left, Vector2 right) end
+
+	---@description "Returns a new Vector2 entity obtained by adding two vectors."
+	static operator Vector2 Addition(Vector2 left, Vector2 right) end
+
+	---@description "Returns a new Vector2 entity that represents a reversed vector."
+	static operator Vector2 UnaryNegation(Vector2 value) end
+
+	---@description "Returns a new Vector2 entity obtained by subtracting two vectors."
+	static operator Vector2 Subtraction(Vector2 left, Vector2 right) end
+
+	---@description "Returns a new Vector2 entity by dividing the same value. The calculation result is Vector2(left.x / right.x, left.y / right.y)."
+	static operator Vector2 Division(Vector2 left, Vector2 right) end
+
+	---@description "Returns a new Vector2 entity by dividing the vector by a real number."
+	static operator Vector2 Division(Vector2 left, float right) end
+
+	---@description "Checks if the two vectors are the same. Returns true if they're the same. Otherwise, returns false."
+	static operator boolean Equality(Vector2 left, Vector2 right) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method Vector2 Clone() end
+
+end

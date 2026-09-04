@@ -1,0 +1,38 @@
+@BTNode
+script ExecuteMethod extends ActionNode
+
+	property string methodName = ""
+
+	property string methodIsCompleteKey = "bb_isMethodComplete"
+
+	method void OnInit()
+		if isvalid(self.ParentAI[self.methodName]) then
+			self:SendExecutionEvt()
+		else
+			log_warning("ExecuteMethod: Method not found - " .. self.methodName)
+		end
+	end
+
+	method any OnBehave(number delta)
+		if isvalid(self.ParentAI[self.methodName]) == false then
+			log_warning("ExecuteMethod: Method not found - " .. self.methodName)
+			return BehaviourTreeStatus.Failure
+		end
+
+		--self.ParentAI[self.methodName](self.ParentAI, self._T.elapsed)
+		local isComplete = self.ParentAI.BlackBoard:GetBool(self.methodIsCompleteKey)
+		if isComplete then
+			return BehaviourTreeStatus.Success
+		else
+			return BehaviourTreeStatus.Running
+		end
+		
+	end
+
+	method void SendExecutionEvt()
+		local evt = OnMethodExecuted()
+		evt.methodName = self.methodName
+		self.ParentAI.Entity:SendEvent(evt)
+	end
+
+end

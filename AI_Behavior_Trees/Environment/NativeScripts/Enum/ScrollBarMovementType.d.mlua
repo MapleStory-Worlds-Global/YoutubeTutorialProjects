@@ -1,0 +1,15 @@
+---@sealed
+---@description "Sets the action method when the scroll bar leaves the boundary."
+@Enum
+script ScrollBarMovementType
+	---@description "The scroll bar will be pulled and then spring back to its original position when it leaves the boundary."
+	member Elastic = 1
+	---@description "The scroll bar doesn't move past the boundary and stops moving."
+	member Clamped = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method ScrollBarMovementType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ScrollBarMovementType CastFrom(string value) end
+end

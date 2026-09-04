@@ -1,0 +1,4 @@
+@Event
+script BehaviorTreeEvent extends EventType
+
+end

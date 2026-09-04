@@ -1,0 +1,130 @@
+---@description "You can control the components related to the scroll view as one."
+@Component
+script ScrollLayoutGroupComponent extends Component
+
+	---@description "Fixed size of child UI Entity. Grid type only."
+	---@sealed
+	property Vector2 CellSize = Vector2(100.000, 100.000)
+
+	---@description "Set the alignment direction of the child UI Entity if the Entity has free space. For Vertical and Grid types only."
+	---@sealed
+	property ChildAlignmentType ChildAlignment = ChildAlignmentType.UpperLeft
+
+	---@description "Constraints on the number of rows and columns. Grid type only."
+	---@sealed
+	property GridLayoutConstraint Constraint
+
+	---@description "The number of rows or columns to freeze based on the constraint. Grid type only."
+	---@sealed
+	property int32 ConstraintCount = 1
+
+	---@description "Sets the alignment direction of the child UI Entity if the Entity has free space. For Grid type only."
+	---@sealed
+	property ChildAlignmentType GridChildAlignment = ChildAlignmentType.UpperLeft
+
+	---@description "Horizontal and vertical spacing between child UI Entities. Grid type only."
+	---@sealed
+	property Vector2 GridSpacing
+
+	---@sealed
+	property HorizontalScrollBarDirection HorizontalDirection = HorizontalScrollBarDirection.LeftToRight
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "Determines whether to set the SortingLayer and OrderInLayer values manually."
+	---@sealed
+	@Sync
+	property boolean OverrideSorting = false
+
+	---@description "Sets the free space on the top, bottom, left, and right of the layout group."
+	---@sealed
+	property RectOffset Padding
+
+	---@description "Determines whether to reverse the existing sort. For Vertical and Horizontal types only."
+	---@sealed
+	property boolean ReverseArrangement
+
+	---@sealed
+	property Color BackgroundColor = Color(1.000, 1.000, 1.000, 0.400)
+
+	---@sealed
+	property DataRef BackgroundImageRUID
+
+	---@sealed
+	property Color HandleColor = Color(0.500, 0.500, 0.500, 1.000)
+
+	---@sealed
+	property DataRef HandleImageRUID
+
+	---@sealed
+	property ScrollBarMovementType MovementType = ScrollBarMovementType.Elastic
+
+	---@sealed
+	property float Thickness = 20
+
+	---@sealed
+	property ScrollBarVisibility Visible = ScrollBarVisibility.AlwaysShow
+
+	---@description "When two or more entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "UI"
+
+	---@description "The spacing between child UI Entities. For Vertical and Horizontal types only."
+	---@sealed
+	property float Spacing
+
+	---@description "The alignment direction of the child UI Entity. Grid type only."
+	---@sealed
+	property GridLayoutAxis StartAxis
+
+	---@description "The starting position of the child UI Entity's alignment. Grid type only."
+	---@sealed
+	property GridLayoutCorner StartCorner
+
+	---@description "Sets the sort format of the layout group."
+	---@sealed
+	property LayoutGroupType Type = LayoutGroupType.Horizontal
+
+	---@description "Sets whether to use the scroll function."
+	---@sealed
+	property boolean UseScroll = true
+
+	---@sealed
+	property VerticalScrollBarDirection VerticalDirection = VerticalScrollBarDirection.BottomToTop
+
+	---@description "Returns the normalized position of the scroll bar."
+	---@sealed
+	method Vector2 GetScrollNormalizedPosition() end
+
+	---@description "Returns the normalized position of the specified directional scroll bar."
+	---@sealed
+	method float GetScrollNormalizedPosition(UITransformAxis axis) end
+
+	---@description "Moves the position of the scroll bar on the specified axis to the first position. The initial position depends on the direction of the scroll bar."
+	---@sealed
+	method void ResetScrollPosition(UITransformAxis axis) end
+
+	---@description "Moves the position of the scroll bar on the specified axis to the designated normalized position. The direction of 0 and 1 is different depending on the direction of the scroll bar."
+	---@sealed
+	method void SetScrollNormalizedPosition(UITransformAxis axis, float value) end
+
+	---@description "Moves the scroll bar to a position where the child UI Entity at a specific index is visible."
+	---@sealed
+	method void SetScrollPositionByItemIndex(int32 index) end
+
+	emitter EmitScrollPositionChangedEvent(ScrollPositionChangedEvent event) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

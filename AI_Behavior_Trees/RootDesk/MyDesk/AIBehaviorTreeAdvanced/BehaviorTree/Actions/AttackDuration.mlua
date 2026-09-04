@@ -1,0 +1,42 @@
+@BTNode
+script AttackDuration extends ActionNode
+	property string radiusIDKey = "bb_warningRadius"
+	property string attackPosKey = ""
+	method void OnInit()
+
+	end
+
+	method any OnBehave(number delta)
+		
+		local entity = self.ParentAI.Entity
+		if isvalid(entity) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local attackComp = entity.AttackComponent
+		if isvalid(attackComp) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local transform = entity.TransformComponent
+		if isvalid(transform) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local radius = self.ParentAI.BlackBoard:GetNumber(self.radiusIDKey)
+		if isvalid(radius) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local attackPos = transform.WorldPosition:ToVector2()
+		if _UtilLogic:IsNilorEmptyString(self.attackPosKey) == false then
+			attackPos = self.ParentAI.BlackBoard:GetVector2(self.attackPosKey)
+		end
+
+		local shape = CircleShape(attackPos, radius)
+		attackComp:AttackFast(shape, nil, CollisionGroups.Player)
+
+		return BehaviourTreeStatus.Success
+		
+	end
+end

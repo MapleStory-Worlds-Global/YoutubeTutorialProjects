@@ -1,0 +1,16 @@
+---@sealed
+---@description "Vibrates the mobile device. It can be called when the vibration function is supported in the mobile device and the user device."
+@Service
+script MobileVibratorService extends Service
+
+	---@description "Returns whether the device supports a vibration function."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsHWSupported() end
+
+	---@description "Vibrates the mobile device."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Vibrate() end
+
+end

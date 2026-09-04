@@ -1,0 +1,22 @@
+---@sealed
+---@description "Provides a timer function that can call a function after a certain period of time or call it repeatedly."
+@Service
+script TimerService extends Service
+
+	---@description "Destroys the timer."
+	---@sealed
+	method void ClearTimer(integer id) end
+
+	---@description "Sets a timer that calls the function passed to callback at a specific moment. The scriptable passes the owner of the action to reserve. The action's owner can be logic or component."
+	---@sealed
+	method integer SetTimer(IScriptable scriptable, func callback, float intervalSeconds, boolean isRepeat, float startDelaySeconds = 0) end
+
+	---@description "Calls the function passed to callback after delaySeconds. Returns the timer's id if the reservation is successful; if not, returns 0."
+	---@sealed
+	method integer SetTimerOnce(func callback, float delaySeconds) end
+
+	---@description "Repeatedly calls the function passed to callback after startDelaySeconds, once every intervalSeconds. Returns the timer's Id if the reservation is successful; if not, returns 0."
+	---@sealed
+	method integer SetTimerRepeat(func callback, float intervalSeconds, float startDelaySeconds = 0) end
+
+end

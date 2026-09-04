@@ -1,0 +1,21 @@
+---@description "An array of dynamic size. It's possible to access elements with a 1-based index and provide functions to add, remove, and search data. V represents a data type that can be added to an array."
+@Misc
+script ReadOnlyList<V>
+
+	---@description "Loads the number of elements in the List."
+	---@sealed
+	readonly property number Count
+
+	---@description "Checks whether the List contains an element."
+	---@sealed
+	method boolean Contains(V item) end
+
+	---@description "Searches for the element from the beginning of the List and returns the index of the first element found. Returns 0 if not found."
+	---@sealed
+	method number IndexOf(V item) end
+
+	---@description "Returns a duplicate of the List as a lua table type."
+	---@sealed
+	method table ToTable() end
+
+end

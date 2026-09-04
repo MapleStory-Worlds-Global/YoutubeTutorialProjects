@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when changing the Component's OrderInLayer."
+@Event
+script OrderInLayerChangedEvent extends EventType
+
+	---@description "Changed OrderInLayer."
+	---@sealed
+	property int32 OrderInLayer
+
+	constructor OrderInLayerChangedEvent(int32 orderInLayer = 0) end
+
+end

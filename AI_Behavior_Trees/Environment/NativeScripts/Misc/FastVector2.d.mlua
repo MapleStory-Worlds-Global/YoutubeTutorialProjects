@@ -1,0 +1,238 @@
+---@description "A two-dimensional vector."
+@Misc
+script FastVector2
+
+	---@description "The x-axis value of the vector."
+	---@sealed
+	property number x
+
+	---@description "The y-axis value of the vector."
+	---@sealed
+	property number y
+
+	---@description "You can simply use FastVector2(0, -1)."
+	static readonly property FastVector2 down
+
+	---@description "You can simply use FastVector2(-1, 0)."
+	static readonly property FastVector2 left
+
+	---@description "You can simply use FastVector2(-inf, -inf). "
+	static readonly property FastVector2 negativeInfinity
+
+	---@description "You can simply use FastVector2(1, 1)."
+	static readonly property FastVector2 one
+
+	---@description "You can simply use FastVector2(inf, inf). "
+	static readonly property FastVector2 positiveInfinity
+
+	---@description "You can simply use FastVector2(1, 0)."
+	static readonly property FastVector2 right
+
+	---@description "You can simply use FastVector2(0, 1)."
+	static readonly property FastVector2 up
+
+	---@description "You can simply use FastVector2(0, 0)."
+	static readonly property FastVector2 zero
+
+	---@description "Reset FastVector2 to the specified value."
+	constructor FastVector2(number x, number y) end
+
+	---@description "Reset FastVector2 to the specified value."
+	constructor FastVector2(Vector2 vector2) end
+
+	---@description "Finds the angle between two vectors. Returns a value between 0 and 180."
+	---@sealed
+	method number Angle(FastVector2 b) end
+
+	---@description "Creates a FastVector2 entity composed of the value that rounds up each element, then returns it."
+	---@sealed
+	method FastVector2 CeilToInt() end
+
+	---@description "Generates a copy."
+	---@sealed
+	method FastVector2 Clone() end
+
+	---@description "Finds the distance between two vectors."
+	---@sealed
+	method number Distance(FastVector2 b) end
+
+	---@description "Finds the inner product of two vectors."
+	---@sealed
+	method number Dot(FastVector2 b) end
+
+	---@description "Creates a FastVector2 entity composed of the value that rounds down each element, then returns it."
+	---@sealed
+	method FastVector2 FloorToint() end
+
+	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	---@sealed
+	method FastVector2 Lerp(FastVector2 b, number t) end
+
+	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method FastVector2 LerpUnclamped(FastVector2 b, number t) end
+
+	---@description "Finds the size of a vector."
+	---@sealed
+	method number Magnitude() end
+
+	---@description "Creates the FastVector2 entity with the same direction and size of 1 and then returns it."
+	---@sealed
+	method FastVector2 Normalize() end
+
+	---@description "Creates a FastVector2 entity by rotating the Vector by 90 degrees counterclockwise and then returns it."
+	---@sealed
+	method FastVector2 Perpendicular() end
+
+	---@description "Creates a FastVector2 entity, which projects Vector with b and then returns it."
+	---@sealed
+	method FastVector2 Project(FastVector2 b) end
+
+	---@description "Creates a FastVector2 entity, which reflects the Vector on the normal and then returns it."
+	---@sealed
+	method FastVector2 Reflect(FastVector2 normal) end
+
+	---@description "Creates a FastVector2 entity with the value rounded off for each element and then returns it."
+	---@sealed
+	method FastVector2 RoundToInt() end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	---@sealed
+	method number SignedAngle(FastVector2 to) end
+
+	---@description "Creates a FastVector2 entity that spherical-linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	---@sealed
+	method FastVector2 Slerp(FastVector2 b, number t) end
+
+	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method FastVector2 SlerpUnclamped(FastVector2 b, number t) end
+
+	---@description "Finds the square of the size of a Vector."
+	---@sealed
+	method number SqrMagnitude() end
+
+	---@description "Creates a FastVector2 entity composed of the value that rounds down each element, then returns it."
+	---@sealed
+	method FastVector2 ToVector2Int() end
+
+	---@description "Creates a FastVector3 entity with x and y elements and z=0 and then returns it."
+	---@sealed
+	method FastVector3 ToVector3() end
+
+	---@description "Adds value. Functions the same as the += operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Add(FastVector2 b) end
+
+	---@description "Subtracts value. Functions the same as the -= operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Sub(FastVector2 b) end
+
+	---@description "Multiplies value. Functions the same as the *= operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Mul(number num) end
+
+	---@description "Divides value. Functions the same as the /= operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Div(number num) end
+
+	---@description "Finds the angle between two vectors. Returns a value between 0 and 180."
+	static method number Angle(FastVector2 a, FastVector2 b) end
+
+	---@description "Creates a FastVector2 entity composed of the value that rounds up each element, then returns it."
+	static method FastVector2 CeilToInt(FastVector2 a) end
+
+	---@description "Finds the distance between two vectors."
+	static method number Distance(FastVector2 a, FastVector2 b) end
+
+	---@description "Finds the inner product of two vectors."
+	static method number Dot(FastVector2 a, FastVector2 b) end
+
+	---@description "Creates a FastVector2 entity composed of the value that rounds down each element, then returns it."
+	static method FastVector2 FloorToInt(FastVector2 a) end
+
+	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	static method FastVector2 Lerp(FastVector2 a, FastVector2 b, number t) end
+
+	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it."
+	static method FastVector2 LerpUnclamped(FastVector2 a, FastVector2 b, number t) end
+
+	---@description "Finds the size of a vector."
+	static method number Magnitude(FastVector2 a) end
+
+	---@description "Creates the FastVector2 entity with the same direction and size of 1 and then returns it."
+	static method FastVector2 Normalize(FastVector2 a) end
+
+	---@description "Creates a FastVector2 entity by rotating the Vector by 90 degrees counterclockwise and then returns it."
+	static method FastVector2 Perpendicular(FastVector2 a) end
+
+	---@description "Creates a FastVector2 entity, which projects Vector with b and then returns it."
+	static method FastVector2 Project(FastVector2 a, FastVector2 b) end
+
+	---@description "Creates a FastVector2 entity, which reflects the Vector on the normal and then returns it."
+	static method FastVector2 Reflect(FastVector2 vector, FastVector2 normal) end
+
+	---@description "Creates a FastVector2 entity with the value rounded off for each element and then returns it."
+	static method FastVector2 RoundToInt(FastVector2 a) end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	static method number SignedAngle(FastVector2 from, FastVector2 to) end
+
+	---@description "Creates a FastVector2 entity that spherical-linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	static method FastVector2 Slerp(FastVector2 a, FastVector2 b, number t) end
+
+	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it."
+	static method FastVector2 SlerpUnclamped(FastVector2 a, FastVector2 b, number t) end
+
+	---@description "Finds the square of the size of a Vector."
+	static method number SqrMagnitude(FastVector2 a) end
+
+	---@description "Creates a FastVector3 entity with x and y elements and z=0 and then returns it."
+	static method FastVector3 ToVector3(FastVector2 a) end
+
+	---@description "Creates a FastVector2 entity composed of the value that rounds down each element, then returns it."
+	static method FastVector2 ToVector2Int(FastVector2 a) end
+
+	---@description "Adds value. Functions the same as the += operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Add(FastVector2 a, FastVector2 b) end
+
+	---@description "Subtracts value. Functions the same as the -= operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Sub(FastVector2 a, FastVector2 b) end
+
+	---@description "Multiplies value. Functions the same as the *= operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Mul(FastVector2 a, number num) end
+
+	---@description "Divides value. Functions the same as the /= operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Div(FastVector2 a, number num) end
+
+	---@description "Returns a new FastVector2 entity obtained by adding two vectors."
+	static operator FastVector2 Addition(FastVector2 left, FastVector2 right) end
+
+	---@description "Returns a new FastVector2 entity by dividing the vector by a real number."
+	static operator FastVector2 Division(FastVector2 left, number right) end
+
+	---@description "Returns a new FastVector2 entity by dividing the same value. The calculation result is FastVector2(left.x / right.x, left.y / right.y). "
+	static operator FastVector2 Division(FastVector2 left, FastVector2 right) end
+
+	---@description "Checks if the two vectors are the same. Returns true if they're the same. Otherwise, returns false."
+	static operator boolean Equality(FastVector2 left, FastVector2 right) end
+
+	---@description "Checks if the two vectors are different. Returns false if they're the same. Otherwise, returns true."
+	static operator boolean Inequality(FastVector2 left, FastVector2 right) end
+
+	---@description "Returns a new FastVector2 entity by multiplying the vector by a real number."
+	static operator FastVector2 Multiply(number left, FastVector2 right) end
+
+	---@description "Returns a new FastVector2 entity by multiplying the vector by a real number."
+	static operator FastVector2 Multiply(FastVector2 left, number right) end
+
+	---@description "Returns a new FastVector2 entity by multiplying the same value. The calculation result is FastVector2(left.x * right.x, left.y * right.y)."
+	static operator FastVector2 Multiply(FastVector2 left, FastVector2 right) end
+
+	---@description "Returns a new FastVector2 entity obtained by subtracting two vectors."
+	static operator FastVector2 Subtraction(FastVector2 left, FastVector2 right) end
+
+	---@description "Returns a new FastVector2 entity that represents a reversed vector."
+	static operator FastVector2 UnaryNegation(FastVector2 value) end
+
+end

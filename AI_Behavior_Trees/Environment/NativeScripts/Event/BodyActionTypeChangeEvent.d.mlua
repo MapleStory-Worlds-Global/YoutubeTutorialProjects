@@ -1,0 +1,28 @@
+---@sealed
+---@description "Event used to change ActionState using the BodyAction name."
+@Event
+script BodyActionTypeChangeEvent extends EventType
+
+	---@description "Changed bodyAction."
+	---@sealed
+	property string actionType
+
+	---@description "Specifies the end frame of the animation played. You cannot exceed the number of total frames of the animation."
+	---@sealed
+	property int32 endFrameIndex = 2147483647
+
+	---@description "Forces the target avatar to play from the beginning if it is already playing the same state."
+	---@sealed
+	property boolean needResetAction = false
+
+	---@description "Control the speed of the avatar's animation."
+	---@sealed
+	property float playRate = 1
+
+	---@description "Specifies the start frame of the animation played."
+	---@sealed
+	property int32 startFrameIndex = 0
+
+	constructor BodyActionTypeChangeEvent(boolean needResetAction = false, string actionType = "", int32 startFrameIndex = 0, int32 endFrameIndex = 2147483647, float playRate = 1) end
+
+end

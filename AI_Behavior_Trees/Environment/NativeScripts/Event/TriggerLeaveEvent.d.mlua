@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when TriggerComponent's area no longer overlaps."
+@Event
+script TriggerLeaveEvent extends EventType
+
+	---@description "The entity of the collided TriggerBody."
+	---@sealed
+	property Entity TriggerBodyEntity
+
+	constructor TriggerLeaveEvent(Entity triggerBodyEntity = nil) end
+
+end

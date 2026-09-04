@@ -1,0 +1,13 @@
+---@sealed
+@Event
+script EditorGUIButtonEvent extends EventType
+
+	---@sealed
+	property string argument
+
+	---@sealed
+	property string id
+
+	constructor EditorGUIButtonEvent(string argument = nil, string id = nil) end
+
+end

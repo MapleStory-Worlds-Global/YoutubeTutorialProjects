@@ -1,0 +1,103 @@
+---@sealed
+---@description "Displays the particles used by UIBasicParticleComponent."
+@Enum
+script UIBasicParticleType
+	---@description "This is the default. No particles are used."
+	member None = 0
+	---@description "A fireworks particle."
+	member Firework = 1
+	---@description "A particle that bursts into multiple firecrackers."
+	member FireworkCluster = 2
+	---@description "A cartoon-like flame particle."
+	member FireField = 3
+	---@description "A cartoon-like intense flame particle."
+	member FireFieldIntense = 4
+	---@description "A long, cartoonish flame particle."
+	member ToonTallFire = 5
+	---@description "A cartoonish, circular flame particle."
+	member ToonFireTorch = 6
+	---@description "A cartoonish flame particle."
+	member ToonFireTorchIntense = 7
+	---@description "A circular flame particle."
+	member RoundFire = 8
+	---@description "A long, thin flame particle."
+	member SoftFireBig = 9
+	---@description "A long, thin flame particle."
+	member SoftTallFire = 10
+	---@description "A fast-waving flame particle."
+	member SoftFireAdditive = 11
+	---@description "A small, fast-waving flame particle."
+	member SoftFireAB = 12
+	---@description "A large, sharp flame particle."
+	member SpikyFireBigAdditive = 13
+	---@description "A small, sharp flame particle."
+	member SpikyFireAdditive = 14
+	---@description "A firefly particle."
+	member FireFlies = 15
+	---@description "A bead-shaped electrical particle."
+	member LightningOrbSharp = 16
+	---@description "A lightning particle."
+	member LightningStrikeSharp = 17
+	---@description "A long thunderbolt particle."
+	member LightningStrikeSharpTall = 18
+	---@description "A particle that emits electrical waves."
+	member LightningOrbSoft = 19
+	---@description "A particle that emits electrical waves at regular intervals."
+	member LightningBlast = 20
+	---@description "Lightning strikes at regular intervals."
+	member LightningStrike = 21
+	---@description "Long lightning strikes at regular intervals."
+	member LightningStrikeTall = 22
+	---@description "A spark occurs."
+	member SparkExplosion = 23
+	---@description "A never-ending spark occurs."
+	member SparkLoop = 24
+	---@description "Sparks bounce in a wide circular shape."
+	member SparkRadialExplosion = 25
+	---@description "Starlight converges to the center."
+	member StarVortex = 26
+	---@description "A particle that rises from the floor in the shape of a column."
+	member UpperCylinder = 27
+	---@description "A particle with a wide spread of circular wavelengths."
+	member Nova = 28
+	---@description "A particle with liquid leaking from the side."
+	member GoopSpray = 29
+	---@description "A particle with liquid leaking to the floor."
+	member GoopSprayEffect = 30
+	---@description "A particle that blows a wide sandstorm."
+	member DustStorm = 31
+	---@description "A particle with a large, powerful wave."
+	member BigSplash = 32
+	---@description "A particle that sprays water in one place."
+	member Shower = 33
+	---@description "A particle with aurora glowing from the bottom."
+	member Aura = 34
+	---@description "A particle with a strong light effect rising upwards from the bottom."
+	member Buff = 35
+	---@description "A particle where large particles and light sources come together into a single point."
+	member Charge = 36
+	---@description "A particle that gathers particles into a single point."
+	member ChargeOrb = 37
+	---@description "A particle with a light source that bursts into a circular explosion."
+	member CircleBurst = 38
+	---@description "A particle that gathers light and particles around a large light source."
+	member Enchant = 39
+	---@description "A particle that emits light in a specific direction after a circular burst of light."
+	member PillarBurst = 40
+	---@description "A particle that spawns particles around a rotating circle."
+	member SpinField = 41
+	---@description "A particle that rapidly emits circular flames."
+	member FlamethrowerSharp = 42
+	---@description "A particle that emits circular flames."
+	member FlamethrowerSoft = 43
+	---@description "A particle that emits slow flames."
+	member FlamethrowerSpiky = 44
+	---@description "A particle that emits cartoon-like circular flames."
+	member FlamethrowerToony = 45
+
+	---@description "Converts numbers to the applicable type."
+	static method UIBasicParticleType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UIBasicParticleType CastFrom(string value) end
+end

@@ -1,0 +1,32 @@
+---@sealed
+---@description "This event occurs when the action state changes."
+@Event
+script ActionStateChangedEvent extends EventType
+
+	---@description "This is the avatar's bare body action."
+	---@sealed
+	property string CoreActionName
+
+	---@description "Specifies the end frame of the animation played. You cannot exceed the number of total frames of the animation."
+	---@sealed
+	property int32 EndFrameIndex = 2147483647
+
+	---@description "These are the actions of the avatar's equipped items. (Does not include face accessory.)"
+	---@sealed
+	property string PartsActionName
+
+	---@description "The animation playback speed."
+	---@sealed
+	property float PlayRate = 1
+
+	---@description "How to play. Onetime plays only once in sequence, Loop plays repeatedly in sequence, and ZigzagLoop repeats sequential and reverse playback. Overlapping sequences will not be played consecutively."
+	---@sealed
+	property SpriteAnimClipPlayType PlayType = SpriteAnimClipPlayType.Loop
+
+	---@description "Specifies the start frame of the animation played. The start frame cannot exceed the EndFramdIndex value."
+	---@sealed
+	property int32 StartFrameIndex = 0
+
+	constructor ActionStateChangedEvent(string coreActionName = "", string partsActionName = "", float playRate = 1, SpriteAnimClipPlayType playType = SpriteAnimClipPlayType.Loop, int32 startFrameIndex = 0, int32 endFrameIndex = 2147483647) end
+
+end

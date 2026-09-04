@@ -1,0 +1,28 @@
+---@sealed
+---@description "Constrains the relative rotation and movement of two Entities. It is used by adding it to Joints of WeldJointComponent."
+@Misc
+script WeldJoint
+
+	---@description "Sets whether two Entities connected by a Joint will collide with each other."
+	---@sealed
+	property boolean CollideConnected = false
+
+	---@description "Set the Anchor of the Entity with JointComponent. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorA = Vector2(0.000, 0.000)
+
+	---@description "Set the Anchor of the Entity connected by Joint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorB = Vector2(0.000, 0.000)
+
+	---@description "Set the Entity to be connected with a Joint."
+	---@sealed
+	property EntityRef TargetEntityRef
+
+	---@description "Initializes WeldJoint to the default value."
+	constructor WeldJoint() end
+
+	---@description "Initializes WeldJoint to the same value as the specified joint."
+	constructor WeldJoint(WeldJoint joint) end
+
+end

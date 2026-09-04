@@ -1,0 +1,101 @@
+@BTNode
+script MoveToTarget extends ActionNode
+
+	property string TargetEntityKey = ""
+
+	property number ArrivalThreshold = 0
+
+	property boolean moveToLastKnownPosition = false
+
+	method void OnInit()
+		if self.moveToLastKnownPosition then
+			local aiComponent = self.ParentAI
+			if aiComponent == nil then
+				log_warning("No AI Parent")
+				return
+			end
+
+			local targetEntity = aiComponent.BlackBoard:GetEntity(self.TargetEntityKey)
+			if targetEntity == nil then
+				log_warning("No Target")
+				return 
+			end
+		
+			local targetTransform = targetEntity.TransformComponent
+			if targetTransform == nil then
+				log_warning("No Target Transform")
+				return
+			end
+
+			self._T.lastKnownPosition = targetTransform.WorldPosition:ToVector2()
+		end
+	end
+
+	method any OnBehave(number delta)
+		local aiComponent = self.ParentAI
+		if aiComponent == nil then
+			log_warning("No AI Parent")
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local targetEntity = aiComponent.BlackBoard:GetEntity(self.TargetEntityKey)
+		if targetEntity == nil then
+			log_warning("No Target")
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local aiEntity = aiComponent.Entity
+		if aiEntity == nil then
+			log_warning("No Parent Entity")
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local transform = aiEntity.TransformComponent
+		if transform == nil then
+			log_warning("No Transform Component")
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local targetTransform = targetEntity.TransformComponent
+		if targetTransform == nil then
+			log_warning("No Target Transform")
+			return BehaviourTreeStatus.Failure
+		end
+
+		local spriteRenderer = aiEntity.SpriteRendererComponent
+		if spriteRenderer == nil then
+			log_warning("No Sprite Renderer Component")
+			return BehaviourTreeStatus.Failure
+		end
+		
+		
+		local movementComponent = aiEntity.MovementComponent
+		if movementComponent == nil then
+			log_warning("No Movement Component")
+			return BehaviourTreeStatus.Failure
+		end
+
+		local targetPos = targetTransform.WorldPosition:ToVector2()
+		if self.moveToLastKnownPosition then
+			targetPos = self._T.lastKnownPosition
+		end
+		---@type Vector2
+		local toTarget = targetPos - transform.WorldPosition:ToVector2()
+		local distance = toTarget:Magnitude()
+
+		if spriteRenderer.FlipX == true and toTarget.x < 0 then
+			spriteRenderer.FlipX = false
+		elseif spriteRenderer.FlipX == false and toTarget.x > 0 then
+				spriteRenderer.FlipX = true
+		end
+
+		if distance < self.ArrivalThreshold then
+			movementComponent:Stop()
+			return BehaviourTreeStatus.Success
+		end
+		
+		movementComponent:MoveToDirection(toTarget:Normalize(), delta)
+		return BehaviourTreeStatus.Running
+	end
+
+end

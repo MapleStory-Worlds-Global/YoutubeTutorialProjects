@@ -1,0 +1,28 @@
+---@sealed
+---@description "The information about a Global-type light source that will spawn in the map."
+@Misc
+script GlobalTypeOverlayLightInfo
+
+	---@description "The color of the light source."
+	---@sealed
+	property Color Color
+
+	---@description "An entity that belongs to the map where a light source will be added."
+	---@sealed
+	property Entity Instigator
+
+	---@description "The intensity of the light source."
+	---@sealed
+	property float Intensity
+
+	---@description "The amount of time the light source will display. The created light source will automatically disappear upon reaching the specified time. However, when a value equal to or lower than 0 is input, the light source will remain indefinitely."
+	---@sealed
+	property float Lifetime
+
+	---@description "Initializes GlobalTypeOverlayLightInfo to the specified value."
+	constructor GlobalTypeOverlayLightInfo(Entity instigator) end
+
+	---@description "Initializes GlobalTypeOverlayLightInfo to the specified value."
+	constructor GlobalTypeOverlayLightInfo(Entity instigator, float lifetime, Color color, float intensity) end
+
+end

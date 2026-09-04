@@ -1,0 +1,104 @@
+---@description "Place a WebView in the UI and world. Set whether the webpage can be manipulated, how to navigate, and more."
+@Component
+script WebViewComponent extends Component
+
+	---@description "Whether to enable clicks in the WebView."
+	---@sealed
+	@Sync
+	property boolean ClickingEnabled = true
+
+	---@description "Defines what action to take when dragging within WebView."
+	---@sealed
+	property DragMode DragMode = DragMode.DragToScroll
+
+	---@description "Threshold to have it not recognized as a click when dragging. If the number is very high, the drag can be recognized as a click."
+	---@sealed
+	property float DragThreshold = 20
+
+	---@description "Sets whether the web element can be interacted with when the mouse is placed over the WebView."
+	---@sealed
+	@Sync
+	property boolean HoveringEnabled = true
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "The number of pixels to be displayed per 1 Unit. Use values from 100 to 500."
+	---@sealed
+	@Sync
+	property int32 PixelPerUnit = 100
+
+	---@description "Determines how much will scroll when the page is scrolled with the mouse wheel."
+	---@sealed
+	property float ScrollSensitivity = 15
+
+	---@description "Set whether the WebView is scrollable or not."
+	---@sealed
+	@Sync
+	property boolean ScrollingEnabled = true
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "This is the URL of the webpage. Changing the Url will load that webpage. Cadence of changes will be limited to 10 times per minute. Only http and https protocols can be used."
+	---@sealed
+	@Sync
+	property string Url = "https://mod.nexon.com/"
+
+	---@description "Click the given location. "
+	---@sealed
+	method void Click(Vector2 normalizedPosition) end
+
+	---@description "Go to the previous page in your history. "
+	---@sealed
+	method void GoBack() end
+
+	---@description "Go to the next page in your history."
+	---@sealed
+	method void GoForward() end
+
+	---@description "Reloads the current page."
+	---@sealed
+	@ExecSpace("Client")
+	method void Reload(string targetUserId = nil) end
+
+	---@description "Scrolls by the given scrollDelta. scrollDelta is a normalized value."
+	---@sealed
+	method void Scroll(Vector2 scrollDelta) end
+
+	---@description "Scrolls by scrollDelta from the given location. scrollDelta and point are normalized values."
+	---@sealed
+	method void ScrollAt(Vector2 scrollDelta, Vector2 normalizedPosition) end
+
+	---@description "Zooms the page in little by little. Zoom state is kept separately by pages."
+	---@sealed
+	method void ZoomIn() end
+
+	---@description "Zooms the page out little by little. Zoom state is kept separately by pages."
+	---@sealed
+	method void ZoomOut() end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+	emitter EmitWebLoadCompleteEvent(WebLoadCompleteEvent event) end
+
+	emitter EmitWebLoadFailEvent(WebLoadFailEvent event) end
+
+	emitter EmitWebViewClickedEvent(WebViewClickedEvent event) end
+
+	emitter EmitWebViewPopupClosedEvent(WebViewPopupClosedEvent event) end
+
+	emitter EmitWebViewPopupEvent(WebViewPopupEvent event) end
+
+end

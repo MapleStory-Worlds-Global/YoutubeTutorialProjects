@@ -1,0 +1,21 @@
+---@sealed
+---@description "Region information where the world instance is being executed."
+@Enum
+script Division
+	---@description "The Tokyo region."
+	member Tokyo = 0
+	---@description "The Oregon region."
+	member Oregon = 1
+	---@description "The Frankfurt region."
+	member Frankfurt = 2
+	---@description "The Tokyo2 region."
+	member Tokyo2 = 3
+	---@description "An internal error has occurred."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method Division CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method Division CastFrom(string value) end
+end

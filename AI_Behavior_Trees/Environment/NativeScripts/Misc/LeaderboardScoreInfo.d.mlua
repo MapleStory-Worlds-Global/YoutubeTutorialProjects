@@ -1,0 +1,18 @@
+---@sealed
+---@description "Leaderboard score information."
+@Misc
+script LeaderboardScoreInfo
+
+	---@description "Additional data that's saved when the score is registered."
+	---@sealed
+	readonly property string Extras
+
+	---@description "This player's profile code."
+	---@sealed
+	readonly property string ProfileCode
+
+	---@description "The score."
+	---@sealed
+	readonly property int32 Score
+
+end

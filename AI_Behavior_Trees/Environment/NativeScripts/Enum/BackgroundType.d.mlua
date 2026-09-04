@@ -1,0 +1,23 @@
+---@sealed
+---@description "Indicates the background type."
+@Enum
+script BackgroundType
+	---@description "This is the default. No background is used."
+	member Unknown = 0
+	---@description "This is the background provided by MapleStory Worlds."
+	member Template = 1
+	---@description "Single color background."
+	member SolidColor = 2
+	---@description "Web image background."
+	member Web = 3
+	---@description "Gradient background."
+	member Gradient = 4
+	---@description "This is a single sprite image background."
+	member Sprite = 5
+
+	---@description "Converts numbers to the applicable type."
+	static method BackgroundType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method BackgroundType CastFrom(string value) end
+end

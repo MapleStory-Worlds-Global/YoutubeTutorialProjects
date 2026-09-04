@@ -1,0 +1,12 @@
+---@sealed
+---@description "Occurs in InputService with mouse scroll up or down."
+@Event
+script MouseScrollEvent extends EventType
+
+	---@description "Indicates the amount of scrolling. Scrolling up is positive, down is negative."
+	---@sealed
+	property float ScrollDelta
+
+	constructor MouseScrollEvent(float scrollDelta = 0) end
+
+end

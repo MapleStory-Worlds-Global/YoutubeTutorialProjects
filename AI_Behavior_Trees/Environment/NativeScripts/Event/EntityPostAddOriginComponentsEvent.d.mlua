@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs after adding the components of the original model of the entity."
+@Event
+script EntityPostAddOriginComponentsEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostAddOriginComponentsEvent(Entity entity = nil) end
+
+end

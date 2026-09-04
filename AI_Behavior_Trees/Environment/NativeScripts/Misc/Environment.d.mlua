@@ -1,0 +1,39 @@
+---@sealed
+---@description "Provides execution environment information."
+@Misc
+script Environment
+
+	---@description "The Id of the current world."
+	---@sealed
+	readonly property string WorldId
+
+	---@description "Returns the version information for the currently running application."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetApplicationVersion() end
+
+	---@description "Returns whether the current setting is the maker environment and is in edit state."
+	---@sealed
+	method boolean IsMakerEdit() end
+
+	---@description "Returns whether the current setting is the maker environment and is in play state."
+	---@sealed
+	method boolean IsMakerPlay() end
+
+	---@description "Returns whether the current state is a mobile platform."
+	---@sealed
+	method boolean IsMobilePlatform() end
+
+	---@description "Returns whether the current state is a PC platform."
+	---@sealed
+	method boolean IsPCPlatform() end
+
+	---@description "Returns whether the state is in play."
+	---@sealed
+	method boolean IsPlay() end
+
+	---@description "Returns whether the current setting is the released environment and is in play state."
+	---@sealed
+	method boolean IsPublishedPlay() end
+
+end

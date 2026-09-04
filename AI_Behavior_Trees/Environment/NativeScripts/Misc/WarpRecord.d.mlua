@@ -1,0 +1,18 @@
+---@sealed
+---@description "Indicates the record of users doing warp."
+@Misc
+script WarpRecord
+
+	---@description "The Id of the current world."
+	---@sealed
+	property string CurrentWorldId
+
+	---@description "This data was delivered from the previous world when doing warp."
+	---@sealed
+	property string Data
+
+	---@description "The Id of the previous world."
+	---@sealed
+	property string PreviousWorldId
+
+end

@@ -1,0 +1,19 @@
+---@sealed
+---@description "Displays the win or loss state after a match is over."
+@Enum
+script MatchResultType
+	---@description "You won the match."
+	member Win = 0
+	---@description "You lost the match."
+	member Loss = 1
+	---@description "The match was a tie."
+	member Draw = 2
+	---@description "An unknown error has occurred during the inquiry."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method MatchResultType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MatchResultType CastFrom(string value) end
+end

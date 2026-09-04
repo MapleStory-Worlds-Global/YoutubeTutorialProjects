@@ -1,0 +1,25 @@
+---@sealed
+---@description "Can specify the options needed for regular expressions."
+@Enum
+script RegexOption
+	---@description "Does not set options."
+	member None = 0
+	---@description "Specifies to ignore case when matching."
+	member IgnoreCase = 1
+	---@description "This is multiline mode. Specifies to process the strings as if they are composed of multiple lines."
+	member Multiline = 2
+	---@description "(?<name>...) specifies to only match groups that have been explicitly named or numbered."
+	member ExplicitCapture = 4
+	---@description "Specifies to process the strings as if they are composed of a single line."
+	member Singleline = 16
+	---@description "Ignores whitespace without escape characters in the pattern."
+	member IgnorePatternWhitespace = 32
+	---@description "Specifies to perform the search from right to left. "
+	member RightToLeft = 64
+
+	---@description "Converts numbers to the applicable type."
+	static method RegexOption CastFrom(number value) end
+
+	---@description "This converts strings to the applicable type."
+	static method RegexOption CastFrom(string value) end
+end

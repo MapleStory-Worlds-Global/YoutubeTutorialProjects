@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates the scrolling direction of the vertical scroll bar."
+@Enum
+script VerticalScrollBarDirection
+	---@description "You can scroll from bottom to top."
+	member BottomToTop = 2
+	---@description "You can scroll from top to bottom."
+	member TopToBottom = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method VerticalScrollBarDirection CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method VerticalScrollBarDirection CastFrom(string value) end
+end

@@ -1,0 +1,20 @@
+---@sealed
+---@description "Inquires about the World instance list searched from WorldInstanceService in page units."
+@Misc
+script WorldInstanceInfoPages
+
+	---@description "Checks whether the current page is the last."
+	---@sealed
+	readonly property boolean IsLastPage
+
+	---@description "Gets a WorldInstanceInfo list of the current page."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method table<WorldInstanceInfo> GetCurrentPageDatas() end
+
+	---@description "Moves to the next page and returns whether the move was successful or not. Script executions are suspended during operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveToNextPageAndWait() end
+
+end

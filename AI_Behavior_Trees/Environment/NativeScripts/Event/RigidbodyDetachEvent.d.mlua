@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised when the entity is released from its Attach state via RigidbodyComponent:Detach(). Players occur on the client and other entities occur in server space."
+@Event
+script RigidbodyDetachEvent extends EventType
+
+	---@description "A detached Entity."
+	---@sealed
+	property Entity DetachedEntity
+
+	constructor RigidbodyDetachEvent(Entity detachedEntity = nil) end
+
+end

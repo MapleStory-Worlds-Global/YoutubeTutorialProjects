@@ -1,0 +1,18 @@
+---@sealed
+---@description "Leaderboard season information."
+@Misc
+script LeaderboardSeasonInfo
+
+	---@description "The season's end date and time."
+	---@sealed
+	readonly property DateTime EndingAt
+
+	---@description "Season Id."
+	---@sealed
+	readonly property string Id
+
+	---@description "The season's start date and time."
+	---@sealed
+	readonly property DateTime StartingAt
+
+end

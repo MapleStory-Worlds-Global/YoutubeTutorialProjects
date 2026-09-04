@@ -1,0 +1,10 @@
+---@sealed
+@Event
+script UIAvatarActionControllEvent extends EventType
+
+	---@sealed
+	readonly property StudioAvatarActionType ActionType = StudioAvatarActionType.Invalid
+
+	constructor UIAvatarActionControllEvent(float actionSpeed = 1, string bodyActionName = "", int32 selectFrame = -1) end
+
+end

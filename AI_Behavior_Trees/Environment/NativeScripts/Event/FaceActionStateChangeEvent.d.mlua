@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when the Face Action state changes."
+@Event
+script FaceActionStateChangeEvent extends EventType
+
+	---@description "Changed state."
+	---@sealed
+	property MapleAvatarFaceActionState ActionState
+
+	constructor FaceActionStateChangeEvent() end
+
+end

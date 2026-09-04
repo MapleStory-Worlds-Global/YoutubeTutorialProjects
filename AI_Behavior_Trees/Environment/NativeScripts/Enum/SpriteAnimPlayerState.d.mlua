@@ -1,0 +1,21 @@
+---@sealed
+---@description "Indicates the playback state of the animation."
+@Enum
+script SpriteAnimPlayerState
+	---@description "Invalid state."
+	member Invalid = 0
+	---@description "Valid state."
+	member Idle = 1
+	---@description "Play state."
+	member Playing = 2
+	---@description "Stop state."
+	member Paused = 3
+	---@description "Inactivated state."
+	member Disabled = 4
+
+	---@description "Converts numbers to the applicable type."
+	static method SpriteAnimPlayerState CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method SpriteAnimPlayerState CastFrom(string value) end
+end

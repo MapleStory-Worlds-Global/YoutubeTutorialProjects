@@ -1,0 +1,41 @@
+---@sealed
+---@description "Identifies the specific animation of the avatar. Receives an event as BodyActionStateChangeEvent and outputs the avatar animation. It corresponds to the ActionSheet value of AvatarStateAnimationComponent."
+@Enum
+script MapleAvatarBodyActionState
+	---@description "This is the default. Not used."
+	member Invalid = 0
+	---@description "stand value. Outputs the standing avatar."
+	member Stand = 1
+	---@description "walk value. Outputs the walking avatar."
+	member Walk = 2
+	---@description "attack value. Outputs the attacking avatar."
+	member Attack = 3
+	---@description "alert value. Outputs the alert avatar."
+	member Alert = 4
+	---@description "crouch value. Outputs the crouching avatar."
+	member Crouch = 5
+	---@description "fall value. Outputs the avatar falling from the air."
+	member Fall = 6
+	---@description "sit value. Outputs the sitting avatar."
+	member Sit = 7
+	---@description "rope value. Outputs the avatar hanging on the rope."
+	member Rope = 8
+	---@description "ladder value. Outputs the avatar hanging from the ladder."
+	member Ladder = 9
+	---@description "dead value. Outputs the dead avatar."
+	member Dead = 10
+	---@description "blink value. Outputs the temporarily disappearing avatar."
+	member Blink = 11
+	---@description "fly value. Outputs the flying avatar."
+	member Fly = 12
+	---@description "The heal value. Outputs the appearance of the avatar healing."
+	member Heal = 13
+	---@description "hit value. Outputs the avatar being hit."
+	member Hit = 14
+
+	---@description "Converts numbers to the applicable type."
+	static method MapleAvatarBodyActionState CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MapleAvatarBodyActionState CastFrom(string value) end
+end

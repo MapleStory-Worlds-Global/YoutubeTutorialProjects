@@ -1,0 +1,20 @@
+---@sealed
+---@description "This information is used to identify the shared variable."
+@Misc
+script SharedVariableKeyInfo
+
+	---@description "Whenever you update a variable, it only performs an update if it equals the value saved in the database. An update is performed unconditionally if a nil or empty string is given."
+	---@sealed
+	property string ETag = ""
+
+	---@description "The variable name."
+	---@sealed
+	property string Name = ""
+
+	---@description "Creates SharedVariableKeyInfo by default."
+	constructor SharedVariableKeyInfo() end
+
+	---@description "Creates a SharedVariableKeyInfo with the given name, ETag."
+	constructor SharedVariableKeyInfo(string name, string eTag) end
+
+end

@@ -1,0 +1,29 @@
+---@sealed
+---@description "Particle preset type used by UISpriteParticleComponent."
+@Enum
+script UISpriteParticleType
+	---@description "This is the default. No particles are used."
+	member None = 0
+	---@description "The specified sprite appears with a spreading circular effect."
+	member BurstBig = 1
+	---@description "Several small particles and the specified sprite appear together in a circle area."
+	member SpawnField = 2
+	---@description "Small particles and specified sprites explode in a circle area."
+	member BurstNova = 3
+	---@description "Small particles and the specified sprite appear."
+	member SimpleSpawn = 4
+	---@description "Small particles and the specified sprite appear spread out."
+	member Burst = 5
+	---@description "Small particles and specified sprites are created moving in a certain direction."
+	member Stream = 6
+	---@description "Small particles and specified sprites are created with thin lines moving in a certain direction."
+	member StreamSharp = 7
+	---@description "Applies a color effect to the specified sprite."
+	member AdditiveColor = 8
+
+	---@description "Converts numbers to the applicable type."
+	static method UISpriteParticleType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UISpriteParticleType CastFrom(string value) end
+end

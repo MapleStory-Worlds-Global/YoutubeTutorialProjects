@@ -1,0 +1,146 @@
+---@sealed
+---@description "Provides functions related to editor script."
+@Service
+script EditorService extends Service
+
+	---@description "Duplicates the selected entity."
+	---@sealed
+	method void CloneSelectedEntity() end
+
+	---@description "Creates a map. The Id of the created map can be received via a callback."
+	---@sealed
+	method void CreateMap(func<string> callback) end
+
+	---@description "Creates the selected model in position."
+	---@sealed
+	method void CreateSelectedModel(Vector2 position, func<Entity> callback, boolean select = true) end
+
+	---@description "Creates the selected model at position."
+	---@sealed
+	method void CreateSelectedModel(Vector2 position, boolean select = true) end
+
+	---@description "Inserts one column into the DataSets corresponding to tableName."
+	---@sealed
+	method void DataSetInsertRow(string tableName) end
+
+	---@description "Removes the column from the DataSets corresponding to tableName."
+	---@sealed
+	method void DataSetRemoveRow(string tableName, int32 row) end
+
+	---@description "Sets the value in the row column of the DataSets corresponding to tableName, the cell in the row columnName."
+	---@sealed
+	method void DataSetSetCell(string tableName, int32 row, string columnName, string value) end
+
+	---@description "Deletes the world's LiteDB data."
+	---@sealed
+	method void DeleteLiteDB() end
+
+	---@description "Deletes the map corresponding to mapId."
+	---@sealed
+	method void DeleteMap(string mapId) end
+
+	---@description "Gets the position of the camera viewing the editor. The value is received via the callback."
+	---@sealed
+	method void GetCameraPosition(func<Vector3> callback) end
+
+	---@description "Gets the Id of the current map. The value is passed to the callback."
+	---@sealed
+	method void GetCurrentMap(func<string> callback) end
+
+	---@description "Gets a list of Ids for all maps. The value is passed to the callback."
+	---@sealed
+	method void GetMaps(func<List<string>> callback) end
+
+	---@description "Gets the value of the property of the model corresponding to the modelId. The value is passed to the callback. Returns false if it doesn't exist."
+	---@sealed
+	method boolean GetModelProperty(string modelId, string componentName, string propertyName, func<string> callback) end
+
+	---@description "Loads the map corresponding to mapId."
+	---@sealed
+	method void LoadMap(string mapId, boolean save) end
+
+	---@description "Sets up a notification message."
+	---@sealed
+	method void Notification(string notify) end
+
+	---@description "Opens the URL."
+	---@sealed
+	method void OpenUrl(string title, string url) end
+
+	---@description "Deletes the right Maker menu."
+	---@sealed
+	method void RemoveMakerMenu(string name) end
+
+	---@description "Changes the name of the entity."
+	---@sealed
+	method void RenameEntity(Entity entity, string name) end
+
+	---@description "Saves the current map."
+	---@sealed
+	method void SaveMap() end
+
+	---@description "Take a screenshot and set it as My Home background."
+	---@sealed
+	method void SaveMyHome(func onComplete) end
+
+	---@description "Selects an entity corresponding to the entityId."
+	---@sealed
+	method void SelectEntity(string entityId) end
+
+	---@description "Sets the camera location."
+	---@sealed
+	method void SetCameraPosition(Vector3 position) end
+
+	---@description "Sets the operation of the camera's scroll function."
+	---@sealed
+	method void SetCameraScrollMode(boolean isCameraScroll) end
+
+	---@description "Sets the zoom of the Maker camera."
+	---@sealed
+	method void SetCameraZoom(int32 zoom) end
+
+	---@description "Sets the value of the property of the model corresponding to modelId. Returns false upon failure."
+	---@sealed
+	method boolean SetModelProperty(string modelId, string componentName, string propertyName, string value) end
+
+	---@description "Selects the model with the corresponding modelId."
+	---@sealed
+	method void SetSelectedModel(string modelId) end
+
+	---@description "Selects a tile with the specified RUID. If no tile is specified, the tile on the current layer is selected."
+	---@sealed
+	method void SetSelectedTile(string tileRUID) end
+
+	---@description "Changes the hierarchical order of entities with the same parent."
+	---@sealed
+	method void SetSiblingIndex(Entity entity, int32 index) end
+
+	---@description "Sets the map of the corresponding mapId as the starting map."
+	---@sealed
+	method void SetStartingMap(string mapId) end
+
+	---@description "Sets the map layer you are working with as the map layer at its layerIndex."
+	---@sealed
+	method void SetWorkingLayer(int32 layerIndex) end
+
+	emitter EmitEnterEditorEvent(EnterEditorEvent event) end
+
+	emitter EmitEnterPlayEvent(EnterPlayEvent event) end
+
+	emitter EmitEntityCreateEditorEvent(EntityCreateEditorEvent event) end
+
+	emitter EmitEntityDeleteEditorEvent(EntityDeleteEditorEvent event) end
+
+	emitter EmitEntityDeselectEditorEvent(EntityDeselectEditorEvent event) end
+
+	emitter EmitEntitySelectEditorEvent(EntitySelectEditorEvent event) end
+
+	emitter EmitScreenTouchEditorEvent(ScreenTouchEditorEvent event) end
+
+	emitter EmitScreenTouchHoldEditorEvent(ScreenTouchHoldEditorEvent event) end
+
+	emitter EmitScreenTouchReleaseEditorEvent(ScreenTouchReleaseEditorEvent event) end
+
+	emitter EmitWorldLoadEditorEvent(WorldLoadEditorEvent event) end
+
+end

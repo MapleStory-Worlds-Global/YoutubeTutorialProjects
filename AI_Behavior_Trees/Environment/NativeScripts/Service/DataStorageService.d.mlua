@@ -1,0 +1,151 @@
+---@sealed
+---@description "Provides several DataStorage access functions."
+@Service
+script DataStorageService extends Service
+
+	---@description "Deletes CreatorDataStorage and returns the error code. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 DeleteCreatorDataStorageAndWait() end
+
+	---@description "Deletes CreatorDataStorage of a certain name and returns the error code. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 DeleteCreatorDataStorageAndWait(string name) end
+
+	---@description "Deletes CreatorDataStorage. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteCreatorDataStorageAsync(func<int32> callbackFunction) end
+
+	---@description "Deletes CreatorDataStorage of a certain name. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and the name of CreatorDataStorage upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteCreatorDataStorageAsync(string name, func<int32, string> callbackFunction) end
+
+	---@description "Deletes GlobalDataStorage of a certain name and returns the error code. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 DeleteGlobalDataStorageAndWait(string name) end
+
+	---@description "Deletes GlobalDataStorage of a certain name. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and the name of GlobalDataStorage upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteGlobalDataStorageAsync(string name, func<int32, string> callbackFunction) end
+
+	---@description "Deletes SortableDataStorage of a certain name and returns the error code. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 DeleteSortableDataStorageAndWait(string name) end
+
+	---@description "Deletes SortableDataStorage of a certain name. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and the name of SortableDataStorage upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteSortableDataStorageAsync(string name, func<int32, string> callbackFunction) end
+
+	---@description "Deletes UserDataStorage corresponding to userId and returns the error code. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 DeleteUserDataStorageAndWait(string userId) end
+
+	---@description "Deletes UserDataStorage corresponding to userId. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and userId upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteUserDataStorageAsync(string userId, func<int32, string> callbackFunction) end
+
+	---@description "This function is deprecated. Please use the GetAndWait() function of each DataStorage."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method string GetAndWait(string storageName, string key) end
+
+	---@description "This function is deprecated. Please use the GetAsync() function of each DataStorage."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetAsync(string storageName, string key, func<int32, string, string> callbackFunction) end
+
+	---@description "Acquires CreatorDataStorage."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method CreatorDataStorage GetCreatorDataStorage() end
+
+	---@description "Acquires CreatorDataStorage of a certain name."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method CreatorDataStorage GetCreatorDataStorage(string name) end
+
+	---@description "Looks up CreatorDataStorage in page units. Returns the error code and inquiry entity when the operation is completed. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, CreatorDataStoragePages GetCreatorDataStoragePagesAndWait() end
+
+	---@description "Looks up CreatorDataStorage in page units. This operation is performed asynchronously. The function passed to the callbackFunction is called with the error code and the inquiry entity upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetCreatorDataStoragePagesAsync(func<int32, CreatorDataStoragePages> callbackFunction) end
+
+	---@description "This function is now deprecated. Use one of functions from GetGlobalDataStorage(string), GetUserDataStorage(string), GetCreatorDataStorage(), or GetSortableDataStorage(string) for the intended use."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method DataStorage GetDataStorage(string name) end
+
+	---@description "Acquires GlobalDataStorage of a certain name."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method GlobalDataStorage GetGlobalDataStorage(string name) end
+
+	---@description "Inquires about GlobalDataStorage in page units. You can see the inquiry result with the returned entity. The script executions are suspended during performing."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, GlobalDataStoragePages GetGlobalDataStoragePagesAndWait() end
+
+	---@description "Looks up GlobalDataStorage in page units. You can see the inquiry result with the returned entity. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and entity for inquiry when completing the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetGlobalDataStoragePagesAsync(func<int32, GlobalDataStoragePages> callbackFunction) end
+
+	---@description "Acquires SortableDataStorage of a certain name."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SortableDataStorage GetSortableDataStorage(string name) end
+
+	---@description "Looks up SortableDataStorage in page units. Returns the error code and inquiry entity when the operation is completed. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, SortableDataStoragePages GetSortableDataStoragePagesAndWait() end
+
+	---@description "Inquires about SortableDataStorage in page units. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, entity for inquiry when completing the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetSortableDataStoragePagesAsync(func<int32, SortableDataStoragePages> callbackFunction) end
+
+	---@description "Acquires UserDataStorage for certain users."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method UserDataStorage GetUserDataStorage(string userId) end
+
+	---@description "Looks up UserDataStorage in page units. Returns the error code and inquiry entity when the operation is completed. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, UserDataStoragePages GetUserDataStoragePagesAndWait() end
+
+	---@description "Looks up UserDataStorage in page units. This operation is performed asynchronously. The function passed to the callbackFunction is called with the error code and the inquiry entity upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetUserDataStoragePagesAsync(func<int32, UserDataStoragePages> callbackFunction) end
+
+	---@description "This function is deprecated. Please use the SetAndWait() function of DataStorage for its purpose."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean SetAndWait(string storageName, string key, string value) end
+
+	---@description "This function is deprecated. Please use the SetAsync() function of DataStorage for its purpose."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetAsync(string storageName, string key, string value, func<int32, string> callbackFunction) end
+
+end

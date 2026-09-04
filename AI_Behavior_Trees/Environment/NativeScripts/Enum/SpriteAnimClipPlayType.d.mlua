@@ -1,0 +1,17 @@
+---@sealed
+---@description "Specifies how the animation plays."
+@Enum
+script SpriteAnimClipPlayType
+	---@description "Play the animation only once."
+	member Onetime = 0
+	---@description "Repeat only the sequential play of the animation."
+	member Loop = 1
+	---@description "Repeats both sequential play and reverse play of the animation."
+	member ZigzagLoop = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method SpriteAnimClipPlayType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method SpriteAnimClipPlayType CastFrom(string value) end
+end

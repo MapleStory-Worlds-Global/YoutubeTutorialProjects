@@ -1,0 +1,77 @@
+---@description "Renders an avatar-format Entity."
+@Component
+script AvatarRendererComponent extends Component
+
+	---@description "Doesn't perform automatic replace when designating the Map Layer name into SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	property int32 OrderInLayer
+
+	---@description "Control the speed of the avatar's animation."
+	---@sealed
+	@Sync
+	property float PlayRate = 1
+
+	---@description "Sets up a weapon's default effect animation and basic sounds."
+	---@sealed
+	@Sync
+	property boolean ShowDefaultWeaponEffects = true
+
+	---@description "Sets the Avatar's SortingLayer. When two or more Entities overlap, the display priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Gets the top-level Entity making up the avatar."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Entity GetAvatarRootEntity() end
+
+	---@description "Gets an Entity corresponding to the avatar's body."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Entity GetBodyEntity() end
+
+	---@description "Gets an Entity corresponding to the avatar's face."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Entity GetFaceEntity() end
+
+	---@description "Plays emotional expressions."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayEmotion(EmotionalType emotionalType, float duration, string targetUserId = nil) end
+
+	---@description "Sets the avatar's Alpha value."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetAlpha(float alpha, string targetUserId = nil) end
+
+	---@description "Sets the color values of the parts corresponding to the avatar's category. Uses RGB values."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetAvatarPartColor(MapleAvatarItemCategory category, float r, float g, float b, float a, string targetUserId = nil) end
+
+	---@description "Sets the avatar's color value. Uses RGB values."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetColor(float r, float g, float b, float a, string targetUserId = nil) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

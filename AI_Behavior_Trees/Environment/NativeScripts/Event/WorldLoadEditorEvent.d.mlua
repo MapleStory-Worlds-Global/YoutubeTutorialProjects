@@ -1,0 +1,8 @@
+---@sealed
+---@description "The editor event occurs when entering the Editor."
+@Event
+script WorldLoadEditorEvent extends EventType
+
+	constructor WorldLoadEditorEvent() end
+
+end

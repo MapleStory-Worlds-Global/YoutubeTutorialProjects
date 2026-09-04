@@ -1,0 +1,37 @@
+---@description "AI that makes monsters wander around. Added automatically when StateComponent is not present."
+@Component
+script AIWanderComponent extends Component
+
+	---@description "This is the unique identifier of a behavior tree entry."
+	---@sealed
+	property string BehaviourTreeId
+
+	---@description "This is the data store that is used in the AI behavior tree. It's managed in key-value pairs, and data is shared between behavior tree nodes."
+	---@sealed
+	readonly property Blackboard BlackBoard
+
+	---@description "Sets whether to support the legacy system. Previous systems must use the ExclusiveExecutionWhenRunning property in order to set the node as Running. The legacy system is no longer supported and will be deleted at a later date."
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "Outputs execution information into a log when the value is true while BehaviorTree runs. Operates in Maker mode only."
+	---@sealed
+	property boolean LogEnabled = false
+
+	---@description "Update permission. Executed on the specified location (Client or Server)."
+	---@sealed
+	property UpdateAuthorityType UpdateAuthority = UpdateAuthorityType.Server
+
+	---@description "Creates an Action node. Calls function that had been passed to onBehaveFunction when the node is executed. Parameter of onBehaveFunction is delta, which means time per frame."
+	---@sealed
+	method BTNode CreateLeafNode(string nodeName, func<float> -> BehaviourTreeStatus onBehaveFunction) end
+
+	---@description "Create an Action node based on BTNodeType."
+	---@sealed
+	method BTNode CreateNode(string nodeType, string nodeName = nil, func<float> -> BehaviourTreeStatus onBehaveFunction = nil) end
+
+	---@description "Sets the node as the top-level node."
+	---@sealed
+	method void SetRootNode(BTNode node) end
+
+end

@@ -1,0 +1,37 @@
+---@sealed
+---@description "This event occurs when an entity is hit."
+@Event
+script HitEvent extends EventType
+
+	---@description "The center of the attack."
+	---@sealed
+	property Vector2 AttackCenter
+
+	---@description "The attacker entity. It can also be nil."
+	---@sealed
+	property Entity AttackerEntity
+
+	---@description "The list of damage to be displayed separately."
+	---@sealed
+	property List<integer> Damages
+
+	---@description "Other attack information."
+	---@sealed
+	property any Extra
+
+	---@description "This property is deprecated."
+	---@deprecated
+	---@sealed
+	property HitFeedbackAction FeedbackAction
+
+	---@description "Checks if the attack is critical."
+	---@sealed
+	property boolean IsCritical
+
+	---@description "Total damage."
+	---@sealed
+	property integer TotalDamage
+
+	constructor HitEvent(Vector2 attackCenter = Vector2(0, 0), Entity attackerEntity = nil, List<integer> damages = nil, any extra = nil, HitFeedbackAction feedbackAction = HitFeedbackAction.Default, boolean isCritical = false, integer totalDamage = 0) end
+
+end

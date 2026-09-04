@@ -1,0 +1,45 @@
+---@description "Use this hash table to save data by key and value. Each key must have a unique value, and nil is not a valid value."
+@Misc
+script Dictionary<K, V>
+
+	---@description "Gets the number of keys and values in the Dictionary."
+	---@sealed
+	readonly property number Count
+
+	---@description "Gets the table that includes the Dictionary keys."
+	---@sealed
+	readonly property table Keys
+
+	---@description "Gets the table that includes the Dictionary values."
+	---@sealed
+	readonly property table Values
+
+	---@description "Checks whether the specified key is included in the Dictionary."
+	---@sealed
+	method boolean ContainsKey(K key) end
+
+	---@description "Generates a table that has the keys and values included in the Dictionary."
+	---@sealed
+	method table ToTable() end
+
+	---@description "Gets the specified key and the connected value."
+	---@sealed
+	method boolean, V TryGetValue(K key) end
+
+	---@description "Adds the specified key and value to the Dictionary."
+	---@sealed
+	method void Add(K key, V value) end
+
+	---@description "Removes all keys and values from the Dictionary."
+	---@sealed
+	method void Clear() end
+
+	---@description "Removes the specified key and connected value from the Dictionary."
+	---@sealed
+	method void Remove(K key) end
+
+	---@description "Checks whether the Dictionary contains the specified value."
+	---@sealed
+	method boolean ContainsValue(V value) end
+
+end

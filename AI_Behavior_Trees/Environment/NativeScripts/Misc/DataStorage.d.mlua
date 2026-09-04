@@ -1,0 +1,31 @@
+---@sealed
+---@description "This type is deprecated. Please use GetGlobalDataStorage(string), GetUserDataStorage(string), GetCreatorDataStorage(), or GetSortableDataStorage(string) of DataStorageService for the intended use."
+---@deprecated
+@Misc
+script DataStorage
+
+	---@description "This function is deprecated. Please use the GetAndWait() function of GlobalDataStorage, UserDataStorage, CreatorDataStorage, or SortableDataStorage for the intended use."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method string GetAndWait(string key) end
+
+	---@description "This function is deprecated. Please use the GetAsync() function of GlobalDataStorage, UserDataStorage, CreatorDataStorage, or SortableDataStorage for the intended use."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetAsync(string key, func<int32, string, string> callbackFunction) end
+
+	---@description "This function is deprecated. Please use the SetAndWait() function of GlobalDataStorage, UserDataStorage, CreatorDataStorage, or SortableDataStorage for the intended use."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean SetAndWait(string key, string value) end
+
+	---@description "This function is deprecated. Please use the SetAsync() function of GlobalDataStorage, UserDataStorage, CreatorDataStorage, or SortableDataStorage for the intended use."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetAsync(string key, string value, func<int32, string> callbackFunction) end
+
+end

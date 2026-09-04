@@ -1,0 +1,22 @@
+---@sealed
+---@description "Inquires about the World instance list searched from WorldInstanceService."
+@Misc
+script WorldInstanceInfo
+
+	---@description "The number of users currently in the World instance."
+	---@sealed
+	readonly property int32 CurrentUserCount
+
+	---@description "The Id of the World instance."
+	---@sealed
+	readonly property string Id
+
+	---@description "The maximum number of users that can access World instance."
+	---@sealed
+	readonly property int32 MaxUserCount
+
+	---@description "A short string that can be used as a world instance identifier or name. The uniqueness is guaranteed in the same world, but there can be duplicates between multiple worlds."
+	---@sealed
+	readonly property string ShortCode
+
+end

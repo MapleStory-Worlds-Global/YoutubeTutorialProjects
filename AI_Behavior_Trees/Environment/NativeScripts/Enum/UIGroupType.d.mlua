@@ -1,0 +1,19 @@
+---@sealed
+---@description "Indicates the UI group type. Creators can freely modify UIGroupType for all UIGroup."
+@Enum
+script UIGroupType
+	---@description "Currently not used."
+	member None = 0
+	---@description "A default UIGroup. It is automatically created when the World is first created. Cannot be deleted if it's set to DefaultType."
+	member DefaultType = 1
+	---@description "A UI group created in the UI Editor."
+	member UIType = 2
+	---@description "A UI group created in the UI Editor. This becomes an Editor UIGroup available for use when editing Scene."
+	member EditorType = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method UIGroupType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UIGroupType CastFrom(string value) end
+end

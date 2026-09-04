@@ -1,0 +1,198 @@
+---@sealed
+---@description "Provides sound-related functions."
+@Service
+script SoundService extends Service
+
+	---@description "Returns whether background music is playing."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsPlayBGM() end
+
+	---@description "Loads the audio clip."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void LoadSound(string id) end
+
+	---@description "Pauses the background music being played."
+	---@sealed
+	@ExecSpace("Client")
+	method void PauseBGM() end
+
+	---@description "Pauses the background music being played."
+	---@sealed
+	@ExecSpace("Client")
+	method void PauseBGM(Entity messageOwnerEntity = nil) end
+
+	---@description "Pauses the background music being played."
+	---@sealed
+	@ExecSpace("Client")
+	method void PauseBGM(string targetUserId = nil) end
+
+	---@description "Pauses all audio clips corresponding to the id passed as a factor among audio clip playing through SoundService. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void PauseSound(string id) end
+
+	---@description "Pauses all audio clips corresponding to the id passed as a factor among audio clip playing through SoundService. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void PauseSound(string id, Entity messageOwnerEntity = nil) end
+
+	---@description "Pauses all audio clips corresponding to the id passed as a factor among audio clip playing through SoundService. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void PauseSound(string id, string targetUserId = nil) end
+
+	---@description "Plays background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayBGM(string id, float volume) end
+
+	---@description "Plays background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayBGM(string id, float volume, Entity messageOwnerEntity = nil) end
+
+	---@description "Plays background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayBGM(string id, float volume, string targetUserId = nil) end
+
+	---@description "Plays the audio clip repeatedly."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayLoopSound(string id, float volume) end
+
+	---@description "Plays the audio clip repeatedly."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayLoopSound(string id, float volume, Entity messageOwnerEntity = nil) end
+
+	---@description "Plays the audio clip repeatedly."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayLoopSound(string id, float volume, string targetUserId = nil) end
+
+	---@description "Plays the audio clip repeatedly at the target location."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayLoopSoundAtPos(string id, Vector3 pos, Entity listener, float volume) end
+
+	---@description "Plays the audio clip repeatedly at the target location."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayLoopSoundAtPos(string id, Vector3 pos, Entity listener, float volume, Entity messageOwnerEntity = nil) end
+
+	---@description "Plays the audio clip repeatedly at the target location."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayLoopSoundAtPos(string id, Vector3 pos, Entity listener, float volume, string targetUserId = nil) end
+
+	---@description "Plays the audio clip."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlaySound(string id, float volume) end
+
+	---@description "Plays the audio clip."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlaySound(string id, float volume, Entity messageOwnerEntity = nil) end
+
+	---@description "Plays the audio clip."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlaySound(string id, float volume, string targetUserId = nil) end
+
+	---@description "Plays the audio clip at the target location."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlaySoundAtPos(string id, Vector3 pos, Entity listener, float volume) end
+
+	---@description "Plays the audio clip at the target location."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlaySoundAtPos(string id, Vector3 pos, Entity listener, float volume, Entity messageOwnerEntity = nil) end
+
+	---@description "Plays the audio clip at the target location."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlaySoundAtPos(string id, Vector3 pos, Entity listener, float volume, string targetUserId = nil) end
+
+	---@description "Resumes paused background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void ResumeBGM() end
+
+	---@description "Resumes paused background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void ResumeBGM(Entity messageOwnerEntity = nil) end
+
+	---@description "Resumes paused background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void ResumeBGM(string targetUserId = nil) end
+
+	---@description "Among the audio clips paused through SoundService, resumes playing all audio clips corresponding to the id passed as a parameter. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void ResumeSound(string id) end
+
+	---@description "Among the audio clips paused through SoundService, resumes playing all audio clips corresponding to the id passed as a parameter. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void ResumeSound(string id, Entity messageOwnerEntity = nil) end
+
+	---@description "Among the audio clips paused through SoundService, resumes playing all audio clips corresponding to the id passed as a parameter. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void ResumeSound(string id, string targetUserId = nil) end
+
+	---@description "Sets the volume of background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetBGMVolume(float volume) end
+
+	---@description "Sets the volume of background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetBGMVolume(float volume, Entity messageOwnerEntity = nil) end
+
+	---@description "Sets the volume of background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetBGMVolume(float volume, string targetUserId = nil) end
+
+	---@description "Stops playing the background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void StopBGM(boolean immediately) end
+
+	---@description "Stops playing the background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void StopBGM(boolean immediately, Entity messageOwnerEntity = nil) end
+
+	---@description "Stops playing the background music."
+	---@sealed
+	@ExecSpace("Client")
+	method void StopBGM(boolean immediately, string targetUserId = nil) end
+
+	---@description "Pauses all audio clips corresponding to the id passed as a factor among audio clips playing through SoundService. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void StopSound(string id) end
+
+	---@description "Pauses all audio clips corresponding to the id passed as a factor among audio clips playing through SoundService. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void StopSound(string id, Entity messageOwnerEntity = nil) end
+
+	---@description "Pauses all audio clips corresponding to the id passed as a factor among audio clips playing through SoundService. Background music is not included."
+	---@sealed
+	@ExecSpace("Client")
+	method void StopSound(string id, string targetUserId = nil) end
+
+	emitter EmitSoundPlayStateChangedEvent(SoundPlayStateChangedEvent event) end
+
+end

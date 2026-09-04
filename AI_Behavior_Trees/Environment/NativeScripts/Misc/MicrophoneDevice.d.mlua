@@ -1,0 +1,18 @@
+---@sealed
+---@description "A list of microphones connected to the device."
+@Misc
+script MicrophoneDevice
+
+	---@description "Shows the API that encodes and decodes the data of the microphone device."
+	---@sealed
+	readonly property string Desc
+
+	---@description "This is the list order of connected microphones."
+	---@sealed
+	readonly property int32 Index
+
+	---@description "This is the name of the microphone."
+	---@sealed
+	readonly property string Name
+
+end

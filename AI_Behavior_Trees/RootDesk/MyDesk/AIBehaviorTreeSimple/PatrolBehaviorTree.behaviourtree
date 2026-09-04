@@ -1,0 +1,122 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "behaviourtree://64fcdc21-62cc-4980-bb50-7332227d9c60",
+  "ContentType": "x-mod/behaviourtree",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "behaviourtree://64fcdc21-62cc-4980-bb50-7332227d9c60",
+      "name": "PatrolBehaviorTree",
+      "RootNode": {
+        "startNodeId": "42dbfe5a-1eba-49a0-af91-3346c25f9940",
+        "nodePosition": {
+          "x": 0.0,
+          "y": 20.0
+        }
+      },
+      "Blackboard": {
+        "Variables": [
+          {
+            "Name": "bb_WaypointsParent",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          },
+          {
+            "Name": "bb_Target",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          }
+        ]
+      },
+      "Nodes": [
+        {
+          "nodeId": "7f02b1b0-f569-4cc9-8e37-c5108cd44b18",
+          "nodeName": "ActionPatrol",
+          "definitionId": "codeblock://b0844172-5719-4596-9e37-34ae5fc4af0c",
+          "btNodeType": 0,
+          "nodeParentId": "055c241e-961c-4ab9-9a0d-515815f0ee46",
+          "nodeProperties": [
+            {
+              "propertyKey": "waypointID",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_WaypointsParent"
+            }
+          ],
+          "nodePosition": {
+            "x": 165.0,
+            "y": -195.36499
+          }
+        },
+        {
+          "nodeId": "d1df04d4-d870-41c5-b190-43832c080b1d",
+          "nodeName": "ActionFollow",
+          "definitionId": "codeblock://43902c60-486f-4148-aec0-cd9512226bb1",
+          "btNodeType": 0,
+          "nodeParentId": "7c97ae10-9a94-42ae-ae38-dfcd003e3d32",
+          "nodePosition": {
+            "x": -158.0,
+            "y": -192.36499
+          }
+        },
+        {
+          "nodeId": "7c97ae10-9a94-42ae-ae38-dfcd003e3d32",
+          "nodeName": "HasTarget",
+          "definitionId": "codeblock://7d25952b-19b4-4b22-9ce3-e46f04aedff6",
+          "btNodeType": 2,
+          "nodeParentId": "42dbfe5a-1eba-49a0-af91-3346c25f9940",
+          "nodeProperties": [
+            {
+              "propertyKey": "compareValue",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            }
+          ],
+          "decoChildNodes": "d1df04d4-d870-41c5-b190-43832c080b1d"
+        },
+        {
+          "nodeId": "42dbfe5a-1eba-49a0-af91-3346c25f9940",
+          "nodeName": "SelectorNode",
+          "definitionId": "SelectorNode",
+          "btNodeType": 1,
+          "nodeParentId": "",
+          "nodePosition": {
+            "x": 4.0,
+            "y": -68.36499
+          },
+          "childNodes": [
+            "7c97ae10-9a94-42ae-ae38-dfcd003e3d32",
+            "055c241e-961c-4ab9-9a0d-515815f0ee46"
+          ]
+        },
+        {
+          "nodeId": "055c241e-961c-4ab9-9a0d-515815f0ee46",
+          "nodeName": "HasTarget",
+          "definitionId": "codeblock://7d25952b-19b4-4b22-9ce3-e46f04aedff6",
+          "btNodeType": 2,
+          "nodeParentId": "42dbfe5a-1eba-49a0-af91-3346c25f9940",
+          "decoChildNodes": "7f02b1b0-f569-4cc9-8e37-c5108cd44b18"
+        }
+      ]
+    }
+  }
+}

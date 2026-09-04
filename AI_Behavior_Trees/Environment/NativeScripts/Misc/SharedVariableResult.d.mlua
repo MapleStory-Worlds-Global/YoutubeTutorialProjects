@@ -1,0 +1,14 @@
+---@sealed
+---@description "The result of processing shared variable create, update, and delete requests."
+@Misc
+script SharedVariableResult
+
+	---@description "This is the result code."
+	---@sealed
+	readonly property SharedMemoryResultCode Code
+
+	---@description "Shared variable information."
+	---@sealed
+	readonly property SharedVariableInfo Info
+
+end

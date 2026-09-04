@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when changing the Slider value."
+@Event
+script SliderValueChangedEvent extends EventType
+
+	---@description "This event occurs when changing the Slider value."
+	---@sealed
+	property float Value = 0
+
+	constructor SliderValueChangedEvent(float value = 0) end
+
+end

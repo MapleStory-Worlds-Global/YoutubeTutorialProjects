@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised before an entity attaches to another entity."
+@Event
+script EntityPreAttachEntityEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreAttachEntityEvent(Entity entity = nil) end
+
+end

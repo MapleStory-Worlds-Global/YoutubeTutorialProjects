@@ -1,0 +1,29 @@
+---@sealed
+---@description "This event occurs when leaving a specific quadrangle tile."
+@Event
+script RectTileLeaveEvent extends EventType
+
+	---@description "An Entity that collided with a tile."
+	---@sealed
+	property Entity Entity
+
+	---@description "This property is deprecated. Use the Entity property."
+	---@deprecated
+	---@sealed
+	property KinematicbodyComponent Kinematicbody
+
+	---@description "Details of the tile."
+	---@sealed
+	property RectTileInfo TileInfo
+
+	---@description "The RectTileMapComponent that owns the tile with the occurring event."
+	---@sealed
+	property RectTileMapComponent TileMap
+
+	---@description "The location of the tile."
+	---@sealed
+	property Vector2Int TilePosition
+
+	constructor RectTileLeaveEvent(KinematicbodyComponent kinematicbody = nil, RectTileMapComponent tileMap = nil, Vector2Int tilePosition = Vector2Int(0, 0), RectTileInfo tileInfo = nil, Entity entity = nil) end
+
+end

@@ -1,0 +1,26 @@
+---@sealed
+---@description "Provides instance room related functions."
+@Misc
+script InstanceRoom
+
+	---@description "The identifier for the instance room."
+	---@sealed
+	readonly property string InstanceKey
+
+	---@description "Returns the number of users belonging to the instance room."
+	---@sealed
+	method int32 GetUserCount() end
+
+	---@description "Returns whether the instance room is valid."
+	---@sealed
+	method boolean IsValid() end
+
+	---@description "Moves the user with the userId to this instance room. Script executions are suspended during the operation."
+	---@sealed
+	method boolean MoveUser(string userId, string mapName = nil) end
+
+	---@description "Moves the users with the userIds to this instance room. Script executions are suspended during the operation."
+	---@sealed
+	method int32 MoveUsers(table<string> userIds, string mapName = nil) end
+
+end

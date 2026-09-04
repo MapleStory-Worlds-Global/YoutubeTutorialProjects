@@ -1,0 +1,19 @@
+---@sealed
+---@description "How rankings are calculated based on the win/loss results."
+@Enum
+script LeaderboardRatingStrategy
+	---@description "The rankings aren't calculated."
+	member None = 0
+	---@description "The traditional Elo rating method."
+	member Elo = 1
+	---@description "The same as the Elo method, but there is a parameter that affects score changes applied."
+	member MSW = 2
+	---@description "An unknown error has occurred during the inquiry."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method LeaderboardRatingStrategy CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method LeaderboardRatingStrategy CastFrom(string value) end
+end

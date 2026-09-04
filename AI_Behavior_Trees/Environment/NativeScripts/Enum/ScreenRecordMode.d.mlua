@@ -1,0 +1,19 @@
+---@sealed
+---@description "It indicates the screen recording method."
+@Enum
+script ScreenRecordMode
+	---@description "Records the screen."
+	member ScreenOnly = 0
+	---@description "Records the screen and world sounds."
+	member ScreenAndGameAudio = 1
+	---@description "Records the screen and mic sounds."
+	member ScreenAndMic = 2
+	---@description "Records the screen, world sounds, and mic sounds."
+	member ScreenAndGameAudioAndMic = 3
+
+	---@description "Converts a number to the applicable type."
+	static method ScreenRecordMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ScreenRecordMode CastFrom(string value) end
+end

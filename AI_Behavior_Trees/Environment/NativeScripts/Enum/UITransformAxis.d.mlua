@@ -1,0 +1,15 @@
+---@sealed
+---@description "Used when setting the axis in the UI system."
+@Enum
+script UITransformAxis
+	---@description "This is the horizontal axis."
+	member Horizontal = 0
+	---@description "This is the vertical axis."
+	member Vertical = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method UITransformAxis CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UITransformAxis CastFrom(string value) end
+end

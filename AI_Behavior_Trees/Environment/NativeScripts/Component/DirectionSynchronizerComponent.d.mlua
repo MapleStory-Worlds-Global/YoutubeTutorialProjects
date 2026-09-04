@@ -1,0 +1,5 @@
+---@description "Follows the parent Entity’s direction. The current Entity’s orientation changes with a ChangedLookAtEvent in the parent Entity."
+@Component
+script DirectionSynchronizerComponent extends Component
+
+end

@@ -1,0 +1,31 @@
+---@sealed
+---@description "Indicates the type that can be input to TextInputComponent."
+@Enum
+script InputContentType
+	---@description "This allows all formats of input."
+	member Standard = 0
+	---@description "This allows all input. Input is automatically corrected on platforms that support autocorrection."
+	member Autocorrected = 1
+	---@description "Accepts numeric input only."
+	member IntegerNumber = 2
+	---@description "You can enter numbers up to one decimal place."
+	member DecimalNumber = 3
+	---@description "You can enter capital and lowercase English letters and numbers."
+	member Alphanumeric = 4
+	---@description "The first letter is capitalized."
+	member Name = 5
+	---@description "You can enter your email address. Accepts English and numeric input. Periods cannot be entered consecutively."
+	member EmailAddress = 6
+	---@description "All characters are accepted. Entered characters are marked with *."
+	member Password = 7
+	---@description "Accepts numeric input only. Entered numbers are marked with *."
+	member Pin = 8
+	---@description "Only user-specified types are accepted. Select from Line Type, Input Type, Keyboard Type, and String Verification."
+	member Custom = 9
+
+	---@description "Converts numbers to the applicable type."
+	static method InputContentType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method InputContentType CastFrom(string value) end
+end

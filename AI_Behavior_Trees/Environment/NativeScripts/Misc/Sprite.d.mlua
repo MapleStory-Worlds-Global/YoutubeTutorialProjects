@@ -1,0 +1,67 @@
+---@sealed
+---@description "The class contains meta information (e.g., pivot, border, etc.), which is to express the image of the MSW, and the texture binary of the image."
+@Misc
+script Sprite
+
+	---@description "This is the boundary value used when rendering the Sprite using the Sliced method in the UI."
+	---@sealed
+	readonly property Vector4 Border = Vector4(0.000, 0.000, 0.000, 0.000)
+
+	---@description "This is an aabb box representing the collision range."
+	---@sealed
+	readonly property RectOffset Collision
+
+	---@description "The convex information constitutes a footing on which an entity can stand."
+	---@sealed
+	readonly property ReadOnlyList<ReadOnlyList<Vector2Int>> Footholds
+
+	---@description "The height of the sprite."
+	---@sealed
+	readonly property int32 Height
+
+	---@description "For sprites included in the atlas, the value records the position and size of the atlas texture."
+	---@sealed
+	readonly property Vector2Int OffsetInTexture
+
+	---@description "This is the center point when placing the sprite into the world."
+	---@sealed
+	readonly property Vector2 Pivot
+
+	---@description "This is the center point when placing the sprite into the world. The value is expressed in pixels of the Pivot."
+	---@sealed
+	readonly property Vector2Int PivotPixel
+
+	---@description "The size in pixels corresponding to 1 Unit of the grid scale."
+	---@sealed
+	readonly property float PixelPerUnit = 100
+
+	---@description "The width of the sprite."
+	---@sealed
+	readonly property int32 Width
+
+	---@description "A flag to check whether the resource has successfully loaded. All resources in MSW can be used only after loading is completed."
+	---@sealed
+	readonly property boolean IsLoadComplete = false
+
+	---@description "The RUID of the resource."
+	---@sealed
+	readonly property string RUID
+
+	---@description "The type of the resource."
+	---@sealed
+	readonly property ResourceType Type
+
+	---@description "This function is deprecated. Use the LoadSpriteAndWait(string) function of ResourceService."
+	---@deprecated
+	static method Sprite Get(string RUID) end
+
+	---@description "This function is deprecated. Use the LoadSpriteAndWait(string) function of ResourceService."
+	---@deprecated
+	---@sealed
+	method Sprite LoadAndWait() end
+
+	---@description "This function is deprecated. Use the LoadSpriteAndWait(string) function of ResourceService. "
+	---@deprecated
+	static method void LoadAsync(string RUID, func<boolean, Sprite> loadCompleteCallback) end
+
+end

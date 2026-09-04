@@ -1,0 +1,30 @@
+@Component
+script BossAttackComponent extends AttackComponent
+	property string projectileModelID = ""
+
+	method void OnBeginPlay()
+		_PoolManager:Init("BossProjectile", 6, self.projectileModelID, self.Entity.CurrentMap)
+	end
+
+	method void AttackMelee(AttackInfo info, number radius)
+		local myPos = self.Entity.TransformComponent.WorldPosition:ToVector2()
+		local shape = CircleShape(myPos, radius)
+		self:AttackFast(shape, "")
+	end
+
+	method void AttackRanged(AttackInfo info, number radius, Entity target)
+		local myPos = self.Entity.TransformComponent.WorldPosition
+		local shape = CircleShape(myPos:ToVector2(), radius)
+		self:AttackFast(shape, "")
+
+		local projectile = _PoolManager:Get("BossProjectile", myPos, self.Entity.CurrentMap)
+		if isvalid(projectile) then
+			local projectileComp = projectile.BossProjectile
+			if isvalid(projectileComp) then
+				projectileComp:Init(info)
+				local targetPos = target.TransformComponent.WorldPosition:ToVector2()
+				projectileComp:Launch(targetPos) 
+			end
+		end
+	end
+end

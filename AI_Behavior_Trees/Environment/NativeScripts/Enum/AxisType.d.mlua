@@ -1,0 +1,15 @@
+---@sealed
+---@description "This is the control key type used in JoystickComponent."
+@Enum
+script AxisType
+	---@description "It can be operated in 4 directions. The four directions are up, down, left, and right."
+	member Axis_4 = 0
+	---@description "It can be operated in 8 directions. The 8 directions are up, down, left, right, and diagonally in 4 directions."
+	member Axis_8 = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method AxisType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method AxisType CastFrom(string value) end
+end

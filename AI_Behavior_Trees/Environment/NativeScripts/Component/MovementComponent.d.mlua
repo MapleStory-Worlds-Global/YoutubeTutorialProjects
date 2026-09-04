@@ -1,0 +1,60 @@
+---@description "Provides movement functions for controlling RigidbodyComponent, KinematicbodyComponent, and SideviewbodyComponent, with easy adjustments for jumping power and speed."
+@Component
+script MovementComponent extends Component
+
+	---@description "Sets the movement speed. The higher the value, the faster the speed."
+	---@sealed
+	@Sync
+	property float InputSpeed = 1
+
+	---@description "Checks if paused while climbing."
+	---@sealed
+	@Sync
+	readonly property boolean IsClimbPaused = true
+
+	---@description "Set the jump strength. The bigger the value is, the higher the jump."
+	---@sealed
+	@Sync
+	property float JumpForce = 0
+
+	---@description "Jump down. Returns whether the jump down is successful or not."
+	---@sealed
+	method boolean DownJump() end
+
+	---@description "Returns the interactive height at which a character can climb a ladder or rope."
+	---@sealed
+	method float GetClimbableHeight() end
+
+	---@description "Returns whether an Entity is pointing to the left."
+	---@sealed
+	method boolean IsFaceLeft() end
+
+	---@description "Jump. Returns whether the jump is successful or not."
+	---@sealed
+	method boolean Jump() end
+
+	---@description "Moves towards the direction during the deltaTime. deltaTime only applies when on the ladder and is in units of seconds."
+	---@sealed
+	method void MoveToDirection(Vector2 direction, float deltaTime) end
+
+	---@description "Sets an Entity's position based on local coordinates."
+	---@sealed
+	method void SetPosition(Vector2 position) end
+
+	---@description "Sets Entity's location to the world-based coordinates."
+	---@sealed
+	method void SetWorldPosition(Vector2 position) end
+
+	---@description "Stops moving."
+	---@sealed
+	method void Stop() end
+
+	---@description "Updates the relative offset to ClimbableComponent while a character climbs a ladder or rope."
+	---@sealed
+	method void UpdateClimbableOffset() end
+
+	emitter EmitChangedMovementInputEvent(ChangedMovementInputEvent event) end
+
+	emitter EmitClimbPauseEvent(ClimbPauseEvent event) end
+
+end

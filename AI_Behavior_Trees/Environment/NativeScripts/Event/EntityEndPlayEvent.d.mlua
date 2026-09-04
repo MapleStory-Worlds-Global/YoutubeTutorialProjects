@@ -1,0 +1,12 @@
+---@sealed
+---@description "Event which takes place on entity's EndPlay."
+@Event
+script EntityEndPlayEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityEndPlayEvent(Entity entity = nil) end
+
+end

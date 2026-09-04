@@ -1,0 +1,27 @@
+---@sealed
+---@description "Provides collision-related functions."
+@Service
+script CollisionService extends Service
+
+	---@description "Get the collision groups that collide with filterCollisionGroup as a table."
+	---@sealed
+	method table<CollisionGroup> GetCollisionGroupsWith(CollisionGroup filterCollisionGroup) end
+
+	---@description "This function is now deprecated. Use the GetSimulator(Entity) function."
+	---@deprecated
+	---@sealed
+	method CollisionMapService GetMapServiceFor(Entity entity) end
+
+	---@description "Gets a CollisionSimulator responsible for the entity."
+	---@sealed
+	method CollisionSimulator GetSimulator(Entity entity) end
+
+	---@description "Gets the CollisionSimulator of the map corresponding to mapName."
+	---@sealed
+	method CollisionSimulator GetSimulator(string mapName) end
+
+	---@description "Checks whether two collision groups entered collide with each other."
+	---@sealed
+	method boolean IsCollidableBetweenCollisionGroups(CollisionGroup collisionGroup1, CollisionGroup collisionGroup2) end
+
+end

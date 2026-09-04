@@ -1,0 +1,20 @@
+---@sealed
+---@description "This event occurs when changing the parent Entity of an Entity."
+@Event
+script EntityChangedParentEvent extends EventType
+
+	---@description "New parent entity."
+	---@sealed
+	property Entity NewParent
+
+	---@description "Previous parent entity."
+	---@sealed
+	property Entity OldParent
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityChangedParentEvent(Entity entity = nil, Entity oldParent = nil, Entity newParent = nil) end
+
+end

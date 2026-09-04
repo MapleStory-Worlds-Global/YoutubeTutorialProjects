@@ -1,0 +1,39 @@
+---@sealed
+---@description "Displays the matchmaking-related request processing results."
+@Enum
+script MatchmakingResultCode
+	---@description "Request processing was successful."
+	member Ok = 0
+	---@description "Unavailable from the current execution environment."
+	member InvalidEnvironment = 1000000
+	---@description "An internal system error has occurred."
+	member InternalError = 1000001
+	---@description "Invalid request."
+	member BadRequest = 1000002
+	---@description "Matchmaking is already in progress."
+	member AlreadyMatching = 1000003
+	---@description "Matchmaking was unsuccessful."
+	member NotMatched = 1000004
+	---@description "Player not found."
+	member UserNotFound = 1000005
+	---@description "Not currently matchmaking."
+	member NotMatching = 1000006
+	---@description "Matchmaking has expired."
+	member MatchingExpired = 1000007
+	---@description "Leaderboard not found."
+	member LeaderboardNotFound = 1000008
+	---@description "Score information not found."
+	member ScoreNotFound = 1000009
+	---@description "Matchmaking request history not found."
+	member RequestNotFound = 1000010
+	---@description "Matchmaking already succeeded."
+	member AlreadyMatched = 1000011
+	---@description "An unknown error has occurred."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method MatchmakingResultCode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MatchmakingResultCode CastFrom(string value) end
+end

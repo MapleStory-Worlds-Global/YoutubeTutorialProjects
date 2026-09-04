@@ -1,0 +1,12 @@
+---@sealed
+---@description "Occurs once upon pressing and releasing the Key."
+@Event
+script KeyUpEvent extends EventType
+
+	---@description "Pressed Key."
+	---@sealed
+	property KeyboardKey key
+
+	constructor KeyUpEvent(KeyboardKey key = KeyboardKey.None) end
+
+end

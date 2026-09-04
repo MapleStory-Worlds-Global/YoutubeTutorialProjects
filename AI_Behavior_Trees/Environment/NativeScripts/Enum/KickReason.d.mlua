@@ -1,0 +1,31 @@
+---@sealed
+---@description "Indicates the reason for the user's expulsion."
+@Enum
+script KickReason
+	---@description "This is used to expel users who have used profanity or obscene comments from the world."
+	member Profanity = 0
+	---@description "This is used to expel users who violate the rules from the world."
+	member RuleViolation = 1
+	---@description "This is used to expel a user who has been away from the world for a long time."
+	member AFK = 2
+	---@description "This is used to expel users from the world who have attempted cash transactions, fraud, or false advertisements."
+	member Scam = 3
+	---@description "This is used to expel a user who has caused damage to other users from the world."
+	member BadManner = 4
+	---@description "This is used to expel users who impersonated others."
+	member Misrepresentation = 5
+	---@description "This is used to expel users who leak or infringe other people's personal information."
+	member PrivacyInfringement = 6
+	---@description "This is used to expel users who have committed inappropriate behavior that does not fall under the existing reasons for expulsion."
+	member ETC = 7
+	---@description "This is used to expel a user due to an error that occurred in the world."
+	member WorldError = 8
+	---@description "This is used to expel a user by world content."
+	member WorldContent = 9
+
+	---@description "Converts numbers to the applicable type."
+	static method KickReason CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method KickReason CastFrom(string value) end
+end

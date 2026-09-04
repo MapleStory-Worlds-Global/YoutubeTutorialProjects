@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised by BaseParticleComponent when emission of the particle has been completed."
+@Event
+script ParticleEmitEndEvent extends EventType
+
+	---@description "The entity affected by the event."
+	---@sealed
+	readonly property Entity ParticleEntity
+
+	constructor ParticleEmitEndEvent() end
+
+end

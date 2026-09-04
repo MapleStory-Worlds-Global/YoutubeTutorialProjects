@@ -1,0 +1,17 @@
+---@sealed
+---@description "Defines how to display the scrollbar."
+@Enum
+script ScrollBarVisibility
+	---@description "Always show scrollbar"
+	member AlwaysShow = 0
+	---@description "Show horizontal and vertical scrollbars only when scrollable."
+	member AutoHide = 1
+	---@description "Always hide scrollbar."
+	member Hide = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method ScrollBarVisibility CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ScrollBarVisibility CastFrom(string value) end
+end

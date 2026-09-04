@@ -1,0 +1,52 @@
+@BTNode
+script RandomSequence extends CompositeNode
+
+	method any OnBehave(number delta)
+		-- Grab Current Index Value
+		local randSequence = self._T.randSequence
+		local curIndex = self._T.curIndex
+		
+		-- Run Active Child Node
+		local status = self:ChildBehave(randSequence[curIndex], delta)
+		
+		-- Increment to next shuffled sequence in shuffled table.
+		if status == BehaviourTreeStatus.Success then 
+			curIndex +=  1
+			self._T.curIndex = curIndex
+		end
+		
+		-- If we've exhausted all nodes, return Success so that OnInit is called again to restart sequence.
+		if curIndex > self.ChildCount then 
+			log("Sequence Complete")
+			return BehaviourTreeStatus.Success
+		else
+			return BehaviourTreeStatus.Running
+		end
+		
+	end
+
+	method void OnInit()
+		log("Randomizing")
+		--Randomize Index
+		-- Initialize the array with values 1 to ChildCount
+		local randSequence = {}
+		for i = 1, self.ChildCount do
+		    randSequence[i] = i
+		end
+		
+		-- Swap each element with a random element
+		for i = 1, self.ChildCount do
+		    local randIndex = _UtilLogic:RandomIntegerRange(i, self.ChildCount)
+		    
+		    -- Swap using a temporary variable
+		    local temp = randSequence[i]
+		    randSequence[i] = randSequence[randIndex]
+		    randSequence[randIndex] = temp
+		end
+		
+		
+		self._T.curIndex = 1
+		self._T.randSequence = randSequence
+	end
+
+end

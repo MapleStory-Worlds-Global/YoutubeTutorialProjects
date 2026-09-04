@@ -1,0 +1,8 @@
+---@sealed
+---@description "In the event that the world server is retired, this event occurs in the world instances that belong to the world server."
+@Event
+script WorldInstanceExcludedEvent extends EventType
+
+	constructor WorldInstanceExcludedEvent() end
+
+end

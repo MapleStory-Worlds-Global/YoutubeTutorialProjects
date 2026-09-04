@@ -1,0 +1,12 @@
+---@sealed
+@Enum
+script CallTarget
+	member All = 0
+	member AllUser = 1
+	member Server = 2
+	member User = 3
+
+	static method CallTarget CastFrom(number value) end
+
+	static method CallTarget CastFrom(string value) end
+end

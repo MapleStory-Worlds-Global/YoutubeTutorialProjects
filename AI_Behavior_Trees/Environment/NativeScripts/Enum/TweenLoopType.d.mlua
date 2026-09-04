@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates the Tweener iteration method."
+@Enum
+script TweenLoopType
+	---@description "Repeat tween's sequential play only."
+	member Restart = 0
+	---@description "Repeat tween's sequential and reverse plays."
+	member PingPong = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method TweenLoopType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TweenLoopType CastFrom(string value) end
+end

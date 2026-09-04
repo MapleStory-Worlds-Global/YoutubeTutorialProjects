@@ -1,0 +1,82 @@
+@BTNode
+script ActionPatrol extends ActionNode
+
+	property string waypointID = ""
+
+	property number ArrivalThreshold = .5
+
+	method any OnBehave(number delta)
+		local aiComponent = self.ParentAI
+		if aiComponent == nil then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		---@type table
+		local waypoints = self._T.waypoints
+		if waypoints == nil then 
+			return BehaviourTreeStatus.Failure
+		end
+		
+		if #waypoints == 0 then 
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local currentWaypoint = self._T.currentWaypoint
+		if currentWaypoint == nil then 
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local targetEntity = waypoints[currentWaypoint + 1]
+		if targetEntity == nil then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local aiEntity = aiComponent.Entity
+		if aiEntity == nil then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local transform = aiEntity.TransformComponent
+		if transform == nil then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local targetTransform = targetEntity.TransformComponent
+		if targetTransform == nil then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		local movementComponent = aiEntity.MovementComponent
+		if movementComponent == nil then
+			return BehaviourTreeStatus.Failure
+		end
+		
+		---@type Vector2
+		local toTarget = targetTransform.WorldPosition:ToVector2() - transform.WorldPosition:ToVector2()
+		local distance = toTarget:Magnitude()
+		if distance < self.ArrivalThreshold then
+			movementComponent:Stop()
+			currentWaypoint = (currentWaypoint + 1) % #self._T.waypoints
+			log(currentWaypoint)
+			self._T.currentWaypoint = currentWaypoint
+			return BehaviourTreeStatus.Success
+		end
+		
+		movementComponent:MoveToDirection(toTarget:Normalize(), delta)
+		return BehaviourTreeStatus.Running
+	end
+
+	method void OnInit()
+		if isvalid(self._T.waypoints) == false then 
+			local parent = self.ParentAI.BlackBoard:GetEntity(self.waypointID)
+			local wayPoints = parent.Children
+			self._T.waypoints = wayPoints
+		end
+		
+		
+		if isvalid(self._T.currentWaypoint) == false then 
+			self._T.currentWaypoint = 0
+		end
+	end
+
+end

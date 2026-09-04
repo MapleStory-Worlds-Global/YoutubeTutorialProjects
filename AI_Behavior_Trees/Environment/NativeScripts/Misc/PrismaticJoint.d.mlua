@@ -1,0 +1,56 @@
+---@sealed
+---@description "Make two Entities move relative only along a specific axis. It is used by adding it to Joints of PrismaticJointComponent."
+@Misc
+script PrismaticJoint
+
+	---@description "Sets whether two Entities connected by a Joint will collide with each other."
+	---@sealed
+	property boolean CollideConnected = false
+
+	---@description "Set the Anchor of the Entity with JointComponent. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorA = Vector2(0.000, 0.000)
+
+	---@description "Set the Anchor of the Entity connected by Joint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorB = Vector2(0.000, 0.000)
+
+	---@description "Sets the limit axis for PrismaticJoint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAxis = Vector2(0.000, 1.000)
+
+	---@description "Sets the minimum relative axis movement range of two Entities connected by a Joint."
+	---@sealed
+	property float LowerTranslation = 0
+
+	---@description "Sets the maximum strength applicable to the motor of joint to reach the target motor speed."
+	---@sealed
+	property float MaxMotorForce = 10000
+
+	---@description "Set whether to use the Joint's motor function. If True, the Joint is affected by the MotorSpeed value."
+	---@sealed
+	property boolean MotorEnable = false
+
+	---@description "Set the target motor speed of the Joint."
+	---@sealed
+	property float MotorSpeed = 0
+
+	---@description "Set the Entity to be connected with a Joint."
+	---@sealed
+	property EntityRef TargetEntityRef
+
+	---@description "Sets the maximum relative axis movement range of two Entities connected by a Joint."
+	---@sealed
+	property float UpperTranslation = 0
+
+	---@description "Set whether to limit the relative axis movement range of two Entities connected by a Joint."
+	---@sealed
+	property boolean UseLimits = false
+
+	---@description "Initializes PrismaticJoint to the default value."
+	constructor PrismaticJoint() end
+
+	---@description "Initializes PrismaticJoint to the same value as the specified joint."
+	constructor PrismaticJoint(PrismaticJoint joint) end
+
+end

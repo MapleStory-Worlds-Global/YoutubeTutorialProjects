@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs before setting an entity's original copy."
+@Event
+script EntityPreOriginSetEvent extends EventType
+
+	---@description "This feature is not available for creators."
+	---@sealed
+	property EntityOrigin Origin
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreOriginSetEvent(Entity entity = nil, EntityOrigin origin = nil) end
+
+end

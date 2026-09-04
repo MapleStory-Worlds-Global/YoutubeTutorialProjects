@@ -1,0 +1,8 @@
+@BTNode
+script PlayAnimationFrames extends ActionNode
+	property string animationRUID = ""
+	property integer frameStartIndex = 0
+	property integer frameEndIndex = 999
+
+	
+end

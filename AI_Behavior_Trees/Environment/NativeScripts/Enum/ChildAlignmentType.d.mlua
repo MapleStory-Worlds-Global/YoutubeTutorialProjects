@@ -1,0 +1,29 @@
+---@sealed
+---@description "The alignment type of the child Entity."
+@Enum
+script ChildAlignmentType
+	---@description "The alignment reference position is the top left of the parent."
+	member UpperLeft = 0
+	---@description "The alignment reference position is the top center of the parent."
+	member UpperCenter = 1
+	---@description "The alignment reference position is the top right of the parent."
+	member UpperRight = 2
+	---@description "The alignment reference position is the left center of the parent."
+	member MiddleLeft = 3
+	---@description "The alignment reference position is the center of the parent."
+	member MiddleCenter = 4
+	---@description "The alignment reference position is the right center of the parent."
+	member MiddleRight = 5
+	---@description "The alignment reference position is the bottom left of the parent."
+	member LowerLeft = 6
+	---@description "The alignment reference position is the bottom center of the parent."
+	member LowerCenter = 7
+	---@description "The alignment reference position is the bottom right of the parent."
+	member LowerRight = 8
+
+	---@description "Converts numbers to the applicable type."
+	static method ChildAlignmentType CastFrom(number value) end
+
+	---@description "This converts strings to the applicable type."
+	static method ChildAlignmentType CastFrom(string value) end
+end

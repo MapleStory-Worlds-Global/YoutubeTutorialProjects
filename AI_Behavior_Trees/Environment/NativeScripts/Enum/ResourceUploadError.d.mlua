@@ -1,0 +1,27 @@
+---@sealed
+---@description "Indicates resource upload success and failure results."
+@Enum
+script ResourceUploadError
+	---@description "Resource upload completed."
+	member Success = 0
+	---@description "Uploading resource failed due to an internal error."
+	member InternalError = 1
+	---@description "The upload failed because the producer's request was rejected, and an error occurred while verifying the request."
+	member ValidationFailed = 2
+	---@description "A previously requested upload did not complete. Only one request is made at a time."
+	member AlreadyInProgress = 3
+	---@description "The resource received as a parameter is nil."
+	member InvalidContent = 4
+	---@description "Upload failed because it was determined to be an inappropriate resource."
+	member HarmfulContent = 412
+	---@description "Upload failed with a resource exceeding the standard size."
+	member TooLargeContent = 413
+	---@description "Upload failed due to too many requests."
+	member TooManyRequests = 429
+
+	---@description "Converts numbers to the applicable type."
+	static method ResourceUploadError CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ResourceUploadError CastFrom(string value) end
+end

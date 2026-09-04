@@ -1,0 +1,295 @@
+---@sealed
+---@description "Represents the KeyCode of the keyboard."
+@Enum
+script KeyboardKey
+	---@description "Invalid key."
+	member None = 0
+	---@description "Backspace key"
+	member Backspace = 8
+	---@description "Tab key."
+	member Tab = 9
+	---@description "Clear key. "
+	member Clear = 12
+	---@description "Enter key."
+	member Return = 13
+	---@description "Pause key."
+	member Pause = 19
+	---@description "Esc key."
+	member Escape = 27
+	---@description "Space key."
+	member Space = 32
+	---@description "The exclamation mark key."
+	member Exclaim = 33
+	---@description "The double-quote key."
+	member DoubleQuote = 34
+	---@description "The hash key."
+	member Hash = 35
+	---@description "Dollar key."
+	member Dollar = 36
+	---@description "Percent key."
+	member Percent = 37
+	---@description "The ampersand key."
+	member Ampersand = 38
+	---@description "The single-quote key. "
+	member Quote = 39
+	---@description "The opening parenthesis key."
+	member LeftParen = 40
+	---@description "The closing parenthesis key."
+	member RightParen = 41
+	---@description "The asterisk key."
+	member Asterisk = 42
+	---@description "The plus key."
+	member Plus = 43
+	---@description "Comma key."
+	member Comma = 44
+	---@description "The minus key."
+	member Minus = 45
+	---@description "The period key."
+	member Period = 46
+	---@description "The slash key."
+	member Slash = 47
+	---@description "The number 0 key at the top of the keyboard."
+	member Alpha0 = 48
+	---@description "The number 1 key at the top of the keyboard."
+	member Alpha1 = 49
+	---@description "The number 2 key at the top of the keyboard."
+	member Alpha2 = 50
+	---@description "The number 3 key at the top of the keyboard."
+	member Alpha3 = 51
+	---@description "The number 4 key at the top of the keyboard."
+	member Alpha4 = 52
+	---@description "The number 5 key at the top of the keyboard."
+	member Alpha5 = 53
+	---@description "The number 6 key at the top of the keyboard."
+	member Alpha6 = 54
+	---@description "The number 7 key at the top of the keyboard."
+	member Alpha7 = 55
+	---@description "The number 8 key at the top of the keyboard."
+	member Alpha8 = 56
+	---@description "The number 9 key at the top of the keyboard."
+	member Alpha9 = 57
+	---@description "The colon key."
+	member Colon = 58
+	---@description "The semi-colon key."
+	member Semicolon = 59
+	---@description "The < key."
+	member Less = 60
+	---@description " The = key."
+	member Equals = 61
+	---@description "The > key."
+	member Greater = 62
+	---@description "Question mark key."
+	member Question = 63
+	---@description "The @ key."
+	member At = 64
+	---@description "The opening bracket."
+	member LeftBracket = 91
+	---@description "The backslash key."
+	member Backslash = 92
+	---@description "The closing bracket key."
+	member RightBracket = 93
+	---@description "The caret key."
+	member Caret = 94
+	---@description "The underline key."
+	member Underscore = 95
+	---@description "The backtick key."
+	member BackQuote = 96
+	---@description "A key."
+	member A = 97
+	---@description "B key."
+	member B = 98
+	---@description "C key."
+	member C = 99
+	---@description "D key."
+	member D = 100
+	---@description "E key."
+	member E = 101
+	---@description "F key."
+	member F = 102
+	---@description "G key."
+	member G = 103
+	---@description "H key."
+	member H = 104
+	---@description "I key."
+	member I = 105
+	---@description "J key."
+	member J = 106
+	---@description "K key."
+	member K = 107
+	---@description "L key."
+	member L = 108
+	---@description "M key."
+	member M = 109
+	---@description "N key."
+	member N = 110
+	---@description "O key."
+	member O = 111
+	---@description "P key."
+	member P = 112
+	---@description "Q key."
+	member Q = 113
+	---@description "R key."
+	member R = 114
+	---@description "S key."
+	member S = 115
+	---@description "T key."
+	member T = 116
+	---@description "U key."
+	member U = 117
+	---@description "V key."
+	member V = 118
+	---@description "W key."
+	member W = 119
+	---@description "X key."
+	member X = 120
+	---@description "Y key."
+	member Y = 121
+	---@description "Z key."
+	member Z = 122
+	---@description "The opening brace key."
+	member LeftCurlyBracket = 123
+	---@description "The pipe key."
+	member Pipe = 124
+	---@description "The closing brace key."
+	member RightCurlyBracket = 125
+	---@description "The tilde key."
+	member Tilde = 126
+	---@description "Delete key."
+	member Delete = 127
+	---@description "The 0 key on the numeric keypad."
+	member Keypad0 = 256
+	---@description "The 1 key on the numeric keypad."
+	member Keypad1 = 257
+	---@description "The 2 key on the numeric keypad."
+	member Keypad2 = 258
+	---@description "The 3 key on the numeric keypad."
+	member Keypad3 = 259
+	---@description "The 4 key on the numeric keypad."
+	member Keypad4 = 260
+	---@description "The 5 key on the numeric keypad."
+	member Keypad5 = 261
+	---@description "The 6 key on the numeric keypad."
+	member Keypad6 = 262
+	---@description "The 7 key on the numeric keypad."
+	member Keypad7 = 263
+	---@description "The 8 key on the numeric keypad."
+	member Keypad8 = 264
+	---@description "The 9 key on the numeric keypad."
+	member Keypad9 = 265
+	---@description "The period key on the numeric keypad."
+	member KeypadPeriod = 266
+	---@description "The slash key on the numeric keypad."
+	member KeypadDivide = 267
+	---@description "The asterisk key on the numeric keypad."
+	member KeypadMultiply = 268
+	---@description "The minus key on the numeric keypad."
+	member KeypadMinus = 269
+	---@description "The plus key on the numeric keypad."
+	member KeypadPlus = 270
+	---@description "The Enter key on the numeric keypad."
+	member KeypadEnter = 271
+	---@description "The = key on the numeric keypad."
+	member KeypadEquals = 272
+	---@description "Up arrow key."
+	member UpArrow = 273
+	---@description "Down arrow key."
+	member DownArrow = 274
+	---@description "Right arrow key."
+	member RightArrow = 275
+	---@description "Left arrow key."
+	member LeftArrow = 276
+	---@description "Insert key."
+	member Insert = 277
+	---@description "Home key."
+	member Home = 278
+	---@description "End key."
+	member End = 279
+	---@description "PageUp key."
+	member PageUp = 280
+	---@description "PageDown key."
+	member PageDown = 281
+	---@description "F1 key."
+	member F1 = 282
+	---@description "F2 key."
+	member F2 = 283
+	---@description "F3 key."
+	member F3 = 284
+	---@description "F4 key."
+	member F4 = 285
+	---@description "F5 key."
+	member F5 = 286
+	---@description "F6 key."
+	member F6 = 287
+	---@description "F7 key."
+	member F7 = 288
+	---@description "F8 key."
+	member F8 = 289
+	---@description "F9 key."
+	member F9 = 290
+	---@description "F10 key."
+	member F10 = 291
+	---@description "F11 key."
+	member F11 = 292
+	---@description "F12 key."
+	member F12 = 293
+	---@description "F13 key."
+	member F13 = 294
+	---@description "F14 key."
+	member F14 = 295
+	---@description "F15 key."
+	member F15 = 296
+	---@description "Numlock key."
+	member Numlock = 300
+	---@description "Capslock key."
+	member CapsLock = 301
+	---@description "Scrolllock key."
+	member ScrollLock = 302
+	---@description "Right Shift key."
+	member RightShift = 303
+	---@description "Left Shift key."
+	member LeftShift = 304
+	---@description "Right Control key."
+	member RightControl = 305
+	---@description "Left Control key."
+	member LeftControl = 306
+	---@description "Right Alt key."
+	member RightAlt = 307
+	---@description "Left Alt key."
+	member LeftAlt = 308
+	---@description "Right Command key."
+	member RightApple = 309
+	---@description "Right Command key."
+	member RightApple = 309
+	---@description "Left Command key."
+	member LeftApple = 310
+	---@description "Left Command key."
+	member LeftApple = 310
+	---@description "Left Command key."
+	member LeftWindows = 311
+	---@description "Right Command key."
+	member RightWindows = 312
+	---@description "Right Alt key."
+	member AltGr = 313
+	---@description "Help key."
+	member Help = 315
+	---@description "Print key."
+	member Print = 316
+	---@description "SysReq key."
+	member SysReq = 317
+	---@description "Break key."
+	member Break = 318
+	---@description "Menu key."
+	member Menu = 319
+	---@description "Left mouse button."
+	member Mouse0 = 323
+	---@description "Right mouse button."
+	member Mouse1 = 324
+	---@description "Middle mouse button."
+	member Mouse2 = 325
+
+	---@description "Converts numbers to the applicable type."
+	static method KeyboardKey CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method KeyboardKey CastFrom(string value) end
+end

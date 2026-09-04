@@ -1,0 +1,4 @@
+@Event
+script OnMethodExecuted extends EventType
+	property string methodName = ""
+end

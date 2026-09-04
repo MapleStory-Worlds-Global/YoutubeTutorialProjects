@@ -1,0 +1,68 @@
+@Logic
+script PoolManager extends Logic
+	property table pools = {}
+
+	method void Init(string poolName, integer count, string modelID, Entity map)
+		local poolComp = _EntityService:GetEntityByPath(string.format("%s/ObjectPool", map.Path)).ObjectPoolComponent
+		if poolComp == nil then
+			log("No ObjectPoolComponent found in map: " .. map.Path .. " Creating New Pool")
+			poolComp = _SpawnService:SpawnByModelId("model://mapempty", "ObjectPool", Vector3.zero, map):AddComponent(ObjectPoolComponent).Entity.ObjectPoolComponent
+		end
+
+		if self.pools[map.Path] == nil then
+			self.pools[map.Path] = poolComp
+		end
+		
+		poolComp:Fill(count, modelID, poolName) 
+		log("Pool Initalized")
+	end
+
+	method Entity Get(string poolName, Vector3 position, Entity map)
+		---@type ObjectPoolComponent
+		local poolComp = self.pools[map.Path]
+		if poolComp == nil then
+			log("No Pool Found in this map. Please Initialize first")
+			return 
+		end
+
+		log("Retruning entity")
+		local poolEntity = poolComp:Get(poolName)
+		poolEntity.TransformComponent.WorldPosition = position
+		return poolEntity
+	end
+
+	method void Release(Entity entity)
+		---@type ObjectPoolComponent
+		local poolComp = self.pools[entity.CurrentMap.Path]
+		if poolComp == nil then
+			log("No Pool Found in this map. Please Initialize first")
+			return 
+		end
+
+		log("Releasing Entity")
+		poolComp:Release(entity)
+		self:SendPoolReleaseEvent(entity)
+	end
+
+	method void SendPoolReleaseEvent(Entity entity)
+		local evt = OnPoolRelease()
+		evt.entity = entity 
+		entity:SendEvent(evt)
+	end
+
+	-- property Entity testEntity = nil
+	-- @EventSender("Service", "InputService")
+	-- handler OnKeyDown(KeyDownEvent event)
+
+	-- 	local map = _UserService.LocalPlayer.CurrentMap
+	-- 	if event.key == KeyboardKey.F1 then
+	-- 		self:Init("TestPool", 1, "model://mapempty", map, function() 
+	-- 			log("Released")
+	-- 		end)
+	-- 	elseif event.key == KeyboardKey.F2 then	
+	-- 		self.testEntity = self:Get("TestPool", map)
+	-- 	elseif event.key == KeyboardKey.F3 then
+	-- 		self:Release(self.testEntity)
+	-- 	end
+	-- end
+end

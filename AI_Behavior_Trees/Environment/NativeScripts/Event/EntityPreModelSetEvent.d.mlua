@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs before setting the target model of an entity."
+@Event
+script EntityPreModelSetEvent extends EventType
+
+	---@description "The Model to set."
+	---@sealed
+	property Model Model
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreModelSetEvent(Entity entity = nil, Model model = nil) end
+
+end

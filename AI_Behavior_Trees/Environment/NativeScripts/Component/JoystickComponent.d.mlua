@@ -1,0 +1,29 @@
+---@description "A Component to support the key function for virtual operation controlling the player's movement in the mobile environment."
+@Component
+script JoystickComponent extends Component
+
+	---@description "Sets the axis type for the operation key to move."
+	---@sealed
+	property AxisType Axis = AxisType.Axis_8
+
+	---@description "Pushing the controller down triggers this key."
+	---@sealed
+	property KeyboardKey DownArrow = KeyboardKey.DownArrow
+
+	---@description "The location of the control key moves to the user's touched location during play. "
+	---@sealed
+	property boolean DynamicStick = true
+
+	---@description "Pushing the controller left triggers this key."
+	---@sealed
+	property KeyboardKey LeftArrow = KeyboardKey.LeftArrow
+
+	---@description "Pushing the controller right triggers this key."
+	---@sealed
+	property KeyboardKey RightArrow = KeyboardKey.RightArrow
+
+	---@description "Pushing the controller up triggers this key."
+	---@sealed
+	property KeyboardKey UpArrow = KeyboardKey.UpArrow
+
+end

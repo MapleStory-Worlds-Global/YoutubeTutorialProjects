@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when a click is made in the WebView."
+@Event
+script WebViewClickedEvent extends EventType
+
+	---@description "This is the normalized value from 0 to 1 where the click occurred."
+	---@sealed
+	property Vector2 NormalizedPosition
+
+	constructor WebViewClickedEvent(Vector2 normalizedPosition = Vector2(0, 0)) end
+
+end

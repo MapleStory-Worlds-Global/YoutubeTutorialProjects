@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates tile map mode."
+@Enum
+script TileMapMode
+	---@description "This is the MapleStory tile map mode."
+	member MapleTile = 0
+	---@description "This is a square tile map mode from a top-down perspective."
+	member RectTile = 1
+	---@description "This is a square tile map mode for side-scrolling."
+	member SideViewRectTile = 2
+
+	---@description "Converts a number to its type."
+	static method TileMapMode CastFrom(number value) end
+
+	---@description "Converts a string to its type."
+	static method TileMapMode CastFrom(string value) end
+end

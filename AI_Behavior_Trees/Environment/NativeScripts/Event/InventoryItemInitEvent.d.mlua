@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when initializing the inventory. InventoryComponent related functions will work normally after the event."
+@Event
+script InventoryItemInitEvent extends EventType
+
+	---@description "Occurring Inventory of an Entity."
+	---@sealed
+	property Entity Entity
+
+	---@description "Updated Item list."
+	---@sealed
+	property List<Item> Items
+
+	constructor InventoryItemInitEvent(Entity inventoryEntity = nil, List<Item> items = nil) end
+
+end

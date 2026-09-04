@@ -1,0 +1,32 @@
+---@sealed
+---@description "Provides the text translation function."
+@Service
+script LocalizationService extends Service
+
+	---@description "The current language code of the client. It's the language selected in the Language settings of released World, and Test Play Language settings in the Maker mode."
+	---@sealed
+	readonly property string CurrentLocaleId
+
+	---@description "This Translator applies to CurrentLocaleId."
+	---@sealed
+	readonly property Translator LocalTranslator
+
+	---@description "Finds and returns the text of the cell whose row name is key and column name is CurrentLocaledId in the translation table."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetText(string key) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetTextFormat(string key, any... args) end
+
+	---@description "Returns the Translator corresponding to the entered localeId."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Translator GetTranslatorForLocale(string localeId) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string SmartFormat(string format, any... args) end
+
+end

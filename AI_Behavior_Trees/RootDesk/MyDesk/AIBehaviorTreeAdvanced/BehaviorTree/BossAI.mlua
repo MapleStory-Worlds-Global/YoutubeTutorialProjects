@@ -1,0 +1,213 @@
+@Component
+script BossAI extends AIComponent
+	property Color warningColor = Color.red
+	property string polygonMaterialID = "material://ced46239-2260-47a1-a86c-1bed987ae921"
+	property string polygonGrowMaterialID = "material://9a01fd98-3f5c-4db1-b337-1d49dbb35ac7"
+	property number meleeDetectRadius = 2.0
+	property number rangeDetectRadius = 3.0
+	property number meleeRadius = 1.0
+	property number rangeRadius = 2.0
+
+	--Projectile
+	property integer projectileCount = 3
+	property string rangedProjectileId = ""
+	property Entity attackPositionsParent = nil
+
+	--Attack Frames
+	property Vector2 meleeAttackFrame = Vector2(1,999)
+	property Vector2 rangedAttackFrame = Vector2(1,999)
+
+	--BlackBoard Vars
+	property string bbMeleeTargetId = "bb_TargetMelee"
+	property string bbRangeTargetId = "bb_TargetRange"
+	property string bbNearestTarget = "bb_Target"
+
+	--Polygons for Warning Renderers
+	property PolygonRendererComponent polygonGrowComp = nil
+	property PolygonRendererComponent polygonFullComp = nil
+
+	--Comp Reference Caches.
+	@HideFromInspector
+	property StateComponent stateComp = nil
+	@HideFromInspector
+	property StateAnimationComponent stateAnimComp = nil
+	@HideFromInspector
+	property BossAttackComponent attackComp = nil
+
+	method void OnBeginPlay()
+		--Init for both client & Server.
+		self:Init()
+	end
+
+	method void Init()
+		local positions = {}
+
+		--Initialize Components
+		self.stateComp = self.Entity.StateComponent
+		self.stateAnimComp = self.Entity.StateAnimationComponent
+		self.attackComp = self.Entity.BossAttackComponent
+
+		if self:IsServer() then
+			self._T.targetCheckTimer = _TimerService:SetTimerRepeat(function() self:UpdateTarget() end, 0.5, 0.5)
+		end
+	end
+
+	method void OnDestroy()
+		if self:IsServer() then
+			_TimerService:ClearTimer(self._T.targetCheckTimer)
+		end
+	end
+
+	method void UpdateTarget()
+		local mc = self.Entity.CurrentMap.MapComponent
+		local players = _UserService:GetUsersByMapComponent(mc)
+
+		--Find Users within range & melee radius
+		local closestMeleeUser = nil
+		local closestDistanceMelee = self.meleeDetectRadius
+		local closestRangeUser = nil
+		local closestDistanceRange = self.rangeDetectRadius
+
+		local closestTarget = nil
+		local closestDistance = math.maxinteger
+
+		local bossPosition = self.Entity.TransformComponent.WorldPosition:ToVector2()
+
+		for index, user in ipairs(players) do
+			local transform = user.TransformComponent
+			if isvalid(transform) then
+				local distance = Vector2.Distance(bossPosition, transform.WorldPosition:ToVector2())
+				if distance <= closestDistanceMelee then
+					closestDistanceMelee = distance
+					closestMeleeUser = user
+				end
+
+				if distance <= closestDistanceRange then
+					closestDistanceRange = distance
+					closestRangeUser = user
+				end
+
+				if distance <= closestDistance then
+					closestDistance = distance 
+					closestTarget = user
+				end
+			end
+		end
+		self.BlackBoard:SetEntity(self.bbMeleeTargetId, closestMeleeUser)
+		self.BlackBoard:SetEntity(self.bbRangeTargetId, closestRangeUser)
+		self.BlackBoard:SetEntity(self.bbNearestTarget, closestTarget)
+	end
+
+	method void SetMethodComplete(boolean value)
+		self.BlackBoard:SetBool("bb_isMethodComplete", value)
+	end
+
+	method Vector3 GetRandomPosition()
+		return self._T.rangedPositions[_UtilLogic:RandomIntegerRange(1, #self._T.rangedPositions)]
+	end
+
+	method void UpdateRadius(PolygonRendererComponent polygon, Vector2 offset, number radius)
+		
+		local res = polygon.Points.Count
+		for i = 1, res do
+			local rad = 2 * math.pi * (i / tonumber(res))
+			local x = math.cos(rad) * radius
+			local y = math.sin(rad) * radius
+			polygon.Points[i] = offset + Vector2(x, y)
+		end
+	end
+
+	method void ShowAttackWarningAndWait(Vector2 offset, number range, number duration)
+		local frameInterval = 1/10
+		local timer = 0
+		self.polygonFullComp.Entity:SetEnable(true)
+		self.polygonGrowComp.Entity:SetEnable(true)
+
+		self:UpdateRadius(self.polygonFullComp, offset, range)
+		while timer < duration do
+			timer += frameInterval
+			self:UpdateRadius(self.polygonGrowComp, offset, range * timer/duration)
+			wait(frameInterval)
+		end
+
+		self.polygonFullComp.Entity:SetEnable(false)
+		self.polygonGrowComp.Entity:SetEnable(false)
+	end
+
+	method void AttackMelee()
+		self:SetMethodComplete(false)
+
+		self.stateComp:ChangeState("ATTACKMELEE")
+		local animKey = self.stateAnimComp:StateStringToAnimationKey("ATTACKMELEE")
+		local ruid = self.stateAnimComp.ActionSheet[animKey]
+
+		-- Wait any Pre attack frames
+		if self.meleeAttackFrame.x > 1 then
+			_SpriteUtils:WaitForFrames(ruid,1, self.meleeAttackFrame.x - 1)
+		end
+
+		local animDuration = _SpriteUtils:GetAnimationLength(ruid, self.meleeAttackFrame.x, self.meleeAttackFrame.y)
+		self:ShowAttackWarningAndWait(Vector2.zero, self.meleeRadius, animDuration)
+
+		local attackInfo = AttackInfo()
+		attackInfo.Damage = 10
+		attackInfo.effectRUID = ""
+		self.attackComp:AttackMelee(attackInfo, self.meleeRadius)
+		
+		_SpriteUtils:WaitForFrames(ruid, self.meleeAttackFrame.y + 1, 999)
+		self.stateComp:ChangeState("WAIT")
+		self:SetMethodComplete(true)
+	end
+
+	method void AttackRange()	
+		self:SetMethodComplete(false)
+		log("attacking Range")
+		for key, value in pairs(self.stateAnimComp.ActionSheet:ToTable()) do
+			log(key .. " = " .. tostring(value))
+		end
+		local targetPos = nil--self:GetRandomPosition()
+		local target = self.BlackBoard:GetEntity(self.bbNearestTarget)
+		
+		if isvalid(target) then
+			targetPos = target.TransformComponent.WorldPosition
+		end
+		self.stateComp:ChangeState("ATTACKRANGE")
+		local animKey = self.stateAnimComp:StateStringToAnimationKey("ATTACKRANGE")
+		local ruid = self.stateAnimComp.ActionSheet[animKey]
+
+		local from = math.tointeger(self.rangedAttackFrame.x)
+		local to = math.tointeger(self.rangedAttackFrame.y)
+		if self.rangedAttackFrame.x > 1 then
+			_SpriteUtils:WaitForFrames(ruid,1, from - 1)
+		end
+		
+
+		local animDuration = _SpriteUtils:GetAnimationLength(ruid, from, to)
+		local offset = (targetPos - self.Entity.TransformComponent.WorldPosition):ToVector2()
+
+		self:ShowAttackWarningAndWait(Vector2.zero, self.rangeRadius, animDuration)
+
+		local frameCount = to + 1
+		for i = 1, self.projectileCount do
+			local attackInfo = AttackInfo()
+			attackInfo.Damage = 10
+			attackInfo.effectRUID = "0eb4ce2251e841d592651b4731f30f43"
+
+			self.attackComp:AttackRanged(attackInfo, self.rangeRadius, target)
+			_SpriteUtils:WaitForFrames(ruid, frameCount, frameCount + 5)
+			frameCount += 6
+		end
+		
+		_SpriteUtils:WaitForFrames(ruid, frameCount - 1, 999)
+		self.stateComp:ChangeState("WAIT")
+		log("Range Attack Complete")
+		self:SetMethodComplete(true)
+	end
+
+	@EventSender("Self")
+	@ExecSpace("ServerOnly")
+	handler OnMethodExecuted(OnMethodExecuted evt)
+		local methodName = evt.methodName
+		self[methodName](self)
+	end
+end

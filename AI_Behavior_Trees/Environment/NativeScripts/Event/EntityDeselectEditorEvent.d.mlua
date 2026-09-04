@@ -1,0 +1,12 @@
+---@sealed
+---@description "Editor event which takes place when deselecting an entity."
+@Event
+script EntityDeselectEditorEvent extends EventType
+
+	---@description "Clicked entity."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityDeselectEditorEvent(Entity entity = nil) end
+
+end

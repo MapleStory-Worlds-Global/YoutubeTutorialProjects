@@ -1,0 +1,21 @@
+@BTNode
+script TestDecorator extends DecoratorNode
+	property any child = nil
+
+	method any OnBehave(number delta)
+		if self.child == nil then 
+			return BehaviourTreeStatus.Failure
+		end
+
+		local status = self.child:Behave(delta)
+		if status == BehaviourTreeStatus.Success then 
+			log ("TestDecorator: Child Succeeded")
+		elseif status == BehaviourTreeStatus.Failure then 
+			log ("TestDecorator: Child Failed")
+		elseif status == BehaviourTreeStatus.Running then 
+			log ("TestDecorator: Child Running")
+		end
+
+		return status
+	end
+end

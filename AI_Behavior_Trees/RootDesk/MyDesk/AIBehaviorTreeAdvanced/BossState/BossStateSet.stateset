@@ -1,0 +1,131 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "stateset://f61defbc-850a-4e4c-b6a4-c80900f23537",
+  "ContentType": "x-mod/stateset",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "stateset://f61defbc-850a-4e4c-b6a4-c80900f23537",
+      "name": "BossStateSet",
+      "stateset": {
+        "InitialStateNodeId": "6889e925-078f-4b61-8572-3ff79bdbe134",
+        "Nodes": [
+          {
+            "Id": "801dbfe3-4754-43da-bf9d-e9157fd69b79",
+            "PositionX": 250.0,
+            "PositionY": 50.0,
+            "IsNative": true,
+            "Name": "DEAD",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnDead, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "7a63b84e-3c8f-4236-a04d-91731ab7f9b9",
+            "PositionX": -250.0,
+            "PositionY": 0.0,
+            "IsNative": true,
+            "Name": "HIT",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnHit, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "e86350c0-de01-4423-96c5-fbdf2150f793",
+            "PositionX": 250.0,
+            "PositionY": -50.0,
+            "IsNative": true,
+            "Name": "MOVE",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSDoNothing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "e1603d72-be81-4a8d-a777-8cb48537fbd8",
+            "PositionX": 44.54077,
+            "PositionY": -79.4000244,
+            "IsNative": true,
+            "Name": "ATTACKMELEE",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSDoNothing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "11b99db6-fe27-4e34-9c9f-9b9f946930e9",
+            "PositionX": -157.859253,
+            "PositionY": -79.39996,
+            "IsNative": true,
+            "Name": "ATTACKRANGE",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSDoNothing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "6889e925-078f-4b61-8572-3ff79bdbe134",
+            "PositionX": -29.057251,
+            "PositionY": 77.0049438,
+            "IsNative": true,
+            "Name": "IDLE",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSDoNothing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "5671cfc7-b087-4356-91f5-8ba0a3e40c76",
+            "PositionX": -47.456665,
+            "PositionY": -142.994812,
+            "IsNative": true,
+            "Name": "WAIT",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSDoNothing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          }
+        ],
+        "Transitions": []
+      }
+    }
+  }
+}

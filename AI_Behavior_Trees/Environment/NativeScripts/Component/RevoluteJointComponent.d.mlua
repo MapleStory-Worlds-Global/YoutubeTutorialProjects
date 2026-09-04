@@ -1,0 +1,58 @@
+---@description "Create and delete RevoluteJoint. Controls the relative rotation of connected rigid bodies."
+@Component
+script RevoluteJointComponent extends Component
+
+	---@description "Set Joint information."
+	---@sealed
+	@Sync
+	property SyncList<RevoluteJoint> Joints
+
+	---@description "Add Joint. Return index on success, -1 on failure"
+	---@sealed
+	method int32 AddJoint(Entity targetEntity, Vector2 localAnchorA, Vector2 localAnchorB) end
+
+	---@description "Removes the Joint whose sequence number corresponds to the index."
+	---@sealed
+	method void DestroyJoint(int32 index) end
+
+	---@description "Returns the number of joints."
+	---@sealed
+	method int32 GetJointsCount() end
+
+	---@description "Set the CollideConnected value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetCollideConnected(int32 index, boolean collideConnected) end
+
+	---@description "Set the LocalAnchorA value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetLocalAnchorA(int32 index, Vector2 localAnchorA) end
+
+	---@description "Set the LocalAnchorB value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetLocalAnchorB(int32 index, Vector2 localAnchorB) end
+
+	---@description "Set the LowerAngle value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetLowerAngle(int32 index, float lowerAngle) end
+
+	---@description "Sets the MaxMotorTorque value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetMaxMotorTorque(int32 index, float maxMotorTorque) end
+
+	---@description "Set the MotorEnable value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetMotorEnable(int32 index, boolean enable) end
+
+	---@description "Set the MotorSpeed value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetMotorSpeed(int32 index, float speed) end
+
+	---@description "Set the UpperAngle value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetUpperAngle(int32 index, float upperAngle) end
+
+	---@description "Set the UseLimits value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetUseLimits(int32 index, boolean useLimits) end
+
+end

@@ -1,0 +1,17 @@
+---@sealed
+---@description "The alignment direction of the child UI Entity relative to the parent Entity. You can set if ScrollLayoutGroupComponent is GridType."
+@Enum
+script GridLayoutConstraint
+	---@description "Automatically sets the number of rows and columns when sorting child entities."
+	member Flexible = 0
+	---@description "The number of columns is frozen when sorting child entities."
+	member FixedColumnCount = 1
+	---@description "The number of rows is frozen when sorting child entities."
+	member FixedRowCount = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method GridLayoutConstraint CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method GridLayoutConstraint CastFrom(string value) end
+end

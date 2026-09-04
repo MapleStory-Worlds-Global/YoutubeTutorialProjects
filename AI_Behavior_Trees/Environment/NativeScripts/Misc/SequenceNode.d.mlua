@@ -1,0 +1,37 @@
+---@sealed
+---@description "Executes child nodes until the child node returns Failure."
+@Misc
+script SequenceNode extends BTNode
+
+	---@description "The number of child nodes."
+	---@sealed
+	readonly property int32 ChildCount
+
+	---@description "Initializes SequenceNode to the specified name."
+	constructor SequenceNode(string name = "SequenceNode") end
+
+	---@description "Incorporates the node as a child."
+	---@sealed
+	method void AttachChild(BTNode node) end
+
+	---@description "Incorporates the node as a child at the index position. Index starts at 1."
+	---@sealed
+	method void AttachChildAt(BTNode node, int32 index) end
+
+	---@description "Executes the child node that corresponds to the index of CompositNode. deltaTime indicates the time passed between the previous frame and the current one."
+	---@sealed
+	method BehaviourTreeStatus ChildBehave(int32 index, float deltaTime) end
+
+	---@description "Detaches a child node."
+	---@sealed
+	method boolean DetachChild(BTNode node) end
+
+	---@description "Finds and detaches nodeName child node."
+	---@sealed
+	method boolean DetachChild(string nodeName) end
+
+	---@description "Detaches the child node at index position. Index starts at 1."
+	---@sealed
+	method void DetachChildAt(int32 index) end
+
+end

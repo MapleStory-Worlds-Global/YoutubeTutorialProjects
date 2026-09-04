@@ -1,0 +1,114 @@
+---@description "Provides a rectangular tile map function."
+@Component
+script RectTileMapComponent extends Component
+
+	---@description "The size of the grid."
+	---@sealed
+	@Sync
+	property Vector2 GridSize = Vector2(1.000, 1.000)
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Positions the tilemap off of the grid's base point."
+	---@sealed
+	property boolean IsOddGridPosition = false
+
+	---@description "Determines the priority within the same Layer. A greater number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "If true, it may collide with a Dynamic rigid body (PhysicRigidbody) using the Physics feature."
+	---@sealed
+	property boolean PhysicsInteractable = false
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	property string SortingLayer = "Default"
+
+	---@description "Total number of tiles currently placed."
+	---@sealed
+	readonly property int32 TileCount
+
+	---@description "The RUID of the tileset."
+	---@sealed
+	@Sync
+	property string TileSetRUID
+
+	---@description "Places tiles in a quadrangle area from \"\"from\"\" to \"\"to\"\"."
+	---@sealed
+	method void BoxFill(int32 tileIndex, Vector2Int from, Vector2Int to) end
+
+	---@description "Places tiles in a quadrangle area from \"\"from\"\" to \"\"to\"\"."
+	---@sealed
+	method void BoxFill(string tileName, Vector2Int from, Vector2Int to) end
+
+	---@description "Removes tiles in the quadrangle area \"\"from\"\" to \"\"to\"\"."
+	---@sealed
+	method void BoxRemove(Vector2Int from, Vector2Int to) end
+
+	---@description "Removes all tiles."
+	---@sealed
+	method void Clear() end
+
+	---@description "Returns a list of all tile locations in the current tilemap."
+	---@sealed
+	method List<Vector2Int> GetAllTilePositions() end
+
+	---@description "Returns the tile information at the corresponding location."
+	---@sealed
+	method RectTileInfo GetTile(Vector2Int cellPosition) end
+
+	---@description "Returns the tile information at the corresponding location."
+	---@sealed
+	method RectTileInfo GetTile(int32 cellPositionX, int32 cellPositionY) end
+
+	---@description "Removes the tile at the corresponding location."
+	---@sealed
+	method void RemoveTile(Vector2Int cellPosition) end
+
+	---@description "Removes the tile at the corresponding location."
+	---@sealed
+	method void RemoveTile(int32 cellPositionX, int32 cellPositionY) end
+
+	---@description "Resets tile map to the initial state."
+	---@sealed
+	method void Reset() end
+
+	---@description "Places the tile in the corresponding location."
+	---@sealed
+	method void SetTile(int32 tileIndex, Vector2Int cellPosition) end
+
+	---@description "Places the tile in the corresponding location."
+	---@sealed
+	method void SetTile(int32 tileIndex, int32 cellPositionX, int32 cellPositionY) end
+
+	---@description "Places the tile in the corresponding location."
+	---@sealed
+	method void SetTile(string tileName, Vector2Int cellPosition) end
+
+	---@description "Places the tile in the corresponding location."
+	---@sealed
+	method void SetTile(string tileName, int32 cellPositionX, int32 cellPositionY) end
+
+	---@description "Converts the coordinates of real number world space to those of integer tile map space."
+	---@sealed
+	method Vector2Int ToCellPosition(Vector3 worldPosition) end
+
+	---@description "Converts the coordinates of real number world space to those of integer tile map space."
+	---@sealed
+	method Vector2Int ToCellPosition(float worldPositionX, float worldPositionY) end
+
+	---@description "Converts the coordinates of integer tile map space to those of real number world space."
+	---@sealed
+	method Vector3 ToWorldPosition(Vector2Int cellPosition) end
+
+	---@description "Converts the coordinates of integer tile map space to those of real number world space."
+	---@sealed
+	method Vector3 ToWorldPosition(int32 cellPositionX, int32 cellPositionY) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+end

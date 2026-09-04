@@ -1,0 +1,20 @@
+---@sealed
+---@description "This event is triggered when an entity first appears in edit mode."
+@Event
+script EntityFirstSpawnInEditModeEvent extends EventType
+
+	---@description "This feature is not available for creators."
+	---@sealed
+	property Data Data
+
+	---@description "This feature is not available for creators."
+	---@sealed
+	property EntityOrigin Origin
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityFirstSpawnInEditModeEvent(Entity entity = nil, EntityOrigin origin = nil, Data data = nil) end
+
+end

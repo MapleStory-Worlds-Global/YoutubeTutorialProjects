@@ -1,0 +1,29 @@
+---@description "Sets the movement between Portals. You can move from one Portal to another."
+@Component
+script PortalComponent extends Component
+
+	---@description "Sets the center point position of the collider rectangle based on Entity. "
+	---@sealed
+	@Sync
+	property Vector2 BoxOffset
+
+	---@description "Specifies the width and height of the collider rectangle."
+	---@sealed
+	@Sync
+	property Vector2 BoxSize
+
+	---@description "Collision group in Portal."
+	---@sealed
+	readonly property CollisionGroup CollisionGroup = CollisionGroups.Portal
+
+	---@description "Sets whether this Component will operate with the previous system. In the new system, the Collider is affected by TransformComponent's rotation and size."
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "Sets a destination portal. Only an entity that has PortalComponent can be set as a destination."
+	---@sealed
+	property EntityRef PortalEntityRef
+
+	emitter EmitPortalUseEvent(PortalUseEvent event) end
+
+end

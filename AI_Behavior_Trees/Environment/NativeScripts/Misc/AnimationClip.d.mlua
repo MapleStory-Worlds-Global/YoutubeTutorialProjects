@@ -1,0 +1,26 @@
+---@sealed
+---@description "This class includes the metadata and Sprite for the animation output of MSW."
+@Misc
+script AnimationClip
+
+	---@description "This list contains each frame."
+	---@sealed
+	readonly property ReadOnlyList<Frame> Frames
+
+	---@description "Play speed. If it is 1, it is 1x speed."
+	---@sealed
+	readonly property float PlayRate
+
+	---@description "A flag to check whether the resource has successfully loaded. All resources in MSW can be used only after loading is completed."
+	---@sealed
+	readonly property boolean IsLoadComplete = false
+
+	---@description "The RUID of the resource."
+	---@sealed
+	readonly property string RUID
+
+	---@description "The type of the resource."
+	---@sealed
+	readonly property ResourceType Type
+
+end

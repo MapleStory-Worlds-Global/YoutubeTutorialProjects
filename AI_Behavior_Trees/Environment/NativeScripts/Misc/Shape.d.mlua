@@ -1,0 +1,10 @@
+---@sealed
+---@description "Represents a shape to be utilized for collision-related functions."
+@Misc
+script Shape
+
+	---@description "The shape's position in world coordinates."
+	---@sealed
+	property Vector2 Position
+
+end

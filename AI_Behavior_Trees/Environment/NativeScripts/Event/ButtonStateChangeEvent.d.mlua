@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when changing the Button's state."
+@Event
+script ButtonStateChangeEvent extends EventType
+
+	---@description "Changed state."
+	---@sealed
+	property ButtonState state
+
+	constructor ButtonStateChangeEvent(ButtonState state = ButtonState.Normal) end
+
+end

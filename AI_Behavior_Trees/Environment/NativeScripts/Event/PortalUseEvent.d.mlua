@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when a player uses a portal."
+@Event
+script PortalUseEvent extends EventType
+
+	---@description "The entity of the player using the portal."
+	---@sealed
+	property Entity PortalUser
+
+	constructor PortalUseEvent(Entity portalUser = nil) end
+
+end

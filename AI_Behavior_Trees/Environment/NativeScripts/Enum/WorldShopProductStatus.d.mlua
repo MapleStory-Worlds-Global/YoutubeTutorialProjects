@@ -1,0 +1,21 @@
+---@sealed
+---@description "Indicates the sales state of the product."
+@Enum
+script WorldShopProductStatus
+	---@description "Product registration in progress."
+	member Register = 0
+	---@description "The product is on sale."
+	member Ing = 1
+	---@description "The product is waiting for sale."
+	member Waiting = 2
+	---@description "The product is sold out."
+	member End = 3
+	---@description "The product has been deleted."
+	member Deleted = 4
+
+	---@description "Converts numbers to the applicable type."
+	static method WorldShopProductStatus CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method WorldShopProductStatus CastFrom(string value) end
+end

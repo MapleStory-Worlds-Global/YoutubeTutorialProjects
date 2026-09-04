@@ -1,0 +1,88 @@
+---@description "Provides circular motion of an object."
+@Component
+script TweenCircularComponent extends Component
+
+	---@description "Defines the total rotation angle. It rotates once if the value is 360. It rotates infinitely if the value is 0."
+	---@sealed
+	@Sync
+	property float Degree = 360
+
+	---@description "Define the direction of rotation. Rotate clockwise if set to true."
+	---@sealed
+	@Sync
+	property boolean IsClockwise = false
+
+	---@description "References the center point when rotating if the value is set to true."
+	---@sealed
+	@Sync
+	property boolean LookAtCenter = false
+
+	---@description "Defines the turning radius."
+	---@sealed
+	@Sync
+	property float Radius = 1
+
+	---@description "Defines how many degrees per second to rotate. Rotates once per second if the value is 360."
+	---@sealed
+	@Sync
+	property float Speed = 50
+
+	---@description "When true, this Component is removed from an Entity when the tween reaches its destination and ends or when Stop() is called directly."
+	---@sealed
+	@Sync
+	property boolean AutoDestroy = false
+
+	---@description "If true, the tween will play automatically upon starting the game."
+	---@sealed
+	@Sync
+	property boolean AutoStart = true
+
+	---@description "The current playback state."
+	---@sealed
+	@Sync
+	readonly property TweenState CurrentState
+
+	---@description "The starting position of the tween."
+	---@sealed
+	@Sync
+	readonly property Vector3 OriginPosition
+
+	---@description "The initial rotation value of the tween."
+	---@sealed
+	@Sync
+	readonly property Quaternion OriginRotation
+
+	---@description "The initial size of the tween."
+	---@sealed
+	@Sync
+	readonly property Vector3 OriginScale
+
+	---@description "Sets the playback subject. The default value is Default."
+	---@sealed
+	property TweenSyncType SyncType = TweenSyncType.Default
+
+	---@description "The amount of elapsed time after starting the tween. The unit of measure is the second."
+	---@sealed
+	readonly property number TweenTime
+
+	---@description "Changes CurrentState to Destroying and removes this Component."
+	---@sealed
+	method void Destroy() end
+
+	---@description "Pauses the tween. Changes CurrentState to Pausing."
+	---@sealed
+	method void Pause() end
+
+	---@description "Plays the tween. Changes CurrentState to Playing."
+	---@sealed
+	method void Play() end
+
+	---@description "Restarts from current location."
+	---@sealed
+	method void RestartFromCurrentPosition() end
+
+	---@description "Stops the tween. Changes CurrentState to Idle. Specifying true for reset returns the tween's position and progress to the initial state."
+	---@sealed
+	method void Stop(boolean reset) end
+
+end

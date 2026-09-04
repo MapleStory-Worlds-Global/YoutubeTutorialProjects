@@ -1,0 +1,37 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "material://ced46239-2260-47a1-a86c-1bed987ae921",
+  "ContentType": "x-mod/material",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "name": "WarningFull",
+      "id": "ced46239-2260-47a1-a86c-1bed987ae921",
+      "shadertype": "PolygonSprite",
+      "AnimationClipFilterMode": 0,
+      "AnimationClipPlayRate": 1.0,
+      "AnimationClipWrapMode": 0,
+      "LitMode": 0,
+      "Offset": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "Rotate": 0.0,
+      "Scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "SpriteRUID": "08df9124cad74cfabad45fb48114b1ba",
+      "IsUIMaterial": false,
+      "RequiresUIStencilStateChange": false
+    }
+  }
+}

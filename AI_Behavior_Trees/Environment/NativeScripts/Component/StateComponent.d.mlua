@@ -1,0 +1,60 @@
+---@description "Provides a function to set the status behaviors and transition rules and control them using a custom StateType, ConditionType, or StateSet."
+@Component
+script StateComponent extends Component
+
+	---@description "You can get the name of the current state."
+	---@sealed
+	@Sync
+	readonly property string CurrentStateName = "IDLE"
+
+	---@description "Sets whether this Component will operate with the previous system."
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "The Id of the StateSet that will be applied to the StateComponent internal state machine."
+	---@sealed
+	property string StateSetId = ""
+
+	---@description "This function is deprecated."
+	---@deprecated
+	---@sealed
+	method boolean AddCondition(string stateName, string nextStateName, func -> boolean conditionCheckFunction, boolean reverseResult = false) end
+
+	---@description "This function is deprecated. Connects stateName's status and nextStateName's status. Returns false if it fails. If the return value of OnConditionCheck for StateType is true, the state is changed from stateName to nextStateName. reverseResult is an inoperative parameter. An API that adds transfer conditions will be revealed in the future."
+	---@deprecated
+	---@sealed
+	method boolean AddCondition(string stateName, string nextStateName, boolean reverseResult = false) end
+
+	---@description "This function is now deprecated. Use another AddState(string, Type)."
+	---@deprecated
+	---@sealed
+	method boolean AddState(string stateName, func updateFunction = nil) end
+
+	---@description "Adds the status named stateName with a custom StateType. Returns false if it fails."
+	---@sealed
+	method boolean AddState(string stateName, Type stateType) end
+
+	---@description "Forces the current state to be changed to the specified state."
+	---@sealed
+	method boolean ChangeState(string stateName) end
+
+	---@description "Removes the event handler linked to HitEvent by StateComponent. This handler calls ChangeState(\"\"HIT\"\") when HitEvent is triggered to convert into a hit state."
+	---@sealed
+	method void DisconnectHitEvent() end
+
+	---@description "This function is deprecated. Disconnects the state stateName from the state nextStateName. An API that removes transfer conditions will be revealed in the future."
+	---@deprecated
+	---@sealed
+	method void RemoveCondition(string stateName, string nextStateName) end
+
+	---@description "Removes the specified state."
+	---@sealed
+	method void RemoveState(string name) end
+
+	emitter EmitDeadEvent(DeadEvent event) end
+
+	emitter EmitReviveEvent(ReviveEvent event) end
+
+	emitter EmitStateChangeEvent(StateChangeEvent event) end
+
+end

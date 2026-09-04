@@ -1,0 +1,22 @@
+@BTNode
+script SetBlackboardValue_TargetPos extends ActionNode
+
+	property string Key = ""
+	property string ValueKey = ""
+
+	method any OnBehave(number delta)
+		local aiComponent = self.ParentAI
+		if aiComponent == nil then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local target = aiComponent.BlackBoard:GetEntity(self.ValueKey)
+		if target == nil then
+			return BehaviourTreeStatus.Failure
+		end
+
+		aiComponent.BlackBoard:SetVector2(self.Key, target.TransformComponent.Position:ToVector2())
+		
+		return BehaviourTreeStatus.Success
+	end
+end

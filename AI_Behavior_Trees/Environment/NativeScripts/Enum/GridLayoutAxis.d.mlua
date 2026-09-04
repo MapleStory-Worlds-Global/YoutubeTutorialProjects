@@ -1,0 +1,15 @@
+---@sealed
+---@description "The alignment direction of the child UI Entity. You can set if ScrollLayoutGroupComponent is GridType."
+@Enum
+script GridLayoutAxis
+	---@description "Add child UI Entities horizontally."
+	member Horizontal = 0
+	---@description "Add child UI Entities vertically."
+	member Vertical = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method GridLayoutAxis CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method GridLayoutAxis CastFrom(string value) end
+end

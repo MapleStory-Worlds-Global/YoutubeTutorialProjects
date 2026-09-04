@@ -1,0 +1,13 @@
+---@sealed
+---@description "Represents a circle shape to be utilized for collision-related functions."
+@Misc
+script CircleShape extends Shape
+
+	---@description "The radius of the circle."
+	---@sealed
+	property float Radius
+
+	---@description "Initializes CircleShape to the specified value."
+	constructor CircleShape(Vector2 position, float radius) end
+
+end

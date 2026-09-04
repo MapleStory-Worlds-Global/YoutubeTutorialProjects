@@ -1,0 +1,5 @@
+---@description "The special Component only for the SpawnLocation Model."
+@Component
+script SpawnLocationComponent extends Component
+
+end

@@ -1,0 +1,117 @@
+---@description "Manages information such as clothes and weapons equipped by the player."
+@Component
+script CostumeManagerComponent extends Component
+
+	---@description "Skin"
+	---@sealed
+	@Sync
+	property string CustomBodyEquip
+
+	---@description "Hat"
+	---@sealed
+	@Sync
+	property string CustomCapEquip = ""
+
+	---@description "Cape"
+	---@sealed
+	@Sync
+	property string CustomCapeEquip = ""
+
+	---@description "Coat"
+	---@sealed
+	@Sync
+	property string CustomCoatEquip = ""
+
+	---@description "Ear Accessory"
+	---@sealed
+	@Sync
+	property string CustomEarAccessoryEquip = ""
+
+	---@description "Ears"
+	---@sealed
+	@Sync
+	property string CustomEarEquip
+
+	---@description "Eye Accessory"
+	---@sealed
+	@Sync
+	property string CustomEyeAccessoryEquip = ""
+
+	---@description "Face Accessory"
+	---@sealed
+	@Sync
+	property string CustomFaceAccessoryEquip = ""
+
+	---@description "Face"
+	---@sealed
+	@Sync
+	property string CustomFaceEquip = ""
+
+	---@description "Gloves"
+	---@sealed
+	@Sync
+	property string CustomGloveEquip = ""
+
+	---@description "Hair Style"
+	---@sealed
+	@Sync
+	property string CustomHairEquip = ""
+
+	---@description "Long Coat"
+	---@sealed
+	@Sync
+	property string CustomLongcoatEquip = ""
+
+	---@description "1H Weapon"
+	---@sealed
+	@Sync
+	property string CustomOneHandedWeaponEquip = ""
+
+	---@description "Pants"
+	---@sealed
+	@Sync
+	property string CustomPantsEquip = ""
+
+	---@description "Shoes"
+	---@sealed
+	@Sync
+	property string CustomShoesEquip = ""
+
+	---@description "Sub-weapon"
+	---@sealed
+	@Sync
+	property string CustomSubWeaponEquip = ""
+
+	---@description "2H Weapon"
+	---@sealed
+	@Sync
+	property string CustomTwoHandedWeaponEquip = ""
+
+	---@description "Custom equipment will be applied after duplicating the target user's equipment. Even the users not connecting can designate it, and it won't be applied if the target user's equipment is changed after the designation."
+	---@sealed
+	@Sync
+	property string DefaultEquipUserId = ""
+
+	---@description "Information about equipped items. It cannot be modified in the script."
+	---@sealed
+	readonly property ReadOnlyList<MapleAvatarItemData> EquippedItems
+
+	---@description "It only uses costume specified in the script, not the default costume of the user."
+	---@sealed
+	@Sync
+	property boolean UseCustomEquipOnly = false
+
+	---@description "Returns the itemRUID currently being equipped. Access is available using property."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetEquip(MapleAvatarItemCategory category) end
+
+	---@description "Equips the item corresponding to the entered itemRUID. Enter an empty string to unlock the device. Using properties can change it."
+	---@sealed
+	method void SetEquip(MapleAvatarItemCategory category, string itemRUID) end
+
+	emitter EmitDestroyMapleCostumeEvent(DestroyMapleCostumeEvent event) end
+
+	emitter EmitInitMapleCostumeEvent(InitMapleCostumeEvent event) end
+
+end

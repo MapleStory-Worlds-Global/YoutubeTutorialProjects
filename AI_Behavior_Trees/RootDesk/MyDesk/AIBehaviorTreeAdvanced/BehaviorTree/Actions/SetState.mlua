@@ -1,0 +1,23 @@
+@BTNode
+script SetState extends ActionNode
+	property string stateString = ""
+
+	method any OnBehave(number delta)
+		local entity = self.ParentAI.Entity
+		if isvalid(entity) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		local stateComp = entity.StateComponent
+		if isvalid(stateComp) == false then
+			return BehaviourTreeStatus.Failure
+		end
+
+		if _UtilLogic:IsNilorEmptyString(self.stateString) then
+			return BehaviourTreeStatus.Failure
+		end
+
+		stateComp:ChangeState(self.stateString)
+		return BehaviourTreeStatus.Success
+	end
+end

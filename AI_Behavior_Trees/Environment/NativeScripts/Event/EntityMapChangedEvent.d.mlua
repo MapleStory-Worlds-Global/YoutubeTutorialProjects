@@ -1,0 +1,20 @@
+---@sealed
+---@description "This event occurs when changing the map the entity belongs to."
+@Event
+script EntityMapChangedEvent extends EventType
+
+	---@description "This is the new map entity the entity belongs to."
+	---@sealed
+	property Entity NewMap
+
+	---@description "This is the previous map entity the entity belonged to."
+	---@sealed
+	property Entity OldMap
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityMapChangedEvent(Entity entity = nil, Entity oldMap = nil, Entity newMap = nil) end
+
+end

@@ -1,0 +1,31 @@
+---@sealed
+---@description "Provides the ability for users to obtain badges or to view badge information."
+@Service
+script BadgeService extends Service
+
+	---@description "Gives badges to users and returns whether badges are successfully given or not. Script executions are suspended during the operation. Badges that cannot be given in the Maker environment can be given for testing purposes."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean AwardBadgeAndWait(string userId, string badgeId) end
+
+	---@description "Acquires the badge information. Script executions are suspended during the operation."
+	---@sealed
+	method BadgeInfo GetBadgeInfoAndWait(string badgeId) end
+
+	---@description "Acquires the badge information. This operation is performed asynchronously, and the results can be retrieved with the specified callback. "
+	---@sealed
+	method void GetBadgeInfoAsync(string badgeId, func<string, BadgeInfo> callback) end
+
+	---@description "Retrieves an entity that can check the information of badges matching the search condition. Script executions are suspended during the operation."
+	---@sealed
+	method BadgeInfoPages GetBadgeInfosAndWait(table<BadgeGrade> badgeGrades, BadgeStatus badgeStatus) end
+
+	---@description "Checks if the user has a badge. Script executions are suspended during the operation. In the World you're creating, you start with no badges."
+	---@sealed
+	method boolean UserHasBadgeAndWait(string userId, string badgeId) end
+
+	---@description "Checks if the user has a badge. This operation is performed asynchronously, and the result can be received with the specified callback."
+	---@sealed
+	method void UserHasBadgeAsync(string userId, string badgeId, func<string, string, boolean> callback) end
+
+end

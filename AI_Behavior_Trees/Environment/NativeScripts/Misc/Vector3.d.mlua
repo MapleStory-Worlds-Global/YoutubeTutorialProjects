@@ -1,0 +1,191 @@
+---@sealed
+---@description "A three-dimensional vector."
+@Misc
+script Vector3
+
+	---@description "You can simply use Vector3(0, 0, -1)."
+	static readonly property Vector3 back
+
+	---@description "You can simply use Vector3(0, -1, 0)."
+	static readonly property Vector3 down
+
+	---@description "You can simply use Vector3(0, 0, 1)."
+	static readonly property Vector3 forward
+
+	---@description "You can simply use Vector3(-1, 0, 0)."
+	static readonly property Vector3 left
+
+	---@description "You can simply use Vector3(-inf, -inf, -inf)."
+	static readonly property Vector3 negativeInfinity
+
+	---@description "You can simply use Vector3(1, 1, 1)."
+	static readonly property Vector3 one
+
+	---@description "You can simply use Vector3(inf, inf, inf)."
+	static readonly property Vector3 positiveInfinity
+
+	---@description "You can simply use Vector3(1, 0, 0)."
+	static readonly property Vector3 right
+
+	---@description "You can simply use Vector3(0, 1, 0)."
+	static readonly property Vector3 up
+
+	---@description "The x-axis value of the vector."
+	---@sealed
+	property float x
+
+	---@description "The y-axis value of the vector."
+	---@sealed
+	property float y
+
+	---@description "The z-axis value of the vector."
+	---@sealed
+	property float z
+
+	---@description "You can simply use Vector3(0, 0, 0)."
+	static readonly property Vector3 zero
+
+	---@description "Initializes Vector3 to the specified value."
+	constructor Vector3(float x, float y, float z) end
+
+	---@description "Finds the angle between two vectors. Returns a value between 0 and 180."
+	static method float Angle(Vector3 a, Vector3 b) end
+
+	---@description "Finds the angle between two vectors. Returns a value between 0 and 180."
+	---@sealed
+	method float Angle(Vector3 b) end
+
+	---@description "Creates a Vector3 representing the cross product of two Vectors and returns it."
+	static method Vector3 Cross(Vector3 a, Vector3 b) end
+
+	---@description "Creates a Vector3 representing the cross product of two Vectors and returns it."
+	---@sealed
+	method Vector3 Cross(Vector3 b) end
+
+	---@description "Finds the distance between two vectors."
+	static method float Distance(Vector3 a, Vector3 b) end
+
+	---@description "Finds the distance between two vectors."
+	---@sealed
+	method float Distance(Vector3 b) end
+
+	---@description "Finds the inner product of two vectors."
+	static method float Dot(Vector3 a, Vector3 b) end
+
+	---@description "Finds the inner product of two vectors."
+	---@sealed
+	method float Dot(Vector3 b) end
+
+	---@description "Creates Vector3 having the value using linear interpolation with t between two Vectors and then returns it. The value of t is between 0 to 1."
+	static method Vector3 Lerp(Vector3 a, Vector3 b, float t) end
+
+	---@description "Creates a Vector3 having the value using linear interpolation with t between two Vectors and then returns it. The value of t is between 0 to 1."
+	---@sealed
+	method Vector3 Lerp(Vector3 b, float t) end
+
+	---@description "Creates a Vector3 entity that linearly interpolates two Vectors with t and then returns it."
+	static method Vector3 LerpUnclamped(Vector3 a, Vector3 b, float t) end
+
+	---@description "Creates a Vector3 entity that linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method Vector3 LerpUnclamped(Vector3 b, float t) end
+
+	---@description "Finds the size of a vector."
+	static method float Magnitude(Vector3 a) end
+
+	---@description "Finds the size of a vector."
+	---@sealed
+	method float Magnitude() end
+
+	---@description "Creates the Vector3 entity with the same direction and size of 1 and then returns it."
+	static method Vector3 Normalize(Vector3 a) end
+
+	---@description "Creates the Vector3 entity with the same direction and size of 1 and then returns it."
+	---@sealed
+	method Vector3 Normalize() end
+
+	---@description "Creates the Vector3 entity, which projected a with b, and returns it."
+	static method Vector3 Project(Vector3 a, Vector3 b) end
+
+	---@description "Creates a Vector3 entity, which projects Vector with b, and returns it."
+	---@sealed
+	method Vector3 Project(Vector3 b) end
+
+	---@description "Creates a Vector3 entity, which projects the Vector to a flat surface, and returns it; planeNormal is the surface's normal Vector."
+	static method Vector3 ProjectOnPlane(Vector3 vector, Vector3 planeNormal) end
+
+	---@description "Creates a Vector3 entity, which projects the Vector to a flat surface, and returns it; planeNormal is the surface's normal Vector."
+	---@sealed
+	method Vector3 ProjectOnPlane(Vector3 planeNormal) end
+
+	---@description "Creates a Vector3 entity, which projects the Vector to a flat surface, and returns it; normal is the surface's normal Vector."
+	static method Vector3 Reflect(Vector3 vector, Vector3 normal) end
+
+	---@description "Creates a Vector3 entity, which projects the Vector to a flat surface, and returns it; normal is the surface's normal Vector."
+	---@sealed
+	method Vector3 Reflect(Vector3 normal) end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from, based on the axis, is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	static method float SignedAngle(Vector3 from, Vector3 to, Vector3 axis) end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from, based on the axis, is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	---@sealed
+	method float SignedAngle(Vector3 to, Vector3 axis) end
+
+	---@description "Creates a Vector3 entity that spherical-linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	static method Vector3 Slerp(Vector3 a, Vector3 b, float t) end
+
+	---@description "Creates a Vector3 entity that spherical-linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
+	---@sealed
+	method Vector3 Slerp(Vector3 b, float t) end
+
+	---@description "Creates a Vector3 entity that spherical-linearly interpolates two Vectors with t and then returns it."
+	static method Vector3 SlerpUnclamped(Vector3 a, Vector3 b, float t) end
+
+	---@description "Creates a Vector3 entity that spherical-linearly interpolates two Vectors with t and then returns it."
+	---@sealed
+	method Vector3 SlerpUnclamped(Vector3 b, float t) end
+
+	---@description "Finds the square of the size of a Vector."
+	static method float SqrMagnitude(Vector3 a) end
+
+	---@description "Finds the square of the size of a Vector."
+	---@sealed
+	method float SqrMagnitude() end
+
+	---@description "Creates a Vector2 entity with x and y elements, and then returns it."
+	static method Vector2 ToVector2(Vector3 a) end
+
+	---@description "Creates the Vector2 entity with x and y elements, and then returns it."
+	---@sealed
+	method Vector2 ToVector2() end
+
+	---@description "Checks if the two vectors are different. Returns false if they're the same. Otherwise, returns true."
+	static operator boolean Inequality(Vector3 left, Vector3 right) end
+
+	---@description "Returns a new Vector3 entity by multiplying the vector by a real number."
+	static operator Vector3 Multiply(Vector3 left, float right) end
+
+	---@description "Returns a new Vector3 entity by multiplying the vector by a real number."
+	static operator Vector3 Multiply(float left, Vector3 right) end
+
+	---@description "Returns a new Vector3 value obtained by adding two vectors."
+	static operator Vector3 Addition(Vector3 left, Vector3 right) end
+
+	---@description "Returns a new Vector3 entity that represents a reversed vector."
+	static operator Vector3 UnaryNegation(Vector3 value) end
+
+	---@description "Returns a new Vector3 entity obtained by subtracting two vectors."
+	static operator Vector3 Subtraction(Vector3 left, Vector3 right) end
+
+	---@description "Returns a new Vector3 value by dividing the vector by a real number."
+	static operator Vector3 Division(Vector3 left, float right) end
+
+	---@description "Checks if the two vectors are the same. Returns true if they're the same. Otherwise, returns false."
+	static operator boolean Equality(Vector3 left, Vector3 right) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method Vector3 Clone() end
+
+end

@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates whether the user has two-factor authentication. The two-factor authentication will be different depending on the account type."
+@Enum
+script NexonOtpStateType
+	---@description "This account does not use two-factor authentication. If it's a Korean account, this account does not use Nexon OTP. If it's a global account, this account does not use two-factor authentication."
+	member Inactive = 0
+	---@description "The return value when completing two-factor authentication. If it's a Korean account, it uses Nexon OTP. If it's a global account, it uses SMS or Google Authenticator."
+	member Active = 1
+	---@description "System error. Cannot confirm two-factor authentication."
+	member Unknown = -1
+
+	---@description "Convert numbers to the applicable type."
+	static method NexonOtpStateType CastFrom(number value) end
+
+	---@description "Convert strings to the applicable type."
+	static method NexonOtpStateType CastFrom(string value) end
+end

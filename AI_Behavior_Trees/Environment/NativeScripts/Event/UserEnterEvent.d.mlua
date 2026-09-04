@@ -1,0 +1,18 @@
+---@sealed
+---@description "This event occurs in UserService when a user enters a game."
+@Event
+script UserEnterEvent extends EventType
+
+	---@description "This player's profile code."
+	---@sealed
+	property string ProfileCode
+
+	---@description "The user's unique identifier."
+	---@sealed
+	property string UserId
+
+	constructor UserEnterEvent(IUser user) end
+
+	constructor UserEnterEvent(string userId = nil, string profileCode = nil) end
+
+end

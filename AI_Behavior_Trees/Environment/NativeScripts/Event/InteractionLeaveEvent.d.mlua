@@ -1,0 +1,12 @@
+---@sealed
+---@description "The Event occurs when leaving the Interaction area."
+@Event
+script InteractionLeaveEvent extends EventType
+
+	---@description "The leaving entity."
+	---@sealed
+	readonly property Entity InteractionEntity
+
+	constructor InteractionLeaveEvent() end
+
+end

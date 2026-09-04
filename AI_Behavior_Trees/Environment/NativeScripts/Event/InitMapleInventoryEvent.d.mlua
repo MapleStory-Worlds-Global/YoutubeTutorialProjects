@@ -1,0 +1,10 @@
+---@sealed
+@Event
+script InitMapleInventoryEvent extends EventType
+
+	---@sealed
+	readonly property Dictionary<MapleAvatarItemCategory, List<MapleAvatarItemData>> InventoryItems
+
+	constructor InitMapleInventoryEvent(Dictionary<MapleAvatarItemCategory, List<MapleAvatarItemData>> inventoryItems = nil) end
+
+end

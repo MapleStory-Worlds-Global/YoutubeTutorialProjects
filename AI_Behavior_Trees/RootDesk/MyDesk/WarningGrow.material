@@ -1,0 +1,37 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "material://9a01fd98-3f5c-4db1-b337-1d49dbb35ac7",
+  "ContentType": "x-mod/material",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "name": "WarningGrow",
+      "id": "9a01fd98-3f5c-4db1-b337-1d49dbb35ac7",
+      "shadertype": "PolygonSprite",
+      "AnimationClipFilterMode": 0,
+      "AnimationClipPlayRate": 1.0,
+      "AnimationClipWrapMode": 0,
+      "LitMode": 0,
+      "Offset": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "Rotate": 0.0,
+      "Scale": {
+        "x": 1.0,
+        "y": 1.0
+      },
+      "SpriteRUID": "2bb44432852d428fb2f0096de736cb28",
+      "IsUIMaterial": false,
+      "RequiresUIStencilStateChange": false
+    }
+  }
+}

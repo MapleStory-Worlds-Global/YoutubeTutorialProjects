@@ -1,0 +1,12 @@
+---@sealed
+---@description "The event occurs when clicking a Button."
+@Event
+script ButtonClickEvent extends EventType
+
+	---@description "The entity of the clicked button."
+	---@sealed
+	property Entity Entity
+
+	constructor ButtonClickEvent(Entity entity = nil) end
+
+end

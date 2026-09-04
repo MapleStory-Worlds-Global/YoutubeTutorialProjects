@@ -1,0 +1,41 @@
+---@description "Provide an interface that can reproduce the attack feature linking with HitComponent."
+@Component
+script AttackComponent extends Component
+
+	---@description "An attack function that can set a square area."
+	---@sealed
+	method table<Component> Attack(Vector2 size, Vector2 offset, string attackInfo, CollisionGroup collisionGroup = nil) end
+
+	---@description "Calls the OnHit(Entity, Integer, boolean, string, int32) function of HitComponent within the shape area and triggers HitEvent. Returns all the HitComponents that are considered as attack targets."
+	---@sealed
+	method table<Component> Attack(Shape shape, string attackInfo, CollisionGroup collisionGroup = nil) end
+
+	---@description "Performs an attack, no return value. You can improve the World's function by reducing unnecessary table entity creation."
+	---@sealed
+	method void AttackFast(Shape shape, string attackInfo, CollisionGroup collisionGroup = nil) end
+
+	---@description "An attack function that can set a square area."
+	---@sealed
+	method table<Component> AttackFrom(Vector2 size, Vector2 position, string attackInfo, CollisionGroup collisionGroup = nil) end
+
+	---@description "Determines whether to launch a critical attack or not. A critical attack is not launched by default behavior, as it always returns false."
+	method boolean CalcCritical(Entity attacker, Entity defender, string attackInfo) end
+
+	---@description "Determines the damage value. Default behavior always returns 1."
+	method integer CalcDamage(Entity attacker, Entity defender, string attackInfo) end
+
+	---@description "A critical attack determines how many times the default damage will be multiplied by. The default behavior always returns 2."
+	method float GetCriticalDamageRate() end
+
+	---@description "Calculates how many hits to be displayed from one attack. Default behavior always returns 1."
+	method int32 GetDisplayHitCount(string attackInfo) end
+
+	---@description "Determines whether the defender is a valid target for attack. When it returns false, it's removed from the Attack(), AttackFrom(), or AttackFast() functions."
+	method boolean IsAttackTarget(Entity defender, string attackInfo) end
+
+	---@description "Entity attacks trigger this function."
+	method void OnAttack(Entity defender) end
+
+	emitter EmitAttackEvent(AttackEvent event) end
+
+end

@@ -1,0 +1,12 @@
+@Component
+script ProjectileAttackComponent extends AttackComponent
+	property number damage = 1
+
+	method void Init(number damageValue)
+		self.damage = damageValue
+	end
+
+	method integer CalcDamage(Entity attacker, Entity defender, string attackInfo)
+		return self.damage
+	end
+end

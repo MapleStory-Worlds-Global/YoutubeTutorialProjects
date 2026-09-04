@@ -1,0 +1,17 @@
+---@sealed
+---@description "This represents the performance result of BehaviorTree."
+@Enum
+script BehaviourTreeStatus
+	---@description "Performed BehaviorTree successfully."
+	member Success = 0
+	---@description "Performing BehaviorTree."
+	member Running = 1
+	---@description "Failed to perform BehaviorTree."
+	member Failure = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method BehaviourTreeStatus CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method BehaviourTreeStatus CastFrom(string value) end
+end

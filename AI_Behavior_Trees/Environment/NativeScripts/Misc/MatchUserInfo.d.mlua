@@ -1,0 +1,14 @@
+---@sealed
+---@description "The information about a matchmade user."
+@Misc
+script MatchUserInfo
+
+	---@description "Additional data that's saved when making a matchmaking request."
+	---@sealed
+	readonly property string Extras
+
+	---@description "This player's profile code."
+	---@sealed
+	readonly property string ProfileCode
+
+end

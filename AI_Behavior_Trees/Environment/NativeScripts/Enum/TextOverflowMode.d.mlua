@@ -1,0 +1,19 @@
+---@sealed
+---@description "Determines what to do when the text exceeds the text box's width."
+@Enum
+script TextOverflowMode
+	---@description "Displays the text that exceeds the text box."
+	member Overflow = 0
+	---@description "Crops the text that exceeds the text box. Cropped text will be replaced with an ellipsis."
+	member Ellipsis = 1
+	---@description "Crops the text that exceeds the text box."
+	member Truncate = 2
+	---@description "Displays the text across multiple pages."
+	member Page = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method TextOverflowMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TextOverflowMode CastFrom(string value) end
+end

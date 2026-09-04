@@ -1,0 +1,40 @@
+---@sealed
+---@description "Connect Entity at a point and have the linked Entity rotate around that point. The connected Entity will act like a wheel."
+@Misc
+script WheelJoint
+
+	---@description "Sets whether two Entities connected by a Joint will collide with each other."
+	---@sealed
+	property boolean CollideConnected = false
+
+	---@description "Set the Anchor of the Entity with JointComponent. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorA = Vector2(0.000, 0.000)
+
+	---@description "Set the Anchor of the Entity connected by Joint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorB = Vector2(0.000, 0.000)
+
+	---@description "Sets the maximum strength applicable to the motor of joint to reach the target motor speed."
+	---@sealed
+	property float MaxMotorTorque = 10000
+
+	---@description "Set whether to use the Joint's motor function. If true, the value of MotorSpeed is affected."
+	---@sealed
+	property boolean MotorEnable = false
+
+	---@description "Set the target motor speed of the Joint."
+	---@sealed
+	property float MotorSpeed = 0
+
+	---@description "Set the Entity to be connected with a Joint."
+	---@sealed
+	property EntityRef TargetEntityRef
+
+	---@description "Initializes WheelJoint to the default value."
+	constructor WheelJoint() end
+
+	---@description "Initializes WheelJoint to the same value as the specified joint."
+	constructor WheelJoint(WheelJoint joint) end
+
+end

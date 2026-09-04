@@ -1,0 +1,17 @@
+---@sealed
+---@description "Sets the sleep state of the collision. "
+@Enum
+script PhysicsSleepingMode
+	---@description "Starts in Non-sleep state."
+	member StartAwake = 0
+	---@description "Starts in sleep state and transitions to Non-Sleep state on crash."
+	member StartAsleep = 1
+	---@description "This does not go to Sleep state."
+	member NeverSleep = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method PhysicsSleepingMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method PhysicsSleepingMode CastFrom(string value) end
+end

@@ -1,0 +1,155 @@
+---@description "Entity is controlled by the physics engine. You can set values that affect physics calculations."
+@Component
+script PhysicsRigidbodyComponent extends Component
+
+	---@description "Sets the coefficient of resistance to changes in angular velocity. The larger the value is, the more force is required to change the angular velocity. Must set a value equal to or greater than 0."
+	---@sealed
+	@Sync
+	property float AngularDamping = 0
+
+	---@description "Set the rigid body type."
+	---@sealed
+	@Sync
+	property BodyType BodyType = BodyType.Dynamic
+
+	---@description "Sets the detection method for physics collision."
+	---@sealed
+	@Sync
+	property PhysicsCollisionDetectionMode CollisionDetectionMode = PhysicsCollisionDetectionMode.Discrete
+
+	---@description "If true, the object does not rotate due to physics interactions."
+	---@sealed
+	@Sync
+	property boolean FixedRotation = false
+
+	---@description "Determines the coefficient of friction. The smaller the value is, the better it slides. Must set a value equal to or greater than 0."
+	---@sealed
+	@Sync
+	property float Friction = 0.3
+
+	---@description "Sets how much the effect of gravity is. If the value is 0, gravity has no effect and if it is 1, gravity has a direct effect. The larger the value is, the more effect gravity has."
+	---@sealed
+	@Sync
+	property float GravityScale = 1
+
+	---@description "Sets the coefficient of resistance for the change of the linear velocity. The larger the value is, the more force is required to change the linear velocity."
+	---@sealed
+	@Sync
+	property float LinearDamping = 0
+
+	---@description "Sets the mass value. Calculate the density value using the values of the area and mass of the Collider."
+	---@sealed
+	@Sync
+	property float Mass = 1
+
+	---@description "Determines how much bounce occurs after a collision. 0 is close to perfectly inelastic collision, 1 is close to perfectly elastic collision."
+	---@sealed
+	@Sync
+	property float Restitution = 0
+
+	---@description "Sets the sleep state of the collision. "
+	---@sealed
+	@Sync
+	property PhysicsSleepingMode SleepingMode = PhysicsSleepingMode.StartAwake
+
+	---@description "If true, the mass value is calculated using the density and collider values of PhysicsColliderComponent instead of the mass value."
+	---@sealed
+	@Sync
+	property boolean UseDensity = false
+
+	---@description "Applies each impulse to the rigid body counterclockwise (CCW)."
+	---@sealed
+	method void ApplyAngularImpulse(float impulse) end
+
+	---@description "Apply a force in a specific direction to the center of gravity of a rigid body."
+	---@sealed
+	method void ApplyForce(Vector2 force) end
+
+	---@description "Apply a force to a rigid body in a specific direction at a specific location in the world."
+	---@sealed
+	method void ApplyForce(Vector2 force, Vector2 worldPoint) end
+
+	---@description "Applies a linear impulse in a specific direction to the center of gravity of a rigid body."
+	---@sealed
+	method void ApplyLinearImpulse(Vector2 impulse) end
+
+	---@description "Applies a linear impulse to a rigid body in a specific direction at a specific location in the world."
+	---@sealed
+	method void ApplyLinearImpulse(Vector2 impulse, Vector2 worldPoint) end
+
+	---@description "Applies a rotational force to the rigid body in a counterclockwise (CCW) direction."
+	---@sealed
+	method void ApplyTorque(float force) end
+
+	---@description "Automatically grants physics ownership. A Contact Event occurs only on the Server."
+	---@sealed
+	@ExecSpace("Server")
+	method void ClearPhysicsOwnership() end
+
+	---@description "Returns the angular velocity of a rigid body."
+	---@sealed
+	method float GetAngularVelocity() end
+
+	---@description "Returns the density of a rigid body."
+	---@sealed
+	method float GetDensity() end
+
+	---@description "Returns the linear velocity of a rigid body. "
+	---@sealed
+	method Vector2 GetLinearVelocity() end
+
+	---@description "Returns the linear velocity of a rigid body at a specific location in the world. "
+	---@sealed
+	method Vector2 GetLinearVelocityAtPoint(Vector2 worldPoint) end
+
+	---@description "Returns the location of a rigid body."
+	---@sealed
+	method Vector2 GetPosition() end
+
+	---@description "Returns the angle of rotation of a rigid body."
+	---@sealed
+	method float GetRotation() end
+
+	---@description "Sets the angular velocity of a rigid body."
+	---@sealed
+	method void SetAngularVelocity(float velocity) end
+
+	---@description "Grants physics ownership to a specific user. A Contact Event occurs on the corresponding Client and the Server."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetClientAsPhysicsOwner(string userId) end
+
+	---@description "Sets the linear velocity of a rigid body. Not affected by mass."
+	---@sealed
+	method void SetLinearVelocity(Vector2 velocity) end
+
+	---@description "Sets the linear velocity X value of the rigid body. It is not affected by mass."
+	---@sealed
+	method void SetLinearVelocityX(float velocityX) end
+
+	---@description "Sets the linear velocity Y value of the rigid body. It is not affected by mass."
+	---@sealed
+	method void SetLinearVelocityY(float velocityY) end
+
+	---@description "Sets the rigid body's position in world coordinates."
+	---@sealed
+	method void SetPosition(Vector2 position) end
+
+	---@description "Returns the angle of rotation of a rigid body."
+	---@sealed
+	method void SetRotation(float angle) end
+
+	---@description "Grants physics ownership to the server. A Contact Event occurs on the Server."
+	---@sealed
+	@ExecSpace("Server")
+	method void SetServerAsPhysicsOwner() end
+
+	---@description "Puts the rigid body to sleep."
+	---@sealed
+	method void Sleep() end
+
+	---@description "Change a rigid body to an awake state."
+	---@sealed
+	method void Wake() end
+
+end

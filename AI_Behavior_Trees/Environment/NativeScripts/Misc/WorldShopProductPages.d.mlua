@@ -1,0 +1,18 @@
+---@sealed
+---@description "Inquires about the product list searched from WorldShopService in page units."
+@Misc
+script WorldShopProductPages
+
+	---@description "Checks whether the current page is the last page in the search results."
+	---@sealed
+	property boolean IsLastPage
+
+	---@description "Retrieves the list of product information of the current page among the search results. Up to 25 search results per page."
+	---@sealed
+	method table<WorldShopProduct> GetCurrentPageDatas() end
+
+	---@description "Goes to the next page of search results. Script executions are suspended during the operation."
+	---@sealed
+	method void MoveToNextPageAndWait() end
+
+end

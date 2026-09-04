@@ -1,0 +1,29 @@
+---@sealed
+---@description "Indicates text alignment options."
+@Enum
+script TextAlignmentType
+	---@description "Sort by the top-left corner."
+	member UpperLeft = 0
+	---@description "Sort by the top corner."
+	member UpperCenter = 1
+	---@description "Sort by the top-right corner."
+	member UpperRight = 2
+	---@description "Sort by the left center."
+	member MiddleLeft = 3
+	---@description "Sort by the center."
+	member MiddleCenter = 4
+	---@description "Sort by right center."
+	member MiddleRight = 5
+	---@description "Sort by the bottom-left corner."
+	member LowerLeft = 6
+	---@description "Sort by the bottom corner."
+	member LowerCenter = 7
+	---@description "Sort by the bottom-right corner."
+	member LowerRight = 8
+
+	---@description "Converts numbers to the applicable type."
+	static method TextAlignmentType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TextAlignmentType CastFrom(string value) end
+end

@@ -1,0 +1,107 @@
+---@description "Outputs the sprite or animation clip."
+@Component
+script SpriteRendererComponent extends Component
+
+	---@description "This property is no longer used."
+	---@deprecated
+	---@sealed
+	property Dictionary<string, string> ActionSheet
+
+	---@description "This property is deprecated."
+	---@deprecated
+	---@sealed
+	readonly property string ClipName = ""
+
+	---@description "Sets the Sprite's draw mode. Simple, Sliced, and Tiled can be used."
+	---@sealed
+	@Sync
+	property SpriteDrawMode DrawMode = SpriteDrawMode.Simple
+
+	---@description "The last frame of the animation to be played. "
+	---@sealed
+	@Sync
+	property int32 EndFrameIndex = 2147483647
+
+	---@description "Determines whether the sprite is inverted relative to the X axis."
+	---@sealed
+	@Sync
+	property boolean FlipX = false
+
+	---@description "Determines whether the sprite is inverted relative to the Y axis."
+	---@sealed
+	@Sync
+	property boolean FlipY = false
+
+	---@description "Doesn't perform automatic replace when designating the Map Layer name into SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialID = ""
+
+	---@description "Determines the priority within the same Layer. A greater number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "For animation resources, you can specify the playback speed. It supports at least a value of 0 or more, and the higher the number, the faster it is."
+	---@sealed
+	@Sync
+	property float PlayRate = 1
+
+	---@description "This property is no longer used."
+	---@deprecated
+	---@sealed
+	property RenderSettingType RenderSetting
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "The RUID of the sprite or animation clip."
+	---@sealed
+	@Sync
+	property string SpriteRUID = ""
+
+	---@description "The starting frame of the animation to be played."
+	---@sealed
+	@Sync
+	property int32 StartFrameIndex = 0
+
+	---@description "Sets the size of an area where the sprite will be drawn when DrawMode is Tiled, Sliced."
+	---@sealed
+	@Sync
+	property Vector2 TiledSize = Vector2(1.000, 1.000)
+
+	---@description "Colors the Sprite."
+	---@sealed
+	@Sync
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Sets the alpha value of the sprite."
+	---@sealed
+	method void SetAlpha(float alpha) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+	emitter EmitSpriteAnimPlayerChangeFrameEvent(SpriteAnimPlayerChangeFrameEvent event) end
+
+	emitter EmitSpriteAnimPlayerEndEvent(SpriteAnimPlayerEndEvent event) end
+
+	emitter EmitSpriteAnimPlayerEndFrameEvent(SpriteAnimPlayerEndFrameEvent event) end
+
+	emitter EmitSpriteAnimPlayerStartEvent(SpriteAnimPlayerStartEvent event) end
+
+	emitter EmitSpriteAnimPlayerStartFrameEvent(SpriteAnimPlayerStartFrameEvent event) end
+
+end

@@ -1,0 +1,63 @@
+---@description "Renders an avatar-format Entity in the UI."
+@Component
+script AvatarGUIRendererComponent extends Component
+
+	---@description "Changes the entire avatar color to the specified color value."
+	---@sealed
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Determines whether to invert based on the X axis."
+	---@sealed
+	property boolean FlipX = false
+
+	---@description "Determines whether to invert based on the Y axis."
+	---@sealed
+	property boolean FlipY = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "You can specify the playback speed of avatar animations. It supports a value of 0 or more. The higher the number, the faster it is."
+	---@sealed
+	property float PlayRate = 1
+
+	---@description "Defines how the image's proportions, size, and pivot are saved."
+	---@sealed
+	property PreserveSpriteType PreserveAvatar = PreserveSpriteType.None
+
+	---@description "Becomes the subject of screen touch or mouse clicks if the value is set to true. The UI hidden behind the avatar will not receive screen touch and mouse click inputs."
+	---@sealed
+	property boolean RaycastTarget = true
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Gets the AvatarRoot Entity, the top-level Entity composing the avatar."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Entity GetAvatarRootEntity() end
+
+	---@description "Gets the body Entity composing the avatar."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Entity GetBodyEntity() end
+
+	---@description "Gets the face Entity composing the avatar."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Entity GetFaceEntity() end
+
+	---@description "Play emotion."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void PlayEmotion(EmotionalType emotionalType, float duration) end
+
+	---@description "Sets the color values of the parts corresponding to the avatar's category. Uses RGB values."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetAvatarPartColor(MapleAvatarItemCategory category, float r, float g, float b, float a) end
+
+end

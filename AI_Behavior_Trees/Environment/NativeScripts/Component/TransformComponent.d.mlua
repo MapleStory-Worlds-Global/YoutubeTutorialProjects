@@ -1,0 +1,72 @@
+---@description "Indicates the location, rotation, and the size of an entity."
+@Component
+script TransformComponent extends Component
+
+	---@description "Represents the rotation value of the Entity in Euler angles. In 2D, rotate using the Z axis. Synchronized by QuaternitonRotation."
+	---@sealed
+	property Vector3 Rotation
+
+	---@description "Shows coordinates relative to an Entity's parent."
+	---@sealed
+	@Sync
+	property Vector3 Position
+
+	---@description "Shows the rotation value of the Entity as a Quaternion."
+	---@sealed
+	@Sync
+	property Quaternion QuaternionRotation = Quaternion(0.000, 0.000, 0.000, 1.000)
+
+	---@description "Represents the size ratio of the Entity."
+	---@sealed
+	@Sync
+	property Vector3 Scale = Vector3(1.000, 1.000, 1.000)
+
+	---@description "Represents the world-related coordinates of an Entity."
+	---@sealed
+	property Vector3 WorldPosition
+
+	---@description "Represents an Entity's world-related rotation value in Euler angles."
+	---@sealed
+	property Vector3 WorldRotation
+
+	---@description "Represents the value of the Z axis among the Euler angle rotation values based on the Entity's world."
+	---@sealed
+	property float WorldZRotation
+
+	---@description "Represents the Z-axis value among the Euler angle rotation values of the Entity."
+	---@sealed
+	property float ZRotation
+
+	---@description "Change the Position value to a FastVector3 type."
+	---@sealed
+	method FastVector3 PositionAsFastVector3() end
+
+	---@description "Rotate this Entity counterclockwise by angle."
+	---@sealed
+	method void Rotate(float angle) end
+
+	---@description "Converts the direction entered from world coordinates to local coordinates. It is not affected by scale or position."
+	---@sealed
+	method Vector3 ToLocalDirection(Vector3 worldDirection) end
+
+	---@description "Converts world coordinates entered to local coordinates. It is affected by scale."
+	---@sealed
+	method Vector3 ToLocalPoint(Vector3 worldPoint) end
+
+	---@description "Converts the direction entered from local coordinates to world coordinates. It is not affected by scale or position."
+	---@sealed
+	method Vector3 ToWorldDirection(Vector3 localDirection) end
+
+	---@description "Converts local coordinates entered to world coordinates. It is affected by scale."
+	---@sealed
+	method Vector3 ToWorldPoint(Vector3 localPoint) end
+
+	---@description "Move the coordinates of this Entity by deltaX, deltaY."
+	---@sealed
+	method void Translate(float deltaX, float deltaY) end
+
+	---@description "Change the WorldPosition value to a FastVector3 type."
+	---@sealed
+	method FastVector3 WorldPositionAsFastVector3() end
+
+end

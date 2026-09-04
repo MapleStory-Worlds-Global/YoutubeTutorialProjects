@@ -1,0 +1,12 @@
+---@sealed
+---@description "Editor event which takes place upon creation of an entity."
+@Event
+script EntityCreateEditorEvent extends EventType
+
+	---@description "Created entity."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityCreateEditorEvent(Entity entity = nil) end
+
+end

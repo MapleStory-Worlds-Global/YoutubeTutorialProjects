@@ -1,0 +1,15 @@
+---@sealed
+---@description "Determines the point's interpolation method. For spline interpolation, it may not pass through the point depending on the interpolation method."
+@Enum
+script InterpolationType
+	---@description "No interpolation is performed."
+	member None = 0
+	---@description "Performs B-spline interpolation of type A."
+	member SplineTypeA = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method InterpolationType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method InterpolationType CastFrom(string value) end
+end

@@ -1,0 +1,58 @@
+---@description "Enables side-scrolling movement and jump, as well as collision with RectTile. Movement is affected by gravity. Used if the current tile map mode is SideViewRectTileMap."
+@Component
+script SideviewbodyComponent extends Component
+
+	---@description "When true, the character on the rotating or slanted ladder will be affected by the shape of the ladder. When false, the character will not be affected by the slant or rotation of the ladder."
+	---@sealed
+	@Sync
+	property boolean ApplyClimbableRotation = true
+
+	---@description "Controls the speed of the bounce back up when jumping down. The greater the value, the higher the bounce."
+	---@sealed
+	@Sync
+	property float DownJumpSpeed = 1.5
+
+	---@description "Turns Jump Down on or off."
+	---@sealed
+	@Sync
+	property boolean EnableDownJump = false
+
+	---@description "Controls the rate of the jump speed. The greater the value, the faster the fall."
+	---@sealed
+	@Sync
+	property float JumpDrag = 20
+
+	---@description "Controls the speed of the bounce when jumping. The greater the value, the faster the jump."
+	---@sealed
+	@Sync
+	property float JumpSpeed = 6.3
+
+	---@description "Sets the movement speed. MovementComponent will be used to control the movement."
+	---@sealed
+	property Vector2 MoveVelocity
+
+	---@description "Checks the tile information currently being stepped on, and returns nil if there is no tile stepped on. Returns the left tile if it is above the boundary of two horizontally side-by-side tiles."
+	---@sealed
+	method RectTileInfo GetUnderfootTile() end
+
+	---@description "Checks the current contact with the ground."
+	---@sealed
+	method boolean IsOnGround() end
+
+	---@description "Sets an Entity's position based on local coordinates."
+	---@sealed
+	method void SetPosition(Vector2 position) end
+
+	---@description "Sets an Entity's location to the world-based coordinates."
+	---@sealed
+	method void SetWorldPosition(Vector2 position) end
+
+	emitter EmitRectTileCollisionBeginEvent(RectTileCollisionBeginEvent event) end
+
+	emitter EmitRectTileCollisionEndEvent(RectTileCollisionEndEvent event) end
+
+	emitter EmitRectTileEnterEvent(RectTileEnterEvent event) end
+
+	emitter EmitRectTileLeaveEvent(RectTileLeaveEvent event) end
+
+end

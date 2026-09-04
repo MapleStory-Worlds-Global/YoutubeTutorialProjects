@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs before beginning the InitSync of an entity."
+@Event
+script EntityPreInitSyncEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreInitSyncEvent(Entity entity = nil) end
+
+end

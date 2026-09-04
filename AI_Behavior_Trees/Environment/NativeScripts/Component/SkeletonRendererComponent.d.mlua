@@ -1,0 +1,101 @@
+---@description "Provides a function that can draw and control skeleton resources created with Spine. Only resources made with Spine 4.1 can be used."
+@Component
+script SkeletonRendererComponent extends Component
+
+	---@description "Sets the animation for track 1. Animations play in index order. Adding or removing values to property will make the animation play from the beginning again."
+	---@sealed
+	@Sync
+	property SyncList<string> AnimationNames
+
+	---@description "Sets the color."
+	---@sealed
+	@Sync
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Determines whether to invert based on the X axis."
+	---@sealed
+	@Sync
+	property boolean FlipX = false
+
+	---@description "Determines whether to invert based on the Y axis."
+	---@sealed
+	@Sync
+	property boolean FlipY = false
+
+	---@description "An automatic substitution won't be made when a map layer name is set to the SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Set the play status to repeat the animation."
+	---@sealed
+	@Sync
+	property boolean Loop = true
+
+	---@description "Determines the priority within the same Layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "Sets the animation play speed."
+	---@sealed
+	@Sync
+	property float PlayRate = 1
+
+	---@description "Set the skeleton resource RUID."
+	---@sealed
+	@Sync
+	property string SkeletonRUID = ""
+
+	---@description "Sets the skin."
+	---@sealed
+	@Sync
+	property SyncList<string> SkinNames
+
+	---@description "When two or more entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "Adds an animation to the track. Track 1 can't be used. Plays the animation from the start again."
+	---@sealed
+	method void AddAnimation(SkeletonAnimationClip animationClip) end
+
+	---@description "Adds an empty animation to the track. Track 1 can't be used. Plays the animation from the start again."
+	---@sealed
+	method void AddEmptyAnimation(SkeletonAnimationClip animationClip) end
+
+	---@description "Empties the track. Track 1 can't be used."
+	---@sealed
+	method void ClearTrack(int32 trackIndex) end
+
+	---@description "Returns the currently playing animation."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method SkeletonAnimationClip GetCurrentAnimation(int32 trackIndex) end
+
+	---@description "Empties a track and adds an animation to it. Track 1 can't be used."
+	---@sealed
+	method void SetAnimation(SkeletonAnimationClip animationClip) end
+
+	---@description "Adds an attachment to the slot. If attachmentName is nil, the attachment is removed."
+	---@sealed
+	method void SetAttachment(string slotName, string attachmentName) end
+
+	---@description "Empties a track and adds an empty animation to it. Track 1 can't be used."
+	---@sealed
+	method void SetEmptyAnimation(SkeletonAnimationClip animationClip) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+	emitter EmitSkeletonAnimationTimelineEvent(SkeletonAnimationTimelineEvent event) end
+
+	emitter EmitSkeletonAnimationStartEvent(SkeletonAnimationStartEvent event) end
+
+	emitter EmitSkeletonAnimationEndEvent(SkeletonAnimationEndEvent event) end
+
+	emitter EmitSkeletonAnimationCompleteEvent(SkeletonAnimationCompleteEvent event) end
+
+end

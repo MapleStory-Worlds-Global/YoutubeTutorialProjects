@@ -1,0 +1,8 @@
+---@sealed
+---@description "This event occurs in a room when it is created."
+@Event
+script RoomBeginEvent extends EventType
+
+	constructor RoomBeginEvent() end
+
+end

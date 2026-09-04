@@ -1,0 +1,53 @@
+---@sealed
+---@description "Indicates the resource file header format. "
+@Enum
+script ResourceType
+	---@description "Undefined state. The contents are unknown."
+	member None = 0
+	---@description "This is a graphic resource type specialized in 2D that contains meta information such as texture and pivot."
+	member Sprite = 1
+	---@description "Currently not used."
+	member Atlas = 2
+	---@description "This is an AudioClip resource file type that contains sound source information. Uses the OGG file format."
+	member AudioClip = 3
+	---@description "This is a resource file type that contains the background meta information of MapleStory Worlds. Used in PresetList."
+	member Background = 4
+	---@description "This is a resource file type that contains the tile sets meta information of MapleStory Worlds. Used in PresetList."
+	member TileSet = 5
+	---@description "This is a file type that contains 2D graphics animation meta information in units of frames. Used in AnimationClip."
+	member AnimationClip = 6
+	---@description "This is a resource file type that contains the object meta information of MapleStory Worlds."
+	member MapleMapObject = 7
+	---@description "This is a resource file type that contains the meta information of a ladder and a rope in MapleStory Worlds."
+	member MapleRope = 8
+	---@description "This is a resource file type that contains the item meta information of MapleStory Worlds."
+	member Item = 9
+	---@description "This is a resource file type that contains the monster meta information of MapleStory Worlds."
+	member Monster = 10
+	---@description "This is a resource file type that contains the NPC meta information of MapleStory Worlds. You can check the basic actions of NPCs and the AnimationClip table for each action."
+	member Npc = 11
+	---@description "A resource file type that contains the trap meta information for MapleStory Worlds."
+	member Trap = 12
+	---@description "A resource file type that contains the chat balloon meta information for MapleStory Worlds."
+	member ChatBalloon = 13
+	---@description "This is a resource file type that contains the nameplate meta information of MapleStory Worlds."
+	member NameTag = 14
+	---@description "A resource file type that contains avatar item meta information."
+	member AvatarItem = 15
+	---@description "This is a resource file type that contains the meta information of the damage skin in MapleStory Worlds."
+	member DamageSkin = 16
+	---@description "This is a resource file type that contains the map meta information of MapleStory Worlds. Used to load MapleStory Map. "
+	member MapleMap = 17
+	---@description "A resource file type that contains atlas metadata created by the creator."
+	member UserAtlas = 18
+	---@description "A resource file type that contains Spine skeleton resource meta information."
+	member Skeleton = 19
+	---@description "A resource file type that contains the font's meta information."
+	member CustomFont = 21
+
+	---@description "Converts numbers to the applicable type."
+	static method ResourceType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ResourceType CastFrom(string value) end
+end

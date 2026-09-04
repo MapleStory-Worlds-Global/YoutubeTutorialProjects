@@ -43,8 +43,13 @@ luac.out
 *.codeblock
 *.directory
 *.scriptfile
-*.model
-*.userdataset
+#*.model
+#*.userdataset
 
 # Basic source files
-*/MyDesk/*.mlua
+.mswai/
+.claude/
+*.mcp.json
+*skills-lock.json
+*CLAUDE.md
+*AGENTS.md

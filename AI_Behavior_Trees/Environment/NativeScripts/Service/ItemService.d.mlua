@@ -1,0 +1,35 @@
+---@sealed
+---@description "Provides item related functions."
+@Service
+script ItemService extends Service
+
+	---@description "Transfers the item's ownership right to the corresponding InventoryComponent."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void ChangeOwner(Item item, InventoryComponent owner) end
+
+	---@description "Transfers the item's ownership right to the corresponding InventoryComponent."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void ChangeOwner(string itemGUID, InventoryComponent owner) end
+
+	---@description "Creates an item of the corresponding itemType. By entering tableDataName, you can retrieve data matching the Name among the data in DataSets/DataSets/UserItemDataSets prepared in advance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Item CreateItem(Type itemType, string itemDataTableName, InventoryComponent ownerInventoryComponent = nil) end
+
+	---@description "Uses the item GUID to get the cached item on the server."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Item GetItemByGUID(string guid) end
+
+	---@description "Gets the items owned by InventoryComponent."
+	---@sealed
+	method table<Item> GetMODItemsByOwner(InventoryComponent owner) end
+
+	---@description "Deletes an item."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void RemoveItem(Item item) end
+
+end

@@ -1,0 +1,42 @@
+---@sealed
+---@description "Indicates the badge's information."
+@Misc
+script BadgeInfo
+
+	---@description "The description of the badge."
+	---@sealed
+	readonly property string Description
+
+	---@description "The date and time when the acquisition ended. It has a valid value only when HasAcquisitionPeriod is true."
+	---@sealed
+	readonly property DateTime EndAcquisitionPeriod
+
+	---@description "The grade of the badge."
+	---@sealed
+	readonly property BadgeGrade Grade
+
+	---@description "Checks if the acquisition period exists."
+	---@sealed
+	readonly property boolean HasAcquisitionPeriod
+
+	---@description "The Id of the badge."
+	---@sealed
+	readonly property string Id
+
+	---@description "The name of the badge."
+	---@sealed
+	readonly property string Name
+
+	---@description "The date and time when the acquisition started. It has a valid value only when HasAcquisitionPeriod is true."
+	---@sealed
+	readonly property DateTime StartAcquisitionPeriod
+
+	---@description "The obtainable status of the badge."
+	---@sealed
+	readonly property BadgeStatus Status
+
+	---@description "The RUID of the thumbnail image of the badge."
+	---@sealed
+	readonly property string ThumbnailRUID
+
+end

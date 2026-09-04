@@ -1,0 +1,43 @@
+---@sealed
+---@description "Indicates the anchor's reference point."
+@Enum
+script AlignmentType
+	---@description "The reference position is the center of the parent."
+	member Center = 0
+	---@description "The reference position is the left center of the parent."
+	member Left = 1
+	---@description "The reference position is the right center of the parent."
+	member Right = 2
+	---@description "The reference position is the top center of the parent."
+	member TopCenter = 3
+	---@description "The reference position is the left top of the parent."
+	member TopLeft = 4
+	---@description "The reference position is the right top of the parent."
+	member TopRight = 5
+	---@description "The reference position is the bottom center of the parent."
+	member BottomCenter = 6
+	---@description "The reference position is the left bottom of the parent."
+	member BottomLeft = 7
+	---@description "The reference position is the right bottom of the parent."
+	member BottomRight = 8
+	---@description "The reference position is the top. The width will increase with the width of the parent."
+	member HorizontalTop = 9
+	---@description "The reference position is the center. The width will increase with the width of the parent."
+	member HorizontalCenter = 10
+	---@description "The reference position is the bottom. The width will increase with the width of the parent."
+	member HorizontalBottom = 11
+	---@description "The reference position is the left. The height increases with the parent's height."
+	member VerticalLeft = 12
+	---@description "The reference position is the center. The height increases with the parent's height. "
+	member VerticalCenter = 13
+	---@description "The reference position is the right. The height increases with the parent's height."
+	member VerticalRight = 14
+	---@description "The width and height are stretched to the same size as the parent."
+	member StretchAll = 15
+
+	---@description "Converts numbers to the applicable type."
+	static method AlignmentType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method AlignmentType CastFrom(string value) end
+end

@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "packageheader://1d0ab7cf5a4342c3a733d6aa46b63b77",
+  "ContentType": "x-mod/packageheader",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "packageheader://1d0ab7cf5a4342c3a733d6aa46b63b77",
+      "name": "Utilities",
+      "packageHeaderData": "{\"entries\":[{\"entryKey\":\"codeblock://26ec0301-a3bf-4b1d-a2b0-1ea323889c17\",\"name\":\"DestroyAfterFrames\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"@workspace/RootDesk/MyDesk/Common/Util\",\"dependency\":{\"subtype\":\"Component\"},\"idConstraints\":0,\"nameConstraints\":1,\"hash\":-1837805641},{\"entryKey\":\"codeblock://f9292543-5c61-48c9-a4c2-7c0486e3bfe3\",\"name\":\"MathUtils\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"@workspace/RootDesk/MyDesk/Common/Util\",\"dependency\":{\"subtype\":\"Logic\"},\"idConstraints\":0,\"nameConstraints\":5,\"hash\":826882242},{\"entryKey\":\"codeblock://d0d2b415-8b61-46ee-a27e-443b88339470\",\"name\":\"SpriteUtils\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"@workspace/RootDesk/MyDesk/Common/Util\",\"dependency\":{\"subtype\":\"Logic\"},\"idConstraints\":0,\"nameConstraints\":5,\"hash\":1108297714},{\"entryKey\":\"codeblock://b35e5b22-0741-48d1-b508-d4688f3d27b4\",\"name\":\"Util\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"@workspace/RootDesk/MyDesk/Common/Util\",\"dependency\":{\"subtype\":\"Logic\"},\"idConstraints\":0,\"nameConstraints\":5,\"hash\":-1500445493}],\"entities\":null,\"version\":2,\"coreVersion\":\"26.7.0.0\",\"studioVersion\":\"0.1.0.0\"}",
+      "packageRevision": 4,
+      "packageVersion": "0.0.4"
+    }
+  }
+}

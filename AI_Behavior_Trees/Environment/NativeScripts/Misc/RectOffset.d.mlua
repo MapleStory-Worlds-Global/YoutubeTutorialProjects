@@ -1,0 +1,29 @@
+---@sealed
+---@description "Represents a rectangular offset."
+@Misc
+script RectOffset
+
+	---@description "The lower value."
+	---@sealed
+	property int32 bottom
+
+	---@description "Left value."
+	---@sealed
+	property int32 left
+
+	---@description "Right value."
+	---@sealed
+	property int32 right
+
+	---@description "The upper value."
+	---@sealed
+	property int32 top
+
+	---@description "Initializes RectOffset to the specified value."
+	constructor RectOffset(int32 left, int32 right, int32 top, int32 bottom) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method RectOffset Clone() end
+
+end

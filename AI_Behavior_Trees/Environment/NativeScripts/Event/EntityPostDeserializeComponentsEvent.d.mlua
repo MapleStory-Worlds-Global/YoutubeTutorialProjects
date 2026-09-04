@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs after finishing the deserialization of an entity."
+@Event
+script EntityPostDeserializeComponentsEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostDeserializeComponentsEvent(Entity entity = nil) end
+
+end

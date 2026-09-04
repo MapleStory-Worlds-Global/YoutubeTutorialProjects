@@ -1,0 +1,8 @@
+---@sealed
+---@description "Event that occurs when CostumeManagerComponent is deleted."
+@Event
+script DestroyMapleCostumeEvent extends EventType
+
+	constructor DestroyMapleCostumeEvent() end
+
+end

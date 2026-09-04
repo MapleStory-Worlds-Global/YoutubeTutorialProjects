@@ -1,0 +1,47 @@
+---@description "Specifies an animation to be played according to the Avatar's state changes."
+@Component
+script AvatarStateAnimationComponent extends Component
+
+	---@description "The table that animation names and AnimationClip RUIDs are mapped into. Used when IsLegacy is true."
+	---@deprecated
+	---@sealed
+	@Sync
+	property SyncDictionary<string, string> ActionSheet
+
+	---@description "Sets whether or not to support the legacy system. The previous system is no longer supported and will be deleted at a later date."
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "This is a table in which state names and AvatarBodyActionState are mapped. Used when IsLegacy's value is false."
+	---@sealed
+	@Sync
+	property SyncDictionary<string, AvatarBodyActionElement> StateToAvatarBodyActionSheet
+
+	---@description "A method that is called when StateChangeEvent is triggered."
+	method void ReceiveStateChangeEvent(IEventSender sender, StateChangeEvent stateEvent) end
+
+	---@description "Removes the element that corresponds to the key from StateToAvatarBodyActionSheet. Removes the element from ActionSheet if IsLegacy is True."
+	---@sealed
+	method void RemoveActionSheet(string key) end
+
+	---@description "Adds an element to StateToAvatarBodyActionSheet."
+	---@sealed
+	method void SetActionSheet(string key, string animationClipRuid) end
+
+	---@description "A method that is called when StateChangeEvent is triggered."
+	method void ReceiveStateChangeEvent(IEventSender sender, StateChangeEvent stateEvent) end
+
+	---@description "Removes the element that corresponds to the key from StateToAvatarBodyActionSheet. Removes the element from ActionSheet if IsLegacy is True."
+	---@sealed
+	method void RemoveActionSheet(string key) end
+
+	---@description "Adds an element to StateToAvatarBodyActionSheet."
+	---@sealed
+	method void SetActionSheet(string key, string animationClipRuid) end
+
+	---@description "Returns the name of mapped Animation to the State. stateName is the name of the state."
+	method string StateStringToAnimationKey(string stateName) end
+
+	emitter EmitBodyActionStateChangeEvent(BodyActionStateChangeEvent event) end
+
+end

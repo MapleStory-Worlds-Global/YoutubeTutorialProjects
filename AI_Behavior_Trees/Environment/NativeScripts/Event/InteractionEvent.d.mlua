@@ -1,0 +1,12 @@
+---@sealed
+---@description "The Event occurs during Interaction."
+@Event
+script InteractionEvent extends EventType
+
+	---@description "The interactive entity."
+	---@sealed
+	readonly property Entity InteractionEntity
+
+	constructor InteractionEvent() end
+
+end

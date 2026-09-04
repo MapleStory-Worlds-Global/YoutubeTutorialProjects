@@ -1,0 +1,54 @@
+---@sealed
+---@description "This provides several features related to Entity."
+@Service
+script EntityService extends Service
+
+	---@description "Destroys an entity."
+	---@sealed
+	method void Destroy(Entity entity) end
+
+	---@description "Destroys the entity after delaySeconds (seconds)."
+	---@sealed
+	method void Destroy(Entity entity, float delaySeconds) end
+
+	---@description "Returns an entity of the path corresponding to worldPath."
+	---@sealed
+	method table<Entity> GetEntitiesByPath(string worldPath) end
+
+	---@description "Finds and returns an entity with the tag corresponding to tag."
+	---@sealed
+	method table<Entity> GetEntitiesByTag(string tag) end
+
+	---@description "Finds and returns an entity spawned by the corresponding model."
+	---@sealed
+	method table<Entity> GetEntitiesSpawnedByModel(Model model) end
+
+	---@description "Finds and returns an entity spawned by the model corresponding to the modelId."
+	---@sealed
+	method table<Entity> GetEntitiesSpawnedByModelId(string modelId) end
+
+	---@description "Finds and returns entity by id."
+	---@sealed
+	method Entity GetEntity(string id) end
+
+	---@description "Returns an entity of the corresponding worldPath."
+	---@sealed
+	method Entity GetEntityByPath(string worldPath) end
+
+	---@description "Finds and returns an entity with the corresponding tag."
+	---@sealed
+	method Entity GetEntityByTag(string tag) end
+
+	---@description "Finds and returns entities with the same model as the entity."
+	---@sealed
+	method table<Entity> GetSameModelEntities(Entity entity) end
+
+	---@description "Returns whether the entity is valid. The entity that's already been destroyed is invalid."
+	---@sealed
+	method boolean IsValid(Entity entity) end
+
+	emitter EmitEntityCreateEvent(EntityCreateEvent event) end
+
+	emitter EmitEntityDestroyEvent(EntityDestroyEvent event) end
+
+end

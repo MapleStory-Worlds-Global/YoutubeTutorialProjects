@@ -1,0 +1,14 @@
+---@sealed
+---@description "Displays providable policy information by region."
+@Misc
+script PolicyInfo
+
+	---@description "Users cannot use draw items that require real money purchases."
+	---@sealed
+	readonly property boolean ArePaidRandomItemsRestricted
+
+	---@description "Users can exchange items that have been purchased with real money with other users."
+	---@sealed
+	readonly property boolean IsPaidItemTradingAllowed
+
+end

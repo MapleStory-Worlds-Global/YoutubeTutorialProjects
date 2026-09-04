@@ -1,0 +1,81 @@
+---@description "Displays a chat balloon and provides a feature to set the related function."
+@Component
+script ChatBalloonComponent extends Component
+
+	---@description "Sets whether to provide the chat balloon a tail image or not."
+	---@sealed
+	@Sync
+	property boolean ArrowChatEnabled = true
+
+	---@description "Sets whether to display chat balloons automatically or not."
+	---@sealed
+	@Sync
+	property boolean AutoShowEnabled = false
+
+	---@description "Sets the size of the chat balloon."
+	---@sealed
+	@Sync
+	property float BalloonScale = 1
+
+	---@description "Sets the type of the chat balloon."
+	---@sealed
+	property DataRef ChatBalloonRUID = DataRef("7b6bd117bd0446a5bacec8ea6831c997")
+
+	---@description "Decides whether to link with chat. If true, the text entered on the chat window gets displayed as a chat balloon and only works in the Player."
+	---@sealed
+	@Sync
+	property boolean ChatModeEnabled = true
+
+	---@description "Sets the text color of the chat balloon."
+	---@sealed
+	@Sync
+	property Color FontColor = Color(0.000, 0.000, 0.000, 1.000)
+
+	---@description "Adjusts the position of the text within the chat balloon."
+	---@sealed
+	@Sync
+	property Vector2 FontOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the font size in the chat balloon."
+	---@sealed
+	@Sync
+	property float FontSize = 1
+
+	---@description "Decides the amount of time that the chat balloon remains invisible when AutoShowEnabled's value is set to true. After the set time has expired, a chat balloon appears. Defined in seconds."
+	---@sealed
+	@Sync
+	property float HideDuration = 5
+
+	---@description "Sets whether to use rich text."
+	---@sealed
+	@Sync
+	property boolean IsRichText = true
+
+	---@description "Decides the content that will be displayed in the chat balloon. A chat balloon will not appear when it's nil or an empty string."
+	---@sealed
+	@Sync
+	property string Message = ""
+
+	---@description "Position offset of the chat balloon. You can adjust the position of the chat balloon up or down."
+	---@sealed
+	@Sync
+	property float Offset = 0
+
+	---@description "You can set the duration of the chat balloon. A chat balloon appears and disappears after Delay. Defined in seconds."
+	---@sealed
+	@Sync
+	property float ShowDuration = 5
+
+	---@description "This is the Id of the TextSpriteSet entry that will be applied to text."
+	---@sealed
+	@Sync
+	property string TextSpriteSetId = ""
+
+	---@description "This is the Id of the TextStyleSheet entry that will be applied to text."
+	---@sealed
+	@Sync
+	property string TextStyleSheetId = ""
+
+	emitter EmitChatBalloonEvent(ChatBalloonEvent event) end
+
+end

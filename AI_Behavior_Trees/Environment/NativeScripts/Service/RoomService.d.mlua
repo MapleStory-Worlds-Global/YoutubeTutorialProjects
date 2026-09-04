@@ -1,0 +1,87 @@
+---@sealed
+---@description "This service processes room-related events."
+@Service
+script RoomService extends Service
+
+	---@description "A list of all active instance rooms."
+	---@sealed
+	readonly property ReadOnlyDictionary<string, InstanceRoom> InstanceRooms
+
+	---@description "The key of the current room. If the current room is an instance room, it shows the specified key value when creating the room. If it is a static room, it shows the same value as StaticRoomKey."
+	---@sealed
+	readonly property string RoomKey
+
+	---@description "The key of the static room. A string constant (\"\"__main__\"\") is used as the RoomKey of the static room."
+	---@sealed
+	readonly property string StaticRoomKey
+
+	---@description "Creates and returns an instance room corresponding to the key."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method InstanceRoom CreateInstanceRoom(string key, table<string> mapNames, float firstUserWaitSeconds = 10) end
+
+	---@description "Deletes shared memory. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedMemoryResultCode DeleteSharedMemoryAndWait(string name) end
+
+	---@description "Deletes shared memory. The function passed to the callbackFunction is called with the result codes upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteSharedMemoryAsync(string name, func<SharedMemoryResultCode> callbackFunction) end
+
+	---@description "Gets or creates and returns an instance room corresponding to the key. After creating, if there is no first user entering within firstUserWaitSeconds, the room will be destroyed. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method InstanceRoom GetOrCreateInstanceRoom(string key, float firstUserWaitSeconds = 10) end
+
+	---@description "Returns a shared memory entity between rooms in the same world instance. If a shared memory with the same name already exists, obtains the existing one; if not, creates a new one."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedMemoryResultCode, RoomSharedMemory GetSharedMemory(string name) end
+
+	---@description "Checks if you are in the current instance room."
+	---@sealed
+	method boolean IsInstanceRoom() end
+
+	---@description "Moves the user with the specified userId to the instance room corresponding to the key. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveUserToInstanceRoom(string key, string userId, string mapName = nil) end
+
+	---@description "Moves the user with the specified userId to the static room. If mapName is not used, it moves to the start map. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveUserToStaticRoom(string userId, string mapName = nil) end
+
+	---@description "Moves the users corresponding to userId to the instance room corresponding to the key. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 MoveUsersToInstanceRoom(string key, table<string> userIds, string mapName = nil) end
+
+	---@description "Moves the user with the userIds to the instance room corresponding to the key. Moves to the start map when mapName is not used. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 MoveUsersToStaticRoom(table<string> userIds, string mapName = nil) end
+
+	---@description "Sends the event to all rooms. Recipients will receive events when they register a handler on RoomService. Script executions are suspended during the operation."
+	---@sealed
+	method SendEventRequestResultCode RequestSendEventToAllRoomsAndWait(EventType sendEvent) end
+
+	---@description "Sends the event to all rooms. Recipients will receive events when they register a handler on RoomService. The function passed to the callbackFunction is called with the result codes and an event entity upon completion of the operation."
+	---@sealed
+	method void RequestSendEventToAllRoomsAsync(EventType sendEvent, func<SendEventRequestResultCode, EventType> callbackFunction) end
+
+	---@description "Sends the event to the specified room. Recipients will receive events when they register a handler on RoomService. Script executions are suspended during the operation."
+	---@sealed
+	method SendEventRequestResultCode RequestSendEventToRoomAndWait(EventType sendEvent, string targetRoomKey) end
+
+	---@description "Sends the event to the specified room. Recipients will receive events when they register a handler on RoomService. The function passed to the callbackFunction is called with the result codes and an event entity upon completion of the operation."
+	---@sealed
+	method void RequestSendEventToRoomAsync(EventType sendEvent, string targetRoomKey, func<SendEventRequestResultCode, EventType> callbackFunction) end
+
+	emitter EmitRoomBeginEvent(RoomBeginEvent event) end
+
+	emitter EmitRoomEndEvent(RoomEndEvent event) end
+
+end

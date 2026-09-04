@@ -1,0 +1,10 @@
+---@sealed
+@Event
+script StudioAvatarActionEvent extends EventType
+
+	---@sealed
+	readonly property StudioAvatarActionType ActionType = StudioAvatarActionType.Invalid
+
+	constructor StudioAvatarActionEvent(StudioAvatarActionType actionType = StudioAvatarActionType.Invalid) end
+
+end

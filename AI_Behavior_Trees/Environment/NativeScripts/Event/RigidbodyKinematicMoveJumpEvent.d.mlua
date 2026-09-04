@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when jumping or landing while the KinematicMove property is true."
+@Event
+script RigidbodyKinematicMoveJumpEvent extends EventType
+
+	---@description "The entity affected by the event."
+	---@sealed
+	property Entity Entity
+
+	---@description "The current jump status."
+	---@sealed
+	property boolean IsJumping = false
+
+	constructor RigidbodyKinematicMoveJumpEvent() end
+
+end

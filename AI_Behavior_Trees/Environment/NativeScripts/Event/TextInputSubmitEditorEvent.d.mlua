@@ -1,0 +1,12 @@
+---@sealed
+---@description "An event that is called when the Enter key is pressed."
+@Event
+script TextInputSubmitEditorEvent extends EventType
+
+	---@description "Text delivered through the event."
+	---@sealed
+	property string Text
+
+	constructor TextInputSubmitEditorEvent(string text = nil) end
+
+end

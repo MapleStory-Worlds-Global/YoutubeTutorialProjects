@@ -1,0 +1,4 @@
+@Component
+script BossHitComponent extends HitComponent
+
+end

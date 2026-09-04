@@ -1,0 +1,17 @@
+---@sealed
+---@description "Type that indicates sound playback status. Used in SoundPlayStateChangedEvent."
+@Enum
+script SoundPlayState
+	---@description "Sound source stopped playing."
+	member Stop = 0
+	---@description "Sound source is playing."
+	member Play = 1
+	---@description "Sound source is paused."
+	member Pause = 2
+
+	---@description "Convert numbers to the applicable type."
+	static method SoundPlayState CastFrom(number value) end
+
+	---@description "Convert strings to the applicable type."
+	static method SoundPlayState CastFrom(string value) end
+end

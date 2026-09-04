@@ -1,0 +1,4 @@
+@BTNode
+script AttackFast extends ActionNode
+
+end

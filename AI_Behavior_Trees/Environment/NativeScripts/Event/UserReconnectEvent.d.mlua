@@ -1,0 +1,26 @@
+---@sealed
+---@description "This event occurs when the user reconnects."
+@Event
+script UserReconnectEvent extends EventType
+
+	---@description "This player's profile code."
+	---@sealed
+	property string ProfileCode
+
+	---@description "The name of the map the user reconnected to."
+	---@sealed
+	property string ReconnectMapName
+
+	---@description "Time when the user was disconnected."
+	---@sealed
+	property DateTime TimeNetworkClosed
+
+	---@description "The user's unique identifier."
+	---@sealed
+	property string UserId
+
+	constructor UserReconnectEvent(IUser user) end
+
+	constructor UserReconnectEvent(string reconnectMapName = nil, DateTime timeNetworkClosed = nil, string userId = nil, string profileCode = nil) end
+
+end

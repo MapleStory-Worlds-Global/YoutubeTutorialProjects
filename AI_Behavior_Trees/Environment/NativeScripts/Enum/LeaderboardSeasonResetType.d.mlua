@@ -1,0 +1,17 @@
+---@sealed
+---@description "How the leaderboard is reset."
+@Enum
+script LeaderboardSeasonResetType
+	---@description "Not reset."
+	member Never = 0
+	---@description "Resets regularly."
+	member Repeated = 1
+	---@description "An unknown error has occurred during the inquiry."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method LeaderboardSeasonResetType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method LeaderboardSeasonResetType CastFrom(string value) end
+end

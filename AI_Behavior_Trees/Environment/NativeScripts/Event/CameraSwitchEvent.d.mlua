@@ -1,0 +1,16 @@
+---@sealed
+---@description "The event occurs when switching the target for the camera to shoot."
+@Event
+script CameraSwitchEvent extends EventType
+
+	---@description "The previous target CameraComponent. It can be nil."
+	---@sealed
+	property CameraComponent PreviousComponent
+
+	---@description "The switched target CameraComponent."
+	---@sealed
+	property CameraComponent SwitchedComponent
+
+	constructor CameraSwitchEvent(CameraComponent previousComponent = nil, CameraComponent switchedComponent = nil) end
+
+end

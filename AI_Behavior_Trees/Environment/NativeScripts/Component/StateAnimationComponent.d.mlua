@@ -1,0 +1,26 @@
+---@description "Specifies the animation to be played by state changes."
+@Component
+script StateAnimationComponent extends Component
+
+	---@description "The table the animation's name and AnimationClip RUID are mapped to."
+	---@sealed
+	@Sync
+	property SyncDictionary<string, string> ActionSheet
+
+	---@description "The method that's called when StateChangeEvent is triggered. Triggers AnimationClipEvent with the name of the animation that corresponds to the changed state."
+	method void ReceiveStateChangeEvent(IEventSender sender, StateChangeEvent stateEvent) end
+
+	---@description "Removes the element corresponding to key in ActionSheet."
+	---@sealed
+	method void RemoveActionSheet(string key) end
+
+	---@description "Adds an element to ActionSheet."
+	---@sealed
+	method void SetActionSheet(string key, string animationClipRuid) end
+
+	---@description "Returns the name of mapped Animation to the State. stateName is the name of the state."
+	method string StateStringToAnimationKey(string stateName) end
+
+	emitter EmitAnimationClipEvent(AnimationClipEvent event) end
+
+end

@@ -1,0 +1,180 @@
+---@sealed
+---@description "This storage has a feature of managing integer data and bringing the aligned data. The maker and release environment do not share the storage."
+@Misc
+script SortableDataStorage
+
+	---@description "The name of DataStorage."
+	---@sealed
+	readonly property string Name
+
+	---@description "Queries data corresponding to the keys entered. You can see the query result with the error code and the inquiry entity. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, SortableDataStorageItemPages BatchGetAndWait(List<string> keys) end
+
+	---@description "Queries data corresponding to the keys entered. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, key, inquiry entity when the operation is complete."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchGetAsync(List<string> keys, func<int32, List<string>, SortableDataStorageItemPages> callbackFunction) end
+
+	---@description "Queries data with the DataStorageKeyInfo entered. You can see the query result with the error code and the inquiry entity. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, SortableDataStorageItemPages BatchGetByInfoAndWait(List<DataStorageKeyInfo> keyInfos) end
+
+	---@description "Queries data with the DataStorageKeyInfo entered. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, key, and inquiry entity for inquiry when the operation is complete."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchGetByInfoAsync(List<DataStorageKeyInfo> keyInfos, func<int32, List<DataStorageKeyInfo>, SortableDataStorageItemPages> callbackFunction) end
+
+	---@description "Saves data with the keys entered. Returns the keys that succeeded in the error code and storage. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, List<string> BatchSetAndWait(Dictionary<string, integer> keyValues) end
+
+	---@description "Saves data with the entered keys. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and storage succeeded keys when completing the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchSetAsync(Dictionary<string, integer> keyValues, func<int32, List<string>> callbackFunction) end
+
+	---@description "Saves data with the DataStorageKeyInfo entered. Returns the DataStorageKeyInfo that succeeded in the error code and storage. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, List<DataStorageKeyInfo> BatchSetByInfoAndWait(Dictionary<DataStorageKeyInfo, integer> keyValues) end
+
+	---@description "Saves data with the entered DataStorageKeyInfo. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and storage succeeded DataStorageKeyInfo when completing the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchSetByInfoAsync(Dictionary<DataStorageKeyInfo, integer> keyValues, func<int32, List<DataStorageKeyInfo>> callbackFunction) end
+
+	---@description "Queries data corresponding to the keys entered. Returns the error code and the data when the operation is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, integer GetAndWait(string key) end
+
+	---@description "Queries data corresponding to the keys entered. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, key, and data when the operation is complete."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetAsync(string key, func<int32, string, integer> callbackFunction) end
+
+	---@description "Queries data with the DataStorageKeyInfo entered. Returns the error code and data when the operation is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, integer GetByInfoAndWait(DataStorageKeyInfo keyInfo) end
+
+	---@description "Queries data with the DataStorageKeyInfo entered. This operation is performed asynchronously. The function passed to the callbackFunction is called with the error code, DataStorageKeyInfo, and data upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetByInfoAsync(DataStorageKeyInfo keyInfo, func<int32, DataStorageKeyInfo, integer> callbackFunction) end
+
+	---@description "Queries data that have the tags entered. You can see the inquiry result with the error code and inquiry entity. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, SortableDataStorageItemPages GetPagesAndWait(string tag) end
+
+	---@description "Queries data that have the tags entered. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, tag, and inquiry entity when the operation is complete."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetPagesAsync(string tag, func<int32, string, SortableDataStorageItemPages> callbackFunction) end
+
+	---@description "Inquires about data in the order arranged. Returns the error code and the inquiry entity when the operation is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, SortableDataStorageItemPages GetSortedAndWait(SortDirection sortDirection, integer min, integer max) end
+
+	---@description "Inquires about data in the order arranged. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and entity for inquiry when completing the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetSortedAsync(SortDirection sortDirection, integer min, integer max, func<int32, SortableDataStorageItemPages> callbackFunction) end
+
+	---@description "Increases the data value corresponding to the key entered as much as delta. You can see the query result with the error code and the inquiry entity. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, integer IncreaseAndWait(string key, integer delta) end
+
+	---@description "Increases the data value corresponding to the key entered as much as delta. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, key, and the updated value."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void IncreaseAsync(string key, integer delta, func<int32, string, integer> callbackFunction) end
+
+	---@description "Saves data with the keys entered. Returns the error code when completing the operation. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 SetAndWait(string key, integer value) end
+
+	---@description "Saves data with the keys entered. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and key when the operation is complete."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetAsync(string key, integer value, func<int32, string> callbackFunction) end
+
+	---@description "Saves data with the DataStorageKeyInfo entered. Returns the error code when the operation is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 SetByInfoAndWait(DataStorageKeyInfo keyInfo, integer value) end
+
+	---@description "Saves data with the DataStorageKeyInfo entered. This operation is performed asynchronously. The function passed to the callbackFunction is called with the error code and DataStorageKeyInfo upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetByInfoAsync(DataStorageKeyInfo keyInfo, integer value, func<int32, DataStorageKeyInfo> callbackFunction) end
+
+	---@description "Saves data corresponding to the keys entered. Returns the keys that have been saved along with the error code if all tasks within the call are successful. Script executions are suspended during operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, List<string> TransactSetAndWait(Dictionary<string, integer> keyValues) end
+
+	---@description "Saves data corresponding to the keys entered. This call is performed asynchronously. The function passed to the callbackFunction is called with the saved keys and error code if all tasks within the call are successful."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void TransactSetAsync(Dictionary<string, integer> keyValues, func<int32, List<string>> callbackFunction) end
+
+	---@description "Saves data with the entered DataStorageKeyInfo. Returns the DataStorageKeyInfo that succeeded and the error code if all data has been saved. Script executions are suspended during operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, List<DataStorageKeyInfo> TransactSetByInfoAndWait(Dictionary<DataStorageKeyInfo, integer> keyValues) end
+
+	---@description "Saves data with the DataStorageKeyInfo entered. This call is performed asynchronously. The function passed to the callbackFunction is called with the error code and the saved DataStorageKeyInfo if all tasks within the call are successful."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void TransactSetByInfoAsync(Dictionary<DataStorageKeyInfo, integer> keyValues, func<int32, List<DataStorageKeyInfo>> callbackFunction) end
+
+	---@description "Deletes data pertaining to the keys entered. Returns the error code and keys that were successfully deleted. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, List<string> BatchDeleteAndWait(List<string> keys) end
+
+	---@description "Deletes data with the entered keys. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the deletion, error code succeeded keys when completing the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchDeleteAsync(List<string> keys, func<int32, List<string>> callbackFunction) end
+
+	---@description "Deletes data with the entered key and returns the error code. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 DeleteAndWait(string key) end
+
+	---@description "Deletes data with the entered keys. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code and key upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteAsync(string key, func<int32, string> callbackFunction) end
+
+	---@description "Queries the versions of data corresponding to the entered keys. You can see the query result with the error code and the inquiry entity. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, DataStorageVersionPages GetVersionsAndWait(string key, SortDirection sortDirection, DateTime minDate, DateTime maxDate) end
+
+	---@description "Queries the versions of data corresponding to the keys entered. This operation is performed asynchronously, and the function passed to the callbackFunction is called with the error code, key, and inquiry entity for inquiry when the operation is complete."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetVersionsAsync(string key, SortDirection sortDirection, DateTime minDate, DateTime maxDate, func<int32, string, DataStorageVersionPages> callbackFunction) end
+
+	---@description "Deletes data corresponding to the keys entered. Returns the keys that have been deleted along with the error code if all tasks within the call are successful. Script executions are suspended during operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32, List<string> TransactDeleteAndWait(List<string> keys) end
+
+	---@description "Deletes data corresponding to the keys entered. This call is performed asynchronously. The function passed to the callbackFunction is called with the deleted keys and error code if all tasks within the call are successful."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void TransactDeleteAsync(List<string> keys, func<int32, List<string>> callbackFunction) end
+
+end

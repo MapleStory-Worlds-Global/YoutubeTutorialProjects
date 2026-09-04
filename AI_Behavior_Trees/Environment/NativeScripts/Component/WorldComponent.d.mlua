@@ -1,0 +1,5 @@
+---@description "A Component represents the world. No need to use it separately."
+@Component
+script WorldComponent extends Component
+
+end

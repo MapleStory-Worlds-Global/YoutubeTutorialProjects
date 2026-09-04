@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs from InputService when the mouse moves. "
+@Event
+script MouseMoveEvent extends EventType
+
+	---@description "Represents the mouse's horizontal and vertical movement amount. It is a positive number when moving right or up and a negative number when moving left or down."
+	---@sealed
+	property Vector2 MouseDelta
+
+	constructor MouseMoveEvent(Vector2 mouseDelta = Vector2(0, 0)) end
+
+end

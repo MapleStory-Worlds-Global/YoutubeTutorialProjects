@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when changing the jumping state."
+@Event
+script KinematicbodyJumpEvent extends EventType
+
+	---@description "Check whether you are jumping."
+	---@sealed
+	property boolean IsJumping = false
+
+	---@description "The KinematicbodyComponent with the occurring event."
+	---@sealed
+	property KinematicbodyComponent Kinematicbody
+
+	constructor KinematicbodyJumpEvent(boolean isJumping = false, KinematicbodyComponent kinematicbody = nil) end
+
+end

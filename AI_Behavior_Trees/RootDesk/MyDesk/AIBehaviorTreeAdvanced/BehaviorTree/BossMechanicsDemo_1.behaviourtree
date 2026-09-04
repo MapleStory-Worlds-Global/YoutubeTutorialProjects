@@ -1,0 +1,945 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "behaviourtree://e9ce2ed5-ef5f-4d5d-a6a6-4ec4b1c529e4",
+  "ContentType": "x-mod/behaviourtree",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "behaviourtree://e9ce2ed5-ef5f-4d5d-a6a6-4ec4b1c529e4",
+      "name": "BossMechanicsDemo_1",
+      "RootNode": {
+        "startNodeId": "bf9759fc-57df-48e2-a8f4-4101f6f6ae7a",
+        "nodePosition": {
+          "x": -10.09524,
+          "y": 215.61908
+        }
+      },
+      "Blackboard": {
+        "Variables": [
+          {
+            "Name": "bb_attackPos",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": 0.0,
+              "y": 0.0
+            }
+          },
+          {
+            "Name": "bb_Target",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          },
+          {
+            "Name": "bb_IsDead",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": false
+          },
+          {
+            "Name": "bb_warningEntity",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODEntity, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": null
+          },
+          {
+            "Name": "bb_moveSpeed",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": 1.2
+          },
+          {
+            "Name": "bb_movePos1",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector3, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": -5.0,
+              "y": 5.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Name": "bb_movePos2",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector3, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": -3.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Name": "bb_movePos3",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.MODVector3, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ObjectValue": {
+              "x": 3.0,
+              "y": 5.0,
+              "z": 0.0
+            }
+          },
+          {
+            "Name": "bb_warningRadius",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": 2.0
+          },
+          {
+            "Name": "bb_isMethodComplete",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": false
+          },
+          {
+            "Name": "bb_animationDuration",
+            "Type": {
+              "$type": "MODNativeType",
+              "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            "ObjectValue": 0.0
+          }
+        ]
+      },
+      "Nodes": [
+        {
+          "nodeId": "0f22ec53-dbf3-4f27-9065-fd08712cbc3b",
+          "nodeName": "Patrol",
+          "definitionId": "SelectorNode",
+          "btNodeType": 1,
+          "nodeParentId": "eb3177ba-4f40-47d0-a5b4-7a58a5f983f0",
+          "nodePosition": {
+            "x": -87.76242,
+            "y": -101.737671
+          },
+          "childNodes": [
+            "4e07523e-533a-4d58-ae4d-8f5592d63a0a",
+            "466d978d-e0f7-4618-a558-2442adcfeb84"
+          ]
+        },
+        {
+          "nodeId": "dd82755b-c183-4f4b-a851-69f4c814f832",
+          "nodeName": "Melee Attack",
+          "definitionId": "SequenceNode",
+          "btNodeType": 1,
+          "nodeParentId": "5aed7a77-37df-45c1-a22e-db026e720bd6",
+          "nodePosition": {
+            "x": 530.689453,
+            "y": -392.725037
+          },
+          "childNodes": [
+            "e5b05028-0638-4c2b-907e-b9e747998532",
+            "06fb653d-f33f-4f46-966a-dfaa65bb5f72",
+            "f7b80091-559f-4515-bad8-3eced4222dc9"
+          ]
+        },
+        {
+          "nodeId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeName": "Ranged Attack",
+          "definitionId": "SequenceNode",
+          "btNodeType": 1,
+          "nodeParentId": "5aed7a77-37df-45c1-a22e-db026e720bd6",
+          "nodePosition": {
+            "x": 904.733643,
+            "y": -391.8109
+          },
+          "childNodes": [
+            "770b5054-78f8-4137-b502-5a5a7e3bc776",
+            "c4e2bff8-79d5-44c4-aa7e-ceaf0036691a",
+            "33bd3a99-583d-488d-99ca-ae60a808d886",
+            "149cc44f-7885-4b88-9d50-0b1f08c42854",
+            "e098da00-ede0-4508-b52b-6535b2016712",
+            "9a2b8f41-756c-491b-abcb-595c55f382c9",
+            "0185d4ae-43b4-4632-b22a-6d7a6a769740",
+            "4eda16fe-f164-4936-9454-87e9821cb243"
+          ]
+        },
+        {
+          "nodeId": "157850aa-f66b-40a7-ab3b-30c5b41a7510",
+          "nodeName": "Select Random Position",
+          "definitionId": "codeblock://fb69f9a5-1377-48ef-abc2-2ad817167d18",
+          "btNodeType": 1,
+          "nodeParentId": "770b5054-78f8-4137-b502-5a5a7e3bc776",
+          "nodePosition": {
+            "x": 1228.61951,
+            "y": -737.561035
+          },
+          "childNodes": [
+            "71455a25-1b46-4293-b617-2ed89a3fdfbc",
+            "8e96ad53-801a-40ad-b172-8801b7307e08",
+            "bbec513b-a5e4-4d11-92b4-f0eba7f40dec"
+          ]
+        },
+        {
+          "nodeId": "71455a25-1b46-4293-b617-2ed89a3fdfbc",
+          "nodeName": "RandomPosition1",
+          "definitionId": "codeblock://98281939-3ad0-4ca0-9011-d1d1d8098f76",
+          "btNodeType": 0,
+          "nodeParentId": "157850aa-f66b-40a7-ab3b-30c5b41a7510",
+          "nodeProperties": [
+            {
+              "propertyKey": "Key",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            },
+            {
+              "propertyKey": "Value",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": -3.0,
+                "y": 1.0
+              }
+            }
+          ],
+          "nodePosition": {
+            "x": 1004.73383,
+            "y": -888.19
+          }
+        },
+        {
+          "nodeId": "8e96ad53-801a-40ad-b172-8801b7307e08",
+          "nodeName": "RandomPosition2",
+          "definitionId": "codeblock://98281939-3ad0-4ca0-9011-d1d1d8098f76",
+          "btNodeType": 0,
+          "nodeParentId": "157850aa-f66b-40a7-ab3b-30c5b41a7510",
+          "nodeProperties": [
+            {
+              "propertyKey": "Key",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            },
+            {
+              "propertyKey": "Value",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 3.0,
+                "y": 1.0
+              }
+            }
+          ],
+          "nodePosition": {
+            "x": 1213.8772,
+            "y": -888.189758
+          }
+        },
+        {
+          "nodeId": "bbec513b-a5e4-4d11-92b4-f0eba7f40dec",
+          "nodeName": "RandomPosition3",
+          "definitionId": "codeblock://98281939-3ad0-4ca0-9011-d1d1d8098f76",
+          "btNodeType": 0,
+          "nodeParentId": "157850aa-f66b-40a7-ab3b-30c5b41a7510",
+          "nodeProperties": [
+            {
+              "propertyKey": "Key",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            },
+            {
+              "propertyKey": "Value",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": -2.0,
+                "y": 1.0
+              }
+            }
+          ],
+          "nodePosition": {
+            "x": 1423.965,
+            "y": -887.474243
+          }
+        },
+        {
+          "nodeId": "a354b1e8-fcef-4f24-9080-c3cbeb1d322d",
+          "nodeName": "Select Random Waypoint",
+          "definitionId": "codeblock://fb69f9a5-1377-48ef-abc2-2ad817167d18",
+          "btNodeType": 1,
+          "nodeParentId": "466d978d-e0f7-4618-a558-2442adcfeb84",
+          "nodePosition": {
+            "x": 87.0026,
+            "y": -239.540955
+          },
+          "childNodes": [
+            "f7400b72-fcde-46a4-86bf-903ce1f438d2",
+            "f7d8b70c-2816-4509-af9d-22eeddee4bb2",
+            "460256f8-996c-4c1b-9126-d9e0080b8bd4"
+          ]
+        },
+        {
+          "nodeId": "f7400b72-fcde-46a4-86bf-903ce1f438d2",
+          "nodeName": "MoveTo",
+          "definitionId": "codeblock://ff094dc0-d85b-4e4c-b27c-3a1017ace3e6",
+          "btNodeType": 0,
+          "nodeParentId": "a354b1e8-fcef-4f24-9080-c3cbeb1d322d",
+          "nodeProperties": [
+            {
+              "propertyKey": "MoveSpeedKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_moveSpeed"
+            },
+            {
+              "propertyKey": "TargetPositionKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_movePos1"
+            },
+            {
+              "propertyKey": "ArrivalThreshold",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 0.3
+            }
+          ],
+          "nodePosition": {
+            "x": -87.4271851,
+            "y": -398.160217
+          }
+        },
+        {
+          "nodeId": "f7d8b70c-2816-4509-af9d-22eeddee4bb2",
+          "nodeName": "MoveTo",
+          "definitionId": "codeblock://ff094dc0-d85b-4e4c-b27c-3a1017ace3e6",
+          "btNodeType": 0,
+          "nodeParentId": "a354b1e8-fcef-4f24-9080-c3cbeb1d322d",
+          "nodeProperties": [
+            {
+              "propertyKey": "MoveSpeedKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_moveSpeed"
+            },
+            {
+              "propertyKey": "TargetPositionKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_movePos2"
+            },
+            {
+              "propertyKey": "ArrivalThreshold",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 0.3
+            }
+          ],
+          "nodePosition": {
+            "x": 82.00199,
+            "y": -399.207642
+          }
+        },
+        {
+          "nodeId": "460256f8-996c-4c1b-9126-d9e0080b8bd4",
+          "nodeName": "MoveTo",
+          "definitionId": "codeblock://ff094dc0-d85b-4e4c-b27c-3a1017ace3e6",
+          "btNodeType": 0,
+          "nodeParentId": "a354b1e8-fcef-4f24-9080-c3cbeb1d322d",
+          "nodeProperties": [
+            {
+              "propertyKey": "MoveSpeedKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_moveSpeed"
+            },
+            {
+              "propertyKey": "TargetPositionKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_movePos3"
+            },
+            {
+              "propertyKey": "ArrivalThreshold",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 0.3
+            }
+          ],
+          "nodePosition": {
+            "x": 249.335785,
+            "y": -401.207581
+          }
+        },
+        {
+          "nodeId": "5aed7a77-37df-45c1-a22e-db026e720bd6",
+          "nodeName": "Ranged or Melee",
+          "definitionId": "codeblock://fb69f9a5-1377-48ef-abc2-2ad817167d18",
+          "btNodeType": 1,
+          "nodeParentId": "eb3177ba-4f40-47d0-a5b4-7a58a5f983f0",
+          "nodePosition": {
+            "x": 726.2598,
+            "y": -125.3156
+          },
+          "childNodes": [
+            "dd82755b-c183-4f4b-a851-69f4c814f832",
+            "6afd5339-7c29-4169-96e6-c51098caef0a"
+          ]
+        },
+        {
+          "nodeId": "9a0ba238-0c85-4294-a950-b39ea9bf095e",
+          "nodeName": "MoveToTarget",
+          "definitionId": "codeblock://32f3e268-c1dd-44e4-84b0-cac0335c494e",
+          "btNodeType": 0,
+          "nodeParentId": "4e07523e-533a-4d58-ae4d-8f5592d63a0a",
+          "nodePosition": {
+            "x": -318.322571,
+            "y": -247.452118
+          }
+        },
+        {
+          "nodeId": "4e07523e-533a-4d58-ae4d-8f5592d63a0a",
+          "nodeName": "HasTarget",
+          "definitionId": "codeblock://7d25952b-19b4-4b22-9ce3-e46f04aedff6",
+          "btNodeType": 2,
+          "nodeParentId": "0f22ec53-dbf3-4f27-9065-fd08712cbc3b",
+          "nodeProperties": [
+            {
+              "propertyKey": "compareValue",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            }
+          ],
+          "decoChildNodes": "9a0ba238-0c85-4294-a950-b39ea9bf095e"
+        },
+        {
+          "nodeId": "eb3177ba-4f40-47d0-a5b4-7a58a5f983f0",
+          "nodeName": "Move and Attack",
+          "definitionId": "SequenceNode",
+          "btNodeType": 1,
+          "nodeParentId": "bf9759fc-57df-48e2-a8f4-4101f6f6ae7a",
+          "nodePosition": {
+            "x": 241.545578,
+            "y": 0.7272644
+          },
+          "childNodes": [
+            "0f22ec53-dbf3-4f27-9065-fd08712cbc3b",
+            "5aed7a77-37df-45c1-a22e-db026e720bd6"
+          ]
+        },
+        {
+          "nodeId": "466d978d-e0f7-4618-a558-2442adcfeb84",
+          "nodeName": "HasTarget",
+          "definitionId": "codeblock://7d25952b-19b4-4b22-9ce3-e46f04aedff6",
+          "btNodeType": 2,
+          "nodeParentId": "0f22ec53-dbf3-4f27-9065-fd08712cbc3b",
+          "decoChildNodes": "a354b1e8-fcef-4f24-9080-c3cbeb1d322d"
+        },
+        {
+          "nodeId": "25950fc1-dae2-4ad5-8d70-2969b5fa62cc",
+          "nodeName": "ShowWarning",
+          "definitionId": "codeblock://2c8dacdf-359b-48d3-a3e4-542f3d11138d",
+          "btNodeType": 0,
+          "nodeParentId": "e5b05028-0638-4c2b-907e-b9e747998532",
+          "nodeProperties": [
+            {
+              "propertyKey": "positionKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": ""
+            },
+            {
+              "propertyKey": "warningColor",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODColor, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "r": 1.0,
+                "g": 0.3703122,
+                "b": 0.0,
+                "a": 0.25
+              }
+            }
+          ],
+          "nodePosition": {
+            "x": 496.7055,
+            "y": -626.428955
+          }
+        },
+        {
+          "nodeId": "06fb653d-f33f-4f46-966a-dfaa65bb5f72",
+          "nodeName": "Attack",
+          "definitionId": "codeblock://a6bd9cba-4e1d-4ab6-931e-6b4d72749ffe",
+          "btNodeType": 0,
+          "nodeParentId": "dd82755b-c183-4f4b-a851-69f4c814f832",
+          "nodePosition": {
+            "x": 620.8482,
+            "y": -503.3028
+          }
+        },
+        {
+          "nodeId": "bf9759fc-57df-48e2-a8f4-4101f6f6ae7a",
+          "nodeName": "SelectorNode",
+          "definitionId": "SelectorNode",
+          "btNodeType": 1,
+          "nodeParentId": "",
+          "nodePosition": {
+            "x": -11.1516542,
+            "y": 131.840149
+          },
+          "childNodes": [
+            "04559943-9664-442e-8b67-6d2f73bb3725",
+            "eb3177ba-4f40-47d0-a5b4-7a58a5f983f0"
+          ]
+        },
+        {
+          "nodeId": "ecaeab36-26f2-4310-94cc-9ff882e8cfef",
+          "nodeName": "Wait",
+          "definitionId": "codeblock://c999cab1-2f49-40cf-90da-688e6423e02f",
+          "btNodeType": 0,
+          "nodeParentId": "04559943-9664-442e-8b67-6d2f73bb3725",
+          "nodeProperties": [
+            {
+              "propertyKey": "WaitTime",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 5.0
+            }
+          ],
+          "nodePosition": {
+            "x": -445.151642,
+            "y": -5.397991
+          }
+        },
+        {
+          "nodeId": "04559943-9664-442e-8b67-6d2f73bb3725",
+          "nodeName": "BlackboardCondition_Bool",
+          "definitionId": "codeblock://edb7b1e1-8d01-44fa-8544-50f1873d253e",
+          "btNodeType": 2,
+          "nodeParentId": "bf9759fc-57df-48e2-a8f4-4101f6f6ae7a",
+          "nodeProperties": [
+            {
+              "propertyKey": "CompareValue",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            },
+            {
+              "propertyKey": "Key",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_IsDead"
+            },
+            {
+              "propertyKey": "Operator",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 1
+            }
+          ],
+          "decoChildNodes": "ecaeab36-26f2-4310-94cc-9ff882e8cfef"
+        },
+        {
+          "nodeId": "770b5054-78f8-4137-b502-5a5a7e3bc776",
+          "nodeName": "Select Attack Position",
+          "definitionId": "SelectorNode",
+          "btNodeType": 1,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodePosition": {
+            "x": 904.007935,
+            "y": -613.7461
+          },
+          "childNodes": [
+            "95b5c53c-6256-456f-b78e-f3915163de17",
+            "157850aa-f66b-40a7-ab3b-30c5b41a7510"
+          ]
+        },
+        {
+          "nodeId": "0e5d8b98-c1dd-48dc-a242-3cd53ec56335",
+          "nodeName": "SetTargetPos",
+          "definitionId": "codeblock://77f51ae1-4f09-4770-ac6c-b25d7c46dafd",
+          "btNodeType": 0,
+          "nodeParentId": "95b5c53c-6256-456f-b78e-f3915163de17",
+          "nodeProperties": [
+            {
+              "propertyKey": "Key",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            },
+            {
+              "propertyKey": "ValueKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_Target"
+            }
+          ],
+          "nodePosition": {
+            "x": 720.551147,
+            "y": -753.146057
+          }
+        },
+        {
+          "nodeId": "95b5c53c-6256-456f-b78e-f3915163de17",
+          "nodeName": "HasTarget",
+          "definitionId": "codeblock://7d25952b-19b4-4b22-9ce3-e46f04aedff6",
+          "btNodeType": 2,
+          "nodeParentId": "770b5054-78f8-4137-b502-5a5a7e3bc776",
+          "decoChildNodes": "0e5d8b98-c1dd-48dc-a242-3cd53ec56335"
+        },
+        {
+          "nodeId": "e5b05028-0638-4c2b-907e-b9e747998532",
+          "nodeName": "ParallelNode",
+          "definitionId": "ParallelNode",
+          "btNodeType": 1,
+          "nodeParentId": "dd82755b-c183-4f4b-a851-69f4c814f832",
+          "nodePosition": {
+            "x": 421.6036,
+            "y": -501.7102
+          },
+          "childNodes": [
+            "25950fc1-dae2-4ad5-8d70-2969b5fa62cc"
+          ]
+        },
+        {
+          "nodeId": "f7b80091-559f-4515-bad8-3eced4222dc9",
+          "nodeName": "ExecuteMethod",
+          "definitionId": "codeblock://1683939c-77ea-4a9d-9a8b-eb27cf201c69",
+          "btNodeType": 0,
+          "nodeParentId": "dd82755b-c183-4f4b-a851-69f4c814f832",
+          "nodeProperties": [
+            {
+              "propertyKey": "methodName",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "AttackEnemy"
+            }
+          ],
+          "nodePosition": {
+            "x": 804.3267,
+            "y": -501.8436
+          }
+        },
+        {
+          "nodeId": "9a2b8f41-756c-491b-abcb-595c55f382c9",
+          "nodeName": "ExecuteMethod",
+          "definitionId": "codeblock://1683939c-77ea-4a9d-9a8b-eb27cf201c69",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "methodName",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "AttackEnemy"
+            }
+          ],
+          "nodePosition": {
+            "x": 1785.52429,
+            "y": -525.93866
+          }
+        },
+        {
+          "nodeId": "c4e2bff8-79d5-44c4-aa7e-ceaf0036691a",
+          "nodeName": "SpawnAtPosition",
+          "definitionId": "codeblock://114a0908-1914-4c5d-beb6-24b472bd1c9f",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "positionKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            },
+            {
+              "propertyKey": "entityName",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "Projectile"
+            },
+            {
+              "propertyKey": "modelID",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "model://93f842aa-3b99-4c95-8aca-be136c4241fe"
+            }
+          ],
+          "nodePosition": {
+            "x": 1067.98889,
+            "y": -518.1814
+          }
+        },
+        {
+          "nodeId": "e098da00-ede0-4508-b52b-6535b2016712",
+          "nodeName": "ShowWarning",
+          "definitionId": "codeblock://2c8dacdf-359b-48d3-a3e4-542f3d11138d",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "warnDuration",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": 9.0
+            },
+            {
+              "propertyKey": "positionKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            },
+            {
+              "propertyKey": "warningColor",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODColor, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "r": 1.0,
+                "g": 0.368627459,
+                "b": 0.0,
+                "a": 0.25
+              }
+            },
+            {
+              "propertyKey": "warnDurationKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_animationDuration"
+            }
+          ],
+          "nodePosition": {
+            "x": 1616.26,
+            "y": -521.9643
+          }
+        },
+        {
+          "nodeId": "0185d4ae-43b4-4632-b22a-6d7a6a769740",
+          "nodeName": "Attack",
+          "definitionId": "codeblock://a6bd9cba-4e1d-4ab6-931e-6b4d72749ffe",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "attackPosKey",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "bb_attackPos"
+            }
+          ],
+          "nodePosition": {
+            "x": 1962.64783,
+            "y": -525.1407
+          }
+        },
+        {
+          "nodeId": "33bd3a99-583d-488d-99ca-ae60a808d886",
+          "nodeName": "WaitAnimationDuration",
+          "definitionId": "codeblock://bace1cc4-9ffa-4e7e-9c77-64ff9e99563e",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "fromTo",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 1.0,
+                "y": 2.0
+              }
+            },
+            {
+              "propertyKey": "addDelay",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            },
+            {
+              "propertyKey": "animRUID",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "a2ad7fd66d3e433ca3b506b692748843"
+            }
+          ],
+          "nodePosition": {
+            "x": 1245.1427,
+            "y": -521.3651
+          }
+        },
+        {
+          "nodeId": "149cc44f-7885-4b88-9d50-0b1f08c42854",
+          "nodeName": "WaitAnimationDuration",
+          "definitionId": "codeblock://bace1cc4-9ffa-4e7e-9c77-64ff9e99563e",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "fromTo",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 3.0,
+                "y": 30.0
+              }
+            },
+            {
+              "propertyKey": "addDelay",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": false
+            },
+            {
+              "propertyKey": "animRUID",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "a2ad7fd66d3e433ca3b506b692748843"
+            }
+          ],
+          "nodePosition": {
+            "x": 1435.14331,
+            "y": -521.6507
+          }
+        },
+        {
+          "nodeId": "4eda16fe-f164-4936-9454-87e9821cb243",
+          "nodeName": "WaitAnimationDuration",
+          "definitionId": "codeblock://bace1cc4-9ffa-4e7e-9c77-64ff9e99563e",
+          "btNodeType": 0,
+          "nodeParentId": "6afd5339-7c29-4169-96e6-c51098caef0a",
+          "nodeProperties": [
+            {
+              "propertyKey": "fromTo",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 31.0,
+                "y": 999.0
+              }
+            },
+            {
+              "propertyKey": "addDelay",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": true
+            },
+            {
+              "propertyKey": "animRUID",
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              "propertyValue": "a2ad7fd66d3e433ca3b506b692748843"
+            }
+          ],
+          "nodePosition": {
+            "x": 2122.28564,
+            "y": -520.7935
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+---@sealed
+---@description "How to align vertical text."
+@Enum
+script TextVerticalAlignmentOption
+	---@description "Aligns the text to the top of the text box."
+	member Top = 256
+	---@description "Aligns the text to the center of the text box."
+	member Middle = 512
+	---@description "Aligns the text to the bottom of the text box."
+	member Bottom = 1024
+	---@description "Aligns the first line to the center of the text box based on the bottom line of the text."
+	member Baseline = 2048
+	---@description "Aligns the center of the entire text to the center of the text box."
+	member Geometry = 4096
+	---@description "Aligns the text so that it is centered in the area based on the center of the first line."
+	member Capline = 8192
+
+	---@description "Converts numbers to the applicable type."
+	static method TextVerticalAlignmentOption CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TextVerticalAlignmentOption CastFrom(string value) end
+end

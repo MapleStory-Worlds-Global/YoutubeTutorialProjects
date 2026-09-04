@@ -1,0 +1,17 @@
+---@sealed
+---@description "The method by which sprites are drawn."
+@Enum
+script SpriteDrawMode
+	---@description "This is the default drawing method."
+	member Simple = 0
+	---@description "Applies a slice area to a sprite to draw it."
+	member Sliced = 1
+	---@description "This repeatedly draws a sprite."
+	member Tiled = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method SpriteDrawMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method SpriteDrawMode CastFrom(string value) end
+end

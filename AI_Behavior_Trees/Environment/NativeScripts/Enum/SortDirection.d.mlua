@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates the sort method."
+@Enum
+script SortDirection
+	---@description "Sort in ascending order."
+	member Ascending = 0
+	---@description "Sort in descending order."
+	member Descending = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method SortDirection CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method SortDirection CastFrom(string value) end
+end

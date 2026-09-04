@@ -1,0 +1,19 @@
+---@sealed
+---@description "Sets the interaction method."
+@Enum
+script InteractType
+	---@description "When pressing a key of the keyboard."
+	member KeyDown = 0
+	---@description "When pressing and releasing a keyboard key."
+	member KeyUp = 1
+	---@description "When pressing the keyboard key over the set HoldingDuration."
+	member KeyHoldingDuration = 2
+	---@description "When pressing and releasing the keyboard key over the set HoldingDuration."
+	member KeyUpAfterHoldingDuration = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method InteractType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method InteractType CastFrom(string value) end
+end

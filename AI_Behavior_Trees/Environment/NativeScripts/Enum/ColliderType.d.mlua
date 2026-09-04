@@ -1,0 +1,19 @@
+---@sealed
+---@description "Indicates a colliding body shape."
+@Enum
+script ColliderType
+	---@description "Currently not used."
+	member Undefined = 0
+	---@description "Indicates a rectangular colliding body."
+	member Box = 1
+	---@description "Indicates a circular colliding body."
+	member Circle = 2
+	---@description "Indicates a polygonal colliding body."
+	member Polygon = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method ColliderType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ColliderType CastFrom(string value) end
+end

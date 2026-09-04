@@ -1,0 +1,9 @@
+---@description "This is the control node that determines the child node's execution state or changes the result value."
+@Misc
+script DecoratorNode extends BTNode
+
+	---@description "This executes the decorator's child node. deltaTime represents the time that passed between the previous frame and the current frame in units of seconds."
+	---@sealed
+	method BehaviourTreeStatus ChildBehave(float deltaTime) end
+
+end

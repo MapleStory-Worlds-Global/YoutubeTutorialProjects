@@ -1,0 +1,76 @@
+@BTNode
+script ShowWarning extends ActionNode
+	property Color warningColor = Color(0, 1, 0, 0.25)
+    property string warningIDKey = "bb_warningID"
+	property string radiusIDKey = "bb_warningRadius"
+	property string positionKey = ""
+	property string warnDurationKey = ""
+    property number warnDuration = 2.0
+
+	@HideFromInspector
+	property Vector2 offset = Vector2.zero
+
+	method PolygonRendererComponent GetOrAddPolygonRenderer()
+		local polygon = self.ParentAI.Entity.PolygonRendererComponent
+		if polygon == nil then
+			self.ParentAI.Entity:AddComponent("PolygonRendererComponent")
+			polygon = self.ParentAI.Entity.PolygonRendererComponent
+			local res = 24
+			for i = 1, res do
+				polygon.Points:Add(Vector2(0, 0))
+			end
+
+			polygon.Color = self.warningColor
+			polygon.SortingLayer = self.ParentAI.Entity.SpriteRendererComponent.SortingLayer
+		end
+
+		
+		if _UtilLogic:IsNilorEmptyString(self.positionKey) then
+			self.offset = Vector2.zero
+		else
+			local targetPos = self.ParentAI.BlackBoard:GetVector2(self.positionKey)
+			self.offset = targetPos - self.ParentAI.Entity.TransformComponent.Position:ToVector2()
+		end
+
+		if _UtilLogic:IsNilorEmptyString(self.warnDurationKey) == false then
+			self.warnDuration = self.ParentAI.BlackBoard:GetNumber(self.warnDurationKey)
+		end
+		return polygon
+	end
+
+	method void UpdateRadius(number radius)
+		local warningEntity = self:GetOrAddPolygonRenderer()
+		
+		local res = warningEntity.Points.Count
+		for i = 1, res do
+			local rad = 2 * math.pi * (i / tonumber(res))
+			local x = math.cos(rad) * radius
+			local y = math.sin(rad) * radius
+			warningEntity.Points[i] = self.offset + Vector2(x, y)
+		end
+	end
+
+	method void OnInit()
+        self._T.warnTimer = 0.0
+		local warningEntity = self:GetOrAddPolygonRenderer()
+		warningEntity.Enable = true
+    end
+
+    method any OnBehave(number delta)
+        local timer = self._T.warnTimer
+        timer = timer + delta
+        self._T.warnTimer = timer
+
+        local growPct = math.min(timer / self.warnDuration, 1.0)
+        local radius = self.ParentAI.BlackBoard:GetNumber(self.radiusIDKey)
+
+		self:UpdateRadius(radius * growPct)
+
+        if timer >= self.warnDuration then
+			self:GetOrAddPolygonRenderer().Enable = false
+            return BehaviourTreeStatus.Success
+        else
+            return BehaviourTreeStatus.Running
+        end
+    end
+end

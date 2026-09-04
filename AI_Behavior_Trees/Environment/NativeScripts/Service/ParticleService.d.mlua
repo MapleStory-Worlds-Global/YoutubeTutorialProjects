@@ -1,0 +1,34 @@
+---@sealed
+---@description "Provides the ability to summon particles."
+@Service
+script ParticleService extends Service
+
+	---@description "Activates an AreaParticle at a fixed location on the current map and returns a serial number for removing the effect. Returns 0 if creation fails."
+	---@sealed
+	method integer PlayAreaParticle(AreaParticleType particleType, Vector2 areaSize, Entity instigator, Vector3 position, float zRotation, Vector3 scale, boolean isLoop = false, Dictionary<string, any> options = nil) end
+
+	---@description "Activates the AreaParticle attached to parentEntity and returns a serial number for removing the effect. Returns 0 if creation fails."
+	---@sealed
+	method integer PlayAreaParticleAttached(AreaParticleType particleType, Vector2 areaSize, Entity parentEntity, Vector3 localPosition, float localZRotation, Vector3 localScale, boolean isLoop = false, Dictionary<string, any> options = nil) end
+
+	---@description "Plays the BasicParticle at a fixed location on the current map and returns a serial number for removing the effect. Returns 0 if creation fails. "
+	---@sealed
+	method integer PlayBasicParticle(BasicParticleType particleType, Entity instigator, Vector3 position, float zRotation, Vector3 scale, boolean isLoop = false, Dictionary<string, any> options = nil) end
+
+	---@description "Plays the BasicParticle attached to parentEntity and returns a serial number for removing particles. Returns 0 if creation fails."
+	---@sealed
+	method integer PlayBasicParticleAttached(BasicParticleType particleType, Entity parentEntity, Vector3 localPosition, float localZRotation, Vector3 localScale, boolean isLoop = false, Dictionary<string, any> options = nil) end
+
+	---@description "Activates a SpriteParticle at a fixed location on the current map and returns a serial number for removing the effect. Returns 0 if creation fails."
+	---@sealed
+	method integer PlaySpriteParticle(SpriteParticleType particleType, string spriteRUID, Entity instigator, Vector3 position, float zRotation, Vector3 scale, boolean isLoop = false, Dictionary<string, any> options = nil) end
+
+	---@description "Activates the SpriteParticle attached to parentEntity and returns a serial number for removing the effect. Returns 0 if creation fails."
+	---@sealed
+	method integer PlaySpriteParticleAttached(SpriteParticleType particleType, string spriteRUID, Entity parentEntity, Vector3 localPosition, float localZRotation, Vector3 localScale, boolean isLoop = false, Dictionary<string, any> options = nil) end
+
+	---@description "Removes the effect with the serial number obtained when playing the particle."
+	---@sealed
+	method void RemoveParticle(integer serial) end
+
+end

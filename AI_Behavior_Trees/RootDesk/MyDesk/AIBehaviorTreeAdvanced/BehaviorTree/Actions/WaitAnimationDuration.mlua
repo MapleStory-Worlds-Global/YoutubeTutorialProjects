@@ -1,0 +1,55 @@
+@BTNode
+script WaitAnimationDuration extends ActionNode
+	property string animRUID = ""
+	property string resultValueKey = "bb_animationDuration"
+	property Vector2 fromTo = Vector2(1,999)
+	property boolean addDelay = false
+
+	@HideFromInspector
+	property number waitDuration = 0
+	@HideFromInspector
+	property boolean animLoaded = false
+
+	method void OnInit()
+		if _UtilLogic:IsNilorEmptyString(self.animRUID) then
+			return 
+		end
+
+		if _ResourceService:GetTypeAndWait(self.animRUID) ~= ResourceType.AnimationClip then
+			return 
+		end
+
+		self.animLoaded = false
+		local anim = _ResourceService:LoadAnimationClipAndWait(self.animRUID)
+		local frames = anim.Frames
+		local duration = 0 
+		for index, frame in ipairs(frames) do
+			if index >= self.fromTo.x and index <= self.fromTo.y then
+				duration += frame.Delay
+			end
+		end
+
+		duration *= anim.PlayRate
+		self.waitDuration = duration
+		self.animLoaded = true
+		self._T.timer = 0
+		log("initialized")
+		log(self._T.timer)
+		self.ParentAI.BlackBoard:SetNumber(self.resultValueKey, duration)
+	end
+
+	method any OnBehave(number delta)
+		if self.animLoaded == false then 
+			return BehaviourTreeStatus.Running 
+		end
+
+		if self.addDelay == false or self._T.timer >= self.waitDuration then
+			self._T.timer = 0
+			self.animLoaded = false
+			return BehaviourTreeStatus.Success
+		end
+		
+		self._T.timer = self._T.timer + delta
+		return BehaviourTreeStatus.Running
+	end
+end

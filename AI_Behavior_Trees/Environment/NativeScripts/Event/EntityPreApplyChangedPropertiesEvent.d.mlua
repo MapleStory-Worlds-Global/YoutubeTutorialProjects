@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs before applying the changed properties value of an entity."
+@Event
+script EntityPreApplyChangedPropertiesEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreApplyChangedPropertiesEvent(Entity entity = nil) end
+
+end

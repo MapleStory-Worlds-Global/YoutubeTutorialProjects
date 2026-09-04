@@ -1,0 +1,93 @@
+---@description "A component related to the Player control. Associates inputs with actions and controls their flow."
+@Component
+script PlayerControllerComponent extends Component
+
+	---@description "Determines whether to always play the walk animation."
+	---@sealed
+	@Sync
+	property boolean AlwaysMovingState = false
+
+	---@description "Fixes direction of view when moving."
+	---@sealed
+	@Sync
+	property int32 FixedLookAt = 0
+
+	---@description "Displays whether the player's input processing is currently disabled. It becomes true when the player input needs to be temporarily blocked like with map movement."
+	---@sealed
+	readonly property boolean IsUpdateBlocked = false
+
+	---@description "The direction the character is facing currently based on the axis X. Right if positive, left if negative."
+	---@sealed
+	@Sync
+	property float LookDirectionX = -1
+
+	---@description "The property needed to use directly-written script."
+	---@sealed
+	property boolean UseCustomScript = false
+
+	---@description "The action upon entering the Attack Key."
+	method void ActionAttack() end
+
+	---@description "Performs the action of climbing a ladder or rope."
+	---@sealed
+	method boolean ActionClimb(Vector2 moveOffset, float climbHeight, float horizontalInput) end
+
+	---@description "The action made when the MoveUp and MoveDown Keys are input. Executes the ladder or rope climbing action."
+	method void ActionClimb(Vector2 moveOffset, float climbHeight) end
+
+	---@description "The action upon entering the Crouch Key."
+	method void ActionCrouch() end
+
+	---@description "Executes the down jump action."
+	---@sealed
+	method boolean ActionDownJump(float horizontalInput) end
+
+	---@description "The action on ActionDownJump."
+	method void ActionDownJump() end
+
+	---@description "The action upon entering the Portal Key."
+	method void ActionEnterPortal() end
+
+	---@description "The action upon entering the Interaction Key."
+	method void ActionInteraction(KeyboardKey key, boolean isKeyDown) end
+
+	---@description "Executes the jump action."
+	---@sealed
+	method boolean ActionJump(float horizontalInput) end
+
+	---@description "The action upon entering the Jump Key."
+	method void ActionJump() end
+
+	---@description "The action upon entering the Sit Key."
+	method void ActionSit() end
+
+	---@description "Add conditions to trigger an action."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void AddCondition(string actionName, func -> boolean conditionFunction) end
+
+	---@description "Returns the names of the actions mapped to the keys."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetActionName(KeyboardKey key) end
+
+	---@description "Removes the actions connected to the defined keys."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void RemoveActionKey(KeyboardKey key) end
+
+	---@description "Removes all actions connected to the defined names."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void RemoveAllActionKeyByActionName(string actionName) end
+
+	---@description "Map actions to the keys."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetActionKey(KeyboardKey key, string actionName, func -> boolean conditionFunction = nil) end
+
+	emitter EmitChangedLookAtEvent(ChangedLookAtEvent event) end
+
+	emitter EmitPlayerActionEvent(PlayerActionEvent event) end
+
+end

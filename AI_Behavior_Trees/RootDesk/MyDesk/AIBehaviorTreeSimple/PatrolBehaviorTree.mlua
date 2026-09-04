@@ -1,0 +1,126 @@
+@Component
+script PatrolBehaviorTree extends AIComponent
+
+	property table targets = {}
+
+	property string targetKey = "bb_Target"
+
+	property Entity waypointsParent = nil
+
+	property string waypointsKey = "bb_WaypointsParent"
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		self._T.targetsCount = 0
+		--self.BlackBoard:SetEntity(self.waypointsKey, self.waypointsParent)
+		self:BuildTree()
+	end
+
+	@ExecSpace("Server")
+	method void BuildTree()
+		local tree = SelectorNode()
+
+		local node = self:CreateNode("TestDecorator", "TestDecorator")
+		-- node.child = self:CreateLeafNode("Action",function(delta) 
+		-- 	log ("Action Node Executed")
+		-- 	return BehaviourTreeStatus.Success
+		-- end
+		-- )
+
+		tree:AttachChild(node)
+		self:SetRootNode(tree)
+	end
+
+	@ExecSpace("Server")
+	method void UpdateNearestTarget()
+		local nearest = math.maxinteger
+		local nearestTarget = self.targets[1]
+		for id, target in pairs(self.targets) do
+			-- Update Blackboard Target Value
+			---@type TransformComponent
+			local transform = target.TransformComponent
+			local targetPos = transform.WorldPosition:ToVector2()
+			local myPos = self.Entity.TransformComponent.WorldPosition:ToVector2()
+			
+			local dist = myPos:Distance(targetPos)
+			if dist < nearest then 
+				nearest = dist
+				nearestTarget = target
+			end
+		end
+		
+		if self._T.nearestTarget ~= nearestTarget then 
+			self.BlackBoard:SetEntity(self.targetKey, nearestTarget)
+		end
+	end
+
+	@ExecSpace("Server")
+	method void AddTarget(Entity entity, string id)
+		--Add to targets table
+		self.targets[id] = entity
+		self._T.targetsCount += 1
+	end
+
+	method void RemoveTarget(string id)
+		self.targets[id] = nil
+		self._T.targetsCount -= 1
+		if self._T.targetsCount == 0 then
+			log("Removing Last Target")
+			self.BlackBoard:SetEntity(self.targetKey, nil)
+			log("Last Target Removed")
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnUpdate(number delta)
+		if self._T.targetsCount > 0 then 
+			self:UpdateNearestTarget()
+		end
+		
+		self:Flip()
+	end
+
+	@ExecSpace("ServerOnly")
+	method void Flip()
+		local rigidbody = self.Entity.KinematicbodyComponent
+		local sprite = self.Entity.SpriteRendererComponent
+		
+		if rigidbody.MoveVelocity:Magnitude() > 0 then
+			if rigidbody.MoveVelocity.x < 0 then
+				sprite.FlipX = false
+			else
+				sprite.FlipX = true
+			end
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleTriggerEnterEvent(TriggerEnterEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: TriggerComponent
+		-- Space: Server, Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local TriggerBodyEntity = event.TriggerBodyEntity
+		---------------------------------------------------------
+		-- Add Target
+		self:AddTarget(TriggerBodyEntity, TriggerBodyEntity.Id)
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleTriggerLeaveEvent(TriggerLeaveEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: TriggerComponent
+		-- Space: Server, Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local TriggerBodyEntity = event.TriggerBodyEntity
+		---------------------------------------------------------
+		self:RemoveTarget(TriggerBodyEntity.Id)
+	end
+
+end

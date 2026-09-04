@@ -1,0 +1,380 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "stateset://8ed29ca3-2f1b-43ba-9abc-f8e6cc6c02d7",
+  "ContentType": "x-mod/stateset",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "stateset://8ed29ca3-2f1b-43ba-9abc-f8e6cc6c02d7",
+      "name": "CustomPlayerState",
+      "stateset": {
+        "InitialStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+        "Nodes": [
+          {
+            "Id": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "PositionX": 0.0,
+            "PositionY": 0.0,
+            "IsNative": true,
+            "Name": "IDLE",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSIdle, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "048f1454-1059-4bbc-a249-389b423e4143",
+            "PositionX": 275.0,
+            "PositionY": 100.0,
+            "IsNative": true,
+            "Name": "DEAD",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnDead, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "24f73786-1820-4eca-bd13-268cffc7c44a",
+            "PositionX": 125.0,
+            "PositionY": -100.0,
+            "IsNative": true,
+            "Name": "HIT",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnHit, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "f2b6bdf7-90f9-4a02-b8c2-8ca2208cb98f",
+            "PositionX": -275.0,
+            "PositionY": 100.0,
+            "IsNative": true,
+            "Name": "MOVE",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnMove, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "3b5f05ea-375b-4368-a2d9-220988eef1cc",
+            "PositionX": -125.0,
+            "PositionY": 100.0,
+            "IsNative": true,
+            "Name": "CLIMB",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnClimb, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "bb3fcb74-45a5-4e4f-9a27-032dbe1d6e69",
+            "PositionX": 125.0,
+            "PositionY": 100.0,
+            "IsNative": true,
+            "Name": "LADDER",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnLadder, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "11ee2b0d-f42a-4f4c-b6e0-650f4dd8e0d1",
+            "PositionX": 275.0,
+            "PositionY": -100.0,
+            "IsNative": true,
+            "Name": "CROUCH",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnCrouch, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "c4407b3a-e4a2-412e-9ddc-f6e7cb2396cf",
+            "PositionX": -275.0,
+            "PositionY": 0.0,
+            "IsNative": true,
+            "Name": "JUMP",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnJump, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "0b7e6c33-9752-4208-8099-1cac238620b5",
+            "PositionX": -275.0,
+            "PositionY": -100.0,
+            "IsNative": true,
+            "Name": "FALL",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnFall, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "bc611d8b-4d9e-46c0-9580-7c83fe78c078",
+            "PositionX": -125.0,
+            "PositionY": -200.0,
+            "IsNative": true,
+            "Name": "ATTACK",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnAttack, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "044e5e0c-bffc-41e3-8b36-92085ccd98a1",
+            "PositionX": -125.0,
+            "PositionY": -100.0,
+            "IsNative": true,
+            "Name": "ATTACK_WAIT",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnAttackWait, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          },
+          {
+            "Id": "e9761e73-9329-4a3d-9ede-07fc405246f5",
+            "PositionX": 275.0,
+            "PositionY": 0.0,
+            "IsNative": true,
+            "Name": "SIT",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSPawnSit, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
+          }
+        ],
+        "Transitions": [
+          {
+            "PrevStateNodeId": "24f73786-1820-4eca-bd13-268cffc7c44a",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCHasTimePassed, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": [
+                    {
+                      "Name": "Duration",
+                      "Type": {
+                        "$type": "MODNativeType",
+                        "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                      },
+                      "Value": 0.5
+                    }
+                  ]
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "f2b6bdf7-90f9-4a02-b8c2-8ca2208cb98f",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCIsStopped, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": []
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "3b5f05ea-375b-4368-a2d9-220988eef1cc",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCIsNotClimbing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": []
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "bb3fcb74-45a5-4e4f-9a27-032dbe1d6e69",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCIsNotClimbing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": []
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "c4407b3a-e4a2-412e-9ddc-f6e7cb2396cf",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCIsOnGround, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": []
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "0b7e6c33-9752-4208-8099-1cac238620b5",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCIsOnGround, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": []
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "bc611d8b-4d9e-46c0-9580-7c83fe78c078",
+            "NextStateNodeId": "044e5e0c-bffc-41e3-8b36-92085ccd98a1",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCHasOnetimeAnimDone, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": []
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "044e5e0c-bffc-41e3-8b36-92085ccd98a1",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCHasTimePassed, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": [
+                    {
+                      "Name": "Duration",
+                      "Type": {
+                        "$type": "MODNativeType",
+                        "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                      },
+                      "Value": 0.3
+                    }
+                  ]
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          }
+        ]
+      },
+      "worldCoreVersion": "26.7.0.0",
+      "worldStudioVersion": "0.1.0.0",
+      "useService": 0
+    }
+  }
+}

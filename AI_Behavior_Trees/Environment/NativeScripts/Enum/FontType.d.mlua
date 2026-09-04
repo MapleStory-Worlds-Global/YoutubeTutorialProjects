@@ -1,0 +1,19 @@
+---@sealed
+---@description "Indicates the font type."
+@Enum
+script FontType
+	---@description "This is the default font."
+	member Default = 0
+	---@description "A MapleStory font."
+	member Maple = 1
+	---@description "A badge font."
+	member Bazzi = 2
+	---@description "A football gothic font."
+	member Football = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method FontType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method FontType CastFrom(string value) end
+end

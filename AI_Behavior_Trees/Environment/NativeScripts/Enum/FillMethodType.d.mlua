@@ -1,0 +1,21 @@
+---@sealed
+---@description "Method to fill images."
+@Enum
+script FillMethodType
+	---@description "The image is filled horizontally."
+	member Horizontal = 0
+	---@description "The image is filled vertically."
+	member Vertical = 1
+	---@description "The image is rotated 90 degrees around one corner and filled."
+	member Radial90 = 2
+	---@description "The image is rotated 180 degrees about one side and filled."
+	member Radial180 = 3
+	---@description "The image is rotated 360 degrees around the center and filled."
+	member Radial360 = 4
+
+	---@description "Converts numbers to the applicable type."
+	static method FillMethodType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method FillMethodType CastFrom(string value) end
+end

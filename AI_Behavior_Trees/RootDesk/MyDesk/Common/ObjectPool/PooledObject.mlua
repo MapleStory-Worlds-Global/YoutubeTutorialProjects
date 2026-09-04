@@ -1,0 +1,10 @@
+@Component
+script PooledObject extends Component
+	
+	method void Init()
+	end
+
+	method void Return()
+
+	end
+end

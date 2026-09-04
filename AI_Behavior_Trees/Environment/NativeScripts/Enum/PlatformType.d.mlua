@@ -1,0 +1,17 @@
+---@sealed
+---@description "Specifies the platforms on which UI entities can be activated."
+@Enum
+script PlatformType
+	---@description "This is a platform that is activated in the PC environment."
+	member PC = 1
+	---@description "This is a platform that is activated in the mobile environment."
+	member Mobile = 2
+	---@description "This is a platform that is activated in both PC and mobile environments."
+	member All = 255
+
+	---@description "Converts numbers to the applicable type."
+	static method PlatformType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method PlatformType CastFrom(string value) end
+end

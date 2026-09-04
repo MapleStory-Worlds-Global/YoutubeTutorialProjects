@@ -1,0 +1,33 @@
+@Component
+script DestroyAfterFrames extends Component
+
+	@ExecSpace("ServerOnly")
+	method void OnBeginPlay()
+		self:WaitForFrames()
+		_EntityService:Destroy(self.Entity)
+	end
+
+	method void WaitForFrames()
+		local ren = self.Entity.SpriteRendererComponent
+		if isvalid(ren) == false then
+			return
+		end
+		
+		local ruid = ren.SpriteRUID
+		if _ResourceService:GetTypeAndWait(ruid) ~= ResourceType.AnimationClip then
+			self.Enable = false
+			return
+		end
+		
+		local anim = _ResourceService:LoadAnimationClipAndWait(ruid)
+		local frames = anim.Frames
+		local duration = 0 
+		for index, frame in ipairs(frames) do
+			duration += frame.Delay
+		end
+		
+		duration *= anim.PlayRate
+		wait(duration)
+	end
+
+end

@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised when finishing the sprite animation's playback."
+@Event
+script SpriteAnimPlayerEndEvent extends EventType
+
+	---@description "The animation player."
+	---@sealed
+	readonly property IEmbeddedSpriteAnimPlayer AnimPlayer
+
+	constructor SpriteAnimPlayerEndEvent(IEmbeddedSpriteAnimPlayer animPlayer = nil) end
+
+end
