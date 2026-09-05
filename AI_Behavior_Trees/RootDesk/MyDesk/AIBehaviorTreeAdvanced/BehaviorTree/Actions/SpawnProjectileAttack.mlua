@@ -1,0 +1,68 @@
+@BTNode
+script SpawnProjectileAttack extends ActionNode
+	property string targetEntityKey = "bb_Target"
+	property string radiusIDKey = "bb_rangeRadius"
+	property string poolName = "BossProjectile"
+	property number damage = 10
+	property string effectRUID = ""
+
+	method void OnInit()
+		local entity = self.ParentAI.Entity
+		if isvalid(entity) == false then
+			return
+		end
+
+		local attackComp = entity.AttackComponent
+		if isvalid(attackComp) == false then
+			return
+		end
+
+		local transform = entity.TransformComponent
+		if isvalid(transform) == false then
+			return
+		end
+
+		local target = self.ParentAI.BlackBoard:GetEntity(self.targetEntityKey)
+		if isvalid(target) == false then
+			return
+		end
+
+		local radius = self.ParentAI.BlackBoard:GetNumber(self.radiusIDKey)
+		if radius == nil then
+			return
+		end
+
+		local map = entity.CurrentMap
+		if isvalid(map) == false then
+			return
+		end
+
+		local myPos = transform.WorldPosition
+		local shape = CircleShape(myPos:ToVector2(), radius)
+		attackComp:AttackFast(shape, nil, CollisionGroups.Player)
+
+		-- BossProjectile:Init() lazy-loads the projectile's animation clip the first
+		-- time it fires, which yields. That must not happen inside OnBehave (which the
+		-- engine requires to return synchronously every tick), so the spawn/launch work
+		-- lives here in OnInit instead, matching WaitAnimationDuration's pattern.
+		local projectile = _PoolManager:Get(self.poolName, myPos, map)
+		if isvalid(projectile) then
+			local projectileComp = projectile.BossProjectile
+			if isvalid(projectileComp) then
+				local targetTransform = target.TransformComponent
+				if isvalid(targetTransform) then
+					local info = AttackInfo()
+					info.Damage = self.damage
+					info.effectRUID = self.effectRUID
+
+					projectileComp:Init(info)
+					projectileComp:Launch(targetTransform.WorldPosition:ToVector2())
+				end
+			end
+		end
+	end
+
+	method any OnBehave(number delta)
+		return BehaviourTreeStatus.Success
+	end
+end
