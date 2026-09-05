@@ -17006,8 +17006,11 @@
             },
             {
               "@type": "script.BossAI",
+              "BehaviourTreeId": "behaviourtree://e9ce2ed5-ef5f-4d5d-a6a6-4ec4b1c529e4",
               "IsLegacy": false,
               "Enable": true,
+              "hp": 0.0,
+              "isDead": false,
               "stateComp": {
                 "IsRelative": false,
                 "ComponentId": ":StateComponent",
@@ -17160,6 +17163,11 @@
           "@components": [
             {
               "@type": "MOD.Core.TransformComponent",
+              "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
               "Position": {
                 "x": 0.00136795046,
                 "y": 0.000296545,
@@ -17171,6 +17179,7 @@
                 "z": 0.0,
                 "w": 1.0
               },
+              "ZRotation": 0.0,
               "Enable": true
             },
             {

@@ -168,7 +168,10 @@
           "definitionId": "SelectorNode",
           "btNodeType": 1,
           "nodeParentId": "",
-          "nodePosition": { "x": 0.0, "y": -350.0 },
+          "nodePosition": {
+            "x": 0.0,
+            "y": -350.0
+          },
           "childNodes": [
             "cfaaf52a-cb9c-459f-880b-259294f5b4e1",
             "1e9f8771-36fe-4e2e-ae59-695ed7e7e862"
@@ -183,17 +186,26 @@
           "nodeProperties": [
             {
               "propertyKey": "CompareValue",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             },
             {
               "propertyKey": "Key",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_IsDead"
             },
             {
               "propertyKey": "Operator",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 1
             }
           ],
@@ -208,11 +220,17 @@
           "nodeProperties": [
             {
               "propertyKey": "WaitTime",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 5.0
             }
           ],
-          "nodePosition": { "x": -300.0, "y": -700.0 }
+          "nodePosition": {
+            "x": -300.0,
+            "y": -700.0
+          }
         },
         {
           "nodeId": "1e9f8771-36fe-4e2e-ae59-695ed7e7e862",
@@ -220,7 +238,10 @@
           "definitionId": "SequenceNode",
           "btNodeType": 1,
           "nodeParentId": "514de8fc-fce4-4d21-b6cd-13bec2b3b218",
-          "nodePosition": { "x": 300.0, "y": -700.0 },
+          "nodePosition": {
+            "x": 300.0,
+            "y": -700.0
+          },
           "childNodes": [
             "b5b705fc-1cc5-4fb3-99a4-de8d7c9dfccb",
             "3c7ae5c9-b0fe-484c-893f-2ffde45515ce",
@@ -237,11 +258,17 @@
           "nodeProperties": [
             {
               "propertyKey": "stateString",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "MOVE"
             }
           ],
-          "nodePosition": { "x": -150.0, "y": -1050.0 }
+          "nodePosition": {
+            "x": -150.0,
+            "y": -1050.0
+          }
         },
         {
           "nodeId": "3c7ae5c9-b0fe-484c-893f-2ffde45515ce",
@@ -252,21 +279,33 @@
           "nodeProperties": [
             {
               "propertyKey": "TargetEntityKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_Target"
             },
             {
               "propertyKey": "ArrivalThreshold",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 0.5
             },
             {
               "propertyKey": "moveToLastKnownPosition",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             }
           ],
-          "nodePosition": { "x": 150.0, "y": -1050.0 }
+          "nodePosition": {
+            "x": 150.0,
+            "y": -1050.0
+          }
         },
         {
           "nodeId": "b8756344-b829-4289-91a0-2427ac1f3407",
@@ -274,7 +313,10 @@
           "definitionId": "SelectorNode",
           "btNodeType": 1,
           "nodeParentId": "1e9f8771-36fe-4e2e-ae59-695ed7e7e862",
-          "nodePosition": { "x": 450.0, "y": -1050.0 },
+          "nodePosition": {
+            "x": 450.0,
+            "y": -1050.0
+          },
           "childNodes": [
             "3b1dbfc0-5b6c-46a4-8842-0819afed9743",
             "a53aee00-8e0c-4fd4-8b39-5e15921e1e26"
@@ -289,11 +331,17 @@
           "nodeProperties": [
             {
               "propertyKey": "WaitTime",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 3.0
             }
           ],
-          "nodePosition": { "x": 750.0, "y": -1050.0 }
+          "nodePosition": {
+            "x": 750.0,
+            "y": -1050.0
+          }
         },
         {
           "nodeId": "3b1dbfc0-5b6c-46a4-8842-0819afed9743",
@@ -304,17 +352,26 @@
           "nodeProperties": [
             {
               "propertyKey": "targetEntityKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_TargetMelee"
             },
             {
               "propertyKey": "compareValue",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             },
             {
               "propertyKey": "finishIfStarted",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             }
           ],
@@ -326,7 +383,10 @@
           "definitionId": "SequenceNode",
           "btNodeType": 1,
           "nodeParentId": "3b1dbfc0-5b6c-46a4-8842-0819afed9743",
-          "nodePosition": { "x": 100.0, "y": -1400.0 },
+          "nodePosition": {
+            "x": 100.0,
+            "y": -1400.0
+          },
           "childNodes": [
             "d3656f03-5d49-4c6d-a2a3-a775d2b9624f",
             "fa766038-0669-48b4-8dc1-47edc3032db8",
@@ -346,11 +406,17 @@
           "nodeProperties": [
             {
               "propertyKey": "stateString",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "ATTACKMELEE"
             }
           ],
-          "nodePosition": { "x": -800.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": -800.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "fa766038-0669-48b4-8dc1-47edc3032db8",
@@ -361,21 +427,36 @@
           "nodeProperties": [
             {
               "propertyKey": "animRUID",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "8e93e6f0b08e466283f6a14acd21ddb3"
             },
             {
               "propertyKey": "fromTo",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "x": 1.0, "y": 0.0 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 1.0,
+                "y": 0.0
+              }
             },
             {
               "propertyKey": "addDelay",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             }
           ],
-          "nodePosition": { "x": -500.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": -500.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "b950bdf0-1c2f-4a28-84d1-4a95c93cc548",
@@ -386,21 +467,36 @@
           "nodeProperties": [
             {
               "propertyKey": "animRUID",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "8e93e6f0b08e466283f6a14acd21ddb3"
             },
             {
               "propertyKey": "fromTo",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "x": 1.0, "y": 12.0 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 1.0,
+                "y": 12.0
+              }
             },
             {
               "propertyKey": "addDelay",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": false
             }
           ],
-          "nodePosition": { "x": -200.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": -200.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "6079d9be-df2a-46ab-9ed6-d2f9c51627d3",
@@ -411,26 +507,46 @@
           "nodeProperties": [
             {
               "propertyKey": "warningColor",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODColor, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "r": 1.0, "g": 0.3703122, "b": 0.0, "a": 0.25 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODColor, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "r": 1.0,
+                "g": 0.3703122,
+                "b": 0.0,
+                "a": 0.25
+              }
             },
             {
               "propertyKey": "radiusIDKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_meleeRadius"
             },
             {
               "propertyKey": "positionKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": ""
             },
             {
               "propertyKey": "warnDurationKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_animationDuration"
             }
           ],
-          "nodePosition": { "x": 100.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 100.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "fc5929ce-1015-4762-8c67-61874afcb895",
@@ -441,16 +557,25 @@
           "nodeProperties": [
             {
               "propertyKey": "radiusIDKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_meleeRadius"
             },
             {
               "propertyKey": "attackPosKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": ""
             }
           ],
-          "nodePosition": { "x": 400.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 400.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "025249a8-9e6e-452c-9984-900036d6c98d",
@@ -461,11 +586,17 @@
           "nodeProperties": [
             {
               "propertyKey": "WaitTime",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 0.3
             }
           ],
-          "nodePosition": { "x": 700.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 700.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "15e14a01-b078-4925-b7ad-6ff33fea2f9d",
@@ -476,11 +607,17 @@
           "nodeProperties": [
             {
               "propertyKey": "stateString",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "WAIT"
             }
           ],
-          "nodePosition": { "x": 1000.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 1000.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
@@ -488,7 +625,10 @@
           "definitionId": "SequenceNode",
           "btNodeType": 1,
           "nodeParentId": "b8756344-b829-4289-91a0-2427ac1f3407",
-          "nodePosition": { "x": 2200.0, "y": -1400.0 },
+          "nodePosition": {
+            "x": 2200.0,
+            "y": -1400.0
+          },
           "childNodes": [
             "10e33bf0-6ec3-4fc8-afaf-9acb8fd29f0b",
             "b0901e99-a1f8-4aa3-813b-37c2fa0de5d1",
@@ -508,11 +648,17 @@
           "nodeProperties": [
             {
               "propertyKey": "stateString",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "ATTACKRANGE"
             }
           ],
-          "nodePosition": { "x": 1300.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 1300.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "b0901e99-a1f8-4aa3-813b-37c2fa0de5d1",
@@ -523,21 +669,36 @@
           "nodeProperties": [
             {
               "propertyKey": "animRUID",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "6fb4475219ca469abaddb60a4d58a083"
             },
             {
               "propertyKey": "fromTo",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "x": 1.0, "y": 0.0 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 1.0,
+                "y": 0.0
+              }
             },
             {
               "propertyKey": "addDelay",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             }
           ],
-          "nodePosition": { "x": 1600.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 1600.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "557ff096-d89e-4c5c-afe4-04708f201e46",
@@ -548,21 +709,36 @@
           "nodeProperties": [
             {
               "propertyKey": "animRUID",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "6fb4475219ca469abaddb60a4d58a083"
             },
             {
               "propertyKey": "fromTo",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "x": 1.0, "y": 12.0 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 1.0,
+                "y": 12.0
+              }
             },
             {
               "propertyKey": "addDelay",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": false
             }
           ],
-          "nodePosition": { "x": 1900.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 1900.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "7fcb4ad7-9b73-4cab-a834-f1a8709d7183",
@@ -573,26 +749,46 @@
           "nodeProperties": [
             {
               "propertyKey": "warningColor",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODColor, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "r": 1.0, "g": 0.368627459, "b": 0.0, "a": 0.25 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODColor, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "r": 1.0,
+                "g": 0.368627459,
+                "b": 0.0,
+                "a": 0.25
+              }
             },
             {
               "propertyKey": "radiusIDKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_rangeRadius"
             },
             {
               "propertyKey": "positionKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": ""
             },
             {
               "propertyKey": "warnDurationKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_animationDuration"
             }
           ],
-          "nodePosition": { "x": 2200.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 2200.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "0e138ef2-ace7-41eb-9f9b-03f49fcbfff9",
@@ -603,12 +799,18 @@
           "nodeProperties": [
             {
               "propertyKey": "IsInfinite",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": false
             },
             {
               "propertyKey": "LoopCount",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 3
             }
           ],
@@ -620,7 +822,10 @@
           "definitionId": "SequenceNode",
           "btNodeType": 1,
           "nodeParentId": "0e138ef2-ace7-41eb-9f9b-03f49fcbfff9",
-          "nodePosition": { "x": 2500.0, "y": -1750.0 },
+          "nodePosition": {
+            "x": 2500.0,
+            "y": -1750.0
+          },
           "childNodes": [
             "38fa6aa5-2a1d-4d67-b12a-298a2691fc0c",
             "2ae7a87b-664e-4412-bd3f-13bc030cec0d"
@@ -635,21 +840,33 @@
           "nodeProperties": [
             {
               "propertyKey": "targetEntityKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_Target"
             },
             {
               "propertyKey": "radiusIDKey",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "bb_rangeRadius"
             },
             {
               "propertyKey": "effectRUID",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "0eb4ce2251e841d592651b4731f30f43"
             }
           ],
-          "nodePosition": { "x": 2350.0, "y": -2100.0 }
+          "nodePosition": {
+            "x": 2350.0,
+            "y": -2100.0
+          }
         },
         {
           "nodeId": "2ae7a87b-664e-4412-bd3f-13bc030cec0d",
@@ -660,21 +877,36 @@
           "nodeProperties": [
             {
               "propertyKey": "animRUID",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "6fb4475219ca469abaddb60a4d58a083"
             },
             {
               "propertyKey": "fromTo",
-              "propertyType": { "$type": "MODNativeType", "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null" },
-              "propertyValue": { "x": 13.0, "y": 18.0 }
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "MOD.Core.MODVector2, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+              },
+              "propertyValue": {
+                "x": 13.0,
+                "y": 18.0
+              }
             },
             {
               "propertyKey": "addDelay",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": true
             }
           ],
-          "nodePosition": { "x": 2650.0, "y": -2100.0 }
+          "nodePosition": {
+            "x": 2650.0,
+            "y": -2100.0
+          }
         },
         {
           "nodeId": "a587e7a2-89fa-4892-a13a-65246d414948",
@@ -685,11 +917,17 @@
           "nodeProperties": [
             {
               "propertyKey": "WaitTime",
-              "propertyType": { "$type": "MODNativeType", "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": 0.3
             }
           ],
-          "nodePosition": { "x": 2800.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 2800.0,
+            "y": -1750.0
+          }
         },
         {
           "nodeId": "115ddff8-e319-433b-9307-aa46334e29f7",
@@ -700,11 +938,17 @@
           "nodeProperties": [
             {
               "propertyKey": "stateString",
-              "propertyType": { "$type": "MODNativeType", "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" },
+              "propertyType": {
+                "$type": "MODNativeType",
+                "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
               "propertyValue": "WAIT"
             }
           ],
-          "nodePosition": { "x": 3100.0, "y": -1750.0 }
+          "nodePosition": {
+            "x": 3100.0,
+            "y": -1750.0
+          }
         }
       ]
     }
