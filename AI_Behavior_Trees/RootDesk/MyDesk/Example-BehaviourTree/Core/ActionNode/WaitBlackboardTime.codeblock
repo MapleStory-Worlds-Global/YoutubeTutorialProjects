@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://2f8c0556-c779-4876-badf-20d3a4c6937d",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "2f8c0556-c779-4876-badf-20d3a4c6937d",
+      "Language": 1,
+      "Name": "WaitBlackboardTime",
+      "Type": 7,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

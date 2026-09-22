@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://0ada09a1-7db9-4c5f-87d8-4e0278530ecc",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "0ada09a1-7db9-4c5f-87d8-4e0278530ecc",
+      "Language": 1,
+      "Name": "UIPopup",
+      "Type": 5,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

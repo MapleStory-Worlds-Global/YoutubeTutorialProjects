@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://bced3a9aa6524ca4a2cb7e24538b893b",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://bced3a9aa6524ca4a2cb7e24538b893b",
+      "name": "AIComponents",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

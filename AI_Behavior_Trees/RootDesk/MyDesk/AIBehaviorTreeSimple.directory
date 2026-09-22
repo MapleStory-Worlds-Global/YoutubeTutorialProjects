@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://6b142a86f8e54863813b5c6587dc59d5",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://6b142a86f8e54863813b5c6587dc59d5",
+      "name": "AIBehaviorTreeSimple",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

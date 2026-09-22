@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://4351da9158fa441cbb2e837c7531d06d",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://4351da9158fa441cbb2e837c7531d06d",
+      "name": "CompareBlackboardValues",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

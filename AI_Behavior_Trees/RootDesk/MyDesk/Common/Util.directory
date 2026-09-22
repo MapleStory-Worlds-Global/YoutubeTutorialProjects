@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://2d162bb08104499cb343b11bfecfdfce",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://2d162bb08104499cb343b11bfecfdfce",
+      "name": "Util",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

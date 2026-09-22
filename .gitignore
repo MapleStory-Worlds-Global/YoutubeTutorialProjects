@@ -40,9 +40,14 @@ luac.out
 *.hex
 
 # Non-source files used in MSW
-*.codeblock
-*.directory
-*.scriptfile
+# .codeblock/.directory/.scriptfile are tracked (not ignored): MSW Maker regenerates
+# them locally with fresh random GUIDs on a clean clone, but .behaviourtree/.stateset
+# files hardcode references to those GUIDs (definitionId/ScriptStateTypeId). Ignoring
+# them let every clone silently diverge from what those files expect, breaking every
+# node/state reference project-wide. Tracking them keeps the GUIDs stable across clones.
+#*.codeblock
+#*.directory
+#*.scriptfile
 #*.model
 #*.userdataset
 

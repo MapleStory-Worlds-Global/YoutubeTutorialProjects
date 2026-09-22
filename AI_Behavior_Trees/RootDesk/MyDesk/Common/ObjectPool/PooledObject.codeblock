@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://2e870e7a-88cb-46d3-aa48-0cbaa4ad6cc3",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "2e870e7a-88cb-46d3-aa48-0cbaa4ad6cc3",
+      "Language": 1,
+      "Name": "PooledObject",
+      "Type": 1,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

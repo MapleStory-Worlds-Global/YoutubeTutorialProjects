@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://d92f7e85eb4f49dba2d77ad8b9973705",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://d92f7e85eb4f49dba2d77ad8b9973705",
+      "name": "Example-BehaviourTree",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

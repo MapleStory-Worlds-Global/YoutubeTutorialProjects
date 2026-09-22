@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://c5691fc11eb744cf90c7e14697ab11e7",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://c5691fc11eb744cf90c7e14697ab11e7",
+      "name": "CompositeNode",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

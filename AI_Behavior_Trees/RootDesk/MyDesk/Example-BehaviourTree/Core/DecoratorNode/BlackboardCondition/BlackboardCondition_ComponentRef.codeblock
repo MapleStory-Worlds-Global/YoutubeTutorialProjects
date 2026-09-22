@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://caca4c41-5363-4ba1-9b33-515e0dbb3452",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "caca4c41-5363-4ba1-9b33-515e0dbb3452",
+      "Language": 1,
+      "Name": "BlackboardCondition_ComponentRef",
+      "Type": 7,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://359ad06a-2bfc-4216-b234-acd9e53f9764",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "359ad06a-2bfc-4216-b234-acd9e53f9764",
+      "Language": 1,
+      "Name": "CompareBlackboardValues_Vector4",
+      "Type": 7,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

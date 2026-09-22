@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://3ff170e4-9c58-4d4e-8307-034ebfadcfe4",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "3ff170e4-9c58-4d4e-8307-034ebfadcfe4",
+      "Language": 1,
+      "Name": "SetBlackboardValue_Color",
+      "Type": 7,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}

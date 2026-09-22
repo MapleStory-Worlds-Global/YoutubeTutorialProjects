@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://0d5ef10d-fb36-4f3c-aaab-d6d4484a0ece",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "0d5ef10d-fb36-4f3c-aaab-d6d4484a0ece",
+      "Language": 1,
+      "Name": "Succeeder",
+      "Type": 7,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}
