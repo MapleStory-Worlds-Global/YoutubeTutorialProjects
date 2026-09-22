@@ -7,14 +7,111 @@ script PlayerHit extends HitComponent
 	@HideFromInspector
 	property number LastHitTime = 0
 
+	@MinValue(0)
+	property number KnockbackSpeed = 5
+
+	@MinValue(0)
+	property number KnockbackDamping = 0.85
+
 	method boolean IsHitTarget(string attackInfo)
 		local currentTime = _UtilLogic.ElapsedSeconds
 		if self.LastHitTime + self.ImmuneCooldown < currentTime then
 			self.LastHitTime = _UtilLogic.ElapsedSeconds
 			return true
 		end
-		
+
 		return false
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		-- StateComponent's built-in HitEvent -> ChangeState("HIT") listener locks the
+		-- native NSPawnHit state, which suppresses movement and is why MoveVelocity-based
+		-- knockback never actually moved the player. Disconnect it so HandleHitEventState
+		-- below can choose HIT or the new KNOCKBACK state (Example-States/CustomPlayerState.stateset,
+		-- NSDoNothing-backed like BossStateSet's MOVE/ATTACKMELEE) per hit instead.
+		self.Entity.StateComponent:DisconnectHitEvent()
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandleHitEventState(HitEvent event)
+		-- Chooses HIT vs the custom KNOCKBACK state. Player-avatar state authority is
+		-- client-side, so this must run separately from the ServerOnly physics handler below.
+		local sc = self.Entity.StateComponent
+		if not isvalid(sc) then
+			return
+		end
+
+		local attacker = event.AttackerEntity
+		local attackerState = isvalid(attacker) and attacker.StateComponent or nil
+		if isvalid(attackerState) and attackerState.CurrentStateName == "ATTACKMELEE" then
+			sc:ChangeState("KNOCKBACK")
+		else
+			sc:ChangeState("HIT")
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	@EventSender("Self")
+	handler HandleHitEvent(HitEvent event)
+		-- Starts a decaying knockback on a melee hit. Logging confirmed KinematicbodyComponent
+		-- .MoveVelocity holds whatever we write every tick without ever moving the entity, so
+		-- direct MoveVelocity writes do not drive this player's position at all (contrary to the
+		-- documented monster-knockback recipe). MovementComponent:SetWorldPosition is the only
+		-- call confirmed to actually move this entity, so position is integrated by hand in
+		-- OnUpdate below instead.
+		local attacker = event.AttackerEntity
+		if not isvalid(attacker) then
+			return
+		end
+
+		local attackerState = attacker.StateComponent
+		if not isvalid(attackerState) or attackerState.CurrentStateName ~= "ATTACKMELEE" then
+			return
+		end
+
+		local movementComponent = self.Entity.MovementComponent
+		if not isvalid(movementComponent) then
+			return
+		end
+
+		local myPos = self.Entity.TransformComponent.WorldPosition:ToVector2()
+		local attackerPos = attacker.TransformComponent.WorldPosition:ToVector2()
+		local direction = (myPos - attackerPos):Normalize()
+
+		self._T.knockbackVelocity = direction * self.KnockbackSpeed
+		self._T.knockbackTilemaps = _TileUtils:GetTilemaps(self.Entity.CurrentMap)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnUpdate(number delta)
+		-- Integrates the decaying knockback velocity into position by hand, stopping at walls.
+		if not isvalid(self._T.knockbackVelocity) then
+			return
+		end
+
+		local movementComponent = self.Entity.MovementComponent
+		if not isvalid(movementComponent) then
+			self._T.knockbackVelocity = nil
+			return
+		end
+
+		if self._T.knockbackVelocity:Magnitude() <= 0.05 then
+			self._T.knockbackVelocity = nil
+			return
+		end
+
+		local currentPos = self.Entity.TransformComponent.WorldPosition:ToVector2()
+		local candidatePos = currentPos + self._T.knockbackVelocity * delta
+
+		if _TileUtils:IsPositionBlocked(self._T.knockbackTilemaps, candidatePos) then
+			self._T.knockbackVelocity = nil
+			return
+		end
+
+		movementComponent:SetWorldPosition(candidatePos)
+		self._T.knockbackVelocity = self._T.knockbackVelocity * self.KnockbackDamping
 	end
 
 end

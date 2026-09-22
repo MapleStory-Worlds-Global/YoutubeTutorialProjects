@@ -1,0 +1,46 @@
+@Logic
+script TileUtils extends Logic
+
+	method table GetTilemaps(Entity map)
+		-- Collects every RectTileMapComponent under a map entity, including one on the map
+		-- entity itself (GetChildComponentsByTypeName only searches descendants, not the entity).
+		local tilemaps = {}
+		if not isvalid(map) then
+			return tilemaps
+		end
+
+		local onMap = map:GetComponent("RectTileMapComponent")
+		if isvalid(onMap) then
+			table.insert(tilemaps, onMap)
+		end
+
+		local children = map:GetChildComponentsByTypeName("RectTileMapComponent", true)
+		if isvalid(children) then
+			for i = 1, #children do
+				table.insert(tilemaps, children[i])
+			end
+		end
+
+		return tilemaps
+	end
+
+	method boolean IsPositionBlocked(table tilemaps, Vector2 worldPos)
+		-- A cell with no placed tile is outside the map's painted floor area, not just a
+		-- non-collidable tile -- treated as blocked too, same as an explicit IsCollidable tile.
+		if not isvalid(tilemaps) then
+			return false
+		end
+
+		for i = 1, #tilemaps do
+			local tilemap = tilemaps[i]
+			local cellPos = tilemap:ToCellPosition(worldPos.x, worldPos.y)
+			local tileInfo = tilemap:GetTile(cellPos)
+			if not isvalid(tileInfo) or tileInfo.IsCollidable then
+				return true
+			end
+		end
+
+		return false
+	end
+
+end

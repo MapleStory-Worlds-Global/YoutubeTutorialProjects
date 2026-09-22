@@ -180,7 +180,7 @@
         {
           "nodeId": "cfaaf52a-cb9c-459f-880b-259294f5b4e1",
           "nodeName": "BlackboardCondition_Bool",
-          "definitionId": "codeblock://febb647e-5d7c-4c9d-a98a-b76624198b48",
+          "definitionId": "codeblock://52816028-121b-4250-91d5-e6d8000456a1",
           "btNodeType": 2,
           "nodeParentId": "514de8fc-fce4-4d21-b6cd-13bec2b3b218",
           "nodeProperties": [
@@ -214,7 +214,7 @@
         {
           "nodeId": "00686651-aaf1-40b3-843d-34e75efad094",
           "nodeName": "Wait",
-          "definitionId": "codeblock://e0dfcaa7-e676-4501-8f2c-24be18917a3b",
+          "definitionId": "codeblock://366aebc2-2a7c-4601-8adb-b43b6be41201",
           "btNodeType": 0,
           "nodeParentId": "cfaaf52a-cb9c-459f-880b-259294f5b4e1",
           "nodeProperties": [
@@ -252,7 +252,7 @@
         {
           "nodeId": "b5b705fc-1cc5-4fb3-99a4-de8d7c9dfccb",
           "nodeName": "SetState",
-          "definitionId": "codeblock://36953273-56e9-4942-a6e5-3f339ecc35e8",
+          "definitionId": "codeblock://407dd2f8-6cc7-413e-86a4-94dbc4f8f64f",
           "btNodeType": 0,
           "nodeParentId": "1e9f8771-36fe-4e2e-ae59-695ed7e7e862",
           "nodeProperties": [
@@ -273,7 +273,7 @@
         {
           "nodeId": "3c7ae5c9-b0fe-484c-893f-2ffde45515ce",
           "nodeName": "MoveToTarget",
-          "definitionId": "codeblock://4184ad77-718b-4b99-add0-8ef72362c07c",
+          "definitionId": "codeblock://1021740f-6743-4d28-8e21-e90843cdfff2",
           "btNodeType": 0,
           "nodeParentId": "1e9f8771-36fe-4e2e-ae59-695ed7e7e862",
           "nodeProperties": [
@@ -325,7 +325,7 @@
         {
           "nodeId": "1aaf9cca-1647-4ae8-b5ea-0f66996fa114",
           "nodeName": "Wait",
-          "definitionId": "codeblock://e0dfcaa7-e676-4501-8f2c-24be18917a3b",
+          "definitionId": "codeblock://366aebc2-2a7c-4601-8adb-b43b6be41201",
           "btNodeType": 0,
           "nodeParentId": "1e9f8771-36fe-4e2e-ae59-695ed7e7e862",
           "nodeProperties": [
@@ -346,7 +346,7 @@
         {
           "nodeId": "3b1dbfc0-5b6c-46a4-8842-0819afed9743",
           "nodeName": "HasTarget",
-          "definitionId": "codeblock://ec90007b-b76d-4f94-80ad-04c6f52d47c2",
+          "definitionId": "codeblock://a1b94860-e265-4e67-bf30-02efefc723c3",
           "btNodeType": 2,
           "nodeParentId": "b8756344-b829-4289-91a0-2427ac1f3407",
           "nodeProperties": [
@@ -400,7 +400,7 @@
         {
           "nodeId": "d3656f03-5d49-4c6d-a2a3-a775d2b9624f",
           "nodeName": "SetState",
-          "definitionId": "codeblock://36953273-56e9-4942-a6e5-3f339ecc35e8",
+          "definitionId": "codeblock://407dd2f8-6cc7-413e-86a4-94dbc4f8f64f",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -421,7 +421,7 @@
         {
           "nodeId": "fa766038-0669-48b4-8dc1-47edc3032db8",
           "nodeName": "WaitAnimationDuration",
-          "definitionId": "codeblock://2191f6c9-d224-4f59-b4b0-08290a56cb58",
+          "definitionId": "codeblock://8b30a7c1-54c2-48d1-9127-47e496eea245",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -461,7 +461,7 @@
         {
           "nodeId": "b950bdf0-1c2f-4a28-84d1-4a95c93cc548",
           "nodeName": "WaitAnimationDuration",
-          "definitionId": "codeblock://2191f6c9-d224-4f59-b4b0-08290a56cb58",
+          "definitionId": "codeblock://8b30a7c1-54c2-48d1-9127-47e496eea245",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -501,7 +501,7 @@
         {
           "nodeId": "6079d9be-df2a-46ab-9ed6-d2f9c51627d3",
           "nodeName": "ShowWarning",
-          "definitionId": "codeblock://e5deb883-4336-4217-a9a7-f075be90da7f",
+          "definitionId": "codeblock://8b8f442c-324c-4664-978e-b5e449d1b6ac",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -551,7 +551,7 @@
         {
           "nodeId": "fc5929ce-1015-4762-8c67-61874afcb895",
           "nodeName": "AttackDuration",
-          "definitionId": "codeblock://7d109e06-87a9-4575-b551-a89d2e9b1a46",
+          "definitionId": "codeblock://70026490-17fa-458a-86f5-2a372a812add",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -580,7 +580,7 @@
         {
           "nodeId": "025249a8-9e6e-452c-9984-900036d6c98d",
           "nodeName": "Wait",
-          "definitionId": "codeblock://e0dfcaa7-e676-4501-8f2c-24be18917a3b",
+          "definitionId": "codeblock://366aebc2-2a7c-4601-8adb-b43b6be41201",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -601,7 +601,7 @@
         {
           "nodeId": "15e14a01-b078-4925-b7ad-6ff33fea2f9d",
           "nodeName": "SetState",
-          "definitionId": "codeblock://36953273-56e9-4942-a6e5-3f339ecc35e8",
+          "definitionId": "codeblock://407dd2f8-6cc7-413e-86a4-94dbc4f8f64f",
           "btNodeType": 0,
           "nodeParentId": "164654ef-9bfa-40af-ba00-5e5c7e03c538",
           "nodeProperties": [
@@ -642,7 +642,7 @@
         {
           "nodeId": "10e33bf0-6ec3-4fc8-afaf-9acb8fd29f0b",
           "nodeName": "SetState",
-          "definitionId": "codeblock://36953273-56e9-4942-a6e5-3f339ecc35e8",
+          "definitionId": "codeblock://407dd2f8-6cc7-413e-86a4-94dbc4f8f64f",
           "btNodeType": 0,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [
@@ -663,7 +663,7 @@
         {
           "nodeId": "b0901e99-a1f8-4aa3-813b-37c2fa0de5d1",
           "nodeName": "WaitAnimationDuration",
-          "definitionId": "codeblock://2191f6c9-d224-4f59-b4b0-08290a56cb58",
+          "definitionId": "codeblock://8b30a7c1-54c2-48d1-9127-47e496eea245",
           "btNodeType": 0,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [
@@ -703,7 +703,7 @@
         {
           "nodeId": "557ff096-d89e-4c5c-afe4-04708f201e46",
           "nodeName": "WaitAnimationDuration",
-          "definitionId": "codeblock://2191f6c9-d224-4f59-b4b0-08290a56cb58",
+          "definitionId": "codeblock://8b30a7c1-54c2-48d1-9127-47e496eea245",
           "btNodeType": 0,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [
@@ -743,7 +743,7 @@
         {
           "nodeId": "7fcb4ad7-9b73-4cab-a834-f1a8709d7183",
           "nodeName": "ShowWarning",
-          "definitionId": "codeblock://e5deb883-4336-4217-a9a7-f075be90da7f",
+          "definitionId": "codeblock://8b8f442c-324c-4664-978e-b5e449d1b6ac",
           "btNodeType": 0,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [
@@ -793,7 +793,7 @@
         {
           "nodeId": "0e138ef2-ace7-41eb-9f9b-03f49fcbfff9",
           "nodeName": "Loop",
-          "definitionId": "codeblock://fe86eda5-6853-4c04-93ae-b03ffaed0664",
+          "definitionId": "codeblock://7d1f4079-73f8-4cdc-a6f6-1f55bc1629dd",
           "btNodeType": 2,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [
@@ -834,7 +834,7 @@
         {
           "nodeId": "38fa6aa5-2a1d-4d67-b12a-298a2691fc0c",
           "nodeName": "SpawnProjectileAttack",
-          "definitionId": "codeblock://73b8843d-9365-4f9b-9bd0-141c9505cffa",
+          "definitionId": "codeblock://dbd12951-a403-4bd9-aa97-bc8d7b4260ad",
           "btNodeType": 0,
           "nodeParentId": "c3761c73-877e-43f8-b9a0-0fcde1dfa168",
           "nodeProperties": [
@@ -871,7 +871,7 @@
         {
           "nodeId": "2ae7a87b-664e-4412-bd3f-13bc030cec0d",
           "nodeName": "WaitAnimationDuration",
-          "definitionId": "codeblock://2191f6c9-d224-4f59-b4b0-08290a56cb58",
+          "definitionId": "codeblock://8b30a7c1-54c2-48d1-9127-47e496eea245",
           "btNodeType": 0,
           "nodeParentId": "c3761c73-877e-43f8-b9a0-0fcde1dfa168",
           "nodeProperties": [
@@ -911,7 +911,7 @@
         {
           "nodeId": "a587e7a2-89fa-4892-a13a-65246d414948",
           "nodeName": "Wait",
-          "definitionId": "codeblock://e0dfcaa7-e676-4501-8f2c-24be18917a3b",
+          "definitionId": "codeblock://366aebc2-2a7c-4601-8adb-b43b6be41201",
           "btNodeType": 0,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [
@@ -932,7 +932,7 @@
         {
           "nodeId": "115ddff8-e319-433b-9307-aa46334e29f7",
           "nodeName": "SetState",
-          "definitionId": "codeblock://36953273-56e9-4942-a6e5-3f339ecc35e8",
+          "definitionId": "codeblock://407dd2f8-6cc7-413e-86a4-94dbc4f8f64f",
           "btNodeType": 0,
           "nodeParentId": "a53aee00-8e0c-4fd4-8b39-5e15921e1e26",
           "nodeProperties": [

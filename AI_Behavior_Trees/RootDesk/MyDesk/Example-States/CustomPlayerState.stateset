@@ -197,6 +197,21 @@
             "ModifiedProperties": {
               "Properties": []
             }
+          },
+          {
+            "Id": "968b20d5-be03-4b83-ba49-c93fd466e110",
+            "PositionX": 125.0,
+            "PositionY": -300.0,
+            "IsNative": true,
+            "Name": "KNOCKBACK",
+            "NativeStateType": {
+              "$type": "MODNativeType",
+              "type": "MOD.Core.NSDoNothing, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "ScriptStateTypeId": "",
+            "ModifiedProperties": {
+              "Properties": []
+            }
           }
         ],
         "Transitions": [
@@ -362,6 +377,34 @@
                         "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                       },
                       "Value": 0.3
+                    }
+                  ]
+                }
+              }
+            ],
+            "TransitIfAnyConditionIsTrue": true,
+            "OrderInTransit": 0
+          },
+          {
+            "PrevStateNodeId": "968b20d5-be03-4b83-ba49-c93fd466e110",
+            "NextStateNodeId": "253c1533-1726-4e6b-8a22-a361d618693a",
+            "TransitionConditions": [
+              {
+                "IsNative": true,
+                "NativeConditionType": {
+                  "$type": "MODNativeType",
+                  "type": "MOD.Core.NCHasTimePassed, MOD.Core, Version=26.7.0.0, Culture=neutral, PublicKeyToken=null"
+                },
+                "ScriptConditionTypeId": "",
+                "ModifiedProperties": {
+                  "Properties": [
+                    {
+                      "Name": "Duration",
+                      "Type": {
+                        "$type": "MODNativeType",
+                        "type": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                      },
+                      "Value": 0.5
                     }
                   ]
                 }
