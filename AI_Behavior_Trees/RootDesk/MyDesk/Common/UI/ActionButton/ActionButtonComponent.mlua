@@ -1,0 +1,48 @@
+@Component
+script ActionButtonComponent extends ButtonComponent
+
+	property Entity target = nil
+
+	property string execution = ""
+
+	property string paramString = ""
+
+	property number paramNum = 0
+
+	property boolean paramBool = false
+
+	@ExecSpace("ClientOnly")
+	method void Build()
+		local behavior = nil
+		if self.execution == "ToggleEnable" then 
+			behavior = ToggleEnable():GetBehavior(self.target)
+		end
+		
+		self._T.behavior = behavior
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		self:Build()
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnClick()
+		if self._T.behavior == nil then return end
+		self._T.behavior()
+	end
+
+	@EventSender("Self")
+	handler HandleButtonClickEvent(ButtonClickEvent event)
+		--------------- Native Event Sender Info ----------------
+		-- Sender: ButtonComponent
+		-- Space: Client
+		---------------------------------------------------------
+		
+		-- Parameters
+		local Entity = event.Entity
+		---------------------------------------------------------
+		self:OnClick()
+	end
+
+end

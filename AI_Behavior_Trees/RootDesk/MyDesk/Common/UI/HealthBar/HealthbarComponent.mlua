@@ -1,0 +1,38 @@
+@Component
+script HealthbarComponent extends Component
+	property Entity handleGraphic = nil
+	property SpriteGUIRendererComponent sprite = nil
+	property TextGUIRendererComponent text = nil
+
+	method void OnBeginPlay()
+		if isvalid(self.handleGraphic) then
+			local trans = self.handleGraphic.UITransformComponent
+			trans.Pivot = Vector2(0.5, 0.5)
+			trans.AnchorsMin = Vector2(0, 0.5)
+			trans.AnchorsMax = Vector2(0, 0.5)
+		end
+
+		if isvalid(self.sprite) then
+			local trans = self.sprite.Entity.UITransformComponent
+			trans.Pivot = Vector2(0, 0.5) 
+			trans.AnchorsMin = Vector2(0, 0.5)
+			trans.AnchorsMax = Vector2(1, 0.5)
+		end
+	end
+
+	method void Set(number pct)
+		if isvalid(self.handleGraphic) then
+			local trans = self.handleGraphic.UITransformComponent
+
+			local myWidth = self.Entity.UITransformComponent.RectSize.x
+			trans.anchoredPosition = Vector2(myWidth * pct, 0)
+			self.handleGraphic:SetVisible(pct < 1)
+		end
+
+		if isvalid(self.text) then
+			self.text.Text = string.format("%d%% ", pct*100)
+		end
+		self.sprite.FillAmount = pct
+		
+	end
+end

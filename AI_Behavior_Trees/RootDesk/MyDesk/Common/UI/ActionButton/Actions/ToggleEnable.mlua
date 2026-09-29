@@ -1,0 +1,10 @@
+@Struct
+script ToggleEnable extends ActionButtonBehavior
+
+	method any GetBehavior(Entity entity)
+		return function()
+			entity:SetEnable(not entity.EnabledInHierarchy)
+		end
+	end
+
+end

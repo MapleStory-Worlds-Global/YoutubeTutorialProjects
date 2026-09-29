@@ -17006,7 +17006,6 @@
             },
             {
               "@type": "script.BossAI",
-              "BehaviourTreeId": "behaviourtree://e9ce2ed5-ef5f-4d5d-a6a6-4ec4b1c529e4",
               "IsLegacy": false,
               "Enable": true,
               "hp": 0.0,
@@ -17037,14 +17036,6 @@
             },
             {
               "@type": "script.BossHitComponent",
-              "BoxSize": {
-                "x": 1.39,
-                "y": 1.29
-              },
-              "ColliderOffset": {
-                "x": 0.09500003,
-                "y": 0.565
-              },
               "IsLegacy": false,
               "Enable": true
             },

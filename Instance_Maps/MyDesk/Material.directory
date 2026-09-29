@@ -1,0 +1,25 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://f85c2bb6b49e44259b87bcd5b99d3e2d",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://f85c2bb6b49e44259b87bcd5b99d3e2d",
+      "name": "Material",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true,
+      "worldCoreVersion": "1.10.0.0",
+      "worldStudioVersion": "0.1.0.0"
+    }
+  }
+}

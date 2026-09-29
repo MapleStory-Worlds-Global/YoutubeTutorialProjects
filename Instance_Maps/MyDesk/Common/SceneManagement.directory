@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://eea8d2b0dc8542ddb058a7a1d18e22df",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.25.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://eea8d2b0dc8542ddb058a7a1d18e22df",
+      "name": "SceneManagement",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

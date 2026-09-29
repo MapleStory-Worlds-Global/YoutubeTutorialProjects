@@ -1,0 +1,35 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://85edaf9f-bcfb-4685-862b-d325e366f441",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.25.0.0",
+  "StudioVersion": "",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 0
+      },
+      "Description": "",
+      "Id": "85edaf9f-bcfb-4685-862b-d325e366f441",
+      "Language": 1,
+      "Name": "Popupbutton",
+      "Type": 1,
+      "Source": 0,
+      "Target": null,
+      "worldCoreVersion": "1.10.0.0",
+      "worldStudioVersion": "0.1.0.0"
+    }
+  }
+}

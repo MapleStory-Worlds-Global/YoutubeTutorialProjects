@@ -1,0 +1,22 @@
+@Struct
+script ActionButtonBehavior
+
+	property Entity target = nil
+
+	method any GetBehaviorWithBoolean(Entity entity, boolean param)
+		return nil
+	end
+
+	method any GetBehaviorWithNum(Entity entity, boolean param)
+		return nil
+	end
+
+	method any GetBehaviorWithString(Entity entity, boolean param)
+		return nil
+	end
+
+	method any GetBehavior(Entity entity)
+		return nil
+	end
+
+end

@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://216737a1a8f44193aa3daea0f5c469f7",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.25.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://216737a1a8f44193aa3daea0f5c469f7",
+      "name": "Sound",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

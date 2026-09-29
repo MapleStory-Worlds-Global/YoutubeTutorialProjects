@@ -1,0 +1,22 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "scriptfile://092ef19b-4853-4545-aed0-838cee4c8573",
+  "ContentType": "x-mod/scriptfile",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "Name": "UIResourceSimpleFantasy_ReadMe",
+      "Id": "092ef19b-4853-4545-aed0-838cee4c8573",
+      "Script": "--[[\n# UIResourcePack\nThis package is a UI resource pack collected from MapleSlash, an original world.\nIt provides UI Models(buttons, panels, icons, etc.) and a range of sample UI screens,\nallowing creators to quickly assemble polished in-game interfaces by\nreferencing or adapting the included assets.\n\n=======================================\n## Features\n\n1. Core UI Models\nIncludes Buttons, Panels, Icons, Slots, Sliders, Tints, and so on.\n\n2. Sample UI Models\npre-built sample UI screens covering common game scenarios such as Inventory, Shop, Item Info and more.\n\n=======================================\n## Installation\n\nThis package can be used immediately after import. No additional setup is required.\n\n=======================================\n## Cautions\n\n1. Only RUID references are included; the original image resource files are not bundled.\nSince only the RUID is available, Wrap/Filter Mode and Pivot cannot be modified.\n\n2. Entities in the models may have different sizes or proportions from the original resources,\nso please verify before use.\n\n=======================================\n## Tip\n\nChange the Type of SpriteGUIRendererComponent to Simple, then click the 'Set Native Size' button\nto resize the entity to its original resource size.\nSetting the PreserveSprite property to NativeSize lets you check the original size.\n\n=======================================\n## License\n\nThis project is licensed under the MIT License.\nYou are free to use, modify, and distribute this project.\n\nHowever, the software is provided \"as is\", without warranty of any kind.\nFor more details, please see the LICENSE.(https://opensource.org/licenses/MIT)\n\n=======================================\n## Happy Coding!\n]]",
+      "ModifyTime": "09/22/2026 14:00:07"
+    }
+  }
+}

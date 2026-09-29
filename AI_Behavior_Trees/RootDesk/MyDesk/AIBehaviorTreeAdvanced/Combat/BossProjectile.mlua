@@ -57,7 +57,6 @@ script BossProjectile extends Component
 		_EffectService:PlayEffect(self.attackInfo.effectRUID, self.Entity, myPos:ToVector3(), 0, Vector3.one)
 		--Deal Damage
 		if isvalid(self.attackComp) then
-			
 			self.attackComp:AttackFast(CircleShape(myPos, explosionRadius), "", CollisionGroups.Player)
 		end
 		self.isDead = true

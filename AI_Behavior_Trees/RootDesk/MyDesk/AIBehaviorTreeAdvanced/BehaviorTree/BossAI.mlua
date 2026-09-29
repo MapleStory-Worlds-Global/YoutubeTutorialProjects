@@ -8,6 +8,9 @@ script BossAI extends AIComponent
 	property number meleeRadius = 1.0
 	property number rangeRadius = 2.0
 
+	--Health Bar
+	property HealthbarComponent healthBar = nil
+
 	--Projectile
 	property integer projectileCount = 3
 	property string rangedProjectileId = ""
@@ -61,6 +64,11 @@ script BossAI extends AIComponent
 
 		self.isDead = false
 		self.hp = self.maxHp
+
+		if(self:IsClient()) then
+			self.healthBar:Set(self.hp/self.maxHp)
+		end
+		
 
 		if self:IsServer() then
 			self._T.targetCheckTimer = _TimerService:SetTimerRepeat(function() self:UpdateTarget() end, 0.5, 0.5)
@@ -139,8 +147,16 @@ script BossAI extends AIComponent
 		end
 
 		self.hp = self.hp - event.TotalDamage
+		
 		if self.hp <= 0 then
 			self:Dead()
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnSyncProperty(string name, any value)
+		if name == "hp" then
+			self.healthBar:Set(self.hp/self.maxHp)
 		end
 	end
 

@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "packageheader://818953d729ab42329988eb55e54746c7",
+  "ContentType": "x-mod/packageheader",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "id": "packageheader://818953d729ab42329988eb55e54746c7",
+      "name": "UI",
+      "packageHeaderData": "{\"entries\":[{\"entryKey\":\"codeblock://c95a1083-76cc-47ea-b74a-4ead5cb83486\",\"name\":\"ToggleEnable\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"RootDesk/MyDesk/Common/UI/ActionButton/Actions\",\"dependency\":{\"subtype\":\"StructType\",\"base\":\"codeblock://37ba3faa-fd62-44a9-ad77-e5b00fb11bb5\",\"dependentCodeBlock\":\"codeblock://37ba3faa-fd62-44a9-ad77-e5b00fb11bb5\"},\"idConstraints\":0,\"nameConstraints\":9,\"hash\":138648556},{\"entryKey\":\"codeblock://37ba3faa-fd62-44a9-ad77-e5b00fb11bb5\",\"name\":\"ActionButtonBehavior\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"RootDesk/MyDesk/Common/UI/ActionButton\",\"dependency\":{\"subtype\":\"StructType\"},\"idConstraints\":0,\"nameConstraints\":9,\"hash\":1059606480},{\"entryKey\":\"codeblock://fa73c370-2de8-4613-8258-8b1ae7a7ea64\",\"name\":\"ActionButtonComponent\",\"type\":\"MODCodeBlockResEntry\",\"directory\":\"RootDesk/MyDesk/Common/UI/ActionButton\",\"dependency\":{\"subtype\":\"Extend\",\"base\":\"MOD.Core.ButtonComponent\"},\"idConstraints\":0,\"nameConstraints\":4,\"hash\":1709707038}],\"entities\":null,\"version\":2,\"coreVersion\":\"26.3.0.0\",\"studioVersion\":\"0.1.0.0\"}",
+      "packageRevision": 1,
+      "packageVersion": "0.0.1"
+    }
+  }
+}

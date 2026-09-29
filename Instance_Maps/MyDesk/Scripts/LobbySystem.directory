@@ -1,0 +1,23 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "directory://ebc5d1cc7d5a482abcb20aa4944e135e",
+  "ContentType": "x-mod/directory",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "1.25.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "entry_id": "directory://ebc5d1cc7d5a482abcb20aa4944e135e",
+      "name": "LobbySystem",
+      "lock": false,
+      "folding": false,
+      "nameEditable": true
+    }
+  }
+}

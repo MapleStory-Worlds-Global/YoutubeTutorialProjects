@@ -1,0 +1,33 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "codeblock://37ba3faa-fd62-44a9-ad77-e5b00fb11bb5",
+  "ContentType": "x-mod/codeblock",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "CoreVersion": {
+        "Major": 0,
+        "Minor": 2
+      },
+      "ScriptVersion": {
+        "Major": 1,
+        "Minor": 1
+      },
+      "Description": "",
+      "Id": "37ba3faa-fd62-44a9-ad77-e5b00fb11bb5",
+      "Language": 1,
+      "Name": "ActionButtonBehavior",
+      "Type": 9,
+      "Source": 0,
+      "Target": null
+    }
+  }
+}
