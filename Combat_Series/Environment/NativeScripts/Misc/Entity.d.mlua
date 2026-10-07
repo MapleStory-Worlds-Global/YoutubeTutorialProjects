@@ -1,0 +1,241 @@
+---@sealed
+---@description "An entity that exists within MSW."
+@Misc
+script Entity
+
+	---@description "The list of the child entity."
+	---@sealed
+	readonly property ReadOnlyList<Entity> Children
+
+	---@description "The map entity where an entity belongs."
+	---@sealed
+	property Entity CurrentMap
+
+	---@description "The map name where an entity belongs."
+	---@sealed
+	readonly property string CurrentMapName
+
+	---@description "The world entity where an entity belongs."
+	---@sealed
+	property Entity CurrentWorld
+
+	---@description "Whether an entity is activated."
+	---@sealed
+	property boolean Enable = true
+
+	---@description "Whether an entity is active in the hierarchy."
+	---@sealed
+	readonly property boolean EnabledInHierarchy
+
+	---@description "An identifier for an entity."
+	---@sealed
+	readonly property string Id
+
+	---@description "The entity's localization status."
+	---@sealed
+	readonly property boolean Localize = false
+
+	---@description "The model for this entity."
+	---@sealed
+	property Model Model
+
+	---@description "The name of an entity."
+	---@sealed
+	readonly property string Name
+
+	---@description "The Id of the entity's owner."
+	---@sealed
+	readonly property string OwnerId
+
+	---@description "The parent entity of an entity."
+	---@sealed
+	readonly property Entity Parent
+
+	---@description "The path of an entity."
+	---@sealed
+	readonly property string Path
+
+	---@description "Whether an entity is visible."
+	---@sealed
+	property boolean Visible = true
+
+	---@description "Whether an entity is visible in the hierarchy."
+	---@sealed
+	readonly property boolean VisibleInHierarchy
+
+	---@description "Adds the Component corresponding to componentType."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method Component AddComponent(Type componentType) end
+
+	---@description "Adds Component corresponding to typename."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method Component AddComponent(string typename) end
+
+	---@description "Attaches a child entity to this entity."
+	---@sealed
+	method void AttachChild(Entity child) end
+
+	---@description "Puts the entity under the parent's child."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method boolean AttachTo(Entity parent) end
+
+	---@description "Duplicates an entity and summons it."
+	---@sealed
+	method Entity Clone(string name = "") end
+
+	---@description "This function is deprecated. Use the other Clone(string) function."
+	---@deprecated
+	---@sealed
+	method Entity Clone(string name = "", boolean posOffset = true, boolean dynamic = true) end
+
+	---@description "Links events. An eventType event is notified as a handler when it occurs in an Entity. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(Type eventType, IScriptFunction eventHandler) end
+
+	---@description "Links events. An eventType event is notified as a handler when it occurs in an Entity. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(Type eventType, IScriptFunction eventHandler) end
+
+	---@description "Links events. A key-type event is notified as a handler when it occurs in an Entity. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(string key, IScriptFunction eventHandler) end
+
+	---@description "Destroys an entity."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method boolean Destroy() end
+
+	---@description "Destroys the entity after delaySeconds (seconds)."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method boolean Destroy(float delaySeconds) end
+
+	---@description "Separates the entity from the parent and puts it under the child of the map where it currently belongs."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method boolean Detach() end
+
+	---@description "Disconnects the eventType event from its handler."
+	---@sealed
+	method boolean DisconnectEvent(Type eventType, EventHandlerBase eventHandler) end
+
+	---@description "Disconnects the eventType event from its handler."
+	---@sealed
+	method boolean DisconnectEvent(Type eventType, EventHandlerBase eventHandler) end
+
+	---@description "Disconnects the event with the key-type event and the handler."
+	---@sealed
+	method boolean DisconnectEvent(string key, EventHandlerBase eventHandler) end
+
+	---@description "Finds the corresponding child by id and returns it."
+	---@sealed
+	method Entity GetChild(string id, boolean recursive = false) end
+
+	---@description "Finds and returns a child entity with the corresponding name."
+	---@sealed
+	method Entity GetChildByName(string name, boolean recursive = false) end
+
+	---@description "Finds and returns the components of the type corresponding to the typename among the components of the children."
+	---@sealed
+	method table<Component> GetChildComponentsByTypeName(string typename, boolean recursive = false) end
+
+	---@description "Finds and returns the componentType."
+	---@sealed
+	method Component GetComponent(Type componentType) end
+
+	---@description "Finds and returns the typename type components."
+	---@sealed
+	method Component GetComponent(string typename) end
+
+	---@description "Finds and returns the first typename type component among the components of the children."
+	---@sealed
+	method Component GetFirstChildComponentByTypeName(string typename, boolean recursive = false) end
+
+	---@description "Removes the Component corresponding to componentType."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method boolean RemoveComponent(Type componentType) end
+
+	---@description "Removes Component corresponding to typename."
+	---@sealed
+	@ExecSpace("ControlOnly")
+	method boolean RemoveComponent(string typename) end
+
+	---@description "Generates an event."
+	---@sealed
+	method void SendEvent(EventType sendEvent) end
+
+	---@description "Specifies whether or not to enable."
+	---@sealed
+	method void SetEnable(boolean enable, boolean reset = false, boolean shouldSync = true) end
+
+	---@description "Sets the visibility."
+	---@sealed
+	method void SetVisible(boolean visible, boolean reset = false, boolean shouldSync = true) end
+
+	emitter EmitEntityAddChildrenEvent(EntityAddChildrenEvent event) end
+
+	emitter EmitEntityBeginPlayEvent(EntityBeginPlayEvent event) end
+
+	emitter EmitEntityChangedParentEvent(EntityChangedParentEvent event) end
+
+	emitter EmitEntityEndPlayEvent(EntityEndPlayEvent event) end
+
+	emitter EmitEntityFinishedConstructEvent(EntityFinishedConstructEvent event) end
+
+	emitter EmitEntityMapChangedEvent(EntityMapChangedEvent event) end
+
+	emitter EmitEntityPostAddOriginComponentsEvent(EntityPostAddOriginComponentsEvent event) end
+
+	emitter EmitEntityPreApplyChangedPropertiesEvent(EntityPreApplyChangedPropertiesEvent event) end
+
+	emitter EmitEntityPostApplyChangedPropertiesEvent(EntityPostApplyChangedPropertiesEvent event) end
+
+	emitter EmitEntityPreAttachEntityEvent(EntityPreAttachEntityEvent event) end
+
+	emitter EmitEntityPostAttachEntityEvent(EntityPostAttachEntityEvent event) end
+
+	emitter EmitEntityPostChangedPathEvent(EntityPostChangedPathEvent event) end
+
+	emitter EmitEntityPreDeserializeComponentsEvent(EntityPreDeserializeComponentsEvent event) end
+
+	emitter EmitEntityPostDeserializeComponentsEvent(EntityPostDeserializeComponentsEvent event) end
+
+	emitter EmitEntityPreFillOriginPropertiesEvent(EntityPreFillOriginPropertiesEvent event) end
+
+	emitter EmitEntityPostFillOriginPropertiesEvent(EntityPostFillOriginPropertiesEvent event) end
+
+	emitter EmitEntityPreInitAdditionalComponentsEvent(EntityPreInitAdditionalComponentsEvent event) end
+
+	emitter EmitEntityPostInitAdditionalComponentsEvent(EntityPostInitAdditionalComponentsEvent event) end
+
+	emitter EmitEntityPostInitSyncedEvent(EntityPostInitSyncedEvent event) end
+
+	emitter EmitEntityPreInitSyncEvent(EntityPreInitSyncEvent event) end
+
+	emitter EmitEntityPostInitSyncEvent(EntityPostInitSyncEvent event) end
+
+	emitter EmitEntityPostModelSetEvent(EntityPostModelSetEvent event) end
+
+	emitter EmitEntityPostOriginSetEvent(EntityPostOriginSetEvent event) end
+
+	emitter EmitEntityPreTransformInitEvent(EntityPreTransformInitEvent event) end
+
+	emitter EmitEntityPostTransformInitEvent(EntityPostTransformInitEvent event) end
+
+	emitter EmitEntityRemoveChildrenEvent(EntityRemoveChildrenEvent event) end
+
+	emitter EmitEntitySaveLoadEvent(EntitySaveLoadEvent event) end
+
+	emitter EmitEntityWorldChangedEvent(EntityWorldChangedEvent event) end
+
+	emitter EmitEntityEnabledInHierarchyChangedEvent(EntityEnabledInHierarchyChangedEvent event) end
+
+	emitter EmitEntityVisibleInHierarchyChangedEvent(EntityVisibleInHierarchyChangedEvent event) end
+
+	emitter EmitComponentEnabledInHierarchyChangedEvent(ComponentEnabledInHierarchyChangedEvent event) end
+
+end

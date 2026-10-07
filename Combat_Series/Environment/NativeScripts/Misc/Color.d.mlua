@@ -1,0 +1,140 @@
+---@sealed
+---@description "Displays color."
+@Misc
+script Color
+
+	---@description "The elements of the transparency of colors. 0 is transparent, 1 is opaque."
+	---@sealed
+	property float a
+
+	---@description "The elements of the color blue."
+	---@sealed
+	property float b
+
+	---@description "You can simply use black (0, 0, 0, 1)."
+	static readonly property Color black
+
+	---@description "You can simply use blue (0, 0, 1, 1)."
+	static readonly property Color blue
+
+	---@description "You can simply use transparent (0, 0, 0, 0)."
+	static readonly property Color clear
+
+	---@description "You can simply use jade (0, 1, 1, 1)."
+	static readonly property Color cyan
+
+	---@description "The elements of the color green."
+	---@sealed
+	property float g
+
+	---@description "You can simply use grey (0.5, 0.5, 0.5, 1)."
+	static readonly property Color gray
+
+	---@description "You can simply use green (0, 1, 0, 1)."
+	static readonly property Color green
+
+	---@description "You can simply use magenta (1, 0, 1, 1)."
+	static readonly property Color magenta
+
+	---@description "The elements of the color red."
+	---@sealed
+	property float r
+
+	---@description "You can simply use red (1, 0, 0, 1)."
+	static readonly property Color red
+
+	---@description "You can simply use white (1, 1, 1, 1)."
+	static readonly property Color white
+
+	---@description "You can simply use yellow (1, 0.92, 0.016, 1)."
+	static readonly property Color yellow
+
+	---@description "Initializes to the specified r, g, b values."
+	constructor Color(float r, float g, float b) end
+
+	---@description "Initializes to the specified r, g, b, a values."
+	constructor Color(float r, float g, float b, float a) end
+
+	---@description "Creates a Color entity using the hexadecimal number color value hex code. Uses a format such as #FFFFFF."
+	static method Color FromHexCode(string hexCode) end
+
+	---@description "Creates a Color entity using the RGBA represented as an integer."
+	static method Color FromRGBAInt(integer rgba) end
+
+	---@description "Finds the grayscale of the color."
+	static method float Grayscale(Color color) end
+
+	---@description "Finds the grayscale of the color."
+	---@sealed
+	method float Grayscale() end
+
+	---@description "Converts and returns the HSV value to RGB. The RGB value is fixed between 0 and 1."
+	static method Color HSVToRGB(float h, float s, float v) end
+
+	---@description "Converts and returns the HSV value to RGB. If hdr is true, the RGB value is not fixed between 0 and 1."
+	static method Color HSVToRGB(float h, float s, float v, boolean hdr) end
+
+	---@description "Creates a Color value using linear interpolation with t between two Colors and returns it. The t value is fixed between 0 and 1."
+	static method Color Lerp(Color a, Color b, float t) end
+
+	---@description "Creates a Color value using linear interpolation with t between two Colors and returns it. The t value is fixed between 0 and 1."
+	---@sealed
+	method Color Lerp(Color b, float t) end
+
+	---@description "Creates a Color value using linear interpolation with t between two Colors and returns it."
+	static method Color LerpUnclamped(Color a, Color b, float t) end
+
+	---@description "Creates a Color value using linear interpolation with t between two Colors and returns it."
+	---@sealed
+	method Color LerpUnclamped(Color b, float t) end
+
+	---@description "Converts the RGB value to HSV and returns it."
+	static method float, float, float RGBToHSV(Color rgbColor) end
+
+	---@description "Converts the RGB value to HSV and returns it."
+	---@sealed
+	method float, float, float RGBToHSV() end
+
+	---@description "Converts RGBA to hex code."
+	static method string ToHexCode(Color color) end
+
+	---@description "Converts RGBA to hex code."
+	---@sealed
+	method string ToHexCode() end
+
+	---@description "Converts RGBA to an integer. Uses the '0xFFFFFFFF' format."
+	static method integer ToRGBAInt(Color color) end
+
+	---@description "Converts RGBA to an integer. Uses the '0xFFFFFFFF' format."
+	---@sealed
+	method integer ToRGBAInt() end
+
+	---@description "Checks if the two values are different. Returns false if all values are the same. Otherwise, returns true."
+	static operator boolean Inequality(Color left, Color right) end
+
+	---@description "Returns a new Color entity by multiplying the two specified values together. The calculation result is Color(left.r * right.r, left.g * right.g, left.b * right.b, left.a * right.a)."
+	static operator Color Multiply(Color left, Color right) end
+
+	---@description "Returns a new Color entity by multiplying the specified value by the real number. The calculation result is Color(left.r * right, left.g * right, left.b * right, left.a * right)."
+	static operator Color Multiply(Color left, float right) end
+
+	---@description "Returns a new Color entity by multiplying the specified value by the real number. The calculation result is Color(left * right.r, left * right.g, left * right.b, left * right.a)."
+	static operator Color Multiply(float left, Color right) end
+
+	---@description "Returns a new Color entity by adding the two specified values together. The calculation result is Color(left.r + right.r, left.g + right.g, left.b + right.b, left.a + right.a)."
+	static operator Color Addition(Color left, Color right) end
+
+	---@description "Returns a new Color entity by subtracting the specified right value from the left value. The calculation result is Color(left.r - right.r, left.g - right.g, left.b - right.b, left.a - right.a)."
+	static operator Color Subtraction(Color left, Color right) end
+
+	---@description "Returns a new Color entity by dividing the specified value by the real number. The calculation result is Color(left.r / right, left.g / right, left.b / right, left.a / right)."
+	static operator Color Division(Color left, float right) end
+
+	---@description "Checks if the two values are the same. Returns true if all values are the same. Otherwise, returns false."
+	static operator boolean Equality(Color left, Color right) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method Color Clone() end
+
+end

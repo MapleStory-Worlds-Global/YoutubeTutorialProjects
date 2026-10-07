@@ -1,0 +1,108 @@
+---@description "Moves to the path designated by an entity. Supports various movement effects."
+@Component
+script TweenLineComponent extends Component
+
+	---@description "Sets whether Positions is the absolute or relative coordinates. Restarts the tween if changed during playback."
+	---@sealed
+	@Sync
+	property CoordinateType DestinationCoordinateType = CoordinateType.Relative
+
+	---@description "Sets the duration from the departure point to the arrival point in seconds."
+	---@sealed
+	@Sync
+	property float Duration = 3
+
+	---@description "Sets the interpolation method for the movement path set in Positions. Restarts the tween if changed during playback."
+	---@sealed
+	@Sync
+	property InterpolationType Interpolation = InterpolationType.None
+
+	---@description "Sets the movement path. Restarts the tween if changed during playback."
+	---@sealed
+	@Sync
+	property SyncList<Vector2> Positions
+
+	---@description "Sets the duration returning from the destination to the starting point in seconds. Valid when UseReturnTweenType is true."
+	---@sealed
+	@Sync
+	property float ReturnDuration = 0
+
+	---@description "Sets the movement effect returning from the destination to the starting point. Valid when UseReturnTweenType is true."
+	---@sealed
+	@Sync
+	property EaseType ReturnTweenType = EaseType.Linear
+
+	---@description "Sets whether it moves one way or round trips."
+	---@sealed
+	@Sync
+	property TweenLinearStopType StopType = TweenLinearStopType.OneRoundTrip
+
+	---@description "Sets the workout type."
+	---@sealed
+	@Sync
+	property EaseType TweenType = EaseType.Linear
+
+	---@description "Sets whether to apply ReturnDuration and ReturnTweenType. Duration and TweenType will be applied upon returning from the destination to the starting point if the value is false."
+	---@sealed
+	@Sync
+	property boolean UseReturnTweenType = false
+
+	---@description "When true, this Component is removed from an Entity when the tween reaches its destination and ends or when Stop() is called directly."
+	---@sealed
+	@Sync
+	property boolean AutoDestroy = false
+
+	---@description "If true, the tween will play automatically upon starting the game."
+	---@sealed
+	@Sync
+	property boolean AutoStart = true
+
+	---@description "The current playback state."
+	---@sealed
+	@Sync
+	readonly property TweenState CurrentState
+
+	---@description "The starting position of the tween."
+	---@sealed
+	@Sync
+	readonly property Vector3 OriginPosition
+
+	---@description "The initial rotation value of the tween."
+	---@sealed
+	@Sync
+	readonly property Quaternion OriginRotation
+
+	---@description "The initial size of the tween."
+	---@sealed
+	@Sync
+	readonly property Vector3 OriginScale
+
+	---@description "Sets the playback subject. The default value is Default."
+	---@sealed
+	property TweenSyncType SyncType = TweenSyncType.Default
+
+	---@description "The amount of elapsed time after starting the tween. The unit of measure is the second."
+	---@sealed
+	readonly property number TweenTime
+
+	---@description "Changes CurrentState to Destroying and removes this Component."
+	---@sealed
+	method void Destroy() end
+
+	---@description "Pauses the tween. Changes CurrentState to Pausing."
+	---@sealed
+	method void Pause() end
+
+	---@description "Plays the tween. Changes CurrentState to Playing."
+	---@sealed
+	method void Play() end
+
+	---@description "Restarts from current location."
+	---@sealed
+	method void RestartFromCurrentPosition() end
+
+	---@description "Stops the tween. Changes CurrentState to Idle. Specifying true for reset returns the tween's position and progress to the initial state."
+	---@sealed
+	method void Stop(boolean reset) end
+
+end

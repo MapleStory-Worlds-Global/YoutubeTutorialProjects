@@ -1,0 +1,12 @@
+---@sealed
+---@description "The editor event occurs when selecting an entity."
+@Event
+script EntitySelectEditorEvent extends EventType
+
+	---@description "Clicked entity."
+	---@sealed
+	property Entity Entity
+
+	constructor EntitySelectEditorEvent(Entity entity = nil) end
+
+end

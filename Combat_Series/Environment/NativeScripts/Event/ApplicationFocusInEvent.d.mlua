@@ -1,0 +1,8 @@
+---@sealed
+---@description "Occurs when the application receives focus. The criteria for focus may differ depending on the operating system."
+@Event
+script ApplicationFocusInEvent extends EventType
+
+	constructor ApplicationFocusInEvent() end
+
+end

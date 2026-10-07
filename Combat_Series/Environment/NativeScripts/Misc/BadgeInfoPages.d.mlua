@@ -1,0 +1,18 @@
+---@sealed
+---@description "Inquires about the badge list searched from BadgeService in page units."
+@Misc
+script BadgeInfoPages
+
+	---@description "Checks whether the current page is the last page in the search results."
+	---@sealed
+	readonly property boolean IsLastPage
+
+	---@description "Retrieves the list of badge information of the current page among the search results. Up to 25 search results per page."
+	---@sealed
+	method table<BadgeInfo> GetCurrentPageDatas() end
+
+	---@description "Goes to the next page of search results. Script executions are suspended during the operation."
+	---@sealed
+	method void MoveToNextPageAndWait() end
+
+end

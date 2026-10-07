@@ -1,0 +1,102 @@
+---@sealed
+---@description "This is the data store that is used in the AI behavior tree. It's managed in key-value pairs, and data is shared between behavior tree nodes."
+@Misc
+script Blackboard
+
+	---@description "Sends an inquiry for the boolean value that is saved to the specified key."
+	---@sealed
+	method boolean GetBool(string key) end
+
+	---@description "Sends an inquiry for the Color value that's saved to the specified key."
+	---@sealed
+	method Color GetColor(string key) end
+
+	---@description "Sends an inquiry for the Component that's saved to the specified key."
+	---@sealed
+	method Component GetComponent(string key) end
+
+	---@description "Sends an inquiry for the ComponentRef that's saved to the specified key."
+	---@sealed
+	method ComponentRef GetComponentRef(string key) end
+
+	---@description "This sends a direct inquiry for the entity that's saved to the specified key."
+	---@sealed
+	method Entity GetEntity(string key) end
+
+	---@description "Sends an inquiry for the EntityRef that's saved to the specified key."
+	---@sealed
+	method EntityRef GetEntityRef(string key) end
+
+	---@description "Sends an inquiry for the integer-type value that's saved to the specified key."
+	---@sealed
+	method integer GetInt(string key) end
+
+	---@description "Sends an inquiry for the real number-type values that are saved to the specified key."
+	---@sealed
+	method number GetNumber(string key) end
+
+	---@description "Sends an inquiry for the String value that's saved to the specified key."
+	---@sealed
+	method string GetString(string key) end
+
+	---@description "Sends an inquiry for the Vector2 value that's saved to the specified key."
+	---@sealed
+	method Vector2 GetVector2(string key) end
+
+	---@description "Sends an inquiry for the Vector3 value that's saved to the specified key."
+	---@sealed
+	method Vector3 GetVector3(string key) end
+
+	---@description "Sends an inquiry for the Vector4 value that's saved to the specified key."
+	---@sealed
+	method Vector4 GetVector4(string key) end
+
+	---@description "This saves the boolean value to the specified key."
+	---@sealed
+	method void SetBool(string key, boolean value) end
+
+	---@description "This saves the Color value to the specified value."
+	---@sealed
+	method void SetColor(string key, Color value) end
+
+	---@description "This saves the Component value to the specified key."
+	---@sealed
+	method void SetComponent(string key, Component value) end
+
+	---@description "This saves the ComponentRef value to the specified key."
+	---@sealed
+	method void SetComponentRef(string key, ComponentRef value) end
+
+	---@description "This saves the Entity value to the specified key."
+	---@sealed
+	method void SetEntity(string key, Entity value) end
+
+	---@description "This saves the EntityRef value to the specified key."
+	---@sealed
+	method void SetEntityRef(string key, EntityRef value) end
+
+	---@description "This saves the integer value to the specified key."
+	---@sealed
+	method void SetInt(string key, integer value) end
+
+	---@description "This saves the real number value to the specified key."
+	---@sealed
+	method void SetNumber(string key, number value) end
+
+	---@description "This saves the String value to the specified key."
+	---@sealed
+	method void SetString(string key, string value) end
+
+	---@description "This saves the Vector2 value to the specified key."
+	---@sealed
+	method void SetVector2(string key, Vector2 value) end
+
+	---@description "This saves the Vector3 value to the specified key."
+	---@sealed
+	method void SetVector3(string key, Vector3 value) end
+
+	---@description "This saves the Vector4 value to the specified key."
+	---@sealed
+	method void SetVector4(string key, Vector4 value) end
+
+end

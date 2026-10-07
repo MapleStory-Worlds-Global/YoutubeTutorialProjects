@@ -1,0 +1,46 @@
+---@sealed
+---@description "Provides a screen recording function."
+@Service
+script ScreenRecordService extends Service
+
+	---@description "Ends the recording. Once the file is saved, you'll see the filepath it was stored under."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string FinishRecordAndWait() end
+
+	---@description "Returns available microphone device information."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method table<MicrophoneDevice> GetMicrophoneDevicesAndWait() end
+
+	---@description "Returns the index of the microphone device currently being used for recording."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method int32 GetMicrophoneIndexForRecording() end
+
+	---@description "Returns if there is a recording in progress."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsRecording() end
+
+	---@description "Returns the remaining recording time."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method int32 RemainRecordTime() end
+
+	---@description "Specifies the microphone device to be used for recording. newIndex is the index of the microphone to set."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetMicrophoneIndexForRecording(int32 newIndex) end
+
+	---@description "Starts recording. Used to share recorded video in combination with the MobileShareService. The maximum recording time is 2 minutes."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenRecordStartResult StartRecordToFileAndWait(ScreenRecordMode recordMode, boolean excludeSystemUI = false, func<string> finishRecordCallback = nil) end
+
+	---@description "Starts recording. The maximum recording time is 2 minutes. When recording ends, the video is saved."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenRecordStartResult StartRecordToPhotoLibraryAndWait(ScreenRecordMode recordMode, boolean excludeSystemUI = false) end
+
+end

@@ -1,0 +1,11 @@
+---@description "This Component selects and applies the avatar's body Action."
+@Component
+script AvatarBodyActionSelectorComponent extends Component
+
+	---@description "Current state is Action."
+	---@sealed
+	property MapleAvatarBodyActionState ActionState
+
+	emitter EmitActionStateChangedEvent(ActionStateChangedEvent event) end
+
+end

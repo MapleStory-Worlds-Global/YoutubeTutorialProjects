@@ -1,0 +1,24 @@
+---@sealed
+---@description "This event occurs when the total number of calls to the server execution control function exceeds the limit."
+@Event
+script TotalServerFunctionRateLimitEvent extends EventType
+
+	---@description "The entity's Id to which the funtion's component belongs."
+	---@sealed
+	property string EntityId
+
+	---@description "The function name."
+	---@sealed
+	property string FunctionName
+
+	---@description "The profile code for the user who called the function."
+	---@sealed
+	property string ProfileCode
+
+	---@description "The name of the component, service, or logic to which the function belongs."
+	---@sealed
+	property string TypeName
+
+	constructor TotalServerFunctionRateLimitEvent(string profileCode = nil, string entityId = nil, string typeName = nil, string functionName = nil) end
+
+end

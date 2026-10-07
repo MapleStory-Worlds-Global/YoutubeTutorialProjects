@@ -1,0 +1,29 @@
+---@sealed
+@Misc
+script TransitionColorSet
+
+	---@sealed
+	property float ColorMultiplier
+
+	---@sealed
+	property Color DisabledColor
+
+	---@sealed
+	property float FadeDuration
+
+	---@sealed
+	property Color HighlightedColor
+
+	---@sealed
+	property Color NormalColor
+
+	---@sealed
+	property Color PressedColor
+
+	---@sealed
+	property Color SelectedColor
+
+	---@sealed
+	method TransitionColorSet Clone() end
+
+end

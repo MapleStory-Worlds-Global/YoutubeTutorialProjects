@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event is raised when the player uses an Action."
+@Event
+script PlayerActionEvent extends EventType
+
+	---@description "The name of the occurring Action."
+	---@sealed
+	property string ActionName
+
+	---@description "The entity of the occurring player."
+	---@sealed
+	property Entity PlayerEntity
+
+	constructor PlayerActionEvent(string actionName = "") end
+
+end

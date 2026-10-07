@@ -1,0 +1,31 @@
+---@sealed
+---@description "This code indicates the result of processing requests related to shared memory."
+@Enum
+script SharedMemoryResultCode
+	---@description "Request processing was successful."
+	member OK = 0
+	---@description "Your request has been cancelled."
+	member Cancelled = 1000000
+	---@description "An internal system error has occurred."
+	member InternalError = 1000001
+	---@description "The requested value does not exist on the server."
+	member NotFound = 1000002
+	---@description "Invalid request."
+	member BadRequest = 1000003
+	---@description "The request took a long time to process and failed."
+	member TimedOut = 1000004
+	---@description "Failed due to high request volume."
+	member ResourceExhausted = 1000005
+	---@description "The requested content already exists."
+	member AlreadyExists = 1000007
+	---@description "The information requested by the script does not match the information received from the server."
+	member PreconditionFailed = 1000008
+	---@description "An unknown error has occurred."
+	member Unknown = 2147483647
+
+	---@description "Converts a number to the applicable type."
+	static method SharedMemoryResultCode CastFrom(number value) end
+
+	---@description "Converts a string to the applicable type."
+	static method SharedMemoryResultCode CastFrom(string value) end
+end

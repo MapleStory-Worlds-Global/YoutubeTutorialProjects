@@ -1,0 +1,61 @@
+---@sealed
+---@description "Uses the gravity sensor of the mobile device. It can be called when the gravity sensor function is supported in the mobile device and the user device."
+@Service
+script MobileGyroscopeService extends Service
+
+	---@description "Returns the device's angle of rotation as Euler angles."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector3 GetAttitudeEuler() end
+
+	---@description "Returns the gravity acceleration vector that was expressed as the reference coordinate of the device."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector3 GetGravity() end
+
+	---@description "The rotation speed value that the gravity sensor measured."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector3 GetRotationRate() end
+
+	---@description "The non-biased rotation speed value that the gravity sensor measured."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector3 GetRotationRateUnbiased() end
+
+	---@description "A gravity sensor measurement cycle. The cycle's unit is 'second,' and the default value is 0.2 seconds."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method float GetUpdateInterval() end
+
+	---@description "The acceleration value that was delivered to the device."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector3 GetUserAcceleration() end
+
+	---@description "Returns whether the gravity sensor is currently measuring."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsEnabled() end
+
+	---@description "Returns whether the device supports a gravity sensor function."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsHWSupported() end
+
+	---@description "Sets the gravity sensor measurement cycle. The unit is in seconds, and the default value is 0."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetUpdateInterval(float interval) end
+
+	---@description "Starts to measure the gravity sensor. Returns false upon measurement failure."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean StartAndWait() end
+
+	---@description "Ends measuring the gravity sensor. Delivers true value to resetData to initialize the last measurement value. Returns false upon ending failure."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean StopAndWait(boolean resetData) end
+
+end

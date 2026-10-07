@@ -1,0 +1,19 @@
+---@sealed
+---@description "The scroll direction of SliderComponent."
+@Enum
+script SliderDirection
+	---@description "The scroll bar moves from left to right."
+	member LeftToRight = 0
+	---@description "The scroll bar moves from right to left."
+	member RightToLeft = 1
+	---@description "The scroll bar moves from bottom to top."
+	member BottomToTop = 2
+	---@description "The scroll bar moves from top to bottom."
+	member TopToBottom = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method SliderDirection CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method SliderDirection CastFrom(string value) end
+end

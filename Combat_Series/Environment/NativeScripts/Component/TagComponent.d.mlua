@@ -1,0 +1,18 @@
+---@description "You can find specific Entities by the tag added to the Entity. Use EntityService to find tags."
+@Component
+script TagComponent extends Component
+
+	---@description "Sets tag list. Multiple tags can be set."
+	---@sealed
+	@Sync
+	property SyncList<string> Tags
+
+	---@description "Adds tag value."
+	---@sealed
+	method void AddTag(string tag) end
+
+	---@description "Deletes tag value."
+	---@sealed
+	method void RemoveTag(string tag) end
+
+end

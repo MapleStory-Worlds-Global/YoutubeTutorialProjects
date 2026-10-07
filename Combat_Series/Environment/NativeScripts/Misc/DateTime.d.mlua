@@ -1,0 +1,111 @@
+---@sealed
+---@description "Shows the date and time."
+@Misc
+script DateTime
+
+	---@description "DateTime's day component."
+	---@sealed
+	property int32 Day
+
+	---@description "DateTime's day of the week component."
+	---@sealed
+	readonly property DayOfWeekType DayOfWeek
+
+	---@description "An integer in milliseconds, which composes DateTime."
+	---@sealed
+	property integer Elapsed
+
+	---@description "DateTime's time component."
+	---@sealed
+	property int32 Hour
+
+	---@description "Shows the maximum DateTime value."
+	static readonly property DateTime MaxValue = DateTime(9999, 12, 31, 23, 59, 59)
+
+	---@description "DateTime's millisecond component."
+	---@sealed
+	property int32 Millisecond
+
+	---@description "Shows the minimum DateTime value."
+	static readonly property DateTime MinValue = DateTime(1, 1, 1, 0, 0, 0)
+
+	---@description "DateTime's minute component."
+	---@sealed
+	property int32 Minute
+
+	---@description "DateTime's month component."
+	---@sealed
+	property int32 Month
+
+	---@description "DateTime's second component."
+	---@sealed
+	property int32 Second
+
+	---@description "Shows the DateTime value representing the current date and time based on UTC."
+	static readonly property DateTime UtcNow
+
+	---@description "DateTime's year component."
+	---@sealed
+	property int32 Year
+
+	---@description "Initializes to the designated year, month, and day."
+	constructor DateTime(int32 year, int32 month, int32 day) end
+
+	---@description "Initializes to the designated year, month, day, hour, minute, and second."
+	constructor DateTime(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second) end
+
+	---@description "Initializes to the designated year, month, day, hour, minute, second, and millisecond."
+	constructor DateTime(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond) end
+
+	---@description "Initializes to an integer in milliseconds."
+	constructor DateTime(integer elapsed) end
+
+	---@description "Initializes to the string for the designated date and time."
+	constructor DateTime(string dateTimeString) end
+
+	---@description "Initializes to the string for the designated date and time. The string format must exactly match the designated format. The DateTime format specifier can be included in the format."
+	constructor DateTime(string dateTimeString, string format) end
+
+	---@description "Initializes the string to the designated date and time. The string format must exactly match the designated format. The DateTime format specifier can be included in the format."
+	constructor DateTime(string dateTimeString, string format, string cultureName) end
+
+	---@description "Returns whether DateTime is LocalDateTime."
+	---@sealed
+	method boolean IsLocalTime() end
+
+	---@description "Converts DateTime into a string and returns it."
+	---@sealed
+	method string ToFormattedString(string format) end
+
+	---@description "Converts DateTime into a string and returns it."
+	---@sealed
+	method string ToFormattedString(string format, string cultureName) end
+
+	---@description "Checks if the two values are different."
+	static operator boolean Inequality(DateTime left, DateTime right) end
+
+	---@description "Returns a new DateTime value by adding the specified right value and left value together."
+	static operator DateTime Addition(DateTime left, TimeSpan right) end
+
+	---@description "Returns a new TimeSpan value by subtracting the specified right value from the left value."
+	static operator TimeSpan Subtraction(DateTime left, DateTime right) end
+
+	---@description "Returns a new DateTime value by subtracting the specified right value from the left value."
+	static operator DateTime Subtraction(DateTime left, TimeSpan right) end
+
+	---@description "Checks if the specified left value is earlier than the right value."
+	static operator boolean LessThan(DateTime left, DateTime right) end
+
+	---@description "Checks if the specified left value is equal to or earlier than the right value."
+	static operator boolean LessThanOrEqual(DateTime left, DateTime right) end
+
+	---@description "Checks if the two values are the same."
+	static operator boolean Equality(DateTime left, DateTime right) end
+
+	---@description "Checks if the specified left value is later than the right value."
+	static operator boolean GreaterThan(DateTime left, DateTime right) end
+
+	---@description "Checks if specified left value is equal to or later than the right value."
+	static operator boolean GreaterThanOrEqual(DateTime left, DateTime right) end
+
+end

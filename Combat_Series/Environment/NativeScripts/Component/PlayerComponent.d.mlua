@@ -1,0 +1,87 @@
+---@description "Represents a player and provides related function."
+@Component
+script PlayerComponent extends Component
+
+	---@description "Current Hp."
+	---@sealed
+	@Sync
+	property integer Hp
+
+	---@description "Maximum Hp."
+	---@sealed
+	@Sync
+	property integer MaxHp = 1000
+
+	---@description "Nickname of the player."
+	---@sealed
+	@Sync
+	property string Nickname
+
+	---@description "Sets whether players can attack each other."
+	---@sealed
+	@Sync
+	property boolean PVPMode = true
+
+	---@description "The player's profile code."
+	---@sealed
+	@Sync
+	readonly property string ProfileCode
+
+	---@description "The amount of time to respawn after dying."
+	---@sealed
+	@Sync
+	property float RespawnDuration = 5
+
+	---@description "Sets the location to respawn. If not specified, the SpawnLocation is set as the top priority while the point of the map entrance is set as the second priority."
+	---@sealed
+	@Sync
+	property Vector3 RespawnPosition = Vector3(340282346638528859811704183484516925440.000, 340282346638528859811704183484516925440.000, 340282346638528859811704183484516925440.000)
+
+	---@description "The expected time to respawn."
+	---@sealed
+	@Sync
+	property number RespawnTime = 0
+
+	---@description "A unique identifier for the player. It can be used in the targetUserId parameter of the Client execution space control function."
+	---@sealed
+	@Sync
+	readonly property string UserId
+
+	---@description "Returns whether the player is dead or not."
+	---@sealed
+	method boolean IsDead() end
+
+	---@description "Moves the player to the same location as an Entity in the worldPath, or another map if the worldPath points to it."
+	@ExecSpace("Server")
+	method void MoveToEntityByPath(string worldPath) end
+
+	---@description "Moves the player to the same location as an Entity corresponding to the entityID or to another map if the entityID belongs to it."
+	@ExecSpace("Server")
+	method void MoveToEntity(string entityID) end
+
+	---@description "Moves the player to a specific location on a specific map."
+	@ExecSpace("Server")
+	method void MoveToMapPosition(string mapID, Vector2 targetPosition) end
+
+	---@description "Causes the player to die."
+	---@sealed
+	@ExecSpace("Client")
+	method void ProcessDead(string targetUserId = nil) end
+
+	---@description "Revives player."
+	---@sealed
+	@ExecSpace("Client")
+	method void ProcessRevive(string targetUserId = nil) end
+
+	---@description "Performs a respawn. For the Respawn position, RespawnPosition is the first priority, SpawnLocation in the map is the second, and the point of map entrance is the third."
+	method void Respawn() end
+
+	---@description "Sets an Entity's position based on local coordinates."
+	---@sealed
+	method void SetPosition(Vector3 position) end
+
+	---@description "Sets the Entity position in world coordinates."
+	---@sealed
+	method void SetWorldPosition(Vector3 worldPosition) end
+
+end

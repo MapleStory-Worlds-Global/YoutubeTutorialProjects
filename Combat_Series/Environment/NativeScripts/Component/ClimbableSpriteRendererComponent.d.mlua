@@ -1,0 +1,100 @@
+---@description "Sets up a Climbable Sprite and display the image on the world."
+@Component
+script ClimbableSpriteRendererComponent extends Component
+
+	---@description "This property is deprecated."
+	---@deprecated
+	---@sealed
+	readonly property string ClipName = "1"
+
+	---@description "Sets the Sprite's draw mode. Tiled can be used."
+	---@sealed
+	@Sync
+	readonly property SpriteDrawMode DrawMode = SpriteDrawMode.Simple
+
+	---@description "Determines whether the sprite is inverted relative to the X axis."
+	---@sealed
+	@Sync
+	property boolean FlipX = false
+
+	---@description "Determines whether the sprite is inverted relative to the Y axis."
+	---@sealed
+	@Sync
+	property boolean FlipY = false
+
+	---@description "Doesn't perform automatic replace when designating the Map Layer name into SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Specifies the Id of the material that the renderer will use."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "Displays the Sprite's Gizmo."
+	---@sealed
+	@Sync
+	property boolean NeedGizmo = false
+
+	---@description "Determines the priority within the same Layer. A greater number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "This property is deprecated."
+	---@deprecated
+	---@sealed
+	property RenderSettingType RenderSetting = RenderSettingType.SceneAnimationRenderer
+
+	---@description "When two or more entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "Sets the Sprite RUID for the ladder body."
+	---@sealed
+	@Sync
+	property string SpriteRUID = ""
+
+	---@description "Sets the Sprite RUID for the ladder head."
+	---@sealed
+	property string SpriteRUIDHead = ""
+
+	---@description "Sets the Sprite RUID for the ladder tail."
+	---@sealed
+	property string SpriteRUIDTail = ""
+
+	---@description "You can set the vertical height of the ladder by changing the Y value. Changing the X value is not supported."
+	---@sealed
+	@Sync
+	property Vector2 TiledSize = Vector2(1.000, 1.000)
+
+	---@description "Colors the sprite. In case of basic white, the original color is displayed."
+	---@sealed
+	@Sync
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Initializes the collision area to fit the ladder's sprite size."
+	---@sealed
+	method void ResetColliderBox() end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+	emitter EmitSpriteAnimPlayerChangeFrameEvent(SpriteAnimPlayerChangeFrameEvent event) end
+
+	emitter EmitSpriteAnimPlayerEndEvent(SpriteAnimPlayerEndEvent event) end
+
+	emitter EmitSpriteAnimPlayerEndFrameEvent(SpriteAnimPlayerEndFrameEvent event) end
+
+	emitter EmitSpriteAnimPlayerStartEvent(SpriteAnimPlayerStartEvent event) end
+
+	emitter EmitSpriteAnimPlayerStartFrameEvent(SpriteAnimPlayerStartFrameEvent event) end
+
+end

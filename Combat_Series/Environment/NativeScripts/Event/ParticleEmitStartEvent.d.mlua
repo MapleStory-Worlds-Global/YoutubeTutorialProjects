@@ -1,0 +1,12 @@
+---@sealed
+---@description "The event that takes place when particle emission begins."
+@Event
+script ParticleEmitStartEvent extends EventType
+
+	---@description "The entity affected by the event."
+	---@sealed
+	readonly property Entity ParticleEntity
+
+	constructor ParticleEmitStartEvent() end
+
+end

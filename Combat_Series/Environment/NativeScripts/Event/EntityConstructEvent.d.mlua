@@ -1,0 +1,12 @@
+---@sealed
+---@description "The event which takes place when entity configuration begins."
+@Event
+script EntityConstructEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityConstructEvent(Entity entity = nil) end
+
+end

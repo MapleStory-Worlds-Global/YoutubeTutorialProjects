@@ -1,0 +1,68 @@
+---@description "Provides a function to output a sprite from the web."
+@Component
+script WebSpriteComponent extends Component
+
+	---@description "Designates several Urls and outputs sprites in order every second. Ignores Url properties and outputs AnimationUrl's sprite if there is one or more sprite Url designated."
+	---@sealed
+	property List<string> AnimationUrl
+
+	---@description "Determines whether the sprite is inverted relative to the X axis."
+	---@sealed
+	@Sync
+	property boolean FlipX = false
+
+	---@description "Determines whether the sprite is inverted relative to the Y axis."
+	---@sealed
+	@Sync
+	property boolean FlipY = false
+
+	---@description "Doesn't perform automatic replace when designating the Map Layer name into SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "This property is no longer used."
+	---@deprecated
+	---@sealed
+	@Sync
+	property boolean NeedGizmo = true
+
+	---@description "Provides Offset for the sprite's position."
+	---@sealed
+	@Sync
+	property Vector2 Offset = Vector2(0.000, 0.000)
+
+	---@description "Determines the priority within the same layer. A greater number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "Colors the sprite."
+	---@sealed
+	@Sync
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Set up a sprite's Url. Outputs AnimationUrl's sprite if there is one or more sprite Url designated in AnimationUrl."
+	---@sealed
+	@Sync
+	property string Url = ""
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

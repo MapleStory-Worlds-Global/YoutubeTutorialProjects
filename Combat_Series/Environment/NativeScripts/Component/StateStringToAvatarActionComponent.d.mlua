@@ -1,0 +1,6 @@
+---@description "This Component connects the appropriate Avatar Action State to the StateComponent's State to deliver it to the AvatarRendererComponent."
+---@deprecated
+@Component
+script StateStringToAvatarActionComponent extends Component
+
+end

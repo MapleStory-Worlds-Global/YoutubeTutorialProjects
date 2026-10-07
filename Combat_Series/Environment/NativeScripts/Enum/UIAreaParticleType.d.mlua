@@ -1,0 +1,27 @@
+---@sealed
+---@description "Particle preset type that is used in UIAreaParticleComponent."
+@Enum
+script UIAreaParticleType
+	---@description "This is the default. No particles are used."
+	member None = 0
+	---@description "A fog cloud particle."
+	member FogCalm = 1
+	---@description "Descending fog particles."
+	member FogHeavy = 2
+	---@description "Rising fog particles."
+	member FogLively = 3
+	---@description "Rising star cluster particles."
+	member CalmStarField = 4
+	---@description "Glittering cluster of star particles."
+	member StarFieldSimple = 5
+	---@description "A cluster of stars and nebula particles moving in place."
+	member StarFog = 6
+	---@description "A cluster of rising stars and nebula particles."
+	member StarFogFlow = 7
+
+	---@description "Converts numbers to the applicable type."
+	static method UIAreaParticleType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UIAreaParticleType CastFrom(string value) end
+end

@@ -1,0 +1,8 @@
+---@sealed
+---@description "This event occurs upon opening the menu pop-up."
+@Event
+script MenuPopupOpenedEvent extends EventType
+
+	constructor MenuPopupOpenedEvent() end
+
+end

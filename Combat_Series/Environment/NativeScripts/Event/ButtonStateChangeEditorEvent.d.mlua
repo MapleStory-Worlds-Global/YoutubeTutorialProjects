@@ -1,0 +1,12 @@
+---@sealed
+---@description "The editor event occurs when changing the Button's state."
+@Event
+script ButtonStateChangeEditorEvent extends EventType
+
+	---@description "Changed state."
+	---@sealed
+	property ButtonState state
+
+	constructor ButtonStateChangeEditorEvent(ButtonState state = ButtonState.Normal) end
+
+end

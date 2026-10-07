@@ -1,0 +1,24 @@
+---@sealed
+---@description "Use LineRendererComponent to draw lines."
+@Misc
+script LinePoint
+
+	---@description "Sets the line color."
+	---@sealed
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "The location of the line."
+	---@sealed
+	property Vector2 Position = Vector2(0.000, 0.000)
+
+	---@description "Sets the thickness of the line."
+	---@sealed
+	property float Width = 1
+
+	---@description "Create LinePoint by default."
+	constructor LinePoint() end
+
+	---@description "Create a LinePoint with the given location, color, and thickness."
+	constructor LinePoint(Vector2 position, Color color, float width) end
+
+end

@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs after removing a child entity of an entity."
+@Event
+script EntityRemoveChildrenEvent extends EventType
+
+	---@description "Deleted child entity."
+	---@sealed
+	property Entity RemovedChildren
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityRemoveChildrenEvent(Entity entity = nil, Entity removedChildren = nil) end
+
+end

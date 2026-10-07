@@ -1,0 +1,85 @@
+---@description "Provides setting and control of basic particles."
+@Component
+script UISpriteParticleComponent extends Component
+
+	---@description "Sets whether the Color property is applied to the Sprite to be used by the particle. Even if the property is false, the transparency value of Color is applied."
+	---@sealed
+	property boolean ApplySpriteColor = false
+
+	---@description "Set the type of particle to be created."
+	---@sealed
+	property UISpriteParticleType ParticleType = UISpriteParticleType.None
+
+	---@description "Sets the SpriteRUID to be used as the particle."
+	---@sealed
+	property string SpriteRUID = ""
+
+	---@description "Sets whether to create a new random seed whenever particle emission begins."
+	---@sealed
+	property boolean AutoRandomSeed = true
+
+	---@description "Corrects the color of the particles to be rendered."
+	---@sealed
+	property Color Color = Color(0.500, 0.250, 0.250, 1.000)
+
+	---@description "Indicates whether new particles are being emitted."
+	---@sealed
+	readonly property boolean IsEmitting = false
+
+	---@description "This indicates particle size."
+	---@sealed
+	property Vector2 LocalScale = Vector2(1.000, 1.000)
+
+	---@description "Sets whether the particle will play on repeat."
+	---@sealed
+	property boolean Loop = true
+
+	---@description "Set the number of particles."
+	---@sealed
+	property float ParticleCount = 1
+
+	---@description "Set the particle duration."
+	---@sealed
+	property float ParticleLifeTime = 1
+
+	---@description "Set the particle size."
+	---@sealed
+	property float ParticleSize = 1
+
+	---@description "Set the particle speed."
+	---@sealed
+	property float ParticleSpeed = 1
+
+	---@description "Set whether to play particles when the particle component is set to Enable."
+	---@sealed
+	property boolean PlayOnEnable = true
+
+	---@description "Set the play speed of particles."
+	---@sealed
+	property float PlaySpeed = 1
+
+	---@description "If set to Enable, the maximum number of particles is loaded, and the particles play naturally."
+	---@sealed
+	property boolean Prewarm = false
+
+	---@description "Sets the random seed used to determine creation position, emission direction, speed, etc. when particle is played."
+	---@sealed
+	property integer RandomSeed = 0
+
+	---@description "Play stopped particles."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Play() end
+
+	---@description "Stops the particle from playing."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Stop() end
+
+	emitter EmitParticleEmitEndEvent(ParticleEmitEndEvent event) end
+
+	emitter EmitParticleEmitStartEvent(ParticleEmitStartEvent event) end
+
+	emitter EmitParticleLoopEvent(ParticleLoopEvent event) end
+
+end

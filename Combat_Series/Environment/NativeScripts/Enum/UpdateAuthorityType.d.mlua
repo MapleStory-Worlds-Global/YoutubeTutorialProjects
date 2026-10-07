@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates the space where AIComponent will be running."
+@Enum
+script UpdateAuthorityType
+	---@description "Runs in the server space."
+	member Server = 0
+	---@description "Runs in the client space."
+	member Client = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method UpdateAuthorityType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UpdateAuthorityType CastFrom(string value) end
+end

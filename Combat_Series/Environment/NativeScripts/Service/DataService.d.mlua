@@ -1,0 +1,22 @@
+---@sealed
+---@description "Provides the ability to access data tables."
+@Service
+script DataService extends Service
+
+	---@description "Loads data from the corresponding row, row, and column, col, in the DataSet for which their names are name."
+	---@sealed
+	method string GetCell(string name, int32 row, int32 col) end
+
+	---@description "Loads data from the corresponding row, row, and column name, columnName, in the DataSet for which their names are name."
+	---@sealed
+	method string GetCell(string name, int32 row, string columnName) end
+
+	---@description "Returns the number of DataSet rows with name as their name."
+	---@sealed
+	method int32 GetRowCount(string name) end
+
+	---@description "Loads DataSet with name as their name."
+	---@sealed
+	method UserDataSet GetTable(string name) end
+
+end

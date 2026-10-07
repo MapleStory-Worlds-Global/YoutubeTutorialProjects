@@ -1,0 +1,17 @@
+---@sealed
+---@description "How tie rankings will be set."
+@Enum
+script LeaderboardRankingStrategy
+	---@description "If the scores are equal, the user that registered first will have a higher ranking."
+	member FirstHigh = 0
+	---@description "If the scores are equal, the user that registered later will have a higher ranking."
+	member LastHigh = 1
+	---@description "An unknown error has occurred during the inquiry."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method LeaderboardRankingStrategy CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method LeaderboardRankingStrategy CastFrom(string value) end
+end

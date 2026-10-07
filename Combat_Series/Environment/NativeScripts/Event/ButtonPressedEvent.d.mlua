@@ -1,0 +1,8 @@
+---@sealed
+---@description "This event occurs when the button's state becomes Pressed."
+@Event
+script ButtonPressedEvent extends EventType
+
+	constructor ButtonPressedEvent() end
+
+end

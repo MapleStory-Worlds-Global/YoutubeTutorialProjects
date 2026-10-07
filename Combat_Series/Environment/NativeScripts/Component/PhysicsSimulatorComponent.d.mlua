@@ -1,0 +1,28 @@
+---@description "This handles the map’s physics simulation and sets values for overall physics operations."
+@Component
+script PhysicsSimulatorComponent extends Component
+
+	---@description "Sets the gravity value for physics calculations."
+	---@sealed
+	@Sync
+	property Vector2 Gravity = Vector2(0.000, -10.000)
+
+	---@description "Set whether to pause the physics calculations."
+	---@sealed
+	@Sync
+	property boolean Paused = false
+
+	---@description "Sets the range for physics calculations. If the entity is out of range, physics calculations will stop."
+	---@sealed
+	@Sync
+	property Vector2 WorldBounds = Vector2(10000.000, 10000.000)
+
+	---@description "Sets the number of repetitions of speed calculations by the physics engine. As the value increases, the physics calculation result will be more elaborate, and more calculation time will be taken. The minimum value is 1 and the maximum value is 300. It does not apply to server operations."
+	---@sealed
+	method void SetPositionIteration(int32 count) end
+
+	---@description "Sets the number of repetitions of the location calculations by the physics engine. As the value increases, the physics calculation result will be more elaborate, and more calculation time will be taken. The minimum value is 1 and the maximum value is 30. It does not apply to server operations."
+	---@sealed
+	method void SetVelocityIteration(int32 count) end
+
+end

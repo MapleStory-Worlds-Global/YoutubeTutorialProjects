@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs after applying the changed properties value of an entity."
+@Event
+script EntityPostApplyChangedPropertiesEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostApplyChangedPropertiesEvent(Entity entity = nil) end
+
+end

@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when an entity attacks. Occurs in AttackComponent."
+@Event
+script AttackEvent extends EventType
+
+	---@description "The entity that is hit."
+	---@sealed
+	property Entity DefenderEntity
+
+	constructor AttackEvent(Entity defenderEntity = nil) end
+
+end

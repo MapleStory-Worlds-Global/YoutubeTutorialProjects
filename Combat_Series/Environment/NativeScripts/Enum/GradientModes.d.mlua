@@ -1,0 +1,19 @@
+---@sealed
+---@description "Applies gradation."
+@Enum
+script GradientModes
+	---@description "Applies a single color."
+	member Single = 0
+	---@description "Applies gradation left to right."
+	member Horizontal = 1
+	---@description "Applies gradation top to bottom."
+	member Vertical = 2
+	---@description "Applies gradation in all four directions."
+	member FourCorners = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method GradientModes CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method GradientModes CastFrom(string value) end
+end

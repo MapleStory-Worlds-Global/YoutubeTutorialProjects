@@ -1,0 +1,8 @@
+---@sealed
+---@description "The editor event occurs when entering the Editor."
+@Event
+script EnterEditorEvent extends EventType
+
+	constructor EnterEditorEvent() end
+
+end

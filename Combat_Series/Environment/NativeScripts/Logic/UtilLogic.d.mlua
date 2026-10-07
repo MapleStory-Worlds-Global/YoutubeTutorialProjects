@@ -1,0 +1,110 @@
+---@sealed
+---@description "Provides various utilities."
+@Logic
+script UtilLogic extends Logic
+
+	---@description "Returns the elapsed time in seconds after initializing the current world. The value of elapsed time after the point for the server to create the world and for the client to connect."
+	---@sealed
+	property number ElapsedSeconds
+
+	---@description "The value of elapsed time since the world was created on the server."
+	---@sealed
+	property number ServerElapsedSeconds
+
+	---@description "After finding a concave polygon that wraps all of the points, it returns the points that make up the polygon. Returned points are sorted by link order."
+	---@sealed
+	method table<Vector2> ConcaveHull(table<Vector2> points, float concavity, float samplingWeight) end
+
+	---@description "Checks if the targetString is included in the origin sentences."
+	---@sealed
+	method boolean Contains(string origin, string targetString) end
+
+	---@description "After finding a convex polygon that wraps all of the points, it returns the points that make up the polygon. Returned points are sorted by link order."
+	---@sealed
+	method table<Vector2> ConvexHull(table<Vector2> points) end
+
+	---@description "Creates LocalDateTime based on dateTime and returns it."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method DateTime GetLocalTimeFrom(DateTime dateTime) end
+
+	---@description "After finding the border of a sprite, it returns the points that make up the border. Returned points are sorted by link order. The border can be singular or multiple."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method table<table<Vector2>> GetSpriteEdgePoints(Sprite sprite) end
+
+	---@description "This is a deprecated function. Use the UtcNow property of DateTime."
+	---@deprecated
+	---@sealed
+	method string GetUTCNow() end
+
+	---@description "Adds otherString to the insertIndex position of origin sentences."
+	---@sealed
+	method string Insert(string origin, int32 insertIndex, string otherString) end
+
+	---@description "Determines if the origin string is nil or an empty string."
+	---@sealed
+	method boolean IsNilorEmptyString(string origin) end
+
+	---@description "Creates a new GUID and returns it. The created GUID will be a 32-digit hexadecimal string with no hyphens."
+	---@sealed
+	method string NewGuid() end
+
+	---@description "Returns a random real number between 0.0 and 1.0. 1.0 is excluded."
+	---@sealed
+	method number RandomDouble() end
+
+	---@description "Returns a random non-negative integer. Uses integers up to and including 2147483647."
+	---@sealed
+	method int32 RandomInteger() end
+
+	---@description "Returns a random integer within a range. The range includes the min and max values."
+	---@sealed
+	method int32 RandomIntegerRange(int32 min, int32 max) end
+
+	---@description "Finds targetString in the origin statement and deletes the first one it finds."
+	---@sealed
+	method string Remove(string origin, string targetString) end
+
+	---@description "Replaces the targetString of the origin sentence with the newString."
+	---@sealed
+	method string Replace(string origin, string targetString, string newString) end
+
+	---@description "Controls the speed in which game time flows in the client. The default value is 1. Values between 0 and 100 can be set."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetClientTimeScale(float timeScale) end
+
+	---@description "Divides the origin sentence by the separator."
+	---@sealed
+	method table<string> Split(string origin, string separator = "", boolean useSeparatorAsOne = true) end
+
+	---@description "Converts the string into Table form."
+	---@sealed
+	method void StringToTable(table table, string str) end
+
+	---@description "Converts the string into Table form."
+	---@sealed
+	method table StringToTable(string str) end
+
+	---@description "Returns from the startIndex of the origin sentence."
+	---@sealed
+	method string SubString(string origin, int32 startIndex, int32 length = 0) end
+
+	---@description "Converts the Table into string form."
+	---@sealed
+	method string TableToString(table table) end
+
+	---@description "The characters contained in trimString are removed from before/after."
+	---@sealed
+	method string Trim(string origin, string trimString = "") end
+
+	---@description "The characters contained in trimString are removed from a tail."
+	---@sealed
+	method string TrimEnd(string origin, string trimString = "") end
+
+	---@description "The characters contained in trimString are removed from a head."
+	---@sealed
+	method string TrimStart(string origin, string trimString = "") end
+
+end

@@ -1,0 +1,122 @@
+---@sealed
+---@description "This provides several collision detection functions."
+@Misc
+script CollisionSimulator
+
+	---@description "Finds and returns the first component that overlaps the input shape."
+	---@sealed
+	method Component Overlap(CollisionGroup collisionGroup, Shape shape) end
+
+	---@description "Finds and returns the first component that overlaps the entered shape. The groups table is a sequential table of elements from CollisionGroups."
+	---@sealed
+	method Component Overlap(table groups, Shape shape) end
+
+	---@description "Finds and returns the first component that overlaps the input shape."
+	---@sealed
+	method Component Overlap(string collisionGroupName, Shape shape) end
+
+	---@description "Finds and returns all components that overlap the input shape."
+	---@sealed
+	method table<Component> OverlapAll(CollisionGroup collisionGroup, Shape shape) end
+
+	---@description "Finds and returns all components that overlap the entered shape. The groups table is a sequential table of elements from CollisionGroups."
+	---@sealed
+	method table<Component> OverlapAll(table groups, Shape shape) end
+
+	---@description "Finds and returns all components that overlap the input shape."
+	---@sealed
+	method table<Component> OverlapAll(string collisionGroupName, Shape shape) end
+
+	---@description "Finds all components that overlap the input shape and inserts the results into the outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapAllFast(CollisionGroup collisionGroup, Shape shape, table outputList) end
+
+	---@description "Finds all components that overlap the input shape and inserts the results into the outputList. Returns the number of results. The groups table is a sequential table of elements from CollisionGroups."
+	---@sealed
+	method int32 OverlapAllFast(table groups, Shape shape, table outputList) end
+
+	---@description "Finds all components that overlap the input shape and inserts the results into the outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapAllFast(string collisionGroupName, Shape shape, table outputList) end
+
+	---@description "Finds and returns the first component that overlaps the input rectangular collider."
+	---@sealed
+	method Component OverlapBox(string collisionGroupName, Vector2 position, Vector2 size, float angle) end
+
+	---@description "Finds and returns the first component that overlaps the input rectangular collider."
+	---@sealed
+	method table<Component> OverlapBoxAll(string collisionGroupName, Vector2 position, Vector2 size, float angle) end
+
+	---@description "Finds all components that overlap the input rectangular collider and inserts the result into the outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapBoxAllFast(string collisionGroupName, Vector2 position, Vector2 size, float angle, table outputList) end
+
+	---@description "Finds and returns the first Component overlapping the input circular collider."
+	---@sealed
+	method Component OverlapCircle(string collisionGroupName, Vector2 position, float radius) end
+
+	---@description "Finds and returns all the Components overlapping the input circular collider."
+	---@sealed
+	method table<Component> OverlapCircleAll(string collisionGroupName, Vector2 position, float radius) end
+
+	---@description "Finds all the Components overlapping the input circular collider and inserts the result into outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapCircleAllFast(string collisionGroupName, Vector2 position, float radius, table outputList) end
+
+	---@description "Finds and returns all the Components overlapping the input line."
+	---@sealed
+	method table<Component> OverlapLineAll(string collisionGroupName, Vector2 point1, Vector2 point2) end
+
+	---@description "Finds all the Components overlapping the input line and inserts the result into outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapLineAllFast(string collisionGroupName, Vector2 point1, Vector2 point2, table outputList) end
+
+	---@description "Finds and returns the first Component overlapping the input point."
+	---@sealed
+	method Component OverlapPoint(CollisionGroup collisionGroup, Vector2 point) end
+
+	---@description "Finds and returns the first Component that overlaps the input point."
+	---@sealed
+	method Component OverlapPoint(table groups, Vector2 point) end
+
+	---@description "Finds and returns the first Component overlapping the input point."
+	---@sealed
+	method Component OverlapPoint(string collisionGroupName, Vector2 point) end
+
+	---@description "Finds and returns all the Components including the input point."
+	---@sealed
+	method table<Component> OverlapPointAll(CollisionGroup collisionGroup, Vector2 point) end
+
+	---@description "Finds and returns all components that include the entered point."
+	---@sealed
+	method table<Component> OverlapPointAll(table groups, Vector2 point) end
+
+	---@description "Finds and returns all the Components including the input point."
+	---@sealed
+	method table<Component> OverlapPointAll(string collisionGroupName, Vector2 point) end
+
+	---@description "Finds all the Components overlapping the input point and inserts the results into outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapPointAllFast(CollisionGroup collisionGroup, Vector2 point, table outputList) end
+
+	---@description "Finds all the Components overlapping the input point and inserts the results into outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapPointAllFast(table groups, Vector2 point, table outputList) end
+
+	---@description "Finds all the Components overlapping the input point and inserts the results into outputList. Returns the number of results."
+	---@sealed
+	method int32 OverlapPointAllFast(string collisionGroupName, Vector2 point, table outputList) end
+
+	---@description "Finds and returns the first component colliding with the ray while shooting the ray in the direction of its destination by distance from the origin location."
+	---@sealed
+	method Component Raycast(CollisionGroup collisionGroup, Vector2 origin, Vector2 direction, float distance = 3.4028235E+38) end
+
+	---@description "Finds and returns the first component colliding with the ray while shooting the ray in the direction of its destination by distance from the origin location."
+	---@sealed
+	method Component Raycast(table groups, Vector2 origin, Vector2 direction, float distance = 3.4028235E+38) end
+
+	---@description "Finds and returns the first component colliding with the ray while shooting the ray in the direction of its destination by distance from the origin location."
+	---@sealed
+	method Component Raycast(string collisionGroupName, Vector2 origin, Vector2 direction, float distance = 3.4028235E+38) end
+
+end

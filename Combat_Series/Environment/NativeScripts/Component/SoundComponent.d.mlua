@@ -1,0 +1,122 @@
+---@description "Plays and manages sound."
+@Component
+script SoundComponent extends Component
+
+	---@description "Sets the AudioClipRUID for audio clip playback."
+	---@sealed
+	@Sync
+	property string AudioClipRUID = ""
+
+	---@description "Sets whether to play as background music."
+	---@sealed
+	@Sync
+	property boolean Bgm = false
+
+	---@description "Sets the maximum distance from the listener entity where the sound can be heard."
+	---@sealed
+	@Sync
+	property float HearingDistance = 15
+
+	---@description "Seamlessly continue playing the audio clip if the previous background music is the same as the current background music. It is applied when the Bgm and PlayOnEnable properties are true and SoundComponent is enabled."
+	---@sealed
+	@Sync
+	property boolean KeepBGM = false
+
+	---@description "Sets whether to repeat playback."
+	---@sealed
+	@Sync
+	property boolean Loop = false
+
+	---@description "Sets the mute state."
+	---@sealed
+	@Sync
+	property boolean Mute = false
+
+	---@description "Sets the pitch and playback speed of the audio clip. The higher the value, the higher the pitch, and the faster the playback speed. Must set a value between 0 and 3."
+	---@sealed
+	@Sync
+	property float Pitch = 1
+
+	---@description "Sets whether to play an audio clip with Enable."
+	---@sealed
+	@Sync
+	property boolean PlayOnEnable = false
+
+	---@description "Adjusts the sound volume according to the distance between the center of the screen and the audio clip."
+	---@sealed
+	@Sync
+	property boolean SetCameraAsListener = false
+
+	---@description "Sets the volume. Must set a value between 0 and 1."
+	---@sealed
+	@Sync
+	property float Volume = 1
+
+	---@description "Returns the current play position of the audio clip in seconds. If the audio clip is not loaded, it logs the error as -1."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method float GetTimePosition() end
+
+	---@description "Returns the total length of the audio clip in seconds. If the audio clip is not loaded, it returns -1 and logs the error."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method float GetTotalTime() end
+
+	---@description "Determines whether the audio clip corresponding to AudioClipRUID is loaded or not."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsAudioClipLoaded() end
+
+	---@description "Checks if music is being played or not."
+	---@sealed
+	@ExecSpace("Client")
+	method boolean IsPlaying(string targetUserId = nil) end
+
+	---@description "Checks whether the synced audio clip is playing. Returns true unless StopSyncedSound has been called separately after PlaySyncedSound was called, or the full duration of the audio clip has been played and stopped."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsSyncedPlaying() end
+
+	---@description "Pauses audio clip playback."
+	---@sealed
+	@ExecSpace("Client")
+	method void Pause(string targetUserId = nil) end
+
+	---@description "Plays the audio clip."
+	---@sealed
+	@ExecSpace("Client")
+	method void Play(string targetUserId = nil) end
+
+	---@description "Plays the synchronized audio clip. If BGM property is true, it doesn't work."
+	---@sealed
+	@ExecSpace("Server")
+	method void PlaySyncedSound() end
+
+	---@description "Resumes playing the audio clip."
+	---@sealed
+	@ExecSpace("Client")
+	method void Resume(string targetUserId = nil) end
+
+	---@description "Adjusts the volume by setting the listener Entity. The greater the distance between the SoundComponent and the listener Entity is, the quieter the sound."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetListenerEntity(Entity entity, string targetUserId = nil) end
+
+	---@description "Sets the current play position to the designated time period. If the audio clip is not loaded, the error is logged."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetTimePosition(float timeInSecond, string targetUserId = nil) end
+
+	---@description "Stops playing the audio clip."
+	---@sealed
+	@ExecSpace("Client")
+	method void Stop(string targetUserId = nil) end
+
+	---@description "Stops playing the synchronized audio clip."
+	---@sealed
+	@ExecSpace("Server")
+	method void StopSyncedSound() end
+
+	emitter EmitSoundPlayStateChangedEvent(SoundPlayStateChangedEvent event) end
+
+end

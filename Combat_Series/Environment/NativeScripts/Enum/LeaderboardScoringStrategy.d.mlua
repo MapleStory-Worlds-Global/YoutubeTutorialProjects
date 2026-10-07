@@ -1,0 +1,19 @@
+---@sealed
+---@description "How the score is updated when a new score is registered."
+@Enum
+script LeaderboardScoringStrategy
+	---@description "Only updated when the new score is higher than the previous score."
+	member High = 0
+	---@description "Always updates with the new score. Use this method to apply rankings to the leaderboard."
+	member Last = 1
+	---@description "Adds the new score to the previous score."
+	member Cumulative = 2
+	---@description "An unknown error has occurred during the inquiry."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method LeaderboardScoringStrategy CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method LeaderboardScoringStrategy CastFrom(string value) end
+end

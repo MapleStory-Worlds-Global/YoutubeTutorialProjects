@@ -1,0 +1,32 @@
+---@sealed
+---@description "Make sure the distance between the two Entities is kept constant. Two Entities act as if connected by a stick. It is used by adding it to Joints of DistanceJointComponent."
+@Misc
+script DistanceJoint
+
+	---@description "Sets whether two Entities connected by a Joint will collide with each other."
+	---@sealed
+	property boolean CollideConnected = false
+
+	---@description "Sets the distance to be maintained by two Entities connected by a Joint."
+	---@sealed
+	property float Length = 1
+
+	---@description "Set the Anchor of the Entity with JointComponent. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorA = Vector2(0.000, 0.000)
+
+	---@description "Set the Anchor of the Entity connected by Joint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorB = Vector2(0.000, 0.000)
+
+	---@description "Set the Entity to be connected with a Joint."
+	---@sealed
+	property EntityRef TargetEntityRef
+
+	---@description "Initializes DistanceJoint to the default value."
+	constructor DistanceJoint() end
+
+	---@description "Initializes DistanceJoint to the same value as the specified joint."
+	constructor DistanceJoint(DistanceJoint joint) end
+
+end

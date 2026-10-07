@@ -1,0 +1,14 @@
+---@sealed
+---@description "Show a collision group."
+@Misc
+script CollisionGroup
+
+	---@description "The identifier for this collision group."
+	---@sealed
+	readonly property string Id
+
+	---@description "Get collision groups that collide with this collision group as a table."
+	---@sealed
+	method table<CollisionGroup> GetCollideGroups() end
+
+end

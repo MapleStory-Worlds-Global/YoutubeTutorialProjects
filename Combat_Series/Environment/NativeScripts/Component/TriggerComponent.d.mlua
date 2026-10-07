@@ -1,0 +1,70 @@
+---@description "Sets the entity's collision area on an entity and provides a function to detect a collision."
+@Component
+script TriggerComponent extends Component
+
+	---@description "Available on previous systems where IsLegacy is true. Sets the center point position of the collider rectangle based on the Entity."
+	---@deprecated
+	---@sealed
+	@Sync
+	property Vector2 BoxOffset = Vector2(0.000, 0.000)
+
+	---@description "Specifies the width and height of the rectangular collider."
+	---@sealed
+	@Sync
+	property Vector2 BoxSize = Vector2(0.000, 0.000)
+
+	---@description "The radius of the circular collider. Valid when ColliderType is Circle."
+	---@sealed
+	@Sync
+	property float CircleRadius = 0
+
+	---@description "This property is deprecated. Use CollisionGroup."
+	---@deprecated
+	---@sealed
+	readonly property string ColliderName = "TriggerBox"
+
+	---@description "Sets the center point position of the collider based on the Entity. Available on new systems with IsLegacy set as false."
+	---@sealed
+	@Sync
+	property Vector2 ColliderOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the type of collider. Available on new systems with IsLegacy set as false."
+	---@sealed
+	@Sync
+	property ColliderType ColliderType = ColliderType.Box
+
+	---@description "Set up a collision group."
+	---@sealed
+	@Sync
+	property CollisionGroup CollisionGroup = CollisionGroups.TriggerBox
+
+	---@description "Sets whether this Component will operate with the previous system. In a new system, the Collider is affected by TransformComponent's rotation and size. "
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "Will not perform any collision checking itself if the value is true. If TriggerComponents with true IsPassive collide, no event will occur."
+	---@sealed
+	@Sync
+	property boolean IsPassive = false
+
+	---@description "The positions of the points that make up the polygonal colliding body. Valid when ColliderType is Polygon."
+	---@sealed
+	@Sync
+	property SyncList<Vector2> PolygonPoints
+
+	---@description "This function is called when entering the trigger area."
+	method void OnEnterTriggerBody(TriggerEnterEvent enterEvent) end
+
+	---@description "This function is called when exiting the trigger area."
+	method void OnLeaveTriggerBody(TriggerLeaveEvent leaveEvent) end
+
+	---@description "This function is called in every frame when entering and remaining in the trigger area."
+	method void OnStayTriggerBody(TriggerStayEvent stayEvent) end
+
+	emitter EmitTriggerEnterEvent(TriggerEnterEvent event) end
+
+	emitter EmitTriggerLeaveEvent(TriggerLeaveEvent event) end
+
+	emitter EmitTriggerStayEvent(TriggerStayEvent event) end
+
+end

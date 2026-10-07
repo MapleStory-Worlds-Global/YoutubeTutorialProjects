@@ -1,0 +1,9 @@
+---@description "Represents the State used in StateComponent and StateSet. You can use it by defining your own State and applying it to StateComponent or StateSet."
+@Misc
+script StateType
+
+	---@description "The StateComponent to own the State."
+	---@sealed
+	readonly property StateComponent ParentComponent
+
+end

@@ -1,0 +1,23 @@
+---@sealed
+---@description "Indicates the movement of the damage skin."
+@Enum
+script DamageSkinTweenType
+	---@description "This is the default. Indicates the default effect."
+	member Default = 0
+	---@description "Volcanic effect. Damage skins appear in a fan-shaped spread."
+	member Volcano = 1
+	---@description "Blade effect. Damage skins appear in the same location."
+	member Blade = 2
+	---@description "Displays the default effect reduced by 75%."
+	member DefaultMini = 3
+	---@description "Volcanic effect reduced by 75%."
+	member VolcanoMini = 4
+	---@description "Blade effect reduced by 75%."
+	member BladeMini = 5
+
+	---@description "Converts numbers to the applicable type."
+	static method DamageSkinTweenType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method DamageSkinTweenType CastFrom(string value) end
+end

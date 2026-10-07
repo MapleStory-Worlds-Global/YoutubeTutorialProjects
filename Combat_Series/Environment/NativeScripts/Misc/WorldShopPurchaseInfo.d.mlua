@@ -1,0 +1,26 @@
+---@sealed
+---@description "Purchase information of the product used by WorldShopService."
+@Misc
+script WorldShopPurchaseInfo
+
+	---@description "Indicates the order number. In case of free items, the number is 0."
+	---@sealed
+	property integer OrderNumber
+
+	---@description "Id of the purchased product."
+	---@sealed
+	property string ProductId
+
+	---@description "Purchase Id to be processed."
+	---@sealed
+	property string PurchaseId
+
+	---@description "Id of the user who purchased the product."
+	---@sealed
+	property string UserId
+
+	---@description "Generates a copy."
+	---@sealed
+	method WorldShopPurchaseInfo Clone() end
+
+end

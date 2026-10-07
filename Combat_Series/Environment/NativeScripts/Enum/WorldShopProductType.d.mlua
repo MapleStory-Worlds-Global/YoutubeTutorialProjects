@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates the product type."
+@Enum
+script WorldShopProductType
+	---@description "The type of the product is an item."
+	member Item = 0
+	---@description "The type of the product is a voucher."
+	member Pass = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method WorldShopProductType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method WorldShopProductType CastFrom(string value) end
+end

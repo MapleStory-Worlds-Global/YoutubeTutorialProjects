@@ -1,0 +1,17 @@
+---@sealed
+---@description "Represents a polygonal shape utilized for collision-related functions."
+@Misc
+script PolygonShape extends Shape
+
+	---@description "Rotated angle."
+	---@sealed
+	property float Angle
+
+	---@description "The position in world coordinates of the points that make up the polygon."
+	---@sealed
+	property List<Vector2> Points
+
+	---@description "Initializes PolygonShape to the specified value."
+	constructor PolygonShape(Vector2 position, List<Vector2> points, float angle) end
+
+end

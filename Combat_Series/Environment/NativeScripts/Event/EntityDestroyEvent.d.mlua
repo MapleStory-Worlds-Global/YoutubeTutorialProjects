@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when the Entity is destroyed."
+@Event
+script EntityDestroyEvent extends EventType
+
+	---@description "Destroyed the Entity."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityDestroyEvent(Entity entity = nil) end
+
+end

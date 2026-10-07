@@ -1,0 +1,23 @@
+@State
+script ProjectileAttack extends StateType
+	
+	property number prevWalkSpeed = 0
+
+	@ExecSpace("ServerOnly")
+	method void OnEnter()
+		self.ParentComponent.Entity.MovementComponent.Enable = false
+		self.ParentComponent.Entity.PlayerControllerComponent.Enable = false
+
+		self.prevWalkSpeed = self.ParentComponent.Entity.MovementComponent.InputSpeed
+		self.ParentComponent.Entity.MovementComponent.InputSpeed = 0
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnExit()
+		self.ParentComponent.Entity.MovementComponent.Enable = true
+		self.ParentComponent.Entity.PlayerControllerComponent.Enable = true
+
+		self.ParentComponent.Entity.MovementComponent.InputSpeed = self.prevWalkSpeed
+	end
+
+end

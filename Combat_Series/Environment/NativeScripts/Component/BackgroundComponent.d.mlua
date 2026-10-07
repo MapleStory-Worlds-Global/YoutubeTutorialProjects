@@ -1,0 +1,115 @@
+---@description "Manages the background of the map. Solid color backgrounds, MapleStory backgrounds, and web image backgrounds are available."
+@Component
+script BackgroundComponent extends Component
+
+	---@description "A color value at the bottom of the gradient background."
+	---@sealed
+	@Sync
+	property Color BottomColor = Color(0.000, 0.000, 1.000, 1.000)
+
+	---@description "If the Type is Sprite, the background image isn't cut-off and the ratio is maintained so it fits the camera frame when adjusting the size."
+	---@sealed
+	@Sync
+	property boolean FitWithAspect = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "A color value at the bottom middle of the gradient background."
+	---@sealed
+	@Sync
+	property Color MiddleBottomColor = Color(0.450, 0.800, 1.000, 1.000)
+
+	---@description "The reference position of the color at the bottom middle of the gradient background. You can set a value between 0.01 and MiddleTopRatio - 0.01."
+	---@sealed
+	@Sync
+	property float MiddleBottomRatio = 0.45
+
+	---@description "A color value at the top middle of the gradient background."
+	---@sealed
+	@Sync
+	property Color MiddleTopColor = Color(0.900, 0.700, 0.300, 1.000)
+
+	---@description "The reference position of the color at the top middle of the gradient background. You can set a value between MiddleBottomRatio + 0.01 and 0.99. "
+	---@sealed
+	@Sync
+	property float MiddleTopRatio = 0.55
+
+	---@description "You can adjust the movement speed of the background when the Type is Template."
+	---@sealed
+	@Sync
+	property float ScrollRate = 1
+
+	---@description "The color value with SolidColor Type. To change the background, use the ChangeBackgroundBySolidColor function."
+	---@sealed
+	@Sync
+	property Color SolidColor = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "The RUID if the Type is Sprite. Only SpriteRUID can be used."
+	---@sealed
+	@Sync
+	property string SpriteRUID = ""
+
+	---@description "RUID with Template Type. To change the background, use the ChangeBackgroundByTemplateRUID function."
+	---@sealed
+	@Sync
+	property string TemplateRUID = ""
+
+	---@description "A color value at the top of the gradient background."
+	---@sealed
+	@Sync
+	property Color TopColor = Color(1.000, 0.000, 0.000, 1.000)
+
+	---@description "The type of background. The background can be changed by using the ChangeBackgroundBy() functions."
+	---@sealed
+	@Sync
+	property BackgroundType Type = BackgroundType.Unknown
+
+	---@description "The URL of the web image background when the Type is Web. To change the background, use the ChangeBackgroundByWebUrl function."
+	---@sealed
+	@Sync
+	property string WebUrl = ""
+
+	---@description "Changes the background to gradient colors."
+	---@sealed
+	method void ChangeBackgroundByGradient(Color top, Color middleTop, Color middleBottom, Color bottom, float middleTopRatio, float middleBottomRatio) end
+
+	---@description "Changes the background to a solid color."
+	---@sealed
+	method void ChangeBackgroundBySolidColor(Color value) end
+
+	---@description "Changes the background according to the specified Template background RUID."
+	---@sealed
+	method void ChangeBackgroundByTemplateRUID(string value) end
+
+	---@description "Changes the background to a web image."
+	---@sealed
+	method void ChangeBackgroundByWebUrl(string value) end
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Sets the color by searching for the Background Piece that corresponds to pieceName."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetBackgroundPieceColor(string pieceName, Color color) end
+
+	---@description "Sets activation status by searching for the Background Piece that corresponds to pieceName."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetBackgroundPieceEnable(string pieceName, boolean enable) end
+
+	---@description "Sets location by searching for the Background Piece that corresponds to pieceName."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetBackgroundPiecePosition(string pieceName, Vector2 position) end
+
+	---@description "Sets the background piece ratio by searching for the Background Piece that corresponds to pieceName. This ratio determines how much the Background Piece moves when the camera moves."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetBackgroundPieceRatio(string pieceName, Vector2 ratio) end
+
+end

@@ -1,0 +1,25 @@
+---@sealed
+---@description "Provides a feature that can inquire about UserDataStorage of the world."
+@Misc
+script UserDataStoragePages
+
+	---@description "Checks whether the current page is the last."
+	---@sealed
+	readonly property boolean IsLastPage
+
+	---@description "Gets a UserDataStorage list of the current page."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method table<UserDataStorage> GetCurrentPageDatas() end
+
+	---@description "Loads the next page and returns the error code. Can move to the loaded page using the MoveToNextPageAndWait function. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 LoadNextPageAndWait() end
+
+	---@description "Goes to the next page. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void MoveToNextPageAndWait() end
+
+end

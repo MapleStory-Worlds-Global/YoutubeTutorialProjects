@@ -1,0 +1,56 @@
+---@sealed
+---@description "Captures all or part of the screen."
+@Service
+script ScreenshotService extends Service
+
+	---@description "Captures the entire screen and saves it as a PNG file. Returns an error code and the save path when saving is complete. Script executions are suspended during the performance."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenshotError, string CaptureFullScreenAsFileAndWait(string fileName, boolean includeUI = true) end
+
+	---@description "Captures the entire screen and saves it as a PNG file. This happens asynchronously, and the function passed to the callbackFunction is called upon the save completion."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void CaptureFullScreenAsFileAsync(string fileName, func<ScreenshotError, string> callbackFunction, boolean includeUI = true) end
+
+	---@description "Returns the result of capturing the entire screen. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenshotError, RawImage CaptureFullScreenAsPixelDataAndWait(boolean includeUI = true) end
+
+	---@description "Returns the result of capturing the entire screen. It is performed asynchronously, and once it is saved, it calls the function passed to the callbackFunction."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void CaptureFullScreenAsPixelDataAsync(func<ScreenshotError, RawImage> callbackFunction, boolean includeUI = true) end
+
+	---@description "Captures the entire screen and saves it as a PNG file in your photo gallery. Once it is saved, it will display an error code and the save path. Stops script execution while performing."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenshotError, string CaptureFullScreenToPhotoLibraryAndWait(string fileName, boolean includeUI = true) end
+
+	---@description "Captures a part of the screen and saves it as a PNG file. Returns an error code and the save path when saving is complete. Script executions are suspended during the performance."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenshotError, string CaptureScreenRegionAsFileAndWait(string fileName, Vector2 from, Vector2 to, boolean includeUI = true) end
+
+	---@description "Captures part of the screen and saves it as a PNG file. This happens asynchronously, and the function passed to the callbackFunction is called upon the save completion."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void CaptureScreenRegionAsFileAsync(string fileName, Vector2 from, Vector2 to, func<ScreenshotError, string> callbackFunction, boolean includeUI = true) end
+
+	---@description "Returns the result of capturing a part of the screen. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenshotError, RawImage CaptureScreenRegionAsPixelDataAndWait(Vector2 from, Vector2 to, boolean includeUI = true) end
+
+	---@description "Returns the result of capturing a part of the screen. It is performed asynchronously, and once it is saved, it calls the function passed to callbackFunction."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void CaptureScreenRegionAsPixelDataAsync(Vector2 from, Vector2 to, func<ScreenshotError, RawImage> callbackFunction, boolean includeUI = true) end
+
+	---@description "Captures a portion of the screen and saves it as a PNG file in your photo gallery. Once it is saved, it will display an error code and the save path. Stops script execution while performing."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method ScreenshotError, string CaptureScreenRegionToPhotoLibraryAndWait(string fileName, Vector2 from, Vector2 to, boolean includeUI = true) end
+
+end

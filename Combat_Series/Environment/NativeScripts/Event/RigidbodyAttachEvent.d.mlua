@@ -1,0 +1,16 @@
+---@sealed
+---@description "The event occurs when the Entity attaches to another Entity using RigidbodyComponent:AttachTo(string, Vector3). Players occur on the client, other entities occur on the server."
+@Event
+script RigidbodyAttachEvent extends EventType
+
+	---@description "This is the base entity to which other entities are attached."
+	---@sealed
+	property Entity AttachedEntity
+
+	---@description "Sets the offset of the attached entity relative to the AttachedEntity."
+	---@sealed
+	property Vector2 Offset = Vector2(0.000, 0.000)
+
+	constructor RigidbodyAttachEvent(Entity attachedEntity = nil, Vector2 offset = nil) end
+
+end

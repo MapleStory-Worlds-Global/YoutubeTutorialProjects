@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs after initializing the additional components of an entity."
+@Event
+script EntityPostInitAdditionalComponentsEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostInitAdditionalComponentsEvent(Entity entity = nil) end
+
+end

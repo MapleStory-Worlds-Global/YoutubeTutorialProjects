@@ -1,0 +1,24 @@
+@State
+script AreaAttack extends StateType
+
+	@ExecSpace("ServerOnly")
+	method void OnEnter()
+		self.ParentComponent.Entity.MovementComponent.Enable = false
+		self.ParentComponent.Entity.PlayerControllerComponent.Enable = false
+		self.ParentComponent.Entity.RigidbodyComponent:SetForce(Vector2(self.ParentComponent.Entity.PlayerControllerComponent.LookDirectionX * 20
+		, 0))
+
+		_EffectService:PlayEffect("2c12c1e835a04c2a9ec1c5724846a7b6",
+		  self.ParentComponent.Entity,
+		  self.ParentComponent.Entity.TransformComponent.Position,
+		  1.0,
+		   Vector3(self.ParentComponent.Entity.PlayerControllerComponent.LookDirectionX * 2,2,1))
+	end
+
+	@ExecSpace("ServerOnly")
+	method void OnExit()
+		self.ParentComponent.Entity.MovementComponent.Enable = true
+		self.ParentComponent.Entity.PlayerControllerComponent.Enable = true
+	end
+
+end

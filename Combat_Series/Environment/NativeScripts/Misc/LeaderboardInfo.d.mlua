@@ -1,0 +1,34 @@
+---@sealed
+---@description "Leaderboard information."
+@Misc
+script LeaderboardInfo
+
+	---@description "The Id of the current season."
+	---@sealed
+	readonly property string CurrentSeasonId
+
+	---@description "The leaderboard Id."
+	---@sealed
+	readonly property string Id
+
+	---@description "The name of the leaderboard."
+	---@sealed
+	readonly property string Name
+
+	---@description "How rankings are determined."
+	---@sealed
+	readonly property LeaderboardRankingStrategy RankingStrategy
+
+	---@description "How scores are calculated."
+	---@sealed
+	readonly property LeaderboardRatingStrategy RatingStrategy
+
+	---@description "The element related to leaderboard resets."
+	---@sealed
+	readonly property LeaderboardSeasonResetInfo ResetInfo
+
+	---@description "How scores are updated."
+	---@sealed
+	readonly property LeaderboardScoringStrategy ScoringStrategy
+
+end

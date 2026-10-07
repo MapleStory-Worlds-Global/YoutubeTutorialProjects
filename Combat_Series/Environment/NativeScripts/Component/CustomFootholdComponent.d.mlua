@@ -1,0 +1,43 @@
+---@description "A custom foothold Component. You can set to have a physical effect on an Entity on the foothold."
+@Component
+script CustomFootholdComponent extends Component
+
+	---@description "A friction force is applied to an Entity containing a RigidbodyComponent on the foothold. The larger the value, the faster it decelerates."
+	---@sealed
+	@Sync
+	property float FootholdDrag = 1
+
+	---@description "A force is applied to an Entity containing a RigidbodyComponent on the foothold. Move to the right if the value is positive, and to the left if negative."
+	---@sealed
+	@Sync
+	property float FootholdForce = 0
+
+	---@description "The coefficient multiplied by the movement speed when an Entity with the RigidbodyComponent is on the foothold. The higher the value is, the faster the movement speed."
+	---@sealed
+	@Sync
+	property float FootholdWalkSpeedFactor = 1
+
+	---@description "Determines whether the Entity is blocked by vertical footholds in its TileMap. Only pertains to Entities with RigidbodyComponent."
+	---@sealed
+	@Sync
+	property boolean IsBlockVerticalLine = false
+
+	---@description "Can move the foothold or change the shape while playing if the value is true. Please be aware that changing the foothold's location or shape frequently may negatively affect your World's function."
+	---@sealed
+	property boolean IsDynamicFoothold = false
+
+	---@description "If true, this may collide with a Dynamic rigid body (PhysicRigidbody) using the Physics feature."
+	---@sealed
+	property boolean PhysicsInteractable = false
+
+	---@description "Sets options to apply to the RigidbodyComponent above the foothold."
+	---@sealed
+	@Sync
+	property RigidbodyMovementOptionType RigidbodyMovementOption = RigidbodyMovementOptionType.RelativeX
+
+	---@description "Indicates a foothold. A foothold consists of several connecting points."
+	---@sealed
+	@Sync
+	property SyncList<List<Vector2>> edgeLists
+
+end

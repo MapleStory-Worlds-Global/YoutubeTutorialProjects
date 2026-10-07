@@ -1,0 +1,17 @@
+---@sealed
+---@description "Specifies how text outside the horizontal width is handled."
+@Enum
+script OverflowType
+	---@description "Displays text outside of the horizontal width."
+	member Overflow = 0
+	---@description "Displays characters beyond the horizontal width with cropping."
+	member Truncate = 1
+	---@description "Cuts out characters that are beyond the horizontal width. Replaces the cut back part with an ellipsis."
+	member ellipsis = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method OverflowType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method OverflowType CastFrom(string value) end
+end

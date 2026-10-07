@@ -1,0 +1,37 @@
+---@sealed
+---@description "Particle preset type used by AreaParticleComponent."
+@Enum
+script AreaParticleType
+	---@description "This is the default. No particles are used."
+	member None = 0
+	---@description "Rain particles."
+	member Rain = 1
+	---@description "Snow particles."
+	member Snow = 2
+	---@description "Fog particles."
+	member FogCalm = 3
+	---@description "Descending fog particles."
+	member FogHeavy = 4
+	---@description "Rising fog particles."
+	member FogLively = 5
+	---@description "Rising star cluster particles."
+	member CalmStarField = 6
+	---@description "Glittering cluster of star particles."
+	member StarFieldSimple = 7
+	---@description "A cluster of stars and nebula particles moving in place."
+	member StarFog = 8
+	---@description "A cluster of rising stars and nebula particles."
+	member StarFogFlow = 9
+	---@description "A thin line particle."
+	member Windlines = 10
+	---@description "A particle with both thin and thick lines."
+	member WindlinesBig = 11
+	---@description "A thin line particle moving fast in a straight line."
+	member WindlinesSpeedy = 12
+
+	---@description "Converts numbers to the applicable type."
+	static method AreaParticleType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method AreaParticleType CastFrom(string value) end
+end

@@ -1,0 +1,26 @@
+---@sealed
+---@description "Provides a function to display a notification message on the screen."
+@Logic
+script ScreenMessageLogic extends Logic
+
+	---@description "Temporarily displays a notification message on the screen."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void PrivateMsg(string msg) end
+
+	---@description "Temporarily displays a notification message to all clients."
+	---@sealed
+	@ExecSpace("Client")
+	method void PublicMsg(string msg) end
+
+	---@description "Temporarily displays a notification message to all clients."
+	---@sealed
+	@ExecSpace("Client")
+	method void PublicMsg(string msg, Entity messageOwnerEntity = nil) end
+
+	---@description "Temporarily displays a notification message to all clients."
+	---@sealed
+	@ExecSpace("Client")
+	method void PublicMsg(string msg, string targetUserId = nil) end
+
+end

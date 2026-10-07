@@ -1,0 +1,20 @@
+---@sealed
+---@description "The event occurs when entering a dialog."
+@Event
+script ChatEvent extends EventType
+
+	---@description "The typed conversation."
+	---@sealed
+	property string Message
+
+	---@description "The name of an entity typing the conversation."
+	---@sealed
+	property string SenderName
+
+	---@description "The unique Id of the user who creates the conversation."
+	---@sealed
+	property string UserId
+
+	constructor ChatEvent(string message = nil, string senderName = nil, string userId = nil) end
+
+end

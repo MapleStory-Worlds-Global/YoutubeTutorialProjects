@@ -1,0 +1,16 @@
+---@sealed
+---@description "Occurs once upon pressing the Key."
+@Event
+script KeyDownEvent extends EventType
+
+	---@description "Displays the entry event's entry intensity. The keyboard input value is 1.0. Inputs through JoystickComponent can have a value under 1.0."
+	---@sealed
+	property float inputValue = 1
+
+	---@description "Pressed Key."
+	---@sealed
+	property KeyboardKey key
+
+	constructor KeyDownEvent(KeyboardKey key = KeyboardKey.None) end
+
+end

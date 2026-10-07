@@ -1,0 +1,111 @@
+---@sealed
+---@description "A two-dimensional integer-type vector."
+@Misc
+script Vector2Int
+
+	---@description " You can simply use Vector2Int(0, -1)."
+	static readonly property Vector2Int down
+
+	---@description "You can simply use Vector2Int(-1, 0)."
+	static readonly property Vector2Int left
+
+	---@description "You can simply use Vector2Int(1, 1)."
+	static readonly property Vector2Int one
+
+	---@description " You can simply use Vector2Int(1, 0)."
+	static readonly property Vector2Int right
+
+	---@description "You can simply use Vector2Int(0, 1)."
+	static readonly property Vector2Int up
+
+	---@description "The x-axis value of the vector."
+	---@sealed
+	property int32 x
+
+	---@description "The x-axis value of the vector."
+	---@sealed
+	property int32 y
+
+	---@description "You can simply use Vector2Int(0, 0)."
+	static readonly property Vector2Int zero
+
+	---@description "Initializes Vector2Int to the specified value."
+	constructor Vector2Int(int32 x, int32 y) end
+
+	---@description "Finds the angle between two Vectors. Returns values between 0 to 180."
+	static method float Angle(Vector2Int a, Vector2Int b) end
+
+	---@description "Finds the angle between two Vectors. Returns values between 0 to 180."
+	---@sealed
+	method float Angle(Vector2Int b) end
+
+	---@description "Finds the distance between two Vectors."
+	static method float Distance(Vector2Int a, Vector2Int b) end
+
+	---@description "Finds the distance between two Vectors."
+	---@sealed
+	method float Distance(Vector2Int b) end
+
+	---@description "Finds the size of a Vector."
+	static method float Magnitude(Vector2Int a) end
+
+	---@description "Finds the size of a Vector."
+	---@sealed
+	method float Magnitude() end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	static method float SignedAngle(Vector2Int from, Vector2Int to) end
+
+	---@description "Finds the angle between two Vectors. If the angle relative to from is counterclockwise, the value is a positive number; if the angle is clockwise, the value is a negative number. Returns values between -180 to 180."
+	---@sealed
+	method float SignedAngle(Vector2Int to) end
+
+	---@description "Finds the square of the size of a Vector."
+	static method float SqrMagnitude(Vector2Int a) end
+
+	---@description "Finds the square of the size of a Vector."
+	---@sealed
+	method float SqrMagnitude() end
+
+	---@description "Returns a new Vector2 entity that has x and y elements."
+	static method Vector2 ToVector2(Vector2Int a) end
+
+	---@description "Creates a Vector2 entity with x and y elements, and then returns it."
+	---@sealed
+	method Vector2 ToVector2() end
+
+	---@description "Checks if the two vectors are different. Returns false if they're the same. Otherwise, returns true."
+	static operator boolean Inequality(Vector2Int left, Vector2Int right) end
+
+	---@description "Returns a new Vector2Int entity by multiplying the values. The calculation result is Vector2Int(left.x * right.x, left.y * right.y). "
+	static operator Vector2Int Multiply(Vector2Int left, Vector2Int right) end
+
+	---@description "Returns a new Vector2Int entity by multiplying the vector by a real number."
+	static operator Vector2Int Multiply(Vector2Int left, int32 right) end
+
+	---@description "Returns a new Vector2Int entity by multiplying the vector by a real number."
+	static operator Vector2Int Multiply(int32 left, Vector2Int right) end
+
+	---@description "Returns a new Vector2 entity that has x and y elements."
+	static operator Vector2Int Addition(Vector2Int left, Vector2Int right) end
+
+	---@description "Returns a new Vector2Int entity that represents a reversed vector."
+	static operator Vector2Int UnaryNegation(Vector2Int value) end
+
+	---@description "Returns a new Vector2Int entity obtained by subtracting two vectors."
+	static operator Vector2Int Subtraction(Vector2Int left, Vector2Int right) end
+
+	---@description "Returns a new Vector2Int entity by dividing the specified left value by the right value. The calculation result is Vector2Int(left.x / right.x, left.y / right.y). "
+	static operator Vector2Int Division(Vector2Int left, Vector2Int right) end
+
+	---@description "Returns a new Vector2Int entity by dividing the vector by a real number."
+	static operator Vector2Int Division(Vector2Int left, int32 right) end
+
+	---@description "Checks if the two vectors are the same. Returns true if they're the same. Otherwise, returns false."
+	static operator boolean Equality(Vector2Int left, Vector2Int right) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method Vector2Int Clone() end
+
+end

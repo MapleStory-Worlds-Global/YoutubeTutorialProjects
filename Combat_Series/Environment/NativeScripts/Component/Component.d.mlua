@@ -1,0 +1,26 @@
+---@description "The parent component of all Components. Provides basic functions of Components."
+@Component
+script Component
+
+	---@description "Checks whether Component is activated or not."
+	---@sealed
+	@Sync
+	property boolean Enable = true
+
+	---@description "Displays whether this Component is Enable in the hierarchy. If Entity Enable is false regardless of Component Enable, returns false."
+	---@sealed
+	readonly property boolean EnableInHierarchy
+
+	---@description "The Entity that owns this component."
+	---@sealed
+	readonly property Entity Entity
+
+	---@description "Returns whether the current execution environment is a client or not."
+	---@sealed
+	method boolean IsClient() end
+
+	---@description "Returns whether the current execution environment is a server or not."
+	---@sealed
+	method boolean IsServer() end
+
+end

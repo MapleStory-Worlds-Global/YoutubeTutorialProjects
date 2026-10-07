@@ -1,0 +1,80 @@
+@Component
+script PlayerAttack extends AttackComponent
+
+	@ExecSpace("ServerOnly")
+	method void ProcessAttack(string attackName)
+		if attackName == "Attack" then
+			self:NormalAttack()
+		elseif attackName == "ProjectileAttack" then
+			self:ProjectileAttack()
+		elseif attackName == "AreaAttack" then
+			self:AreaAttack()
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void NormalAttack()
+		self:Attack(Vector2(2,1), Vector2(self.Entity.PlayerControllerComponent.LookDirectionX, 0), "Normal")
+	end
+
+	@ExecSpace("ServerOnly")
+	method void ProjectileAttack()
+		local player = self.Entity
+		local xPos =  self.Entity.PlayerControllerComponent.LookDirectionX + self.Entity.TransformComponent.Position.x
+		local position = Vector3(xPos, self.Entity.TransformComponent.Position.y, 0)
+		
+		local proj = _SpawnService:SpawnByModelId("model://f7a533f8-8155-48ec-8bb9-48c0c62a7051", "Projectile", position, self.Entity.CurrentMap)
+		local travelDistance = 4
+		
+		if(self.Entity.PlayerControllerComponent.LookDirectionX > 0) then
+			proj.SpriteRendererComponent.FlipX = true
+		else
+			proj.SpriteRendererComponent.FlipX = false
+			travelDistance = -travelDistance
+		end
+		
+		proj.TweenLineComponent.Positions:Add(Vector2(0, 0))
+		proj.TweenLineComponent.Positions:Add(Vector2(travelDistance, 0))
+		proj.TweenLineComponent:Play()
+		proj.Projectile.owner = self.Entity
+		
+		_TimerService:SetTimerOnce( function()
+			if proj ~= nil then
+				proj:Destroy()
+			end
+		end, proj.TweenLineComponent.Duration)
+	end
+
+	@ExecSpace("ServerOnly")
+	method void ProjectileReaction()
+		
+	end
+
+	@ExecSpace("ServerOnly")
+	method void AreaAttack()
+		local xPos = self.Entity.TransformComponent.Position.x + self.Entity.PlayerControllerComponent.LookDirectionX * 1.5
+		local position = Vector2(xPos, self.Entity.TransformComponent.Position.y)
+		local scale = Vector2(4, 2)
+		local shape = BoxShape(position, scale, 0)
+		self:AttackFast(shape, "Area")
+	end
+
+	method integer CalcDamage(Entity attacker, Entity defender, string attackInfo)
+		if attackInfo == "Normal" then
+			return 40
+		elseif attackInfo == "Area" then
+			return 100
+		end
+		return 0.0
+	end
+
+	method int32 GetDisplayHitCount(string attackInfo)
+		if attackInfo == "Normal" then
+			return 1
+		elseif attackInfo == "Area" then
+			return 3
+		end
+		return 0
+	end
+
+end

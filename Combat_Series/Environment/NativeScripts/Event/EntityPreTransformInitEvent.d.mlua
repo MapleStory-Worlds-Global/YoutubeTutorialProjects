@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs before initializing an entity's Transform."
+@Event
+script EntityPreTransformInitEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreTransformInitEvent(Entity entity = nil) end
+
+end

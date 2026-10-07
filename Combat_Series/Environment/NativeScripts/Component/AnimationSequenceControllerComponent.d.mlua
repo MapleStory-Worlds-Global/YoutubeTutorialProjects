@@ -1,0 +1,33 @@
+---@description "The parent component of all Components. Provides basic functions of Components."
+@Component
+script AnimationSequenceControllerComponent extends Component
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void AddSequence(string animationSequenceName) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Pause() end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Play(string animationSequenceName) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void PlayByIndex(int32 index) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void RemoveSequence(string animationSequenceName) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Resume() end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Stop() end
+
+end

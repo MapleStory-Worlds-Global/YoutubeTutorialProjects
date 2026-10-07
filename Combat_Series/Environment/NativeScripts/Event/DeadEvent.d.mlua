@@ -1,0 +1,8 @@
+---@sealed
+---@description "This event is fired when the target dies. Occurs when transitioning from State to DEAD state."
+@Event
+script DeadEvent extends EventType
+
+	constructor DeadEvent() end
+
+end

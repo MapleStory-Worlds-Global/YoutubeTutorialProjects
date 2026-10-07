@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when touching the screen or clicking."
+@Event
+script ScreenTouchEvent extends EventType
+
+	---@description "The identifier that uniquely represents a specific input type. For example, left mouse click is 1. Touch inputs on mobile devices are incremented starting from 1."
+	---@sealed
+	property int32 TouchId
+
+	---@description "The screen coordinates where a touch input occurred."
+	---@sealed
+	property Vector2 TouchPoint
+
+	constructor ScreenTouchEvent(Vector2 touchPoint = Vector2(0, 0), int32 touchId = 1) end
+
+end

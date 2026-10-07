@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs upon configuring an entity."
+@Event
+script EntityFinishedConstructEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityFinishedConstructEvent(Entity entity = nil) end
+
+end

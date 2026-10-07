@@ -1,0 +1,21 @@
+---@sealed
+---@description "Provides functions related to controlling dynamic maps."
+@Service
+script DynamicMapService extends Service
+
+	---@description "Creates a dynamic map."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method DynamicMapResultCode CreateDynamicMap(string sourceMapName, string newMapName) end
+
+	---@description "Destroys a dynamic map. The name of the dynamic map to be destroyed is mapName. The map cannot be destroyed if a user has entered."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method DynamicMapResultCode DestroyDynamicMap(string mapName) end
+
+	---@description "Calls up the names of all existing dynamic maps."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method table<string> GetDynamicMapNameList() end
+
+end

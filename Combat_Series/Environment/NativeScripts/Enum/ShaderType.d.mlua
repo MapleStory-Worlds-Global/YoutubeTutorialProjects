@@ -1,0 +1,141 @@
+---@sealed
+---@description "Displays shaders that material can use."
+@Enum
+script ShaderType
+	---@description "Basic material. Used when the material is not specified or cannot be found."
+	member Default = 0
+	---@description "Draws a contour line away from the sprite."
+	member Outline = 1
+	---@description "Draws a contour line towards the sprite."
+	member InnerOutline = 2
+	---@description "Draws a contour line following the color difference of the sprite."
+	member ColorDiffOutline = 3
+	---@description "Blends rainbow colors on the sprite."
+	member Rainbow = 4
+	---@description "Mixes 4 colors as gradients based on the Y-axis of the sprite."
+	member LineGradient = 5
+	---@description "Specifies four vertex colors and mixes them as the gradient."
+	member VertexGradient = 6
+	---@description "Mixes as a gradient from the central colors to the outward colors."
+	member RadialGradient = 7
+	---@description "Displays the sprite as shaking."
+	member Noise = 8
+	---@description "Displays a single color according to the time."
+	member Gradient = 9
+	---@description "Displays a circular wave spreading out from the center."
+	member RoundWave = 10
+	---@description "Displays the opposite color of the sprite."
+	member Reverse = 11
+	---@description "Moves the UV coordinates when rendering the sprite."
+	member UVScroll = 12
+	---@description "Pixelates the sprite."
+	member Pixel = 13
+	---@description "Applies chromatic aberration effect to the sprite."
+	member ChromaticAberration = 14
+	---@description "Displays the sprite as grayscale."
+	member GrayScale = 15
+	---@description "Applies the light source of tone, which flows toward a constant direction, to the sprite."
+	member Hologram = 16
+	---@description "Displays a light effect at a certain point of the sprite."
+	member LimLight = 17
+	---@description "Displays a circular wave at a certain point of the sprite."
+	member Wave = 18
+	---@description "Restricts the number of colors for the sprite."
+	member Posterize = 19
+	---@description "Applies a fade effect to the sprite."
+	member Blur = 20
+	---@description "Applies an orientable fade effect to the sprite."
+	member MotionBlur = 21
+	---@description "Displays a glitch effect on the sprite."
+	member Glitch = 22
+	---@description "Does not render the sprite part with low transparency. "
+	member AlphaCutoff = 23
+	---@description "Processes the alpha value as 0 if it is lower than the transparency and 1 if it is higher."
+	member AlphaRound = 24
+	---@description "Cuts some parts of the sprite."
+	member Clipping = 25
+	---@description "Applies the movement of grass waving to the sprite."
+	member GrassMovement = 26
+	---@description "Applies a distort effect to the sprite."
+	member Distortion = 27
+	---@description "Covers the sprite with a specified color."
+	member ColorOverride = 28
+	---@description "Makes it dark by using the smaller value of each RGB channel."
+	member BlendDarken = 29
+	---@description "Renders the outcome from multiplying two colors."
+	member BlendMultiply = 30
+	---@description "Makes the chroma high, increases contrast, and makes the basic color dark."
+	member BlendColorBurn = 31
+	---@description "Keeps the color contrast of the basic sprite and makes the color dark."
+	member BlendLinearBurn = 32
+	---@description "Applies the darker color between the color and the sprite."
+	member BlendDarkerColor = 33
+	---@description "Makes it bright by using the larger value of each RGB channel."
+	member BlendLighten = 34
+	---@description "Makes it bright by multiplying the mixed color and the inverted color of the basic color."
+	member BlendScreen = 35
+	---@description "Makes the chroma high, increases contrast, and makes the basic color bright."
+	member BlendColorDodge = 36
+	---@description "Makes it bright by adding two colors."
+	member BlendLinearDodge = 37
+	---@description "Applies the Multiply effect to a dark color and the Screen effect to a bright color."
+	member BlendOverlay = 38
+	---@description "Applies the Multiply effect to a dark color and the Screen effect to a bright color. The difference in image contrast and tone is low."
+	member BlendSoftLight = 39
+	---@description "Applies the Multiply effect to a dark color and the Screen effect to a bright color. Image contrast becomes strong and bright."
+	member BlendHardLight = 40
+	---@description "Applies the Color Burn effect if the color to blend is dark and applies the Color Dodge effect if the color to blend is bright."
+	member BlendVividLight = 41
+	---@description "Applies a combination of LinearBurn and LinearDodge effects. Similar to VividLight, but does not increase contrast compared to VividLight."
+	member BlendLinearLight = 42
+	---@description "Applies the Darken effect if the color to blend is dark and applies the Lighten effect if the color to blend is bright."
+	member BlendPinLight = 43
+	---@description "Mixes two images with strong colors. The blending result is displayed in only 8 colors."
+	member BlendHardMix = 44
+	---@description "Returns a difference of two colors. If it is the same color, it will be black."
+	member BlendDifference = 45
+	---@description "Calculates Exclusion for two colors. If it is the same color, it will be grey. Loses the tonal contrast of the original."
+	member BlendExclusion = 46
+	---@description "Returns the result deducted colors from the original."
+	member BlendSubtract = 47
+	---@description "Returns the result of the color values being divided from the original."
+	member BlendDivide = 48
+	---@description "Maintains the original's brightness and chroma and changes to fit the new color."
+	member BlendHue = 49
+	---@description "Maintains the original's brightness and tone and changes to fit the chroma of the new color."
+	member BlendSaturation = 50
+	---@description "Maintains the original's brightness and changes to fit the tone and chroma of the new color."
+	member BlendColor = 51
+	---@description "Specifies the masking area of the sprite."
+	member Mask = 52
+	---@description "Applies an Additive effect when rendering in front of the object."
+	member Additive = 53
+	---@description "Applies a SoftAdditive effect when rendering in front of the object."
+	member SoftAdditive = 54
+	---@description "Applies a lens distortion effect."
+	member LensDistortion = 55
+	---@description "Applies a vignette effect."
+	member Vignette = 56
+	---@description "Applies a glow effect to the specified color area."
+	member ColorGlow = 57
+	---@description "Applies a ripple effect like spreading waves."
+	member Ripple = 58
+	---@description "Applies a shadow effect of the specified color."
+	member DropShadow = 59
+	---@description "Applies a saturated line effect."
+	member ConcentrationLine = 60
+	---@description "Applies a blur effect around the center."
+	member RadialBlur = 61
+	---@description "Applies the Kuwagara Filter effect."
+	member KuwaharaFilter = 62
+	---@description "Applies a sprite to the line."
+	member SpritePattern = 63
+	---@description "Designate sprites and properties for the figure."
+	member PolygonSprite = 64
+
+	---@description "Converts numbers to the applicable type."
+	static method ShaderType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ShaderType CastFrom(string value) end
+end

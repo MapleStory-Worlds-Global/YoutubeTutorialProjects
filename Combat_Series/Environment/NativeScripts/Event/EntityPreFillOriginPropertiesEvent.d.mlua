@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs before filling the property value of an entity's original model."
+@Event
+script EntityPreFillOriginPropertiesEvent extends EventType
+
+	---@description "This feature is not available for creators."
+	---@sealed
+	property EntityOriginType OriginType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreFillOriginPropertiesEvent(Entity entity = nil, EntityOriginType originType = EntityOriginType.None) end
+
+end

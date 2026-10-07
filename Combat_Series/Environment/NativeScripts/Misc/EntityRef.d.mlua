@@ -1,0 +1,24 @@
+---@description "A Ref entity to refer to the entity. It holds the entity's Id and searches for the entity."
+@Misc
+script EntityRef
+
+	---@description "The Id of an Entity that is referred to."
+	---@sealed
+	readonly property string EntityId
+
+	---@description "This property is deprecated."
+	---@deprecated
+	---@sealed
+	readonly property string EntityPath
+
+	---@description "Initializes EntityRef, which refers to the specified Entity."
+	constructor EntityRef(Entity entity) end
+
+	---@description "Initializes EntityRef, which refers to the entity pointing to the specified entityId."
+	constructor EntityRef(string entityId) end
+
+	---@description "This constructor is deprecated."
+	---@deprecated
+	constructor EntityRef(string entityId, string entityPath) end
+
+end

@@ -1,0 +1,71 @@
+@Component
+script PlayerAttackController extends Component
+
+	property number GlobalCooldown = 0.0
+
+	@ExecSpace("ServerOnly")
+	method void OnUpdate(number delta)
+		if self.GlobalCooldown >= 0 then
+			self.GlobalCooldown = self.GlobalCooldown - delta
+		end
+	end
+
+	@ExecSpace("ClientOnly")
+	method void OnBeginPlay()
+		-- Registering Attacks into our PlayerControllerComponent
+		-- Using convention of having "Attack" in all names for PlayerActionEvent parsing.
+		self.Entity.PlayerControllerComponent:SetActionKey(KeyboardKey.G, "Attack")
+		self.Entity.PlayerControllerComponent:SetActionKey(KeyboardKey.H, "ProjectileAttack")
+		self.Entity.PlayerControllerComponent:SetActionKey(KeyboardKey.J, "AreaAttack")
+		end
+
+	@ExecSpace("Server")
+	method void AttemptAttackAction(string actionName)
+
+		-- Make sure the current state isn't attacking
+		local state = self.Entity.StateComponent.CurrentStateName
+
+		-- Global Cooldown check to prevent spamming attacks.
+		if self.Entity.PlayerAttackController.GlobalCooldown < 0 then
+			if actionName == "Attack" then
+				self:NormalAttack()
+				self.Entity.PlayerAttackController.GlobalCooldown = 1
+			elseif actionName == "ProjectileAttack" then
+				self:ProjectileAttack()
+				self.Entity.PlayerAttackController.GlobalCooldown = 1
+		    elseif actionName == "AreaAttack" then
+				if self.Entity.RigidbodyComponent:IsOnGround() then
+					self:AreaAttack()
+					self.Entity.PlayerAttackController.GlobalCooldown = 1
+				end
+			end
+		end
+	end
+
+	@ExecSpace("ServerOnly")
+	method void NormalAttack()
+		self.Entity.PlayerAttack:ProcessAttack("Attack")
+	end
+
+	@ExecSpace("ServerOnly")
+	method void ProjectileAttack()
+		self.Entity.StateComponent:ChangeState("PROJECTILE_ATTACK")
+		self.Entity.PlayerAttack:ProcessAttack("ProjectileAttack")
+	end
+
+	@ExecSpace("ServerOnly")
+	method void AreaAttack()
+		self.Entity.StateComponent:ChangeState("AREA_ATTACK")
+		self.Entity.PlayerAttack:ProcessAttack("AreaAttack")
+	end
+
+	@ExecSpace("ClientOnly")
+	@EventSender("Self")
+	handler HandlePlayerActionEvent(PlayerActionEvent event)
+		-- Search for the word "Attack" in the action, then if there request the Attack.
+		if event.ActionName:find("Attack", 1, true) then
+			self:AttemptAttackAction(event.ActionName)
+		end
+	end
+
+end

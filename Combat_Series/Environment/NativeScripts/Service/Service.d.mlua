@@ -1,0 +1,34 @@
+---@sealed
+---@description "This is the superclass of all Services. Provides basic functions of Service."
+@Service
+script Service
+
+	---@description "Links events. This service notifies a handler when an eventType event occurs. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(Type eventType, IScriptFunction eventHandler) end
+
+	---@description "Links events. This service notifies a handler when an eventType event occurs. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(Type eventType, IScriptFunction eventHandler) end
+
+	---@description "Links events. When a key-type event occurs in this service, a handler is notified. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(string key, IScriptFunction eventHandler) end
+
+	---@description "Disconnects the eventType event from its handler."
+	---@sealed
+	method boolean DisconnectEvent(Type eventType, EventHandlerBase eventHandler) end
+
+	---@description "Disconnects the eventType event from its handler."
+	---@sealed
+	method boolean DisconnectEvent(Type eventType, EventHandlerBase eventHandler) end
+
+	---@description "Disconnects the event with the key-type event and the handler."
+	---@sealed
+	method boolean DisconnectEvent(string key, EventHandlerBase eventHandler) end
+
+	---@description "Generates an event."
+	---@sealed
+	method void SendEvent(EventType sendEvent) end
+
+end

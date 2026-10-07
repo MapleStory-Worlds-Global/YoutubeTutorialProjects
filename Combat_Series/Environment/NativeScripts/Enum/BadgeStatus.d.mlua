@@ -1,0 +1,21 @@
+---@sealed
+---@description "Indicates the registration state of the badge."
+@Enum
+script BadgeStatus
+	---@description "Registering badges. It is displayed as 'Registration in progress' on the official website."
+	member Register = 0
+	---@description "You can earn badges. It is displayed as Obtainable on the official website."
+	member Ing = 1
+	---@description "Waiting for badges to be acquired. It is displayed as Waiting on the official website."
+	member Waiting = 2
+	---@description "You cannot earn badges. It is displayed as Unobtainable on the official website."
+	member End = 3
+	---@description "Deleted badge."
+	member Deleted = 4
+
+	---@description "Converts numbers to the applicable type."
+	static method BadgeStatus CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method BadgeStatus CastFrom(string value) end
+end

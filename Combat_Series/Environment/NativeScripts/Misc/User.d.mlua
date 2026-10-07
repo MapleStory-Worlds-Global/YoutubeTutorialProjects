@@ -1,0 +1,35 @@
+---@sealed
+---@description "The user's information."
+@Misc
+script User
+
+	---@description "Indicates whether the user uses Nexon OTP."
+	---@sealed
+	readonly property NexonOtpStateType NexonOtpState = NexonOtpStateType.Unknown
+
+	---@description "The player's nickname."
+	---@sealed
+	readonly property string Nickname
+
+	---@description "A random value used to differentiate users who accessed the MapleStory Worlds service from the same network environment."
+	---@sealed
+	readonly property string Nugu
+
+	---@description "This player's profile code."
+	---@sealed
+	readonly property string ProfileCode
+
+	---@description "Indicates the user's authentication level."
+	---@sealed
+	readonly property AccountTrustLevel UserAccountTrustLevel = AccountTrustLevel.Unknown
+
+	---@description "The user's unique identifier. It can be used in the targetUserId parameter of the Client execution space control function."
+	---@sealed
+	readonly property string UserId
+
+	---@description "Shows the region where the user account was registered. Can be used when trying to categorize accounts by region. The maker always returns AccountRegion.Unknown."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method AccountRegion GetAccountRegion() end
+
+end

@@ -1,0 +1,24 @@
+---@sealed
+---@description "This information is used to identify data of DataStorage."
+@Misc
+script DataStorageKeyInfo
+
+	---@description "This is a key for the DataStorage data."
+	---@sealed
+	property string Key = ""
+
+	---@description "A tag of DataStorage data. You can designate it as a data tag that will save the set value."
+	---@sealed
+	property string Tag = ""
+
+	---@description "The version of data of DataStorage. You can designate it as a data version that will save the set value."
+	---@sealed
+	property string Version = ""
+
+	---@description "Initializes DataStorageKeyInfo to the default value."
+	constructor DataStorageKeyInfo() end
+
+	---@description "Initializes DataStorageKeyInfo to the specified value."
+	constructor DataStorageKeyInfo(string key, string version, string tag) end
+
+end

@@ -1,0 +1,12 @@
+---@sealed
+---@description "This is the superclass of all logic. Provides basic functions of logic."
+@Logic
+script EmotionLogic extends Logic
+
+	static method boolean IsPlayingEmotion() end
+
+	static method void PlayEmotion(string emotionType, float emotionTime) end
+
+	static method void PlayEmotionByType(EmotionalType emotionalType, float emotionTime) end
+
+end

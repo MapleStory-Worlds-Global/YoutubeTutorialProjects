@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates the stop method of TweenLineComponent."
+@Enum
+script TweenLinearStopType
+	---@description "Exit the tween after reaching the destination."
+	member Oneway = 0
+	---@description "After reaching the destination, return to the starting point."
+	member OneRoundTrip = 1
+	---@description "After reaching the destination, repeat the round trip back to the starting point."
+	member RepeatRoundTrip = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method TweenLinearStopType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TweenLinearStopType CastFrom(string value) end
+end

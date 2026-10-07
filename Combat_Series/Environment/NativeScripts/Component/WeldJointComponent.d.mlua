@@ -1,0 +1,34 @@
+---@description "Create and delete WeldJoint. Controls the relative movement and rotation of connected rigid bodies."
+@Component
+script WeldJointComponent extends Component
+
+	---@description "Set Joint information."
+	---@sealed
+	@Sync
+	property SyncList<WeldJoint> Joints
+
+	---@description "Add Joint. Return index on success, -1 on failure"
+	---@sealed
+	method int32 AddJoint(Entity targetEntity, Vector2 localAnchorA, Vector2 localAnchorB) end
+
+	---@description "Removes the Joint whose sequence number corresponds to the index."
+	---@sealed
+	method void DestroyJoint(int32 index) end
+
+	---@description "Return the number of Joints."
+	---@sealed
+	method int32 GetJointsCount() end
+
+	---@description "Set the CollideConnected value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetCollideConnected(int32 index, boolean collideConnected) end
+
+	---@description "Set the LocalAnchorA value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetLocalAnchorA(int32 index, Vector2 localAnchorA) end
+
+	---@description "Set the LocalAnchorB value of the Joint whose sequence number corresponds to index."
+	---@sealed
+	method void SetLocalAnchorB(int32 index, Vector2 localAnchorB) end
+
+end

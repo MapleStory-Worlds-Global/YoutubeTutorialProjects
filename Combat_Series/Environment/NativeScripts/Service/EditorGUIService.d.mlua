@@ -1,0 +1,66 @@
+---@sealed
+---@description "This is the superclass of all Services. Provides basic functions of Service."
+@Service
+script EditorGUIService extends Service
+
+	---@sealed
+	method void AddLink(string id, Entity lhs, Entity rhs, float controlFactorX = 0, float controlFactorY = 0) end
+
+	---@sealed
+	method void AddPaletteTab(string id, string text, string icon = "") end
+
+	---@sealed
+	method void AddSystemPaletteTab(EditorSystemPalette category, string filters) end
+
+	---@sealed
+	method void AlignGUI(string id, EditorAlignmentType align, Vector2 offset) end
+
+	---@sealed
+	method void CreateGUI(string json) end
+
+	---@sealed
+	method void DeselectPaletteItem() end
+
+	---@sealed
+	method void ForceActivateEditorGUI() end
+
+	---@sealed
+	method void MessageBox(string message, string buttons = "Ok", func<string> callback = nil) end
+
+	---@sealed
+	method void MovePaletteItemFirstIndex(int32 index) end
+
+	---@sealed
+	method void RebuildGUI(string id, string json) end
+
+	---@sealed
+	method void RemoveGUI(string id) end
+
+	---@sealed
+	method void RemoveLink(string id) end
+
+	---@sealed
+	method void RemovePaletteTab(string id) end
+
+	---@sealed
+	method void RemovePaletteTabAll() end
+
+	---@sealed
+	method void SetPalette(List<string> lists) end
+
+	---@sealed
+	method void SetPlayTrigger(string trigger) end
+
+	---@sealed
+	method void SetSelectedPaletteTab(int32 index) end
+
+	---@sealed
+	method void SetTemplateMode() end
+
+	---@sealed
+	method void StartTutorial(string tutorial) end
+
+	---@sealed
+	method void TraceWrite(string msg) end
+
+end

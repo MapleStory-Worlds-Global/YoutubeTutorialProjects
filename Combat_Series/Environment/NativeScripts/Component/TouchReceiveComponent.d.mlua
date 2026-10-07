@@ -1,0 +1,37 @@
+---@description "The Entity becomes touchable, so you can control its behavior when touching it."
+@Component
+script TouchReceiveComponent extends Component
+
+	---@description "If set to true, the TouchArea and Offset values ​​will automatically change whenever the Scale value of the AvatarRendererComponent or SpriteRendererComponent changes."
+	---@sealed
+	property boolean AutoFitToSize = false
+
+	---@description "This property is deprecated. Use the AutoFitToSize property."
+	---@deprecated
+	---@sealed
+	property boolean DynamicTouchArea = false
+
+	---@description "Sets the centerpoint of the touch area."
+	---@sealed
+	property Vector2 Offset = Vector2(0.000, 0.000)
+
+	---@description "Sets whether or not to generate a touch event in the TouchReceiveComponent located behind in the rendering order."
+	---@sealed
+	property boolean RelayEventToBehind = true
+
+	---@description "The size of the touch area. The value of TouchArea may change in the middle when AutoFitToSize is true."
+	---@sealed
+	property Vector2 TouchArea = Vector2(1.000, 1.000)
+
+	---@description "This is a deprecated property. Use the AutoFitToSize property."
+	---@deprecated
+	---@sealed
+	property float TouchAreaUpdateTime = 1
+
+	emitter EmitTouchEvent(TouchEvent event) end
+
+	emitter EmitTouchHoldEvent(TouchHoldEvent event) end
+
+	emitter EmitTouchReleaseEvent(TouchReleaseEvent event) end
+
+end

@@ -1,0 +1,102 @@
+---@sealed
+---@description "Provides leaderboard relayed functions that manage 1:1 matchmaking and win/loss results."
+@Service
+script MatchmakingService extends Service
+
+	---@description "Cancels matchmaking. Returns the result codes when the process is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method MatchmakingResultCode CancelMatchingAndWait(string userProfileCode) end
+
+	---@description "Deletes the leaderboard. Returns the result codes when the process is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, LeaderboardInfo CreateLeaderboardAndWait(string name, LeaderboardScoringStrategy scoringStrategy, LeaderboardRatingStrategy ratingStrategy, LeaderboardRankingStrategy rankingStrategy, LeaderboardSeasonResetInfo resetInfo) end
+
+	---@description "Deletes the leaderboard. Returns the result codes when the process is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode DeleteLeaderboardAndWait(string leaderboardId) end
+
+	---@description "Deletes the user's score. Returns the results code when the process is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode DeleteScoreInfoAndWait(string leaderboardId, string userProfileCode) end
+
+	---@description "Loads leaderboard information. Returns the results code and leaderboard information when the process is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, LeaderboardInfo GetLeaderboardInfoAndWait(string leaderboardId) end
+
+	---@description "Loads all of the world's leaderboard information. Returns the results code and leaderboard information when the process is complete. Script executions are suspended during the operation."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, table<LeaderboardInfo> GetLeaderboardInfosAndWait() end
+
+	---@description "Loads the information of users that have been successfully matchmade. The first element of the table is the Home user and the second element is the Away user. "
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method MatchmakingResultCode, table<MatchUserInfo> GetMatchUserInfosAndWait(string userProfileCode) end
+
+	---@description "Loads the user's ranking information. Returns the results code and ranking information when the process is complete."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, LeaderboardRankInfo GetRankInfoAndWait(string leaderboardId, string seasonId, string userProfileCode) end
+
+	---@description "Loads all of the ranking information within a set area. startRank is the starting rank for the inquiry, while count is the number of rankings in the inquiry."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, table<LeaderboardRankInfo> GetRankInfosAndWait(string leaderboardId, string seasonId, int32 startRank, int32 count) end
+
+	---@description "Loads the user's score information. Returns the results code and score information when the process is complete."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, LeaderboardScoreInfo GetScoreInfoAndWait(string leaderboardId, string seasonId, string userProfileCode) end
+
+	---@description "Loads the information for a specific leaderboard season. Returns the results code and season information when the process is complete."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, LeaderboardSeasonInfo GetSeasonInfoAndWait(string leaderboardId, string seasonId) end
+
+	---@description "Loads the information for all leaderboard seasons. Returns the results code and season information when the process is complete."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode, table<LeaderboardSeasonInfo> GetSeasonInfosAndWait(string leaderboardId) end
+
+	---@description "Requests matchmaking. Matchmaking occurs only between users with the same queueName."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method MatchmakingResultCode RequestMatchingAndWait(string leaderBoardId, string queueName, string userProfileCode, string extras, func<MatchInfo> onCompleted) end
+
+	---@description "Registers a user's score and updates the ranking. The extras info is random data that can be additionally saved based on need."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method LeaderboardResultCode SetScoreAndWait(string leaderboardId, string userProfileCode, int32 score, string extras) end
+
+	---@description "Newly calculates the scores by applying the win or loss from the match. Delivers nil to winnerUserProfileCode in the case of a draw."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method MatchmakingResultCode, MatchResultInfo UpdateMatchResultAndWait(string leaderboardId, string homeUserProfileCode, string awayUserProfileCode, string winnerUserProfileCode) end
+
+	---@description "Warps users that have been matchmade to the same world instance and returns the results code."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method MatchmakingResultCode WarpMatchUser(string userProfileCode) end
+
+end

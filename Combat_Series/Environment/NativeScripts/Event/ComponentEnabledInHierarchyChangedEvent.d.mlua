@@ -1,0 +1,20 @@
+---@sealed
+---@description "An event that triggers when a component's EnableInHierarchy is changed."
+@Event
+script ComponentEnabledInHierarchyChangedEvent extends EventType
+
+	---@description "The name of a component with a triggered event."
+	---@sealed
+	property string ComponentName
+
+	---@description "The component's EnabledInHierarchy value."
+	---@sealed
+	property boolean EnabledInHierarchy
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor ComponentEnabledInHierarchyChangedEvent(Entity entity = nil, boolean enabledInHierarchy = false, string componentName = nil) end
+
+end

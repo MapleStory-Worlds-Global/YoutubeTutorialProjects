@@ -1,0 +1,176 @@
+---@description "Applies MapleStory movements. These will be influenced by gravity and acceleration and deceleration effects."
+@Component
+script RigidbodyComponent extends Component
+
+	---@description "Calibrates speed in midair. The higher the value, the faster the speed."
+	---@sealed
+	property float AirAccelerationX = 1
+
+	---@description "Calibrates how quickly x-axis movement speed stops when there is no input while in midair."
+	---@sealed
+	property float AirDecelerationX = 1
+
+	---@description "When true, the character on the rotating or slanted ladder will be affected by the shape of the ladder. When false, the character is not affected by the slant or rotation of the ladder."
+	---@sealed
+	@Sync
+	property boolean ApplyClimbableRotation = true
+
+	---@description "Controls the speed of bouncing up when jumping down."
+	---@sealed
+	property float DownJumpSpeed = 2
+
+	---@description "Determines whether you will use the jump feature if KinematicMove is true."
+	---@sealed
+	property boolean EnableKinematicMoveJump = true
+
+	---@description "Calibrates max x-axis speed limit while in the air."
+	---@sealed
+	property float FallSpeedMaxX = 1
+
+	---@description "Calibrates max y-axis speed limit while in the air."
+	---@sealed
+	property float FallSpeedMaxY = 1
+
+	---@description "Gravity value. Related to the drop velocity when moving mid-air. The bigger the input value, the faster the drop velocity is."
+	---@sealed
+	property float Gravity = 1
+
+	---@description "It is possible to leave the terrain-created map area if true."
+	---@sealed
+	property boolean IgnoreMoveBoundary = false
+
+	---@description "Vertical topography is unconditionally blocked if true, unlike basic movement. This is used to make it impossible to pass through topography like walls."
+	---@sealed
+	property boolean IsBlockVerticalLine = false
+
+	---@description "Does not fall even when reaching the end of the foothold if the value is true. You can leave the foothold with external movements, such as jumps."
+	---@sealed
+	property boolean IsolatedMove = false
+
+	---@description "Sets the character's hang time when jumping."
+	---@sealed
+	property float JumpBias = 0.03
+
+	---@description "If true, movement will change to top-down vertical and horizontal movement."
+	---@sealed
+	property boolean KinematicMove = false
+
+	---@description "Set the movement speed. Operates if KinematicMove is true."
+	---@sealed
+	property Vector2 KinematicMoveAcceleration = Vector2(1.000, 1.000)
+
+	---@description "Sets the relationship between the RigidbodyComponent and SortingLayer values of foothold, ladder, and rope."
+	---@sealed
+	@Sync
+	property AutomaticLayerOption LayerSettingType = AutomaticLayerOption.All
+
+	---@description "Sets the mass of the object. The larger the value is, the slower the acceleration and deceleration, and the lower the reactivity to external factors. Must set a value equal to or greater than 0."
+	---@sealed
+	property float Mass = 100
+
+	---@description "The input required for the move. Inputs are mainly controlled by MovementComponent. A positive X indicates right, and a positive Y indicates upward."
+	---@sealed
+	property Vector2 MoveVelocity
+
+	---@description "Indicates the amount shifted just before. It is read-only and is used when movement amount information is required. A valid execution space exists according to the moving subject, and LocalPlayer has the values from the Client and others from the Server."
+	---@sealed
+	property Vector2 RealMoveVelocity = Vector2(0.000, 0.000)
+
+	---@description "It indicates the acceleration/deceleration value when moving the terrain. The bigger the input, the faster it is to reach the maximum speed."
+	---@sealed
+	property float WalkAcceleration = 1
+
+	---@description "The force to resist slipping when moving on the terrain. The larger the input, the faster it stops without slipping. The final applied values range from 0.5 to 2 by calculating the map, terrain, and character attributes."
+	---@sealed
+	property float WalkDrag = 1
+
+	---@description "A value for the height of jump. The bigger the value is, the higher the jump."
+	---@sealed
+	property float WalkJump = 1.23
+
+	---@description "A value associated with the capability to climb slopes when moving on the terrain. Can go over steep slopes if the input is large enough. The value is between 0 and 1."
+	---@sealed
+	property float WalkSlant = 0.9
+
+	---@description "Adjusts the maximum movement speed value when moving on the terrain."
+	---@sealed
+	property float WalkSpeed = 1.4
+
+	---@description "Adds the force applied to Entity. The Entity will have accelerating and decelerating movements in the direction of the force that was added to the existing force."
+	---@sealed
+	method void AddForce(Vector2 forcePower) end
+
+	---@description "Attaches this Entity to the Entity corresponding to entityId. With this, this Entity doesn't have a physical motion and becomes subordinate to the movement of the attached Entity."
+	---@sealed
+	method void AttachTo(string entityId, Vector3 offset) end
+
+	---@description "Takes off the Entity which was attached to another Entity using RigidbodyComponent:AttachTo(string, Vector3)."
+	---@sealed
+	method void Detach() end
+
+	---@description "Performs jumping down. Jumping down is only valid on terrain."
+	---@sealed
+	method boolean DownJump() end
+
+	---@description "Returns the Foothold that you are currently stepping on."
+	---@sealed
+	method Foothold GetCurrentFoothold() end
+
+	---@description "Returns the vertical line of the terrain being treaded on."
+	---@sealed
+	method Vector2 GetCurrentFootholdPerpendicular() end
+
+	---@description "Checks whether standing on the terrain or not."
+	---@sealed
+	method boolean IsOnGround() end
+
+	---@description "Makes a target jump."
+	---@sealed
+	method boolean JustJump(Vector2 jumpRate) end
+
+	---@description "The accumulated information of calculating location is deleted and a new calculation is made based on the current location."
+	---@sealed
+	method void PositionReset() end
+
+	---@description "Checks whether you can move the distance from the step you are currently stepping on. If isForward is true, checks the right direction, if it is false, checks the left direction."
+	---@sealed
+	method boolean PredictFootholdEnd(float distance, boolean isFoward) end
+
+	---@description "Sets the force applied to the Entity. The Entity will have accelerating and decelerating movements in the direction of the force set."
+	---@sealed
+	method void SetForce(Vector2 forcePower) end
+
+	---@description "Instead of applying the force immediately, it replaces the force with the given input after finishing the move in the current frame."
+	---@sealed
+	method void SetForceReserve(Vector2 forcePower) end
+
+	---@description "Sets an Entity's position based on local coordinates."
+	---@sealed
+	method void SetPosition(Vector2 position) end
+
+	---@description "This function is deprecated. Use the Enable property of RigidbodyComponent."
+	---@deprecated
+	---@sealed
+	method void SetUseCustomMove(boolean isUse) end
+
+	---@description "Sets an Entity's location to the world-based coordinates."
+	---@sealed
+	method void SetWorldPosition(Vector2 position) end
+
+	emitter EmitFootholdCollisionEvent(FootholdCollisionEvent event) end
+
+	emitter EmitFootholdEnterEvent(FootholdEnterEvent event) end
+
+	emitter EmitFootholdLeaveEvent(FootholdLeaveEvent event) end
+
+	emitter EmitRigidbodyAttachEvent(RigidbodyAttachEvent event) end
+
+	emitter EmitRigidbodyClimbableAttachStartEvent(RigidbodyClimbableAttachStartEvent event) end
+
+	emitter EmitRigidbodyClimbableDetachEndEvent(RigidbodyClimbableDetachEndEvent event) end
+
+	emitter EmitRigidbodyDetachEvent(RigidbodyDetachEvent event) end
+
+	emitter EmitRigidbodyKinematicMoveJumpEvent(RigidbodyKinematicMoveJumpEvent event) end
+
+end

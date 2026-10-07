@@ -1,0 +1,15 @@
+---@sealed
+---@description "Sets the detection method for physics collision."
+@Enum
+script PhysicsCollisionDetectionMode
+	---@description "Checks for collisions intermittently. Depending on the speed and size of the object, collisions may not be detected. The higher the speed or the smaller the size, the more likely it will pass without detecting a collision."
+	member Discrete = 0
+	---@description "Checks for collisions continuously. Prevents objects from passing through without colliding. The computation requires more resources."
+	member Continuous = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method PhysicsCollisionDetectionMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method PhysicsCollisionDetectionMode CastFrom(string value) end
+end

@@ -1,0 +1,22 @@
+---@sealed
+---@description "The information about a matchmade game."
+@Misc
+script MatchInfo
+
+	---@description "The user that was automatically set as away. Away users must wait until the home user's turn is over."
+	---@sealed
+	readonly property MatchUserInfo Away
+
+	---@description "The user that was automatically set as home. Home users have the chance to play first."
+	---@sealed
+	readonly property MatchUserInfo Home
+
+	---@description "The profile code for the user that requested matchmaking."
+	---@sealed
+	readonly property string ProfileCode
+
+	---@description "The matchmaking result code."
+	---@sealed
+	readonly property MatchmakingResultCode ResultCode
+
+end

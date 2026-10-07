@@ -1,0 +1,13 @@
+---@description "This Component selects and applies the avatar's face Action."
+@Component
+script AvatarFaceActionSelectorComponent extends Component
+
+	---@description "Current state is Action."
+	---@sealed
+	property MapleAvatarFaceActionState ActionState
+
+	---@description "Interval between blinks. The unit of measure is the second."
+	---@sealed
+	property float BlinkInterval = 3
+
+end

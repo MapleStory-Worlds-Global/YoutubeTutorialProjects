@@ -1,0 +1,41 @@
+---@description "This is the superclass of all logic. Provides basic functions of logic."
+@Logic
+script Logic
+
+	---@description "Links events. This service notifies a handler when an eventType event occurs. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(Type eventType, IScriptFunction eventHandler) end
+
+	---@description "Links events. This service notifies a handler when an eventType event occurs. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(Type eventType, IScriptFunction eventHandler) end
+
+	---@description "Links events. When a key-type event occurs in this service, a handler is notified. The handler receives event parameters."
+	---@sealed
+	method EventHandlerBase ConnectEvent(string key, IScriptFunction eventHandler) end
+
+	---@description "Disconnects the eventType event from its handler."
+	---@sealed
+	method boolean DisconnectEvent(Type eventType, EventHandlerBase eventHandler) end
+
+	---@description "Disconnects the eventType event from its handler."
+	---@sealed
+	method boolean DisconnectEvent(Type eventType, EventHandlerBase eventHandler) end
+
+	---@description "Disconnects the key-type event and its handler."
+	---@sealed
+	method boolean DisconnectEvent(string key, EventHandlerBase eventHandler) end
+
+	---@description "Returns whether the current execution environment is a client or not."
+	---@sealed
+	method boolean IsClient() end
+
+	---@description "Returns whether the current execution environment is a server or not."
+	---@sealed
+	method boolean IsServer() end
+
+	---@description "Generates an event."
+	---@sealed
+	method void SendEvent(EventType sendEvent) end
+
+end

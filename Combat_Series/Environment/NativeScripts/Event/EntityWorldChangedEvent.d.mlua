@@ -1,0 +1,20 @@
+---@sealed
+---@description "This event occurs when changing the world where an entity belongs."
+@Event
+script EntityWorldChangedEvent extends EventType
+
+	---@description "The world entity to which the entity now belongs."
+	---@sealed
+	property Entity NewWorld
+
+	---@description "The world entity to which the entity previously belonged."
+	---@sealed
+	property Entity OldWorld
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityWorldChangedEvent(Entity entity = nil, Entity oldWorld = nil, Entity newWorld = nil) end
+
+end

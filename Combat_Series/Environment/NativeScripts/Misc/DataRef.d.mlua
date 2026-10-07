@@ -1,0 +1,16 @@
+---@sealed
+---@description "A Ref entity to refer to data."
+@Misc
+script DataRef
+
+	---@description "The Id of data."
+	---@sealed
+	property string DataId
+
+	---@description "Initializes DataRef to the default value."
+	constructor DataRef() end
+
+	---@description "Initializes DataRef to the specified value."
+	constructor DataRef(string dataId) end
+
+end

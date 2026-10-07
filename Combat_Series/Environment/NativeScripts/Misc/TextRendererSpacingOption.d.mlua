@@ -1,0 +1,26 @@
+---@sealed
+---@description "Various spacing options."
+@Misc
+script TextRendererSpacingOption
+
+	---@description "Sets letter spacing."
+	---@sealed
+	property float Character = 0
+
+	---@description "Sets line spacing."
+	---@sealed
+	property float Line = 0
+
+	---@description "Sets the line break interval."
+	---@sealed
+	property float Paragraph = 0
+
+	---@description "Sets word spacing."
+	---@sealed
+	property float Word = 0
+
+	---@description "Generates a copy."
+	---@sealed
+	method TextRendererSpacingOption Clone() end
+
+end

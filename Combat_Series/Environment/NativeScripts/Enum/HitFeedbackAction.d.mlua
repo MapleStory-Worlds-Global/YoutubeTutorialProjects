@@ -1,0 +1,15 @@
+---@sealed
+---@description "This Enum is no longer used."
+@Enum
+script HitFeedbackAction
+	---@description "This Enum is no longer used."
+	member Default = 0
+	---@description "This Enum is no longer used."
+	member Knockback = 1
+
+	---@description "This Enum is no longer used."
+	static method HitFeedbackAction CastFrom(number value) end
+
+	---@description "This Enum is no longer used."
+	static method HitFeedbackAction CastFrom(string value) end
+end

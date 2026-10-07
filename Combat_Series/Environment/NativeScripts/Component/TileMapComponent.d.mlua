@@ -1,0 +1,57 @@
+---@description "Provides terrain features in tile form. Only one tile map per map layer."
+@Component
+script TileMapComponent extends Component
+
+	---@description "Specifies the color of the tile map."
+	---@sealed
+	@Sync
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Applies a friction force to an Entity containing a RigidbodyComponent on the foothold. The larger the value, the faster it decelerates."
+	---@sealed
+	property float FootholdDrag = 1
+
+	---@description "Applies a force to the Entity containing a RigidbodyComponent on the foothold. If positive, the force is applied to the right, and if negative, to the left."
+	---@sealed
+	property float FootholdForce = 0
+
+	---@description "The coefficient is multiplied by the movement speed when the Entity with RigidbodyComponent is on the foothold. The greater the value, the faster the movement."
+	---@sealed
+	property float FootholdWalkSpeedFactor = 1
+
+	---@description "Does not perform automatic substitution when Map Layer name is specified in SortingLayer."
+	---@sealed
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Determines whether the Entity is blocked by vertical footholds in its tile map. Only pertains to Entities with RigidbodyComponent."
+	---@sealed
+	property boolean IsBlockVerticalLine = false
+
+	---@description "Positions the tile map off of the grid's base point."
+	---@sealed
+	property boolean IsOddGridPosition = false
+
+	---@description "Determines the priority within the same Layer. A greater number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "If true, it may collide with a Dynamic rigid body (PhysicRigidbody) using the Physics feature."
+	---@sealed
+	property boolean PhysicsInteractable = false
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	property string SortingLayer = "Default"
+
+	---@description "The version of the tile map generation rule. This is the property for backward compatibility."
+	---@sealed
+	property TileMapVersion TileMapVersion = TileMapVersion.MapleStyle
+
+	---@description "Specifies the RUID of the tile set in the tile map."
+	---@sealed
+	property DataRef TileSetRUID
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+end

@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised when finishing the sprite animation's playback."
+@Event
+script SpriteGUIAnimPlayerEndEvent extends EventType
+
+	---@description "The entity affected by the event."
+	---@sealed
+	property Entity Entity
+
+	constructor SpriteGUIAnimPlayerEndEvent(Entity entity = nil, SpriteAnimClipPlayType clipPlayType = SpriteAnimClipPlayType.Onetime, float clipPlayRate = 1) end
+
+end

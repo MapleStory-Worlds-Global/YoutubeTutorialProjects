@@ -1,0 +1,20 @@
+---@sealed
+---@description "An event that occurs when a touch or a mouse button input is made on the UI Entity."
+@Event
+script UITouchDownEvent extends EventType
+
+	---@description "The Entity affected by the event."
+	---@sealed
+	property Entity Entity
+
+	---@description "The identifier that uniquely represents a specific input type. For example, left mouse click is -1, center mouse click is -2, and right mouse click is -3. Touch inputs on mobile devices are incremented starting from 1."
+	---@sealed
+	property int32 TouchId
+
+	---@description "The screen coordinates where the event occurred."
+	---@sealed
+	property Vector2 TouchPoint
+
+	constructor UITouchDownEvent(Entity entity = nil, int32 touchId = 0, Vector2 touchPoint = Vector2(0, 0)) end
+
+end

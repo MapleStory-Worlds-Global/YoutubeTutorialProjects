@@ -1,0 +1,19 @@
+---@sealed
+---@description "Indicates the current state of the TweenComponent Tweener."
+@Enum
+script TweenState
+	---@description "Default state."
+	member Idle = 0
+	---@description "The tween is running."
+	member Playing = 1
+	---@description "The Tween is paused."
+	member Pausing = 2
+	---@description "The tween is either in a destroyed state or about to be destroyed."
+	member Destroying = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method TweenState CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TweenState CastFrom(string value) end
+end

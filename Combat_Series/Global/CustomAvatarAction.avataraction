@@ -1,0 +1,89 @@
+{
+  "Id": "",
+  "GameId": "",
+  "EntryKey": "avataraction://unique",
+  "ContentType": "x-mod/avataraction",
+  "Content": "",
+  "Usage": 0,
+  "UsePublish": 1,
+  "UseService": 0,
+  "CoreVersion": "26.7.0.0",
+  "StudioVersion": "0.1.0.0",
+  "DynamicLoading": 0,
+  "ContentProto": {
+    "Use": "Json",
+    "Json": {
+      "Data": {
+        "AreaAttack": {
+          "Frames": [
+            {
+              "defined_actionname": "swingP2",
+              "frameindex": 1,
+              "framedelay": 0.2,
+              "move_x": 0,
+              "move_y": 0,
+              "rotation": 0,
+              "flip": false
+            },
+            {
+              "defined_actionname": "swingP2",
+              "frameindex": 0,
+              "framedelay": 0.1,
+              "move_x": 0,
+              "move_y": 0,
+              "rotation": 0,
+              "flip": false
+            },
+            {
+              "defined_actionname": "swingP2",
+              "frameindex": 2,
+              "framedelay": 2.0,
+              "move_x": 0,
+              "move_y": 0,
+              "rotation": 0,
+              "flip": false
+            }
+          ]
+        },
+        "ProjectileSwing": {
+          "Frames": [
+            {
+              "defined_actionname": "swingT2",
+              "frameindex": 0,
+              "framedelay": 0.15,
+              "move_x": 0,
+              "move_y": 0,
+              "rotation": 0,
+              "flip": false,
+              "eventdatas": [
+                {
+                  "EventId": "",
+                  "TriggerTime": 0.0,
+                  "EventType": 0
+                }
+              ]
+            },
+            {
+              "defined_actionname": "swingT2",
+              "frameindex": 1,
+              "framedelay": 0.07,
+              "move_x": 0,
+              "move_y": 0,
+              "rotation": 0,
+              "flip": false
+            },
+            {
+              "defined_actionname": "swingT2",
+              "frameindex": 2,
+              "framedelay": 2.0,
+              "move_x": 0,
+              "move_y": 0,
+              "rotation": 0,
+              "flip": false
+            }
+          ]
+        }
+      }
+    }
+  }
+}

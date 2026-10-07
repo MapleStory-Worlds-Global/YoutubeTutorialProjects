@@ -1,0 +1,28 @@
+---@sealed
+---@description "The Global-type light source information that will spawn as a child of an entity."
+@Misc
+script AttachedGlobalTypeOverlayLightInfo
+
+	---@description "The color of the light source."
+	---@sealed
+	property Color Color
+
+	---@description "The intensity of the light source."
+	---@sealed
+	property float Intensity
+
+	---@description "The amount of time the light source will display. The created light source will automatically disappear upon reaching the specified time. However, when a value equal to or lower than 0 is input, the light source will remain indefinitely."
+	---@sealed
+	property float Lifetime
+
+	---@description "An entity that will have a created light source added to it."
+	---@sealed
+	property Entity ParentEntity
+
+	---@description "Initializes AttachedFreeformTypeOverlayLightInfo to the specified value."
+	constructor AttachedGlobalTypeOverlayLightInfo(Entity parentEntity) end
+
+	---@description "Initializes AttachedFreeformTypeOverlayLightInfo to the specified value."
+	constructor AttachedGlobalTypeOverlayLightInfo(Entity parentEntity, float lifetime, Color color, float intensity) end
+
+end

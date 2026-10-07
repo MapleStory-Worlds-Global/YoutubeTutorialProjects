@@ -1,0 +1,20 @@
+---@sealed
+---@description "Looks up the recorded information list searched in LogStorageService by pages. Using the feature is not recommended, since it is a provisional feature."
+@Misc
+script PurchaseLogPages
+
+	---@description "Checks whether the current page is the last page in the search results."
+	---@sealed
+	readonly property boolean IsLastPage
+
+	---@description "Retrieves the list of recorded information of the current page among the search results. Up to 1000 search results per page."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method table<string> GetCurrentPageDatas() end
+
+	---@description "Moves to the next page of search results. Script Executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void MoveToNextPageAndWait() end
+
+end

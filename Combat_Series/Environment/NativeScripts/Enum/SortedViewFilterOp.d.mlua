@@ -1,0 +1,11 @@
+---@sealed
+@Enum
+script SortedViewFilterOp
+	member Equal = 0
+	member Contains = 1
+	member StartsWith = 2
+
+	static method SortedViewFilterOp CastFrom(number value) end
+
+	static method SortedViewFilterOp CastFrom(string value) end
+end

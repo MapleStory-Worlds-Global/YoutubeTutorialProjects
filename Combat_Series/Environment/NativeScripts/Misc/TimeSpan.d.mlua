@@ -1,0 +1,138 @@
+---@sealed
+---@description "Shows the time interval."
+@Misc
+script TimeSpan
+
+	---@description "TimeSpan's day component."
+	---@sealed
+	property int32 Days
+
+	---@description "An integer in milliseconds, which composes TimeSpan."
+	---@sealed
+	property integer Elapsed
+
+	---@description "TimeSpan's time component."
+	---@sealed
+	property int32 Hours
+
+	---@description "Shows the maximum TimeSpan value."
+	static readonly property TimeSpan MaxValue
+
+	---@description "TimeSpan's millisecond component."
+	---@sealed
+	property int32 Milliseconds
+
+	---@description "Shows the minimum TimeSpan value."
+	static readonly property TimeSpan MinValue
+
+	---@description "TimeSpan's minute component."
+	---@sealed
+	property int32 Minutes
+
+	---@description "TimeSpan's second component."
+	---@sealed
+	property int32 Seconds
+
+	---@description "Shows the total days of TimeSpan."
+	---@sealed
+	readonly property number TotalDays
+
+	---@description "Shows the total hours of TimeSpan."
+	---@sealed
+	readonly property number TotalHours
+
+	---@description "Shows the total milliseconds of TimeSpan."
+	---@sealed
+	readonly property integer TotalMilliseconds
+
+	---@description "Shows the total minutes of TimeSpan."
+	---@sealed
+	readonly property number TotalMinutes
+
+	---@description "Shows the total seconds of TimeSpan."
+	---@sealed
+	readonly property number TotalSeconds
+
+	---@description "Shows the TimeSpan value having a 00:00:00 value."
+	static readonly property TimeSpan Zero
+
+	---@description "Initializes to the designated hour, minute, and second."
+	constructor TimeSpan(int32 hours, int32 minutes, int32 seconds) end
+
+	---@description "Initializes to the designated day, hour, minute, and second."
+	constructor TimeSpan(int32 days, int32 hours, int32 minutes, int32 seconds) end
+
+	---@description "Initializes to the designated day, hour, minute, second, and millisecond."
+	constructor TimeSpan(int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds) end
+
+	---@description "Initializes to an integer in milliseconds."
+	constructor TimeSpan(integer elapsed) end
+
+	---@description "Initializes to the string for the designated time."
+	constructor TimeSpan(string timeSpanString) end
+
+	---@description "Initializes to the string for the designated time. The string format must exactly match the designated format. The TimeSpan format specifier can be included in the format."
+	constructor TimeSpan(string timeSpanString, string format) end
+
+	---@description "Initializes the string to the designated time. The string format must exactly match the designated format. The TimeSpan format specifier can be included in the format."
+	constructor TimeSpan(string timeSpanString, string format, string cultureName) end
+
+	---@description "Creates TimeSpan with the absolute value of the entity and then returns it."
+	---@sealed
+	method TimeSpan Duration() end
+
+	---@description "Creates TimeSpan representing the number of designated days and then returns it. The designated value will be rounded off in milliseconds."
+	static method TimeSpan FromDays(number value) end
+
+	---@description "Creates TimeSpan representing the designated hours and then returns it. The designated value will be rounded off in milliseconds."
+	static method TimeSpan FromHours(number value) end
+
+	---@description "Creates TimeSpan representing the designated milliseconds and then returns it."
+	static method TimeSpan FromMilliseconds(integer value) end
+
+	---@description "Creates TimeSpan representing the designated minutes and then returns it. The designated value will be rounded off in milliseconds."
+	static method TimeSpan FromMinutes(number value) end
+
+	---@description "Creates TimeSpan representing the designated seconds and then returns it. The designated value will be rounded off in milliseconds."
+	static method TimeSpan FromSeconds(number value) end
+
+	---@description "Creates TimeSpan with the negated value of the entity and then returns it."
+	---@sealed
+	method TimeSpan Negate() end
+
+	---@description "Converts TimeSpan into a string and returns it. The standard TimeSpan format specifier and custom TimeSpan format specifier can be included in the format."
+	---@sealed
+	method string ToFormattedString(string format) end
+
+	---@description "Converts TimeSpan into a string and returns it. The standard TimeSpan format specifier and custom TimeSpan format specifier can be included in the format."
+	---@sealed
+	method string ToFormattedString(string format, string cultureName) end
+
+	---@description "Checks if the two values are different."
+	static operator boolean Inequality(TimeSpan left, TimeSpan right) end
+
+	---@description "Returns a new TimeSpan value obtained by adding the two specified values together."
+	static operator TimeSpan Addition(TimeSpan left, TimeSpan right) end
+
+	---@description "Returns a new TimeSpan value that is the negated value of the specified value."
+	static operator TimeSpan UnaryNegation(TimeSpan value) end
+
+	---@description "Returns a new TimeSpan value by subtracting the specified right value from the left value."
+	static operator TimeSpan Subtraction(TimeSpan left, TimeSpan right) end
+
+	---@description "Checks if the specified left value is less than the right value."
+	static operator boolean LessThan(TimeSpan left, TimeSpan right) end
+
+	---@description "Checks if the specified left value is less than or equal to the right value."
+	static operator boolean LessThanOrEqual(TimeSpan left, TimeSpan right) end
+
+	---@description "Checks if the two values are the same."
+	static operator boolean Equality(TimeSpan left, TimeSpan right) end
+
+	---@description "Checks if the specified left value is greater than the right value."
+	static operator boolean GreaterThan(TimeSpan left, TimeSpan right) end
+
+	---@description "Checks if the specified left value is greater than or equal to the right value."
+	static operator boolean GreaterThanOrEqual(TimeSpan left, TimeSpan right) end
+
+end

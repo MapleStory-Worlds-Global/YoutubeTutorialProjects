@@ -1,0 +1,84 @@
+---@sealed
+---@description "Provides functions related to user input."
+@Service
+script InputService extends Service
+
+	---@description "Controls the mouse cursor control method. Only Windows PC environment is supported."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void CursorLockMode(CursorLockMode lockMode) end
+
+	---@description "Returns the mouse cursor control method. Only Windows PC environment is supported."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method CursorLockMode GetCursorLockMode() end
+
+	---@description "Gets the current position of the cursor. Returns the centroid if two or more locations are touched simultaneously in a mobile environment."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector2 GetCursorPosition() end
+
+	---@description "Returns true regardless of which key is pressed currently."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsAnyKeyPressed() end
+
+	---@description "Returns true if key is currently pressed."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsKeyPressed(KeyboardKey key) end
+
+	---@description "Gets whether the cursor is on the UI. The UI wherein RaycastTarget is false is ignored."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsPointerOverUI() end
+
+	---@description "Determines whether the cursor corresponding to pointerId is on the UI."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsPointerOverUI(int32 pointerId) end
+
+	---@description "Reset the cursor to the default appearance."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void ResetCursor() end
+
+	---@description "Change the cursor's appearance."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetCursor(string spriteRUID, Vector2 offset) end
+
+	---@description "Sets whether to display the mouse cursor."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetCursorVisible(boolean visible) end
+
+	emitter EmitKeyDownEvent(KeyDownEvent event) end
+
+	emitter EmitKeyHoldEvent(KeyHoldEvent event) end
+
+	emitter EmitKeyReleaseEvent(KeyReleaseEvent event) end
+
+	emitter EmitKeyUpEvent(KeyUpEvent event) end
+
+	emitter EmitMouseMoveEvent(MouseMoveEvent event) end
+
+	emitter EmitMouseScrollEvent(MouseScrollEvent event) end
+
+	emitter EmitPinchInOutEvent(PinchInOutEvent event) end
+
+	emitter EmitScreenTouchEvent(ScreenTouchEvent event) end
+
+	emitter EmitScreenTouchHoldEvent(ScreenTouchHoldEvent event) end
+
+	emitter EmitScreenTouchReleaseEvent(ScreenTouchReleaseEvent event) end
+
+	emitter EmitMenuPopupOpenedEvent(MenuPopupOpenedEvent event) end
+
+	emitter EmitMenuPopupClosedEvent(MenuPopupClosedEvent event) end
+
+	emitter EmitExitPopupOpenedEvent(ExitPopupOpenedEvent event) end
+
+	emitter EmitExitPopupClosedEvent(ExitPopupClosedEvent event) end
+
+end

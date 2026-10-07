@@ -1,0 +1,18 @@
+---@sealed
+---@description "This event occurs in UserService when a user exits a game."
+@Event
+script UserLeaveEvent extends EventType
+
+	---@description "This player's profile code."
+	---@sealed
+	property string ProfileCode
+
+	---@description "The user's unique identifier."
+	---@sealed
+	property string UserId
+
+	constructor UserLeaveEvent(IUser user) end
+
+	constructor UserLeaveEvent(string userId = nil, string profileCode = nil) end
+
+end

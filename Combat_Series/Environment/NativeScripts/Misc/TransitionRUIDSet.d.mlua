@@ -1,0 +1,20 @@
+---@sealed
+@Misc
+script TransitionRUIDSet
+
+	---@sealed
+	property DataRef DisabledSprite
+
+	---@sealed
+	property DataRef HighlightedSprite
+
+	---@sealed
+	property DataRef PressedSprite
+
+	---@sealed
+	property DataRef SelectedSprite
+
+	---@sealed
+	method TransitionRUIDSet Clone() end
+
+end

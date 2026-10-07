@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised when two physics rigid bodies begin to collide."
+@Event
+script PhysicsContactBeginEvent extends EventType
+
+	---@description "The entity of the collided Physics Rigidbody."
+	---@sealed
+	property Entity ContactedBodyEntity
+
+	constructor PhysicsContactBeginEvent(Entity contactedBodyEntity = nil) end
+
+end

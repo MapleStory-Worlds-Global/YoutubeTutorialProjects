@@ -1,0 +1,23 @@
+@Component
+script Projectile extends Component
+	property Entity owner = nil
+
+	property table hitTargets = {}
+
+	@EventSender("Self")
+	@ExecSpace("ServerOnly")
+	handler HitboxCollisionEvent(TriggerEnterEvent event )
+		log("Shark Hit")
+		if event.TriggerBodyEntity ~= self.owner then
+			if self.hitTargets[event.TriggerBodyEntity] == nil then
+				_EffectService:PlayEffect("77ea0663a68141ee8c653312481b7d85", self.Entity, self.Entity.TransformComponent.Position, 1.0, Vector3(1,1,1))
+				self.hitTargets[event.TriggerBodyEntity] = true
+				log("Hit: " .. event.TriggerBodyEntity.Name)
+
+				if(event.TriggerBodyEntity.HitComponent ~= nil) then
+					event.TriggerBodyEntity.HitComponent:OnHit(self.owner, 40, false, "N/A", 2)
+				end
+			end
+		end
+	end
+end

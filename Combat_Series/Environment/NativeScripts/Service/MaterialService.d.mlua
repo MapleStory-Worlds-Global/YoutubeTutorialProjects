@@ -1,0 +1,11 @@
+---@sealed
+---@description "The service controls the properties of the material."
+@Service
+script MaterialService extends Service
+
+	---@description "Changes the material property's corresponding entryId. changeProperty's key is the property name. value is the property's value."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void ChangeMaterialProperty(string entryId, Dictionary<string, any> changeProperty) end
+
+end

@@ -1,0 +1,18 @@
+---@sealed
+---@description "Provides the ability to look up policy information for each region."
+@Service
+script PolicyService extends Service
+
+	---@description "Loads policy information for the region the user lives in. If it fails, nil will be returned. Script executions are suspended during operation. This function only works in the release environment. If executed in the Maker, nil will be returned."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method PolicyInfo GetPolicyInfoForUserAndWait(string userId) end
+
+	---@description "Loads policy information for the region the user lives in. The function passed to the callbackFunction is called after loading. If it fails, nil will be returned."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method void GetPolicyInfoForUserAsync(string userId, func<PolicyInfo> callbackFunction) end
+
+end

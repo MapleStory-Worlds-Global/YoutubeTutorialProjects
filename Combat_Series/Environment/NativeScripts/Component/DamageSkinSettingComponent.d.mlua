@@ -1,0 +1,40 @@
+---@description "Specifies the damage skin type for attacks. The attacked entity must have DamageSkinSpawnerComponent."
+@Component
+script DamageSkinSettingComponent extends Component
+
+	---@description "Set the Alpha value of the damage skin."
+	---@sealed
+	@Sync
+	property float Alpha = 1
+
+	---@description "Sets the damage skin's type."
+	---@sealed
+	@Sync
+	property DataRef DamageSkinId = DataRef("6ba67548f43f48f29eb23dafd0766383")
+
+	---@description "Sets the damage skin's size."
+	---@sealed
+	@Sync
+	property Vector2 DamageSkinScale = Vector2(1.000, 1.000)
+
+	---@description "Sets the damage skin's delay time in seconds. Please refer to the GetDisplayHitCount(attackInfo) function of AttackComponent."
+	---@sealed
+	@Sync
+	property float DelayPerAttack = 0.05
+
+	---@description "Selects the rendering method that will determine whether materials or objects will be affected by light sources."
+	---@sealed
+	@Sync
+	property LitMode LitMode = LitMode.Default
+
+	---@description "Set the playback speed of the damage skin."
+	---@sealed
+	@Sync
+	property float PlayRate = 1
+
+	---@description "Sets the damage skin's movement format."
+	---@sealed
+	@Sync
+	property DamageSkinTweenType TweenType = DamageSkinTweenType.Default
+
+end

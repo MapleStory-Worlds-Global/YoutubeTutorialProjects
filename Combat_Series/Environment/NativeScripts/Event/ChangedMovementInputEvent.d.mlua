@@ -1,0 +1,12 @@
+---@sealed
+---@description "Occurs when the movement input changes on the MovementComponent."
+@Event
+script ChangedMovementInputEvent extends EventType
+
+	---@description "Changed movement direction."
+	---@sealed
+	property Vector2 Direction = Vector2(0.000, 0.000)
+
+	constructor ChangedMovementInputEvent(Vector2 direction = nil) end
+
+end

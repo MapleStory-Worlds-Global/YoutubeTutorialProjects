@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when adding an item to the inventory."
+@Event
+script InventoryItemAddedEvent extends EventType
+
+	---@description "Occurring Inventory of an Entity."
+	---@sealed
+	property Entity Entity
+
+	---@description "Updated Item list."
+	---@sealed
+	property List<Item> Items
+
+	constructor InventoryItemAddedEvent(Entity inventoryEntity = nil, List<Item> items = nil) end
+
+end

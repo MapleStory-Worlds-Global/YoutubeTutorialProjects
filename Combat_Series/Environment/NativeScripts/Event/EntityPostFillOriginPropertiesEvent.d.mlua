@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs after filling the property value of an entity's original model."
+@Event
+script EntityPostFillOriginPropertiesEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostFillOriginPropertiesEvent(Entity entity = nil) end
+
+end

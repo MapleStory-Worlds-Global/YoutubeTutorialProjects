@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates the grade of the badge."
+@Enum
+script BadgeGrade
+	---@description "Normal grade badge."
+	member Normal = 0
+	---@description "Rare grade badge."
+	member Rare = 1
+	---@description "Epic grade badge."
+	member Epic = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method BadgeGrade CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method BadgeGrade CastFrom(string value) end
+end

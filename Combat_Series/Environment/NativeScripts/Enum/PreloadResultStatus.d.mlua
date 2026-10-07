@@ -1,0 +1,33 @@
+---@sealed
+---@description "Shows the resource load execution result value."
+@Enum
+script PreloadResultStatus
+	---@description "Resources loaded normally."
+	member Success = 0
+	---@description "The requested resource can't be found."
+	member NotFound = 1
+	---@description "Invalid RUID."
+	member InvalidRUID = 2
+	---@description "Invalid RUID format. An RUID must be 32 digits long."
+	member InvalidRUIDFormat = 3
+	---@description "An invalid resource has been loaded."
+	member InvalidResource = 4
+	---@description "A resource request was made using an invalid protocol."
+	member InvalidProtocol = 5
+	---@description "The resource load request timed out. Please try again later."
+	member Timeout = 6
+	---@description "A resource of a different type than the request was loaded."
+	member TypeMismatch = 7
+	---@description "A resource that you aren't authorized to use was requested."
+	member Unauthorized = 8
+	---@description "A temporary network error has occurred. Please try again later."
+	member NetworkError = 9
+	---@description "An unknown error has occurred."
+	member UnknownError = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method PreloadResultStatus CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method PreloadResultStatus CastFrom(string value) end
+end

@@ -1,0 +1,8 @@
+---@sealed
+---@description "Occurs when the application loses focus. The criteria for focus may differ depending on the operating system."
+@Event
+script ApplicationFocusOutEvent extends EventType
+
+	constructor ApplicationFocusOutEvent() end
+
+end

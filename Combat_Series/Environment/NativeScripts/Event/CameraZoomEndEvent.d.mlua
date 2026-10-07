@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event is raised after completing the camera's zoom change."
+@Event
+script CameraZoomEndEvent extends EventType
+
+	---@description "The CameraComponent whose zoom operation has been completed."
+	---@sealed
+	property CameraComponent ZoomCameraComponent
+
+	constructor CameraZoomEndEvent(CameraComponent zoomCameraComponent = nil) end
+
+end

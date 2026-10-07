@@ -1,0 +1,39 @@
+---@description "Specifies the area for climbing action."
+@Component
+script ClimbableComponent extends Component
+
+	---@description "Sets whether or not to move freely. If true, both X and Y axes are movable."
+	---@sealed
+	property boolean AllowHorizontalMove = false
+
+	---@description "Sets the center point position of the collider rectangle based on Entity. Setting IsUseDefaultObjectBoxSize to false can apply BoxOffset."
+	---@sealed
+	@Sync
+	property Vector2 BoxOffset
+
+	---@description "Specifies the width and height of the collider rectangle. Setsting IsUseDefaultObjectBoxSize to false can apply BoxSize."
+	---@sealed
+	@Sync
+	property Vector2 BoxSize
+
+	---@description "Determines the animation type when climbing."
+	---@sealed
+	property ClimbableType ClimbableAnimationType = ClimbableType.Rope
+
+	---@description "A group of collisions in the climbing area."
+	---@sealed
+	readonly property CollisionGroup CollisionGroup = CollisionGroups.Climbable
+
+	---@description "Specifies whether or not to adjust the climbing area settings to match the sprite size. Operates only in Maker Editing mode."
+	---@sealed
+	property boolean IsUseDefaultObjectBoxSize = true
+
+	---@description "Set if movement will only be limited with a climbable area. If true, you can only leave the climbable area from the start and end points. Only valid when AllowHorizontalMove is true."
+	---@sealed
+	property boolean LockMovementInBoundary = false
+
+	---@description "When climbing, this value is multiplied to the speed traveled in the X or Y direction. The greater the value, the faster the movement."
+	---@sealed
+	property Vector2 SpeedFactor = Vector2(1.000, 1.000)
+
+end

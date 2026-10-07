@@ -1,0 +1,19 @@
+---@sealed
+---@description "Provides LocaleDataSet inquiry function for translation."
+@Misc
+script Translator
+
+	---@description "This is the language code. Used to find translation strings in the LocaleDataSet created for translation."
+	---@sealed
+	readonly property string LocaleId
+
+	---@description "Finds and returns the text of the cell whose row name is key and column name is LocaleId in the translation table."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetText(string key) end
+
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method string GetTextFormat(string key, any... args) end
+
+end

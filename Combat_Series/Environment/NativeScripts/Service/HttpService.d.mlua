@@ -1,0 +1,37 @@
+---@sealed
+---@description "Supports a function to send an HTTP request."
+@Service
+script HttpService extends Service
+
+	---@description "Allows the http:// protocol. The default value is false, and the https:// protocol is recommended for the World that will be released."
+	---@sealed
+	property boolean httpEnabled = false
+
+	---@description "Receives the application/json response with Http Get request. Data to be included in the header of the tables is sent to headers with the format of key - value tables."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method string GetAndWait(string url, Dictionary<string, string> headers = nil) end
+
+	---@description "Converts the json string to the lua table variable."
+	---@sealed
+	method table JSONDecode(string input) end
+
+	---@description "Converts the Lua table to the Json string."
+	---@sealed
+	method string JSONEncode(table input) end
+
+	---@description "Sends an HTTP Post request and gets a response. Data to be included in the header of the tables is sent to headers with the format of key - value tables."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method string PostAndWait(string url, string content, HttpContentType contentType = HttpContentType.ApplicationJson, Dictionary<string, string> headers = nil) end
+
+	---@description "Sends Http request and gets a response. httpMethod supports get, post, put, delete, head. Content format must be specified in headers."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method string RequestAndWait(string url, string httpMethod = nil, string content = nil, Dictionary<string, string> headers = nil) end
+
+	---@description "Replaces Korean letters, spaces, and special characters in Url with escape letters."
+	---@sealed
+	method string UrlEncode(string input) end
+
+end

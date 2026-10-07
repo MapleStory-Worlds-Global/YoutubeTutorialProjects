@@ -1,0 +1,17 @@
+---@sealed
+---@description "The avatar's eyes blink periodically."
+@Enum
+script MapleAvatarFaceActionState
+	---@description "This is the default. Not used."
+	member Invalid = 0
+	---@description "Outputs the default face of the avatar."
+	member Default = 1
+	---@description "Outputs the blinking face of the avatar."
+	member Blink = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method MapleAvatarFaceActionState CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MapleAvatarFaceActionState CastFrom(string value) end
+end

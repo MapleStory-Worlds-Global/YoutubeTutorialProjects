@@ -1,0 +1,50 @@
+---@sealed
+---@description "This is a service that provides various functions for resources."
+@Service
+script ResourceService extends Service
+
+	---@description "Removes all loaded resources from the cache. To free resources from memory, first clear the cache with the ClearCaches() function and then use the UnloadUnusedResources() function."
+	---@sealed
+	method void ClearCaches() end
+
+	---@description "Returns the resource type for the RUID."
+	---@sealed
+	method ResourceType GetTypeAndWait(string RUID) end
+
+	---@description "Loads an animation clip resource. Loaded resources are cached, and they will be stored in memory to be reused when needed. Stops script execution while performing."
+	---@sealed
+	method AnimationClip LoadAnimationClipAndWait(string RUID) end
+
+	---@description "Loads the sprite resource. Loaded resources are cached, and they will be stored in memory to be reused when needed. Stops script execution while performing."
+	---@sealed
+	method Sprite LoadSpriteAndWait(string RUID) end
+
+	---@description "Pre-loads an RUID selected from the ruidList. Loaded resources are cached and not deleted from the memory for reuse as necessary."
+	---@sealed
+	method void PreloadAsync(List<string> ruidList, func<table<PreloadResultStatus>> completeCallback) end
+
+	---@description "Pre-loads all Sprite resources in the tile set."
+	---@sealed
+	method void PreloadTileSetAsync(string tileSetId, func<PreloadResultStatus> completeCallback) end
+
+	---@description "Removes loaded resources from the cache."
+	---@sealed
+	method void RemoveCaches(List<string> ruidList) end
+
+	---@description "Converts RawImage into a sprite, uploads it to the server, and gets an RUID. The first parameter of callbackFunction is the error code, and the second is the issued RUID."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void RequestSpriteUploadAsync(RawImage rawImage, func<ResourceUploadError, string> callbackFunction) end
+
+	---@description "Registers a function that determines whether to allow resource uploads when requested by a client. Returns true if the request is granted, false otherwise."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetSpriteUploadValidationCallback(func<string> -> boolean callbackFunction) end
+
+	---@description "Frees resources from memory. Resources eligible for release are any resources that have not been used for pendingTimeSeconds and have been removed from the cache.  The time units are in seconds."
+	---@sealed
+	method void UnloadUnusedResources(float pendingTimeSeconds) end
+
+	emitter EmitResourceUploadEvent(ResourceUploadEvent event) end
+
+end

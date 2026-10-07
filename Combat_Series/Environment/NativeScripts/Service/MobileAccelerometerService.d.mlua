@@ -1,0 +1,31 @@
+---@sealed
+---@description "Uses the accelerometer of the mobile device. It can be called when the accelerometer function is supported in the mobile device and the user device."
+@Service
+script MobileAccelerometerService extends Service
+
+	---@description "Returns the last linear acceleration measurement value of the device."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method Vector3 GetLastAcceleration() end
+
+	---@description "Returns whether the gravity sensor is currently measuring."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsEnabled() end
+
+	---@description "Returns whether the device supports an accelerometer."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean IsHWSupported() end
+
+	---@description "Starts to measure the accelerometer."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Start() end
+
+	---@description "Stops measuring the accelerometer."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void Stop() end
+
+end

@@ -1,0 +1,18 @@
+---@sealed
+---@description "A successful single capture result."
+@Misc
+script RegexCapture
+
+	---@description "Retrieves the first position index of the captured string from the origin string."
+	---@sealed
+	readonly property int32 Index
+
+	---@description "Retrieves the length of the string from the capture."
+	---@sealed
+	readonly property int32 Length
+
+	---@description "Retrieves the captured string."
+	---@sealed
+	readonly property string Text
+
+end

@@ -1,0 +1,51 @@
+---@sealed
+---@description "Indicates the avatar item classification of MapleStory."
+@Enum
+script MapleAvatarItemCategory
+	---@description "Undefined state. Used for error detection."
+	member Invalid = 0
+	---@description "An item equipped in the avatar body slot."
+	member Body = 1
+	---@description "Can't use this item. The color will be automatically matched to the body color."
+	member Head = 2
+	---@description "An item equipped in the avatar hair slot."
+	member Hair = 3
+	---@description "An item equipped in the avatar face slot."
+	member Face = 4
+	---@description "An item equipped in the avatar cap slot."
+	member Cap = 5
+	---@description "An item equipped in the avatar cape slot."
+	member Cape = 6
+	---@description "An item equipped in the avatar coat slot."
+	member Coat = 7
+	---@description "An item equipped in the avatar gloves slot."
+	member Glove = 8
+	---@description "An item equipped in the avatar long coat slot. Uses coat and pants slots."
+	member Longcoat = 9
+	---@description "An item equipped in the avatar pants slot."
+	member Pants = 10
+	---@description "An item equipped in the avatar shield slot. Uses the sub weapon slot."
+	member Shield = 11
+	---@description "An item equipped in the avatar shoes slot."
+	member Shoes = 12
+	---@description "An item equipped in the avatar 1H weapon slot."
+	member OneHandedWeapon = 13
+	---@description "An item equipped in the avatar 2H weapon slot. Uses 1H weapon and the sub-weapon slots."
+	member TwoHandedWeapon = 14
+	---@description "An item equipped in the avatar sub weapon slot."
+	member SubWeapon = 15
+	---@description "An item equipped in the avatar face accessory slot."
+	member FaceAccessory = 16
+	---@description "An item equipped in the avatar eyes accessory slot."
+	member EyeAccessory = 17
+	---@description "An item equipped in the avatar ears accessory slot."
+	member EarAccessory = 18
+	---@description "An item equipped in the avatar ears slot."
+	member Ear = 19
+
+	---@description "Converts numbers to the applicable type."
+	static method MapleAvatarItemCategory CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MapleAvatarItemCategory CastFrom(string value) end
+end

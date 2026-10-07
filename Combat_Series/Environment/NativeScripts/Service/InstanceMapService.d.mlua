@@ -1,0 +1,104 @@
+---@sealed
+---@description "This Service is deprecated. Use RoomService."
+---@deprecated
+@Service
+script InstanceMapService extends Service
+
+	---@description "This property is now deprecated. Use InstanceRooms of RoomService."
+	---@deprecated
+	---@sealed
+	readonly property string InstanceKey
+
+	---@description "This property is now deprecated. Use InstanceRooms of RoomService."
+	---@deprecated
+	---@sealed
+	readonly property ReadOnlyDictionary<string, InstanceRoom> InstanceMaps
+
+	---@description "This property is now deprecated. Use RoomKey of RoomService."
+	---@deprecated
+	---@sealed
+	readonly property ReadOnlyDictionary<string, InstanceRoom> InstanceRooms
+
+	---@description "This function is now deprecated. Use CreateInstanceRoom (string, table<string>, float) of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method InstanceRoom CreateInstanceMap(string key, table<string> mapNames) end
+
+	---@description "This function is now deprecated. Use CreateInstanceRoom (string, table<string>, float) of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method InstanceRoom CreateInstanceRoom(string key, table<string> mapNames, float firstUserWaitSeconds = 10) end
+
+	---@description "This function is now deprecated. Use GetOrCreateInstanceRoom(string, float) of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method InstanceRoom GetOrCreateInstanceMap(string key) end
+
+	---@description "This function is now deprecated. Use GetOrCreateInstanceRoom(string, float) of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method InstanceRoom GetOrCreateInstanceRoom(string key, float firstUserWaitSeconds = 10) end
+
+	---@description "This function is now deprecated. Use the IsInstanceRoom() function of RoomService."
+	---@deprecated
+	---@sealed
+	method boolean IsInstance() end
+
+	---@description "This function is now deprecated. Use the IsInstanceRoom() function of RoomService."
+	---@deprecated
+	---@sealed
+	method boolean IsInstanceRoom() end
+
+	---@description "This function is now deprecated. Use the MoveUserToInstanceMaps(string, string, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveUserToInstanceMap(string key, string userId, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUserToInstanceMaps(string, string, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveUserToInstanceRoom(string key, string userId, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUserToStaticRoom(string, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveUserToParentMap(string userId, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUserToStaticRoom(string, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method boolean MoveUserToStaticRoom(string userId, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUserToInstanceRoom (string, table<string>, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 MoveUsersToInstanceMap(string key, table<string> userIds, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUserToInstanceRoom (string, table<string>, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 MoveUsersToInstanceRoom(string key, table<string> userIds, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUsersToStaticRoom(string, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 MoveUsersToParentMap(table<string> userIds, string mapName = nil) end
+
+	---@description "This function is now deprecated. Use the MoveUsersToStaticRoom (table<string>, string) function of RoomService."
+	---@deprecated
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method int32 MoveUsersToStaticRoom(table<string> userIds, string mapName = nil) end
+
+end

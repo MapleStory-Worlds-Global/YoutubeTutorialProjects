@@ -1,0 +1,102 @@
+---@description "It is a Component that expresses a standardized UI Entity in the form of a grid. Since only a UI Entity visible on the screen is created and reused, it is an optimized form to express a large amount of Grid."
+@Component
+script GridViewComponent extends Component
+
+	---@description "Fixed size of child UI Entity."
+	---@sealed
+	property Vector2 CellSize = Vector2(100.000, 100.000)
+
+	---@description "Sets a fixed number of rows or columns."
+	---@sealed
+	property int32 FixedCount = 1
+
+	---@description "Sets whether to freeze rows or columns."
+	---@sealed
+	property GridViewFixedType FixedType
+
+	---@sealed
+	property HorizontalScrollBarDirection HorizontalDirection = HorizontalScrollBarDirection.LeftToRight
+
+	---@description "The source that will be cloned when creating a child UI Entity. Entity set as ItemEntity is disabled."
+	---@sealed
+	property Entity ItemEntity
+
+	---@description "A callback when not using a child UI Entity. The indexes of the child UI Entity and UI Entity are passed."
+	---@sealed
+	property func<int32, Entity> OnClear
+
+	---@description "A callback when reusing a child UI Entity. The indexes of the child UI Entity and UI Entity are passed."
+	---@sealed
+	property func<int32, Entity> OnRefresh
+
+	---@description "Sets the free space on the top, bottom, left, and right of the grid view."
+	---@sealed
+	property RectOffset Padding
+
+	---@sealed
+	property Color BackgroundColor = Color(1.000, 1.000, 1.000, 0.000)
+
+	---@sealed
+	property DataRef BackgroundImageRUID
+
+	---@sealed
+	property Color HandleColor = Color(0.725, 0.710, 0.698, 1.000)
+
+	---@sealed
+	property DataRef HandleImageRUID
+
+	---@sealed
+	property ScrollBarMovementType MovementType = ScrollBarMovementType.Elastic
+
+	---@sealed
+	property float Thickness = 10
+
+	---@sealed
+	property ScrollBarVisibility Visible
+
+	---@description "The spacing between child UI Entities."
+	---@sealed
+	property Vector2 Spacing
+
+	---@description "Total number of child UI Entities to be displayed in GridView."
+	---@sealed
+	property int32 TotalCount
+
+	---@description "Sets whether to use the scroll function."
+	---@sealed
+	property boolean UseScroll = true
+
+	---@sealed
+	property VerticalScrollBarDirection VerticalDirection = VerticalScrollBarDirection.BottomToTop
+
+	---@description "Returns the normalized position of the scroll bar."
+	---@sealed
+	method Vector2 GetScrollNormalizedPosition() end
+
+	---@description "Returns the normalized position of the specified directional scroll bar."
+	---@sealed
+	method float GetScrollNormalizedPosition(UITransformAxis axis) end
+
+	---@description "All the child UI Entities of GridView are updated. If restPos is true, initializes the scroll location after the update."
+	---@sealed
+	method void Refresh(boolean resetPos = true, boolean force = false) end
+
+	---@description "Updates the child UI Entity at a specific index. The indexes of the child UI Entity and the UI Entity are called through the OnRefresh callback."
+	---@sealed
+	method void RefreshIndex(int32 index) end
+
+	---@description "Moves the position of the scroll bar on the specified axis to the top position."
+	---@sealed
+	method void ResetScrollPosition(UITransformAxis axis) end
+
+	---@description "Moves the position of the scrollbar on the specified axis to the designated normalized position. The top is 0, the bottom is 1."
+	---@sealed
+	method void SetScrollNormalizedPosition(UITransformAxis axis, float value) end
+
+	---@description "Moves the scroll bar to a position where the child UI Entity at a specific index is visible."
+	---@sealed
+	method void SetScrollPositionByItemIndex(int32 index) end
+
+	emitter EmitScrollPositionChangedEvent(ScrollPositionChangedEvent event) end
+
+end

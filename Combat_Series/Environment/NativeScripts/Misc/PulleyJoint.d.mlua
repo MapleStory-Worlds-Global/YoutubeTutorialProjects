@@ -1,0 +1,40 @@
+---@sealed
+---@description "Create a line by setting the values of Anchor and GroundAnchor of the two Entities, so the sum of the lines is kept constant. It behaves as if two Entities are connected to a pulley."
+@Misc
+script PulleyJoint
+
+	---@description "Sets whether two Entities connected by a Joint will collide with each other."
+	---@sealed
+	property boolean CollideConnected = false
+
+	---@description "Set the GroundAnchor of the Entity with JointComponent. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 GroundAnchorA = Vector2(0.000, 0.000)
+
+	---@description "Set the GroundAnchor of the Entity connected by Joint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 GroundAnchorB = Vector2(0.000, 0.000)
+
+	---@description "Set the Anchor of the Entity with JointComponent. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorA = Vector2(0.000, 0.000)
+
+	---@description "Set the Anchor of the Entity connected by Joint. Use relative coordinates based on the Entity."
+	---@sealed
+	property Vector2 LocalAnchorB = Vector2(0.000, 0.000)
+
+	---@description "Sets the binding force ratio of both imaginary lines forming PulleyJoint."
+	---@sealed
+	property float Ratio = 1
+
+	---@description "Set the Entity to be connected with a Joint."
+	---@sealed
+	property EntityRef TargetEntityRef
+
+	---@description "Initializes PulleyJoint to the default value."
+	constructor PulleyJoint() end
+
+	---@description "Initializes PulleyJoint to the same value as the specified joint."
+	constructor PulleyJoint(PulleyJoint joint) end
+
+end

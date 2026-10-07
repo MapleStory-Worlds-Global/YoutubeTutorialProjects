@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs before beginning the deserialization of an entity."
+@Event
+script EntityPreDeserializeComponentsEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPreDeserializeComponentsEvent(Entity entity = nil) end
+
+end

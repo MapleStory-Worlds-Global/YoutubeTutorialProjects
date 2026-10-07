@@ -1,0 +1,12 @@
+---@sealed
+---@description "The event occurs when changing the wearing state of equipment."
+@Event
+script InitMapleCostumeEvent extends EventType
+
+	---@description "List of wearing equipment."
+	---@sealed
+	readonly property List<MapleAvatarItemData> AvartarItems
+
+	constructor InitMapleCostumeEvent(List<MapleAvatarItemData> avartarItems = nil) end
+
+end

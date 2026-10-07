@@ -1,0 +1,17 @@
+---@sealed
+---@description "The alignment direction of the child UI Entity in ScrollLayoutGroupComponent."
+@Enum
+script LayoutGroupType
+	---@description "Arranges child UI Entities horizontally."
+	member Horizontal = 0
+	---@description "Arranges child UI Entities vertically."
+	member Vertical = 1
+	---@description "Arranges child UI Entities in a table format."
+	member Grid = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method LayoutGroupType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method LayoutGroupType CastFrom(string value) end
+end

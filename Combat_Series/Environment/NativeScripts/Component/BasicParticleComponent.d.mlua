@@ -1,0 +1,108 @@
+---@description "Provides setting and control of basic particles."
+@Component
+script BasicParticleComponent extends Component
+
+	---@description "Set the type of particle to be created."
+	---@sealed
+	@Sync
+	property BasicParticleType ParticleType = BasicParticleType.None
+
+	---@description "Sets whether to create a new random seed whenever particle emission begins."
+	---@sealed
+	@Sync
+	property boolean AutoRandomSeed = true
+
+	---@description "Corrects the color of the particles to be rendered."
+	---@sealed
+	@Sync
+	property Color Color = Color(0.500, 0.250, 0.250, 1.000)
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Indicates whether new particles are being emitted."
+	---@sealed
+	@Sync
+	readonly property boolean IsEmitting = false
+
+	---@description "Selects the rendering method that will determine whether materials or objects will be affected by light sources."
+	---@sealed
+	@Sync
+	property LitMode LitMode = LitMode.Default
+
+	---@description "Set whether to play particles repeatedly."
+	---@sealed
+	@Sync
+	property boolean Loop = true
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "Set the number of particles."
+	---@sealed
+	@Sync
+	property float ParticleCount = 1
+
+	---@description "Set the particle duration."
+	---@sealed
+	@Sync
+	property float ParticleLifeTime = 1
+
+	---@description "Set the particle size."
+	---@sealed
+	@Sync
+	property float ParticleSize = 1
+
+	---@description "Set the particle speed."
+	---@sealed
+	@Sync
+	property float ParticleSpeed = 1
+
+	---@description "Set whether to play particles when the particle component is set to Enable."
+	---@sealed
+	@Sync
+	property boolean PlayOnEnable = true
+
+	---@description "Set the play speed of particles."
+	---@sealed
+	@Sync
+	property float PlaySpeed = 1
+
+	---@description "If set to Enable, the maximum number of particles is loaded, and the particles play naturally."
+	---@sealed
+	@Sync
+	property boolean Prewarm = false
+
+	---@description "Sets the random seed used to determine creation position, emission direction, speed, etc. when particle is played."
+	---@sealed
+	@Sync
+	property integer RandomSeed = 0
+
+	---@description "When two or more Entities overlap, the priority is determined by the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "Default"
+
+	---@description "Play stopped particles."
+	---@sealed
+	method void Play() end
+
+	---@description "Stop playing particles. "
+	---@sealed
+	method void Stop() end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+	emitter EmitParticleEmitEndEvent(ParticleEmitEndEvent event) end
+
+	emitter EmitParticleEmitStartEvent(ParticleEmitStartEvent event) end
+
+	emitter EmitParticleLoopEvent(ParticleLoopEvent event) end
+
+end

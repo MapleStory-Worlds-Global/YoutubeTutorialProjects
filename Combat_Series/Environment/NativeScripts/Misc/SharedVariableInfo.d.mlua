@@ -1,0 +1,18 @@
+---@sealed
+---@description "Shared variable information."
+@Misc
+script SharedVariableInfo
+
+	---@description "Whenever you update a variable, it only performs an update if it equals the value saved in the database. An update is performed unconditionally if a nil or empty string is given."
+	---@sealed
+	readonly property string ETag
+
+	---@description "The variable name."
+	---@sealed
+	readonly property string Name
+
+	---@description "The variable value."
+	---@sealed
+	readonly property string Value
+
+end

@@ -1,0 +1,19 @@
+---@description "Provides the ability to output RawImage to the UI."
+@Component
+script RawImageGUIRendererComponent extends Component
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Draws the RawImage. Does not draw anything if nil is passed."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetRawImage(RawImage rawImage) end
+
+end

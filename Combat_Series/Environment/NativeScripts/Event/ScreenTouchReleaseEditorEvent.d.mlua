@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs while touching/holding the screen or clicking/holding in the editor mode."
+@Event
+script ScreenTouchReleaseEditorEvent extends EventType
+
+	---@description "The occurring point of touching."
+	---@sealed
+	property Vector2 TouchPoint
+
+	constructor ScreenTouchReleaseEditorEvent(Vector2 touchPoint = Vector2(0, 0)) end
+
+end

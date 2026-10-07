@@ -1,0 +1,39 @@
+---@description "Displays the Entity's name tag and set-related information."
+@Component
+script NameTagComponent extends Component
+
+	---@description "Sets whether to use bold text."
+	---@sealed
+	@Sync
+	property boolean Bold = false
+
+	---@description "Changes the text color."
+	---@sealed
+	@Sync
+	property Color FontColor = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Adjusts position of the text within the name tag."
+	---@sealed
+	@Sync
+	property Vector2 FontOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the font size."
+	---@sealed
+	@Sync
+	property float FontSize = 1
+
+	---@description "Sets the name on the name tag."
+	---@sealed
+	@Sync
+	property string Name
+
+	---@description "You can change the name tag shape."
+	---@sealed
+	property DataRef NameTagRUID = DataRef("9bf18287398c44699c20fc5123d1a1ae")
+
+	---@description "Sets Offset of the name tag's position."
+	---@sealed
+	@Sync
+	property float OffsetY = 0
+
+end

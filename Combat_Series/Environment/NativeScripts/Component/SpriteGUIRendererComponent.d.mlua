@@ -1,0 +1,171 @@
+---@description "Outputs the sprite or animation clip on the UI."
+@Component
+script SpriteGUIRendererComponent extends Component
+
+	---@description "Sets the animation clip's playback type. You can choose to play only once, on repeat, etc."
+	---@sealed
+	property SpriteAnimClipPlayType AnimClipPlayType = SpriteAnimClipPlayType.Loop
+
+	---@description "The last frame number when outputting animation. "
+	---@sealed
+	property int32 EndFrameIndex = 2147483647
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "The image RUID to be displayed on the screen."
+	---@sealed
+	property DataRef ImageRUID = DataRef("")
+
+	---@description "The image output location."
+	---@sealed
+	property Vector2 LocalPosition
+
+	---@description "The image size."
+	---@sealed
+	property Vector2 LocalScale = Vector2(1.000, 1.000)
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "Determines whether to set the SortingLayer and OrderInLayer values manually."
+	---@sealed
+	@Sync
+	property boolean OverrideSorting = false
+
+	---@description "The speed of animation playback."
+	---@sealed
+	property float PlayRate = 1
+
+	---@description "Defines how to preserve the original image's proportions/pivot/size, etc."
+	---@sealed
+	property PreserveSpriteType PreserveSprite = PreserveSpriteType.None
+
+	---@description "When two or more Entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "UI"
+
+	---@description "The starting frame number when outputting the animation."
+	---@sealed
+	property int32 StartFrameIndex = 0
+
+	---@description "Sets the default color for the image."
+	---@sealed
+	property Color Color = Color(1.000, 1.000, 1.000, 1.000)
+
+	---@description "Sets whether to output shadows for the image."
+	---@sealed
+	property boolean DropShadow = false
+
+	---@description "Sets the angle to output the shadow."
+	---@sealed
+	property float DropShadowAngle = 30
+
+	---@description "Sets the shadow color."
+	---@sealed
+	property Color DropShadowColor = Color(0.000, 0.000, 0.000, 0.720)
+
+	---@description "Distance between image and shadow."
+	---@sealed
+	property float DropShadowDistance = 32
+
+	---@description "Percentage of the image with Type setting Filled. Use values between 0 and 1."
+	---@sealed
+	property float FillAmount = 1
+
+	---@description "Sets whether to fill the center of the image area when Type is set to Sliced or Tiled."
+	---@sealed
+	property boolean FillCenter = true
+
+	---@description "Sets the direction of filling when FillMethod is set to Radial90, Radial180, or Radial360. It fills clockwise if the value is true."
+	---@sealed
+	property boolean FillClockWise = true
+
+	---@description "Filling method when setting the Filled type."
+	---@sealed
+	property FillMethodType FillMethod = FillMethodType.Horizontal
+
+	---@description "You can set the starting point for filling when Type is set to Filled."
+	---@sealed
+	property int32 FillOrigin = 0
+
+	---@description "Determines whether to invert based on the X axis of an image."
+	---@sealed
+	property boolean FlipX = false
+
+	---@description "Determines whether to invert based on the Y axis of an image."
+	---@sealed
+	property boolean FlipY = false
+
+	---@description "This property is no longer used. Please use the AnimationClip Editor."
+	---@deprecated
+	---@sealed
+	property int32 FrameColumn = 1
+
+	---@description "This property is no longer used. Please use the AnimationClip Editor."
+	---@deprecated
+	---@sealed
+	property int32 FrameRate = 0
+
+	---@description "This property is no longer used. Please use the AnimationClip Editor."
+	---@deprecated
+	---@sealed
+	property int32 FrameRow = 1
+
+	---@description "Sets whether to output the image outline."
+	---@sealed
+	property boolean Outline = false
+
+	---@description "Image outline color."
+	---@sealed
+	property Color OutlineColor = Color(0.000, 0.000, 0.000, 1.000)
+
+	---@description "Outline thickness."
+	---@sealed
+	property float OutlineWidth = 3
+
+	---@description "Becomes the subject of screen touch or mouse clicks if the value is set to true. The UI hidden behind will not receive screen touch and mouse click inputs."
+	---@sealed
+	property boolean RaycastTarget = true
+
+	---@description "How to display the image."
+	---@sealed
+	property ImageType Type = ImageType.Sliced
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Sets the alpha value of the sprite."
+	---@sealed
+	method void SetAlpha(float alpha) end
+
+	---@description "Resizes the image to its original size."
+	---@sealed
+	method void SetNativeSize() end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+	emitter EmitSpriteGUIAnimPlayerChangeFrameEvent(SpriteGUIAnimPlayerChangeFrameEvent event) end
+
+	emitter EmitSpriteGUIAnimPlayerEndEvent(SpriteGUIAnimPlayerEndEvent event) end
+
+	emitter EmitSpriteGUIAnimPlayerEndFrameEvent(SpriteGUIAnimPlayerEndFrameEvent event) end
+
+	emitter EmitSpriteGUIAnimPlayerStartEvent(SpriteGUIAnimPlayerStartEvent event) end
+
+	emitter EmitSpriteGUIAnimPlayerStartFrameEvent(SpriteGUIAnimPlayerStartFrameEvent event) end
+
+end

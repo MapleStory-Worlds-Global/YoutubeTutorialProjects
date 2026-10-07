@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when AnimationClip change is required."
+@Event
+script AnimationClipEvent extends EventType
+
+	---@description "The name of the Animation."
+	---@sealed
+	property string ClipName
+
+	constructor AnimationClipEvent(string clipName = nil) end
+
+end

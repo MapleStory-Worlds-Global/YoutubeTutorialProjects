@@ -1,0 +1,14 @@
+---@sealed
+---@description "Indicates data saved in SortableDataStorage."
+@Misc
+script SortableDataStorageItem
+
+	---@description "Key information for the SortableDataStorage data."
+	---@sealed
+	readonly property DataStorageKeyInfo KeyInfo
+
+	---@description "The value of the SortableDataStorage data."
+	---@sealed
+	readonly property integer Value
+
+end

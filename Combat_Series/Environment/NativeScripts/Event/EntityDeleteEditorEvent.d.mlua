@@ -1,0 +1,12 @@
+---@sealed
+---@description "Editor event which takes place when deleting an entity."
+@Event
+script EntityDeleteEditorEvent extends EventType
+
+	---@description "Name of the deleted entity."
+	---@sealed
+	property string EntityName
+
+	constructor EntityDeleteEditorEvent(string entityName = nil) end
+
+end

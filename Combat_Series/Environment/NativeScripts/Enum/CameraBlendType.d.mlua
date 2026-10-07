@@ -1,0 +1,25 @@
+---@sealed
+---@description "This is how to create a camera transition."
+@Enum
+script CameraBlendType
+	---@description "Transitions cameras instantly."
+	member Cut = 0
+	---@description "The camera transitions smoothly according to the S-curve."
+	member EaseInOut = 1
+	---@description "Starts and stops camera transitions at a linear rate."
+	member EaseIn = 2
+	---@description "Starts camera transitions at a slow pace, gradually increasing the speed to stop the transitions."
+	member EaseOut = 3
+	---@description "Starts at a slow pace, gradually increases the speed and stops the transition."
+	member HardIn = 4
+	---@description "Starts at a fast pace, gradually slows down and stops the transition."
+	member HardOut = 5
+	---@description "Transitions the camera at a linear speed."
+	member Linear = 6
+
+	---@description "Converts numbers to the applicable type."
+	static method CameraBlendType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method CameraBlendType CastFrom(string value) end
+end

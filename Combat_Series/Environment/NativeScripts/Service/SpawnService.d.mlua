@@ -1,0 +1,29 @@
+---@sealed
+---@description "Provides functions related to spawning entities."
+@Service
+script SpawnService extends Service
+
+	---@description "This function is now deprecated. Use the SpawnByEntity (Entity, string, Vector3, Entity, boolean) function."
+	---@deprecated
+	---@sealed
+	method Entity Clone(string name, Entity original, Entity parent = nil, boolean posOffset = true, boolean dynamic = true) end
+
+	---@description "Spawns a new entity based on the entity."
+	---@sealed
+	method Entity SpawnByEntity(Entity entity, string name, Vector3 spawnPosition, Entity parent = nil, boolean includeChild = true) end
+
+	---@description "This function is now deprecated. Use the SpawnByEntity (Entity, string, Vector3, Entity, boolean) function."
+	---@deprecated
+	---@sealed
+	method Entity SpawnByEntityTemplate(Entity entityTemplate, string name, Vector3 spawnPosition, boolean includeChild = true, boolean dynamic = true, boolean needSync = true, boolean nameEditable = true) end
+
+	---@description "Spawns a new entity based on the model corresponding to the id. The name is the name of the model to spawn, the spawnPosition is the location, and the parent is the parent entity."
+	---@sealed
+	method Entity SpawnByModelId(string id, string name, Vector3 spawnPosition, Entity parent) end
+
+	---@description "This function is now deprecated. Use the SpawnByModelId (string, string, Vector3, Entity) function."
+	---@deprecated
+	---@sealed
+	method Entity SpawnByModelId(string id, string name, Vector3 spawnPosition, Entity parent, string ownerId, boolean dynamic = true, boolean needSync = true, boolean nameEditable = true) end
+
+end

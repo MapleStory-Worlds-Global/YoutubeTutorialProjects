@@ -1,0 +1,19 @@
+---@sealed
+---@description "The starting position for aligning child UI entities according to the size of the parent entity. You can set if ScrollLayoutComponent is GridType."
+@Enum
+script GridLayoutCorner
+	---@description "Arrange child UI entities by adding them from the top left."
+	member UpperLeft = 0
+	---@description "Arrange child UI entities by adding them from the top right."
+	member UpperRight = 1
+	---@description "Arrange child UI entities by adding them from the bottom left."
+	member LowerLeft = 2
+	---@description "Arrange child UI entities by adding them from the bottom right."
+	member LowerRight = 3
+
+	---@description "Converts numbers to the applicable type."
+	static method GridLayoutCorner CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method GridLayoutCorner CastFrom(string value) end
+end

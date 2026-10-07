@@ -1,0 +1,21 @@
+---@sealed
+---@description "Indicates a button state."
+@Enum
+script ButtonState
+	---@description "This is the default."
+	member Normal = 0
+	---@description "The pointer is over the button."
+	member Hover = 1
+	---@description "The button is held down."
+	member Pressed = 2
+	---@description "The state changes when the button is pressed and released."
+	member Released = 3
+	---@description "The button is pressed and released only for a short period of time."
+	member Clicked = 4
+
+	---@description "Converts numbers to the applicable type."
+	static method ButtonState CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ButtonState CastFrom(string value) end
+end

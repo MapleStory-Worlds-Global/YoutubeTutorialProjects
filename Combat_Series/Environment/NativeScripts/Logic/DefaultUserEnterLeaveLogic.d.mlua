@@ -1,0 +1,14 @@
+---@sealed
+---@description "Provides functions related to user entry and exit."
+@Logic
+script DefaultUserEnterLeaveLogic extends Logic
+
+	---@description "The Model Id to use when creating the player. Apply the Copy Model ID from the model's context menu. You must change in the Server area to properly apply the changes."
+	---@sealed
+	property string PlayerUri = "model://defaultplayer"
+
+	---@description "The name of the start map. Apply the Copy Entry Path from the map's context menu. You need to make the changes in the server environment to properly apply the changes."
+	---@sealed
+	property string StartPoint = "/maps/map01"
+
+end

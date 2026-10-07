@@ -1,0 +1,63 @@
+---@description "You can manage the map and change its unique properties."
+@Component
+script MapComponent extends Component
+
+	---@description "Corrects the speed mid-air for Entities with RigidbodyComponents on the map. The higher the value is, the faster the speed in the air."
+	---@sealed
+	property float AirAccelerationXFactor = 1
+
+	---@description "Adjusts how fast the X-axis movement stops if no input is received while Entities with RigidbodyComponents are in mid-air."
+	---@sealed
+	property float AirDecelerationXFactor = 1
+
+	---@description "Corrects the X-axis maximum speed limit mid-air for Entities with RigidbodyComponents on the map."
+	---@sealed
+	property float FallSpeedMaxXFactor = 1
+
+	---@description "Corrects the Y-axis maximum speed limit mid-air for Entities with RigidbodyComponents on the map."
+	---@sealed
+	property float FallSpeedMaxYFactor = 1
+
+	---@description "Corrects the gravity value of Entities with RigidbodyComponent on the map."
+	---@sealed
+	property float Gravity = 1
+
+	---@description "Indicates whether the map is dynamically created."
+	---@sealed
+	readonly property boolean IsDynamicMap = false
+
+	---@sealed
+	property boolean InstanceMap = false
+
+	---@description "The bottom-left value of the map area."
+	---@sealed
+	@Sync
+	property Vector2 LeftBottom = Vector2(-1.000, -1.000)
+
+	---@description "The top-right of the map area."
+	---@sealed
+	@Sync
+	property Vector2 RightTop = Vector2(1.000, 1.000)
+
+	---@description "Checks the tilemap mode of the map."
+	---@sealed
+	property TileMapMode TileMapMode = TileMapMode.MapleTile
+
+	---@description "Shows whether you will directly define and use the map area. You can define it using the LeftBottom and RightTop properties."
+	---@sealed
+	@Sync
+	property boolean UseCustomBound = false
+
+	---@description "Sets the Factor for the movement speed of Entities with RigidbodyComponent within the map. The maximum speed cannot exceed the WalkSpeed for the RigidbodyComponent, which regulates the maximum speed."
+	---@sealed
+	property float WalkAccelerationFactor = 1
+
+	---@description "Corrects the tile friction of Entities with RigidbodyComponents on the map. The lower the value is, the better the tile slides."
+	---@sealed
+	property float WalkDrag = 1
+
+	---@description "Gets the map area composed of LeftBottom and RightTop."
+	---@sealed
+	method Vector2, Vector2 GetBound() end
+
+end

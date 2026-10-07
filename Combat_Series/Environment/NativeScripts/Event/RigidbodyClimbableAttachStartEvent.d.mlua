@@ -1,0 +1,12 @@
+---@sealed
+---@description "This Event occurs before the Avatar climbs the ladder or rope."
+@Event
+script RigidbodyClimbableAttachStartEvent extends EventType
+
+	---@description "This is a ladder or rope Entity that an Avatar can ride on."
+	---@sealed
+	property Entity AttachedEntity
+
+	constructor RigidbodyClimbableAttachStartEvent(Entity attachedEntity = nil) end
+
+end

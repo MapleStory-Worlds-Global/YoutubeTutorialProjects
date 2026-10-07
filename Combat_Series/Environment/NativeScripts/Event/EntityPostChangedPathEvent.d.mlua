@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs after changing an entity's path."
+@Event
+script EntityPostChangedPathEvent extends EventType
+
+	---@description "Previous path of an entity."
+	---@sealed
+	property string PrevPath
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostChangedPathEvent(Entity entity = nil, string prevPath = nil) end
+
+end

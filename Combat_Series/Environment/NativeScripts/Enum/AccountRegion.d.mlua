@@ -1,0 +1,21 @@
+---@sealed
+---@description "Shows the region where the user's account was registered. The region is automatically determined based on the region the account was logged into when the account was made."
+@Enum
+script AccountRegion
+	---@description "The Korean region."
+	member KR = 0
+	---@description "The East Asian region."
+	member GlobalEastAsia = 1
+	---@description "The Southeast Asian region."
+	member GlobalSoutheastAsia = 2
+	---@description "Other region."
+	member GlobalWest = 3
+	---@description "An internal error has occurred."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method AccountRegion CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method AccountRegion CastFrom(string value) end
+end

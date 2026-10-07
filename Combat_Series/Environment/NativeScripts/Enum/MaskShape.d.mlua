@@ -1,0 +1,13 @@
+---@sealed
+---@description "Represents the mask shape for MaskComponent."
+@Enum
+script MaskShape
+	---@description "Uses a rectangular area as a mask."
+	member Rect = 0
+
+	---@description "Converts numbers to the applicable type."
+	static method MaskShape CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method MaskShape CastFrom(string value) end
+end

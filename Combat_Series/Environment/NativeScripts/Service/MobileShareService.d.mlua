@@ -1,0 +1,11 @@
+---@sealed
+---@description "This service shares videos or images recorded by ScreenRecordService on social media. Only available on mobile devices."
+@Service
+script MobileShareService extends Service
+
+	---@description "Shares a video or image in a filePath. Returns false if a file does not exist or fails to be shared."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method boolean ShareFileAndWait(string filePath) end
+
+end

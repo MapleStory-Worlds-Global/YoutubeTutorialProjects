@@ -1,0 +1,61 @@
+---@sealed
+---@description "Indicates the facial expression of the avatar."
+@Enum
+script EmotionalType
+	---@description "This is not a valid state."
+	member Invalid = 0
+	---@description "Shows the face of the avatar in a hit state."
+	member Hit = 1
+	---@description "Shows the face of the avatar in a smiling state."
+	member Smile = 2
+	---@description "Shows the face of the avatar in a troubled state."
+	member Troubled = 3
+	---@description "Shows the face of the avatar in a crying state."
+	member Cry = 4
+	---@description "Shows the face of the avatar in an angry state."
+	member Angry = 5
+	---@description "Shows the face of the avatar in a bewildered state."
+	member Bewildered = 6
+	---@description "Shows the face of the avatar in a stunned state."
+	member Stunned = 7
+	---@description "Shows the face of the avatar in a vomiting state."
+	member Vomit = 8
+	---@description "Shows the face of the avatar in an absurd state."
+	member Oops = 9
+	---@description "Shows the face of the avatar in an extreme state."
+	member Cheers = 10
+	---@description "Shows the face of the avatar in a kissing state."
+	member Chu = 11
+	---@description "Shows the face of the avatar in a winking state."
+	member Wink = 12
+	---@description "Shows the face of the avatar in a pained state."
+	member Pain = 13
+	---@description "Shows the face of the avatar with glittering eyes."
+	member Glitter = 14
+	---@description "Shows the face of the avatar in a despairing state."
+	member Despair = 15
+	---@description "Shows the face of the avatar in a love state."
+	member Love = 16
+	---@description "Shows the face of the avatar in a shining state."
+	member Shine = 17
+	---@description "Shows the face of the avatar in a fire state."
+	member Blaze = 18
+	---@description "Shows the face of the avatar in a blurry state."
+	member Hum = 19
+	---@description "Shows the face of the avatar in a bowing state."
+	member Bowing = 20
+	---@description "Shows the face of the avatar in a hot state."
+	member Hot = 21
+	---@description "Shows the face of the avatar in a teasing state."
+	member Dam = 22
+	---@description "Shows the face of the avatar in a pale state."
+	member qBlue = 23
+	---@description "Represents the avatar's default facial expression."
+	member Default = 24
+
+	---@description "Converts numbers to the applicable type."
+	static method EmotionalType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method EmotionalType CastFrom(string value) end
+end

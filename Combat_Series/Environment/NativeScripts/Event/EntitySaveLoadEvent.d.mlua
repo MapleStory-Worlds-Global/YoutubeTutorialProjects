@@ -1,0 +1,16 @@
+---@sealed
+---@description "This feature is not available for creators."
+@Event
+script EntitySaveLoadEvent extends EventType
+
+	---@description "This feature is not available for creators."
+	---@sealed
+	property JObject JsonData
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntitySaveLoadEvent(Entity entity = nil, JObject jsonData = nil) end
+
+end

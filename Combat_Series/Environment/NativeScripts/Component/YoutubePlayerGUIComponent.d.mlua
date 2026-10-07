@@ -1,0 +1,80 @@
+---@description "Provides YouTube video play function on the UI."
+@Component
+script YoutubePlayerGUIComponent extends Component
+
+	---@description "Does not perform automatic substitution when the Map Layer's name is specified in SortingLayer."
+	---@sealed
+	@Sync
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Determines the priority within the same layer. A higher number indicates higher priority."
+	---@sealed
+	@Sync
+	property int32 OrderInLayer = 0
+
+	---@description "Determines whether to set the SortingLayer and OrderInLayer values manually."
+	---@sealed
+	@Sync
+	property boolean OverrideSorting = false
+
+	---@description "When two or more entities overlap, the priority is determined according to the Sorting Layer."
+	---@sealed
+	@Sync
+	property string SortingLayer = "UI"
+
+	---@description "Sets whether to repeat playback of the video."
+	---@sealed
+	property boolean Loop = true
+
+	---@description "Sets whether to play the video on starting the world."
+	---@sealed
+	property boolean PlayOnAwake = true
+
+	---@description "Sets up the play speed of videos. You can use values between 0.5 and 3."
+	---@sealed
+	@Sync
+	property float PlaySpeed = 1
+
+	---@description "Sets whether to shuffle playback order of the videos saved in Urls when a value is true."
+	---@sealed
+	property boolean Shuffle = true
+
+	---@description "Specifies video URLs."
+	---@sealed
+	property List<string> Urls
+
+	---@description "Sets the volume level. You can use values between 0 and 1."
+	---@sealed
+	@Sync
+	property float Volume = 1
+
+	---@description "Stops video playback and clears the screen."
+	---@sealed
+	@ExecSpace("Client")
+	method void ClearScreen(string targetUserId = nil) end
+
+	---@description "Move the play point to a specific time and then play. The unit of time is the second in an integer."
+	---@sealed
+	@ExecSpace("Client")
+	method void Jump(int32 timeInSeconds, string targetUserId = nil) end
+
+	---@description "Pauses video playback."
+	---@sealed
+	@ExecSpace("Client")
+	method void Pause(string targetUserId = nil) end
+
+	---@description "Replays all videos from the beginning."
+	---@sealed
+	@ExecSpace("Client")
+	method void Play(string targetUserId = nil) end
+
+	---@description "Stops or plays paused video."
+	---@sealed
+	@ExecSpace("Client")
+	method void PlayPause(string targetUserId = nil) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

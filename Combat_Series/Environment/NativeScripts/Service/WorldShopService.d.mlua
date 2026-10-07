@@ -1,0 +1,28 @@
+---@sealed
+---@description "Provides functions related to purchasing products in the world through paid goods."
+@Service
+script WorldShopService extends Service
+
+	---@description "Acquires the product information. Script executions are suspended during the operation. The release environment allows obtaining the badge information in Waiting, Ing, and End statuses, while the maker environment allows obtaining the badge information in Register, Waiting, Ing, and End statuses."
+	---@sealed
+	method WorldShopProduct GetProductAndWait(string productId) end
+
+	---@description "Obtains an entity that can check the information of products matching the search condition. Script executions are suspended during the operation. The release environment allows the search of products in Waiting, Ing, and End statuses, while the maker environment allows the search of products in Register, Waiting, Ing, and End statuses."
+	---@sealed
+	method WorldShopProductPages GetProductsAndWait(WorldShopProductType productType, WorldShopProductStatus productStatus) end
+
+	---@description "Displays the product purchase window. If you are unable to purchase the item, the reason is displayed."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void PromptPurchase(string productId) end
+
+	---@description "Specifies a callback that issues a product when purchasing a product. The callback should check the purchase information against the received WorldShopPurchaseInfo and return true if the product payment is successful, otherwise false."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetProcessPurchaseCallback(func<WorldShopPurchaseInfo> -> boolean callback) end
+
+	---@description "Checks if the user has a pass. Script executions are suspended during the operation. In the World being created, you start without a pass."
+	---@sealed
+	method boolean UserHasPassAndWait(string userId, string productId) end
+
+end

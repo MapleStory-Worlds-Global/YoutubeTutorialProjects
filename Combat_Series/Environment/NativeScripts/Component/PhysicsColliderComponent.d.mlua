@@ -1,0 +1,87 @@
+---@description "Sets the size and offset of the physics rigid body and triggers an event when it collides with another entity. This is automatically connected to the PhysicsRigidbodyComponent of the parent entity or its own entity."
+@Component
+script PhysicsColliderComponent extends Component
+
+	---@description "Sets the Box Collider size. "
+	---@sealed
+	@Sync
+	property Vector2 BoxSize = Vector2(0.000, 0.000)
+
+	---@description "Sets the radius length of the Circle Collider."
+	---@sealed
+	@Sync
+	property float CircleRadius = 0
+
+	---@description "If true, physics operations occur in the Client, and functions and Property changes are possible in the Client space. Physics calculation results are not synchronized with other Clients."
+	---@sealed
+	property boolean ClientOnly = false
+
+	---@description "Sets the Collider's offset."
+	---@sealed
+	@Sync
+	property Vector2 ColliderOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the Collider's shape."
+	---@sealed
+	@Sync
+	property ColliderType ColliderType = ColliderType.Box
+
+	---@description "Sets up a collision group that can determine if there is a collision or not."
+	---@sealed
+	@Sync
+	property CollisionGroup CollisionGroup
+
+	---@description "Sets the density value to use when UseDensity of the attached PhysicsRigidbodyComponent is true."
+	---@sealed
+	@Sync
+	property float Density = 1
+
+	---@description "Set whether PhysicsContactBeginEvent and PhysicsContactEndEvent occur. If false, neither event occurs."
+	---@sealed
+	@Sync
+	property boolean EnableContactEvent = false
+
+	---@description "Determines the coefficient of friction. Must set a value equal to or greater than 0. Valid when UseCustomPhysicalProperties is true."
+	---@sealed
+	@Sync
+	property float Friction = 0.3
+
+	---@description "Sets whether to support the legacy system. ColliderOffset affects the Entity's SpriteRendererComponent in the previous system. The previous system is no longer supported and will be deleted at a later date."
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "If true, no physical interaction will occur, but a collision event will occur."
+	---@sealed
+	@Sync
+	property boolean IsSensor = false
+
+	---@description "The positions of the points that make up the polygonal colliding body. Valid when ColliderType is Polygon."
+	---@sealed
+	@Sync
+	property SyncList<Vector2> PolygonPoints
+
+	---@description "Determines how much bounce occurs after a collision. Must set a value equal to or greater than 0. Valid when UseCustomPhysicalProperties is true."
+	---@sealed
+	@Sync
+	property float Restitution = 0
+
+	---@description "Friction and Restituion values are applied to physics rigid bodies. If false, the value of the connected PhysicsRigidbodyComponent is used."
+	---@sealed
+	@Sync
+	property boolean UseCustomPhysicalProperties = false
+
+	---@description "Returns the connected PhysicsRigidbodyComponent."
+	---@sealed
+	method PhysicsRigidbodyComponent GetAttachedPhysicsRigidbody() end
+
+	---@description "Called when two physics rigid bodies begin to collide."
+	method void OnContactBegin(PhysicsContactBeginEvent beginEvent) end
+
+	---@description "Called when contact ends."
+	method void OnContactEnd(PhysicsContactEndEvent endEvent) end
+
+	emitter EmitPhysicsContactBeginEvent(PhysicsContactBeginEvent event) end
+
+	emitter EmitPhysicsContactEndEvent(PhysicsContactEndEvent event) end
+
+end

@@ -1,0 +1,17 @@
+---@description "Used to control an entire group of UI elements in one place."
+@Component
+script CanvasGroupComponent extends Component
+
+	---@description "When it's set as true, the child UI can receive a screen touch or click input. The UI hidden behind will not receive the input."
+	---@sealed
+	property boolean BlocksRaycasts = true
+
+	---@description "Sets the child UI's transparency to a value between 0 and 1."
+	---@sealed
+	property float GroupAlpha = 1
+
+	---@description "Sets whether the child UI is interactive. If it's set as false, it will not operate even if it receives the user input."
+	---@sealed
+	property boolean Interactable = true
+
+end

@@ -1,0 +1,110 @@
+---@sealed
+---@description "This entity represents memory shared between rooms."
+@Misc
+script RoomSharedMemory
+
+	---@description "The name of the shared memory."
+	---@sealed
+	readonly property string Name
+
+	---@description "Assigns variables with the name and value pairs entered. Returns a table containing variable names and resulting pairs. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Dictionary<string, SharedVariableResult> BatchCreateVariableAndWait(Dictionary<string, string> nameValues) end
+
+	---@description "Assigns variables with the entered name and value pairs. The function passed as callbackFunction is called with a table containing variable names and result pairs upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchCreateVariableAsync(Dictionary<string, string> nameValues, func<Dictionary<string, SharedVariableResult>> callbackFunction) end
+
+	---@description "Deletes the variables corresponding to the names entered. Returns a table containing variable names and resulting code pairs. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Dictionary<string, SharedMemoryResultCode> BatchDeleteVariableAndWait(List<string> names) end
+
+	---@description "Deletes the variables corresponding to the entered names. The function passed as callbackFunction is called with a table containing variable names and result code pairs upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchDeleteVariableAsync(List<string> names, func<Dictionary<string, SharedMemoryResultCode>> callbackFunction) end
+
+	---@description "Retrieves information pertaining to the variable names entered. Returns a table containing variable names and resulting code pairs. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Dictionary<string, SharedVariableResult> BatchGetVariableAndWait(List<string> names) end
+
+	---@description "Gets the information of the variables corresponding to the entered names. The function passed as callbackFunction is called with a table containing variable names and result pairs upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchGetVariableAsync(List<string> names, func<Dictionary<string, SharedVariableResult>> callbackFunction) end
+
+	---@description "Assigns new variables if there are no variables with the name and value pairs entered. Modifies the values of existing variables if they already exist. Returns a table containing variable names and resulting code pairs. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Dictionary<string, SharedVariableResult> BatchSetVariableAndWait(Dictionary<string, string> nameValues) end
+
+	---@description "Assigns new variables if there are no variables with the entered name and value pairs. Modifies the values of existing variables if they already exist. The function passed as callbackFunction is called with a table containing variable names and result pairs upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchSetVariableAsync(Dictionary<string, string> nameValues, func<Dictionary<string, SharedVariableResult>> callbackFunction) end
+
+	---@description "Modifies the values of variables corresponding to the entered SharedVariableKeyInfo. Returns a table containing variable names and result pairs. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method Dictionary<string, SharedVariableResult> BatchUpdateVariableAndWait(Dictionary<SharedVariableKeyInfo, string> keyValues) end
+
+	---@description "Modifies the values of variables corresponding to the entered SharedVariableKeyInfo. Does not modify the value if the ETag of SharedVariableKeyInfo is not up to date. Modifies the value unconditionally if ETag is nill or an empty string. The function passed as callbackFunction is called with a table containing variable names and result pairs upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void BatchUpdateVariableAsync(Dictionary<SharedVariableKeyInfo, string> keyValues, func<Dictionary<string, SharedVariableResult>> callbackFunction) end
+
+	---@description "Assigns a variable. You can see the request result with the returned entity. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedVariableResult CreateVariableAndWait(string name, string value) end
+
+	---@description "Assigns a variable. The function passed to the callbackFunction is called with the results upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void CreateVariableAsync(string name, string value, func<SharedVariableResult> callbackFunction) end
+
+	---@description "Deletes the variable. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedMemoryResultCode DeleteVariableAndWait(string name) end
+
+	---@description "Deletes the variable. The function passed to the callbackFunction is called with the result codes upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void DeleteVariableAsync(string name, func<SharedMemoryResultCode> callbackFunction) end
+
+	---@description "Gets variable information. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedVariableResult GetVariableAndWait(string name) end
+
+	---@description "Gets variable information. The function passed to the callbackFunction is called with the result codes and variable information upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void GetVariableAsync(string name, func<SharedVariableResult> callbackFunction) end
+
+	---@description "Assigns new variables if there are no variables. Modifies the values of existing variables if they already exist. You can see the request result with the returned entity. Suspends script executions during performance."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedVariableResult SetVariableAndWait(string name, string value) end
+
+	---@description "Assigns new variables if there are no variables. Modifies the values of existing variables if they already exist. The function passed to the callbackFunction is called with the results upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void SetVariableAsync(string name, string value, func<SharedVariableResult> callbackFunction) end
+
+	---@description "Modifies variable values. Script executions are suspended during the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method SharedVariableResult UpdateVariableAndWait(SharedVariableKeyInfo keyInfo, string value) end
+
+	---@description "Modifies variable values. The function passed to the callbackFunction is called with the result codes and latest variable information upon completion of the operation."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void UpdateVariableAsync(SharedVariableKeyInfo keyInfo, string value, func<SharedVariableResult> callbackFunction) end
+
+end

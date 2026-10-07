@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurts when TriggerComponent's area overlaps."
+@Event
+script TriggerEnterEvent extends EventType
+
+	---@description "The entity of the collided TriggerBody."
+	---@sealed
+	property Entity TriggerBodyEntity
+
+	constructor TriggerEnterEvent(Entity triggerBodyEntity = nil) end
+
+end

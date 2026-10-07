@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when the entity comes off of the foothold."
+@Event
+script FootholdLeaveEvent extends EventType
+
+	---@description "An entity that came off of the foothold."
+	---@sealed
+	property Entity Entity
+
+	---@description "The Id of the target foothold."
+	---@sealed
+	property Foothold Foothold
+
+	constructor FootholdLeaveEvent(Entity entity = nil, Foothold foothold = nil) end
+
+end

@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when adding a child entity to an entity."
+@Event
+script EntityAddChildrenEvent extends EventType
+
+	---@description "Added child entity."
+	---@sealed
+	property Entity AddedChildren
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityAddChildrenEvent(Entity entity = nil, Entity addedChildren = nil) end
+
+end

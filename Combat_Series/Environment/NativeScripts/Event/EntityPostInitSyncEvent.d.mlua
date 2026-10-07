@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs after finishing the InitSync of an entity."
+@Event
+script EntityPostInitSyncEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityPostInitSyncEvent(Entity entity = nil) end
+
+end

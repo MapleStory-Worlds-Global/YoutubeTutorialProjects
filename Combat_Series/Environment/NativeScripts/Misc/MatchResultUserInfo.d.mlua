@@ -1,0 +1,22 @@
+---@sealed
+---@description "Displays information such as a user's win or loss state, score, etc. after the game is over"
+@Misc
+script MatchResultUserInfo
+
+	---@description "Additional data that's saved when making a matchmaking request."
+	---@sealed
+	readonly property string Extras
+
+	---@description "Indicates a win or a loss."
+	---@sealed
+	readonly property MatchResultType MatchResult
+
+	---@description "This player's profile code."
+	---@sealed
+	readonly property string ProfileCode
+
+	---@description "The newly calculated score based on match results."
+	---@sealed
+	readonly property int32 Score
+
+end

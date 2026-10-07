@@ -1,0 +1,87 @@
+---@description "Adds a camera function that faces an Entity. Use CameraService to switch between cameras."
+@Component
+script CameraComponent extends Component
+
+	---@description "Sets the position of the camera based on World coordinates."
+	---@sealed
+	property Vector2 CameraOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the camera to cover only the foothold area of the map."
+	---@sealed
+	property boolean ConfineCameraArea = true
+
+	---@description "Determines how quickly the camera responds when a subject enters the SoftZone while it is tracking the subject. The smaller the value, the more responsive it is."
+	---@sealed
+	property Vector2 Damping = Vector2(2.500, 5.000)
+
+	---@description "Sets the DeadZone area, the section of the frame where the camera holds its target."
+	---@sealed
+	property Vector2 DeadZone = Vector2(0.052, 0.080)
+
+	---@description "Sets the rotation value of the camera."
+	---@sealed
+	property float DutchAngle = 0
+
+	---@description "The active camera is checked to see whether zoom operation is allowed."
+	---@sealed
+	property boolean IsAllowZoomInOut = false
+
+	---@description "The bottom-left value of the camera-restricted area."
+	---@sealed
+	@Sync
+	property Vector2 LeftBottom = Vector2(-1.000, -1.000)
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "The top-right value of the camera-restricted area."
+	---@sealed
+	@Sync
+	property Vector2 RightTop = Vector2(1.000, 1.000)
+
+	---@description "The ratio value of the full screen based on the target. Values can be between 0 and 1; 0.5 will center the camera. Available when ConfineCameraArea is false."
+	---@sealed
+	property Vector2 ScreenOffset = Vector2(0.500, 0.655)
+
+	---@description "Sets the SoftZone area. If target enters the frame area, the camera will shift direction to DeadZone."
+	---@sealed
+	property Vector2 SoftZone = Vector2(0.268, 0.750)
+
+	---@description "Shows whether you will directly define and use the camera-restricted area. You can define it using the LeftBottom and RightTop properties."
+	---@sealed
+	@Sync
+	property boolean UseCustomBound = false
+
+	---@description "Sets the zoom ratio of the camera. It must be greater than or equal to ZoomRatioMin and less than or equal to ZoomRatioMax."
+	---@sealed
+	property float ZoomRatio = 100
+
+	---@description "Sets the maximum value for the camera's zoom ratio. The value cannot exceed 500."
+	---@sealed
+	property float ZoomRatioMax = 500
+
+	---@description "Sets the minimum value for the camera's zoom ratio. The value must be greater than 30."
+	---@sealed
+	property float ZoomRatioMin = 30
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Gets the camera-restricted area composed of LeftBottom and RightTop."
+	---@sealed
+	method Vector2, Vector2 GetBound() end
+
+	---@description "The camera will zoom in for the given amount of time (seconds)."
+	---@sealed
+	@ExecSpace("Client")
+	method void SetZoomTo(float percent, float duration, string targetUserId = nil) end
+
+	---@description "Vibrates the camera for a given amount of time (seconds)."
+	---@sealed
+	@ExecSpace("Client")
+	method void ShakeCamera(float intensity, float duration, string targetUserId = nil) end
+
+end

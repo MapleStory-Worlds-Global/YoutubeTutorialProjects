@@ -1,0 +1,60 @@
+---@sealed
+---@description "The information about a Freeform-type light source that will spawn in the map."
+@Misc
+script FreeformTypeOverlayLightInfo
+
+	---@description "The color of the light source."
+	---@sealed
+	property Color Color
+
+	---@description "Determines how much the light will stretch from FreeformPoints if the light source is a Freeform-type. The larger the value, the larger the size."
+	---@sealed
+	property float FalloffDistance
+
+	---@description "Controls the softness of the curves when the light source starts to disappear. The larger the value, the more blurred and softer the edge looks. The smaller the value, the sharper and clearer the edge looks."
+	---@sealed
+	property float FalloffIntensity
+
+	---@description "Points that define the shape of a Freeform-type light source. The number of points can't exceed 2,000."
+	---@sealed
+	property List<Vector2> FreeformPoints
+
+	---@description "An entity that belongs to the map where a light source will be added."
+	---@sealed
+	property Entity Instigator
+
+	---@description "The luminous intensity of the light source."
+	---@sealed
+	property float Intensity
+
+	---@description "The amount of time the light source will display. The created light source will automatically disappear upon reaching the specified time. However, when a value equal to or lower than 0 is input, the light source will remain indefinitely."
+	---@sealed
+	property float Lifetime
+
+	---@description "Determines the rendering order of a light source light texture. The light source with a smaller number will be rendered first, and then, the larger number light source will be rendered on top. Operates when OverlapOperation is set to AlphaBlend. Global-type light sources don't have LightOrder as an exception."
+	---@sealed
+	property int32 LightOrder
+
+	---@description "How to calculate a light source. Global-type light sources don't have OverlapOperation."
+	---@sealed
+	property OverlayLightOverlapOperation OverlapOperation
+
+	---@description "The world space coordinates of the light source."
+	---@sealed
+	property Vector3 WorldPosition
+
+	---@description "The world's spatial scale where the light source will be applied."
+	---@sealed
+	property Vector3 WorldScale
+
+	---@description "The world's spatial z-axis-based rotation value where the light source will be applied."
+	---@sealed
+	property float WorldZRotation
+
+	---@description "Initializes FreeformTypeOverlayLightInfo to the specified value."
+	constructor FreeformTypeOverlayLightInfo(Entity instigator) end
+
+	---@description "Initializes FreeformTypeOverlayLightInfo to the specified value."
+	constructor FreeformTypeOverlayLightInfo(Entity instigator, float lifetime, Vector3 worldPosition, float worldZRotation, Vector3 worldScale, Color color, float intensity, OverlayLightOverlapOperation overlapOperation, int32 lightOrder, List<Vector2> freeformPoints, float falloffDistance, float falloffIntensity) end
+
+end

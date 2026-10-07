@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs on an entity's BeginPlay."
+@Event
+script EntityBeginPlayEvent extends EventType
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityBeginPlayEvent(Entity entity = nil) end
+
+end

@@ -1,0 +1,41 @@
+---@description "Represents an item in the world. Includes the configuring information of items."
+@Misc
+script Item
+
+	---@description "The description of the item defined in the UserItemDataSets table."
+	---@sealed
+	readonly property string Description
+
+	---@description "The GUID of the item."
+	---@sealed
+	readonly property string GUID
+
+	---@description "The IconRUID of the item defined in the UserItemDataSets table."
+	---@sealed
+	readonly property string IconRUID
+
+	---@description "The quantity of the item."
+	---@sealed
+	property int32 ItemCount
+
+	---@description "The name of the item defined in the UserItemDataSets table."
+	---@sealed
+	readonly property string ItemDataTableName
+
+	---@description "The item data defined in the UserItemDataSets table."
+	---@sealed
+	readonly property UserDataRow ItemTableData
+
+	---@description "The script type name of the item."
+	---@sealed
+	readonly property string ItemTypeName
+
+	---@description "The owner of the item. Returns UserID or InventoryComponentID."
+	---@sealed
+	readonly property string Owner
+
+	---@description "Returns the size of the item data."
+	---@sealed
+	method int32 GetSize() end
+
+end

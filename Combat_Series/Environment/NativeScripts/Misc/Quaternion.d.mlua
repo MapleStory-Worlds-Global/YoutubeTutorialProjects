@@ -1,0 +1,65 @@
+---@sealed
+---@description "The quaternion used to represent the rotation value."
+@Misc
+script Quaternion
+
+	---@description "The w value of the quaternion."
+	---@sealed
+	property float w
+
+	---@description "The x value of the quaternion."
+	---@sealed
+	property float x
+
+	---@description "The y value of the quaternion."
+	---@sealed
+	property float y
+
+	---@description "The z value of the quaternion."
+	---@sealed
+	property float z
+
+	---@description "Initializes Quaternion to the specified value."
+	constructor Quaternion(float x, float y, float z, float w) end
+
+	---@description "Finds the angle between two quaternions. Returns a value between 0 and 180."
+	static method float Angle(Quaternion a, Quaternion b) end
+
+	---@description "Finds the angle between two quaternions. Returns a value between 0 and 180."
+	---@sealed
+	method float Angle(Quaternion b) end
+
+	---@description "Finds the inner product of two quaternions."
+	static method float Dot(Quaternion a, Quaternion b) end
+
+	---@description "Finds the inner product of two quaternions."
+	---@sealed
+	method float Dot(Quaternion b) end
+
+	---@description "Converts Euler angles into Quaternions."
+	static method Quaternion Euler(Vector3 euler) end
+
+	---@description "Finds a Quaternion of size 1."
+	static method Quaternion Normalize(Quaternion q) end
+
+	---@description "Finds a Quaternion of size 1."
+	---@sealed
+	method Quaternion Normalize() end
+
+	---@description "Checks if two quaternions indicate different rotation. Returns false when the rotation is identical. Otherwise, returns true. For accurate comparison, two quaternions must be in a normalized state."
+	static operator boolean Inequality(Quaternion left, Quaternion right) end
+
+	---@description "Returns a new Quaternion entity by multiplying the two quaternions."
+	static operator Quaternion Multiply(Quaternion left, Quaternion right) end
+
+	---@description "Returns a new Vector3 entity by rotating a vector."
+	static operator Vector3 Multiply(Quaternion left, Vector3 right) end
+
+	---@description "Checks if two quaternions indicate identical rotation. Returns true when the rotation is identical. Otherwise, returns false. For accurate comparison, two quaternions must be in a normalized state."
+	static operator boolean Equality(Quaternion left, Quaternion right) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method Quaternion Clone() end
+
+end

@@ -1,0 +1,35 @@
+---@sealed
+---@description "Displays the leaderboard-related request processing results."
+@Enum
+script LeaderboardResultCode
+	---@description "Request processing was successful."
+	member Ok = 0
+	---@description "Unavailable from the current execution environment."
+	member InvalidEnvironment = 1000000
+	---@description "An internal system error has occurred."
+	member InternalError = 1000001
+	---@description "Invalid request."
+	member BadRequest = 1000002
+	---@description "Exceeded the max number of leaderboards."
+	member TooManyLeaderboard = 1000003
+	---@description "Unsupported parameter value."
+	member NotSupportedValue = 1000004
+	---@description "Unsupported setting."
+	member NotSupportedMode = 1000005
+	---@description "The reset date and time has been set in the past."
+	member InvalidResetDate = 1000006
+	---@description "Leaderboard not found."
+	member LeaderboardNotFound = 1000007
+	---@description "You attempted to register a score lower than the previous score when the score update method is set to LeaderboardScoringStrategy.High."
+	member NotHighScore = 1000008
+	---@description "Score information not found."
+	member ScoreNotFound = 1000009
+	---@description "An unknown error has occurred."
+	member Unknown = -1
+
+	---@description "Converts numbers to the applicable type."
+	static method LeaderboardResultCode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method LeaderboardResultCode CastFrom(string value) end
+end

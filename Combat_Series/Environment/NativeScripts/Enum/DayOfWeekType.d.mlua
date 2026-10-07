@@ -1,0 +1,25 @@
+---@sealed
+---@description "Shows the day of the week."
+@Enum
+script DayOfWeekType
+	---@description "Sunday"
+	member Sunday = 0
+	---@description "Monday"
+	member Monday = 1
+	---@description "Tuesday"
+	member Tuesday = 2
+	---@description "Wednesday"
+	member Wednesday = 3
+	---@description "Thursday"
+	member Thursday = 4
+	---@description "Friday"
+	member Friday = 5
+	---@description "Saturday"
+	member Saturday = 6
+
+	---@description "Convert numbers to the applicable type."
+	static method DayOfWeekType CastFrom(number value) end
+
+	---@description "Convert strings to the applicable type."
+	static method DayOfWeekType CastFrom(string value) end
+end

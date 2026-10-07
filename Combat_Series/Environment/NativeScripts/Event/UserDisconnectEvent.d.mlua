@@ -1,0 +1,26 @@
+---@sealed
+---@description "This event occurs when the user's network connection is unstable or disconnected."
+@Event
+script UserDisconnectEvent extends EventType
+
+	---@description "The name of the map where the user was disconnected."
+	---@sealed
+	property string DisconnectMapName
+
+	---@description "This player's profile code."
+	---@sealed
+	property string ProfileCode
+
+	---@description "Time when the user was disconnected."
+	---@sealed
+	property DateTime TimeNetworkClosed
+
+	---@description "The user's unique identifier."
+	---@sealed
+	property string UserId
+
+	constructor UserDisconnectEvent(IUser user) end
+
+	constructor UserDisconnectEvent(string disconnectMapName = nil, DateTime timeNetworkClosed = nil, string userId = nil, string profileCode = nil) end
+
+end

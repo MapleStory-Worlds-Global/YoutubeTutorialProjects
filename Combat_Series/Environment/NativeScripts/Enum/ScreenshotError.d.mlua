@@ -1,0 +1,23 @@
+---@sealed
+---@description "Indicates the screenshot capture result."
+@Enum
+script ScreenshotError
+	---@description "Screenshot capture succeeded."
+	member Success = 0
+	---@description "Screenshot capture is not supported on this device."
+	member PlatformNotSupported = 1
+	---@description "An invalid file name."
+	member InvalidFileName = 2
+	---@description "Attempts to save screenshots are too frequent. "
+	member TooFrequentFileWrite = 3
+	---@description "Capture failed with an internal error."
+	member InternalError = 4
+	---@description "You do not have permission to save to your photo library."
+	member NoPermissionToPhotoLibrary = 5
+
+	---@description "Converts numbers to the applicable type."
+	static method ScreenshotError CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ScreenshotError CastFrom(string value) end
+end

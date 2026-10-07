@@ -1,0 +1,17 @@
+---@sealed
+---@description "The position UI entities are drawn."
+@Enum
+script UIModeType
+	---@description "Default state. The state before creating UI entities."
+	member None = 0
+	---@description "UI entities are drawn into the scene using 2D screen coordinates."
+	member Screen = 1
+	---@description "UI entities are drawn into the scene using the world coordinate system."
+	member World = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method UIModeType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method UIModeType CastFrom(string value) end
+end

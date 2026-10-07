@@ -1,0 +1,72 @@
+---@sealed
+---@description "Provides camera related functions."
+@Service
+script CameraService extends Service
+
+	---@description "Defines how long the blend will take when switching cameras."
+	---@sealed
+	property float TransitionBlendTime = 2
+
+	---@description "Defines the animation blend type for camera transitions."
+	---@sealed
+	property CameraBlendType TransitionBlendType = CameraBlendType.EaseInOut
+
+	---@description "Current zoom ratio."
+	---@sealed
+	readonly property float currentZoomRatio = 100
+
+	---@description "Returns the CameraComponent currently being applied."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method CameraComponent GetCurrentCameraComponent() end
+
+	---@description "Switches the camera to the target CameraComponent."
+	---@sealed
+	@ExecSpace("Client")
+	method void SwitchCameraTo(CameraComponent cameraToSwitch) end
+
+	---@description "Switches the camera to the target CameraComponent."
+	---@sealed
+	@ExecSpace("Client")
+	method void SwitchCameraTo(CameraComponent cameraToSwitch, Entity messageOwnerEntity = nil) end
+
+	---@description "Switches the camera to the target CameraComponent."
+	---@sealed
+	@ExecSpace("Client")
+	method void SwitchCameraTo(CameraComponent cameraToSwitch, string targetUserId = nil) end
+
+	---@description "Resets camera zoom."
+	---@sealed
+	@ExecSpace("Client")
+	method void ZoomReset() end
+
+	---@description "Resets camera zoom."
+	---@sealed
+	@ExecSpace("Client")
+	method void ZoomReset(Entity messageOwnerEntity = nil) end
+
+	---@description "Resets camera zoom."
+	---@sealed
+	@ExecSpace("Client")
+	method void ZoomReset(string targetUserId = nil) end
+
+	---@description "Zooms the camera view in or out for a designated duration."
+	---@sealed
+	@ExecSpace("Client")
+	method void ZoomTo(float percent, float duration) end
+
+	---@description "Zooms the camera view in or out for a designated duration."
+	---@sealed
+	@ExecSpace("Client")
+	method void ZoomTo(float percent, float duration, Entity messageOwnerEntity = nil) end
+
+	---@description "Zooms the camera view in or out for a designated duration."
+	---@sealed
+	@ExecSpace("Client")
+	method void ZoomTo(float percent, float duration, string targetUserId = nil) end
+
+	emitter EmitCameraSwitchEvent(CameraSwitchEvent event) end
+
+	emitter EmitCameraZoomEndEvent(CameraZoomEndEvent event) end
+
+end

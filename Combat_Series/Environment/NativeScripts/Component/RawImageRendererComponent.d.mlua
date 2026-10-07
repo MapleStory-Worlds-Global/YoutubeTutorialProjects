@@ -1,0 +1,35 @@
+---@description "Provides a function to output RawImage."
+@Component
+script RawImageRendererComponent extends Component
+
+	---@description "Does not automatically replace when designating the Map Layer name into the SortingLayer."
+	---@sealed
+	property boolean IgnoreMapLayerCheck = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "Determines the priority within the same Layer. A higher number indicates higher priority."
+	---@sealed
+	property int32 OrderInLayer = 0
+
+	---@description "When two or more Entities overlap, the priority is determined by the Sorting Layer."
+	---@sealed
+	property string SortingLayer = "Default"
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+	---@description "Draws the RawImage. Does not draw anything if nil is passed."
+	---@sealed
+	@ExecSpace("ClientOnly")
+	method void SetRawImage(RawImage rawImage) end
+
+	emitter EmitOrderInLayerChangedEvent(OrderInLayerChangedEvent event) end
+
+	emitter EmitSortingLayerChangedEvent(SortingLayerChangedEvent event) end
+
+end

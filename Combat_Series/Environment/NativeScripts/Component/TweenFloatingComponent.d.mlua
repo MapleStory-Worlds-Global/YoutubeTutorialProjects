@@ -1,0 +1,78 @@
+---@description "Entity round trips up and down."
+@Component
+script TweenFloatingComponent extends Component
+
+	---@description "Sets the distance between the lowest point to the highest point. The distance from the starting point to the lowest/highest point is 0.5 if the value is 1."
+	---@sealed
+	@Sync
+	property float Amplitude = 1
+
+	---@description "Sets the duration from the lowest point to the highest point in seconds. For example, duration of a rotation will be 2 seconds if the value is 1."
+	---@sealed
+	@Sync
+	property float OneCycleTime = 1
+
+	---@description "Defines the moving method."
+	---@sealed
+	@Sync
+	property EaseType TweenType = EaseType.Linear
+
+	---@description "When true, this Component is removed from an Entity when the tween reaches its destination and ends or when Stop() is called directly."
+	---@sealed
+	@Sync
+	property boolean AutoDestroy = false
+
+	---@description "If true, the tween will play automatically upon starting the game."
+	---@sealed
+	@Sync
+	property boolean AutoStart = true
+
+	---@description "The current playback state."
+	---@sealed
+	@Sync
+	readonly property TweenState CurrentState
+
+	---@description "The starting position of the tween."
+	---@sealed
+	@Sync
+	readonly property Vector3 OriginPosition
+
+	---@description "The initial rotation value of the tween."
+	---@sealed
+	@Sync
+	readonly property Quaternion OriginRotation
+
+	---@description "The initial size of the tween."
+	---@sealed
+	@Sync
+	readonly property Vector3 OriginScale
+
+	---@description "Sets the playback subject. The default value is Default."
+	---@sealed
+	property TweenSyncType SyncType = TweenSyncType.Default
+
+	---@description "The amount of elapsed time after starting the tween. The unit of measure is the second."
+	---@sealed
+	readonly property number TweenTime
+
+	---@description "Changes CurrentState to Destroying and removes this Component."
+	---@sealed
+	method void Destroy() end
+
+	---@description "Pauses the tween. Changes CurrentState to Pausing."
+	---@sealed
+	method void Pause() end
+
+	---@description "Plays the tween. Changes CurrentState to Playing."
+	---@sealed
+	method void Play() end
+
+	---@description "Restarts from current location."
+	---@sealed
+	method void RestartFromCurrentPosition() end
+
+	---@description "Stops the tween. Changes CurrentState to Idle. Specifying true for reset returns the tween's position and progress to the initial state."
+	---@sealed
+	method void Stop(boolean reset) end
+
+end

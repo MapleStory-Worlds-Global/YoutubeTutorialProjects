@@ -1,0 +1,14 @@
+---@sealed
+---@description "Represents data saved in DataStorage."
+@Misc
+script DataStorageItem
+
+	---@description "A key of DataStorageItem data."
+	---@sealed
+	readonly property DataStorageKeyInfo KeyInfo
+
+	---@description "A value of DataStorageItem data."
+	---@sealed
+	readonly property string Value
+
+end

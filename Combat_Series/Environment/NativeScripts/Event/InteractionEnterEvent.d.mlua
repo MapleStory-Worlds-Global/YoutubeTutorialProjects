@@ -1,0 +1,12 @@
+---@sealed
+---@description "The event occurs when entering the interaction area."
+@Event
+script InteractionEnterEvent extends EventType
+
+	---@description "Entity within the area."
+	---@sealed
+	readonly property Entity InteractionEntity
+
+	constructor InteractionEnterEvent() end
+
+end

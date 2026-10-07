@@ -1,0 +1,19 @@
+---@description "Can touch the UIEntity and have control over its behavior when touching."
+@Component
+script UITouchReceiveComponent extends Component
+
+	emitter EmitUITouchBeginDragEvent(UITouchBeginDragEvent event) end
+
+	emitter EmitUITouchEnterEvent(UITouchEnterEvent event) end
+
+	emitter EmitUITouchDownEvent(UITouchDownEvent event) end
+
+	emitter EmitUITouchDragEvent(UITouchDragEvent event) end
+
+	emitter EmitUITouchEndDragEvent(UITouchEndDragEvent event) end
+
+	emitter EmitUITouchExitEvent(UITouchExitEvent event) end
+
+	emitter EmitUITouchUpEvent(UITouchUpEvent event) end
+
+end

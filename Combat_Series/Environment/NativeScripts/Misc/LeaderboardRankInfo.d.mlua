@@ -1,0 +1,22 @@
+---@sealed
+---@description "Leaderboard ranking information."
+@Misc
+script LeaderboardRankInfo
+
+	---@description "Additional data that's saved when the score is registered."
+	---@sealed
+	readonly property string Extras
+
+	---@description "This player's profile code."
+	---@sealed
+	readonly property string ProfileCode
+
+	---@description "The ranking."
+	---@sealed
+	readonly property int32 Rank
+
+	---@description "The ranking."
+	---@sealed
+	readonly property int32 Score
+
+end

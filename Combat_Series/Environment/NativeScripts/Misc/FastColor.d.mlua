@@ -1,0 +1,170 @@
+---@description "Displays color."
+@Misc
+script FastColor
+
+	---@description "The elements of the transparency of the colors. 0 is transparent, 1 is opaque."
+	---@sealed
+	property number a
+
+	---@description "The elements of the color blue."
+	---@sealed
+	property number b
+
+	---@description "The elements of the color green."
+	---@sealed
+	property number g
+
+	---@description "The elements of the color red."
+	---@sealed
+	property number r
+
+	---@description "You can simply use black (0, 0, 0, 1)."
+	static readonly property FastColor black
+
+	---@description "You can simply use blue (0, 0, 1, 1)."
+	static readonly property FastColor blue
+
+	---@description "You can simply use transparent (0, 0, 0, 0)."
+	static readonly property FastColor clear
+
+	---@description "You can simply use jade (0, 1, 1, 1)."
+	static readonly property FastColor cyan
+
+	---@description "You can simply use grey (0.5, 0.5, 0.5, 1)."
+	static readonly property FastColor gray
+
+	---@description "You can simply use green (0, 1, 0, 1)."
+	static readonly property FastColor green
+
+	---@description "You can simply use magenta (1, 0, 1, 1)."
+	static readonly property FastColor magenta
+
+	---@description "You can simply use red (1, 0, 0, 1)."
+	static readonly property FastColor red
+
+	---@description "You can simply use white (1, 1, 1, 1)."
+	static readonly property FastColor white
+
+	---@description "You can simply use yellow (1, 0.92, 0.016, 1)."
+	static readonly property FastColor yellow
+
+	---@description "Initializes to the specified r, g, b values."
+	constructor FastColor(number r, number g, number b) end
+
+	---@description "Initializes to the specified r, g, b, a values."
+	constructor FastColor(number r, number g, number b, number a) end
+
+	---@description "Initializes FastColor to the specified value."
+	constructor FastColor(Color color) end
+
+	---@description "Generates a copy."
+	---@sealed
+	method FastColor Clone() end
+
+	---@description "Finds the grayscale of the color."
+	---@sealed
+	method number Grayscale() end
+
+	---@description "Creates a FastColor value using linear interpolation with t between two Colors and returns it. The t value is fixed between 0 and 1."
+	---@sealed
+	method FastColor Lerp(FastColor b, number t) end
+
+	---@description "Creates a FastColor value using linear interpolation with t between two colors and returns it."
+	---@sealed
+	method FastColor LerpUnclamped(FastColor b, number t) end
+
+	---@description "Converts the RGB value to HSV and returns it."
+	---@sealed
+	method number, number, number RGBToHSV() end
+
+	---@description "Adds value. Functions the same as the += operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Add(FastColor b) end
+
+	---@description "Subtracts value. Functions the same as the -= operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Sub(FastColor b) end
+
+	---@description "Multiplies value. Functions the same as the *= operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Mul(number num) end
+
+	---@description "Divides value. Functions the same as the /= operator, but it doesn't create a new entity, which results in faster execution."
+	---@sealed
+	method void Div(number num) end
+
+	---@description "Converts RGBA to hex code."
+	---@sealed
+	method string ToHexCode() end
+
+	---@description "Converts RGBA to an integer. Uses the '0xFFFFFFFF' format."
+	---@sealed
+	method integer ToRGBAInt() end
+
+	---@description "Creates a FastColor entity using the hexadecimal number color value. This hex code follows a format such as '#FFFFFF' or '#FFFFFFFF'."
+	static method FastColor FromHexCode(string hexCode) end
+
+	---@description "Converts RGBA to hex code."
+	static method string ToHexCode(FastColor color) end
+
+	---@description "Creates a Color entity using the RGBA represented as an integer."
+	static method FastColor FromRGBAInt(integer rgba) end
+
+	---@description "Converts RGBA to an integer. Uses the '0xFFFFFFFF' format."
+	static method integer ToRGBAInt(FastColor color) end
+
+	---@description "Finds the grayscale of the color."
+	static method number Grayscale(FastColor color) end
+
+	---@description "Converts and returns the HSV value to RGB. The RGB value is fixed between 0 and 1."
+	static method FastColor HSVToRGB(number h, number s, number v) end
+
+	---@description "Converts and returns the HSV value to RGB. If hdr is true, the RGB value is not fixed between 0 and 1."
+	static method FastColor HSVToRGB(number h, number s, number v, boolean hdr) end
+
+	---@description "Creates a FastColor value using linear interpolation with t between two Colors and returns it. The t value is fixed between 0 and 1."
+	static method FastColor Lerp(FastColor a, FastColor b, number t) end
+
+	---@description "Creates a FastColor value using linear interpolation with t between two colors and returns it."
+	static method FastColor LerpUnclamped(FastColor a, FastColor b, number t) end
+
+	---@description "Converts the RGB value to HSV and returns it."
+	static method number, number, number RGBToHSV(FastColor rgbColor) end
+
+	---@description "Adds value. Functions the same as the += operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Add(FastColor a, FastColor b) end
+
+	---@description "Subtracts value. Functions the same as the -= operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Sub(FastColor a, FastColor b) end
+
+	---@description "Multiplies value. Functions the same as the *= operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Mul(FastColor a, number num) end
+
+	---@description "Divides value. Functions the same as the /= operator, but it doesn't create a new entity, which results in faster execution."
+	static method void Div(FastColor a, number num) end
+
+	---@description "Returns a new FastColor entity by adding the two specified values together. The calculation result is FastColor(left.r + right.r, left.g + right.g, left.b + right.b, left.a + right.a)."
+	static operator FastColor Addition(FastColor left, FastColor right) end
+
+	---@description "Returns a new FastColor entity by dividing the specified value by the real number. The calculation result is FastColor(left.r / right, left.g / right, left.b / right, left.a / right)."
+	static operator FastColor Division(FastColor left, number right) end
+
+	---@description "Checks if the two values are the same. Returns true if all values are the same. Otherwise, returns false."
+	static operator boolean Equality(FastColor left, FastColor right) end
+
+	---@description "Checks if the two values are different. Returns false if all values are the same. Otherwise, returns true."
+	static operator boolean Inequality(FastColor left, FastColor right) end
+
+	---@description "Returns a new FastColor entity by multiplying the two specified values together. The calculation result is FastColor(left.r * right.r, left.g * right.g, left.b * right.b, left.a * right.a)."
+	static operator FastColor Multiply(FastColor left, FastColor right) end
+
+	---@description "Returns a new FastColor entity by multiplying the specified value by the real number. The calculation result is FastColor(left.r * right, left.g * right, left.b * right, left.a * right)."
+	static operator FastColor Multiply(FastColor left, number right) end
+
+	---@description "Returns a new FastColor entity by multiplying the specified value by the real number. The calculation result is FastColor(left * right.r, left * right.g, left * right.b, left * right.a)."
+	static operator FastColor Multiply(number left, FastColor right) end
+
+	---@description "Returns a new FastColor entity by subtracting the specified right value from the left value. The calculation result is FastColor(left.r - right.r, left.g - right.g, left.b - right.b, left.a - right.a)."
+	static operator FastColor Subtraction(FastColor left, FastColor right) end
+
+end

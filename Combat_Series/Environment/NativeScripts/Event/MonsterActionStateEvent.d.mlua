@@ -1,0 +1,9 @@
+---@sealed
+---@description "This is a deprecated event. Use StateAnimationComponent."
+---@deprecated
+@Event
+script MonsterActionStateEvent extends EventType
+
+	constructor MonsterActionStateEvent() end
+
+end

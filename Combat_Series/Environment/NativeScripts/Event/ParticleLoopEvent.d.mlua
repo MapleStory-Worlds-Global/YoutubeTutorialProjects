@@ -1,0 +1,12 @@
+---@sealed
+---@description "If the Loop property is enabled, this event is fired when the particle's emission cycle returns and the emission repeats."
+@Event
+script ParticleLoopEvent extends EventType
+
+	---@description "The Entity affected by the event."
+	---@sealed
+	readonly property Entity ParticleEntity
+
+	constructor ParticleLoopEvent() end
+
+end

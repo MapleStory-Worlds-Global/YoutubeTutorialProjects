@@ -1,0 +1,16 @@
+---@sealed
+---@description "Occurs in InputService when you widen or narrow the gap while touching two places on the screen."
+@Event
+script PinchInOutEvent extends EventType
+
+	---@description "Describe the width or narrowness of the gap. It is positive when widened and negative when narrowed."
+	---@sealed
+	property float PinchRate
+
+	---@description "The screen coordinates where the touch occurred."
+	---@sealed
+	property Vector2 TouchPoint
+
+	constructor PinchInOutEvent(float pinchRate = 0) end
+
+end

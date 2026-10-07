@@ -1,0 +1,21 @@
+---@sealed
+---@description "Displays the leaderboard reset method. A new season begins each time the leaderboard is reset."
+@Misc
+script LeaderboardSeasonResetInfo
+
+	---@description "The reset method."
+	---@sealed
+	property LeaderboardSeasonResetType ResetType
+
+	---@description "The next reset date and time. Set to nil if ResetType is Never."
+	---@sealed
+	readonly property DateTime ResettingAt
+
+	---@description "Set the new season starting interval with a Cron expression."
+	---@sealed
+	property string Schedule
+
+	---@description "Resets LeaderBoardSeasonResetInfo with the set value."
+	constructor LeaderboardSeasonResetInfo() end
+
+end

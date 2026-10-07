@@ -1,0 +1,12 @@
+---@sealed
+@Enum
+script RenderSettingType
+	member SceneAnimationRenderer = 0
+	member NPCRenderer = 1
+	member PlayerAvatarRenderer = 2
+	member DamageSkinRenderer = 3
+
+	static method RenderSettingType CastFrom(number value) end
+
+	static method RenderSettingType CastFrom(string value) end
+end

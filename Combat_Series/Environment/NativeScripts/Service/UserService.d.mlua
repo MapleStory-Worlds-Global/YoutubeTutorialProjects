@@ -1,0 +1,65 @@
+---@sealed
+---@description "Provides user-related function."
+@Service
+script UserService extends Service
+
+	---@description "This is My Player. Available only on the client."
+	---@sealed
+	readonly property Entity LocalPlayer
+
+	---@description "A list of all user entities. key is the user Id, and value is the user entity."
+	---@sealed
+	readonly property ReadOnlyDictionary<string, Entity> UserEntities
+
+	---@description "A list of all users' information. key is the user Id, and value is the user information."
+	---@sealed
+	readonly property ReadOnlyDictionary<string, User> Users
+
+	---@description "Checks the reasoning behind the restriction placed on a user using the world InSite. It only functions in a release environment."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method string GetUserBanReason(string profileCode) end
+
+	---@description "Finds and returns the user information that corresponds to profileCode. "
+	---@sealed
+	method User GetUserByProfileCode(string profileCode) end
+
+	---@description "Returns the current number of users."
+	---@sealed
+	method int32 GetUserCount() end
+
+	---@description "Finds and returns the user with the corresponding userId."
+	---@sealed
+	method Entity GetUserEntityByUserId(string userId) end
+
+	---@description "Finds and returns users that belong to the map corresponding to mapComponent."
+	---@sealed
+	method table<Entity> GetUsersByMapComponent(MapComponent mapComponent) end
+
+	---@description "Finds and returns users that belong to the map corresponding to mapName."
+	---@sealed
+	method table<Entity> GetUsersByMapName(string mapName) end
+
+	---@description "Checks if the user was restricted by the world InSite. Only functions in a release environment."
+	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method boolean IsUserBanned(string profileCode) end
+
+	---@description "Exile the user corresponding to userId. The expelled user is informed that he has been deported for reasons corresponding to kickReason."
+	---@sealed
+	@ExecSpace("ServerOnly")
+	method void KickUser(string userId, KickReason kickReason) end
+
+	emitter EmitUserDisconnectEvent(UserDisconnectEvent event) end
+
+	emitter EmitUserEnterEvent(UserEnterEvent event) end
+
+	emitter EmitUserKickEvent(UserKickEvent event) end
+
+	emitter EmitUserLeaveEvent(UserLeaveEvent event) end
+
+	emitter EmitUserReconnectEvent(UserReconnectEvent event) end
+
+end

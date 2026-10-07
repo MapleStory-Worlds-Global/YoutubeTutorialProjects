@@ -1,0 +1,13 @@
+---@sealed
+@Event
+script EditorGUIPaletteItemEvent extends EventType
+
+	---@sealed
+	property int32 index
+
+	---@sealed
+	property string ruid
+
+	constructor EditorGUIPaletteItemEvent(int32 index = 0, string ruid = nil) end
+
+end

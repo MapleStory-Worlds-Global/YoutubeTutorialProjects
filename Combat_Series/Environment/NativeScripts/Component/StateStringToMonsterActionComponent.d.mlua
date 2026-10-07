@@ -1,0 +1,6 @@
+---@description "This Component is deprecated. Use StateAnimationComponent."
+---@deprecated
+@Component
+script StateStringToMonsterActionComponent extends Component
+
+end

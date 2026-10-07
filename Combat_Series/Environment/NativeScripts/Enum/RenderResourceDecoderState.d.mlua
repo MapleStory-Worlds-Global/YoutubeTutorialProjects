@@ -1,0 +1,12 @@
+---@sealed
+@Enum
+script RenderResourceDecoderState
+	member Invalid = 0
+	member Idle = 1
+	member Decoding = 2
+	member Decoded = 3
+
+	static method RenderResourceDecoderState CastFrom(number value) end
+
+	static method RenderResourceDecoderState CastFrom(string value) end
+end

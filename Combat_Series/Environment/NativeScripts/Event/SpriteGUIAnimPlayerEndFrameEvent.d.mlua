@@ -1,0 +1,24 @@
+---@sealed
+---@description "Initializes SpriteAnimPlayerEndEvent to the specified value."
+@Event
+script SpriteGUIAnimPlayerEndFrameEvent extends EventType
+
+	---@description "The entity affected by the event."
+	---@sealed
+	property Entity Entity
+
+	---@description "The frame number."
+	---@sealed
+	readonly property int32 FrameIndex = -1
+
+	---@description "Indicates whether to play in reverse."
+	---@sealed
+	readonly property boolean ReversePlaying = false
+
+	---@description "Total number of frames to make up the sprite animation."
+	---@sealed
+	readonly property int32 TotalFrameCount = 0
+
+	constructor SpriteGUIAnimPlayerEndFrameEvent(Entity entity = nil, int32 frameIndex = -1, boolean reversePlaying = false, int32 totalFrameCount = 0) end
+
+end

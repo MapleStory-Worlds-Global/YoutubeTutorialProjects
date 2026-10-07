@@ -1,0 +1,17 @@
+---@sealed
+---@description "Specifies the transition effect for the button. You can specify different effects depending on the state."
+@Enum
+script TransitionType
+	---@description "No button transition effect."
+	member None = 0
+	---@description "Changes to the specified color when the button state changes."
+	member ColorTint = 1
+	---@description "Changes to the specified button image when the button state changes."
+	member SpriteSwap = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method TransitionType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TransitionType CastFrom(string value) end
+end

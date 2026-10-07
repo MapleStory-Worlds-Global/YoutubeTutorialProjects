@@ -1,0 +1,9 @@
+---@description "Expresses the Condition used in StateSet. You can define your own unique ConditionType for use in StateSet. An API that will directly add or remove to StateSet will be revealed in the future."
+@Misc
+script ConditionType
+
+	---@description "The StateComponent that owns this Condition."
+	---@sealed
+	readonly property StateComponent ParentComponent
+
+end

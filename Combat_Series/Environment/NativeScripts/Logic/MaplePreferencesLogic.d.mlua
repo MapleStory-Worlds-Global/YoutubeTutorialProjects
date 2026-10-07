@@ -1,0 +1,101 @@
+---@sealed
+---@description "MapleStory settings and variable values are provided as properties."
+@Logic
+script MaplePreferencesLogic extends Logic
+
+	---@description "This sound plays when dying."
+	---@sealed
+	@Sync
+	property string DeathSound = "8727e134756141c58bf2f525a1598eee"
+
+	---@description "This sound plays when jumping."
+	---@sealed
+	@Sync
+	property string JumpSound = "a49c4b3963e148f09b2eb9de98d42ef4"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Bow type sound effect. "
+	---@sealed
+	@Sync
+	property string WeaponBowSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Cane type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponCaneSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Cannon type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponCannonSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a CrossBow type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponCrossBowSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a DualBow type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponDualBowSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Gun type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponGunSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Knuckle type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponKnuckleSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Mace type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponMaceSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a PoleArm type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponPoleArmSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Spear type sound effect."
+	---@sealed
+	@Sync
+	property string WeaponSpearSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a Sword B type sound effect. One-handed swords fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponSwordBSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a SwordK type sound effect. Katanas fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponSwordKSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a SwordL type sound effect. Two-handed swords fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponSwordLSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a SwordS type sound effect. Daggers fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponSwordSSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a SwordZB type sound effect. Swords fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponSwordZBSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a SwordZL type sound effect. Tachis fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponSwordZLSound = "UNSET"
+
+	---@description "This sound plays when melee attacking with a weapon connected to a TGlove type sound effect. ESP Limiter and Magic Gauntlets fall into this type."
+	---@sealed
+	@Sync
+	property string WeaponTGloveSound = "UNSET"
+
+end

@@ -1,0 +1,14 @@
+---@sealed
+@Event
+script StartBotDetectionEvent extends EventType
+
+	---@sealed
+	property Dictionary<string, string> extra
+
+	---@sealed
+	property int32 probability = 0
+
+	---@sealed
+	property integer timeStamp = 0
+
+end

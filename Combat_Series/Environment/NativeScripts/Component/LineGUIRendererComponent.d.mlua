@@ -1,0 +1,34 @@
+---@description "Draws a line in UI and provides the function to set the properties of the line."
+@Component
+script LineGUIRendererComponent extends Component
+
+	---@description "Adjusts the width of the bending part. It is applied when IsFlexible is true."
+	---@sealed
+	property float Flexibility = 3
+
+	---@description "Sets whether to draw the bending part continuously or separately."
+	---@sealed
+	property boolean IsFlexible = true
+
+	---@description "Draws a smooth curve if true, draws a sharp line if false."
+	---@sealed
+	property boolean IsSmooth = false
+
+	---@description "If true, a closed line will be drawn automatically to connect the start and end points."
+	---@sealed
+	property boolean Loop = false
+
+	---@description "Specifies the Id of the material to be applied to the renderer."
+	---@sealed
+	@Sync
+	property string MaterialId = ""
+
+	---@description "The group of dots that form a line."
+	---@sealed
+	property SyncList<LinePoint> Points
+
+	---@description "Replaces the material to be applied to the renderer."
+	---@sealed
+	method void ChangeMaterial(string materialId) end
+
+end

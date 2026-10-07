@@ -1,0 +1,5 @@
+---@description "Output the hit effect when a hit event occurs on the Entity."
+@Component
+script HitEffectSpawnerComponent extends Component
+
+end

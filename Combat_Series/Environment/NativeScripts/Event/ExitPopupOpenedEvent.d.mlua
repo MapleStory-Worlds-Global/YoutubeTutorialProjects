@@ -1,0 +1,8 @@
+---@sealed
+---@description "This event occurs when opening the exit pop-up."
+@Event
+script ExitPopupOpenedEvent extends EventType
+
+	constructor ExitPopupOpenedEvent() end
+
+end

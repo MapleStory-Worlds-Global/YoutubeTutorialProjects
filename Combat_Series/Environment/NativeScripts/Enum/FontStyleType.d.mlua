@@ -1,0 +1,27 @@
+---@sealed
+---@description "Expresses fonts in various ways."
+@Enum
+script FontStyleType
+	---@description "Displays the text in a default style."
+	member Normal = 0
+	---@description "Displays the text in bold."
+	member Bold = 1
+	---@description "Italicizes the text."
+	member Italic = 2
+	---@description "Underlines the text."
+	member Underline = 4
+	---@description "Displays the text in lower case."
+	member LowerCase = 8
+	---@description "Displays the text in upper case."
+	member UpperCase = 16
+	---@description "Displays all of the text in upper case but makes upper case letters look bigger than lower case letters."
+	member SmallCaps = 32
+	---@description "Displays the text with a strikethrough."
+	member Strikethrough = 64
+
+	---@description "Converts numbers to the applicable type."
+	static method FontStyleType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method FontStyleType CastFrom(string value) end
+end

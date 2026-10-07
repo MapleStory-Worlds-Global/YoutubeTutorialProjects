@@ -1,0 +1,26 @@
+---@description "The primary node for AI."
+@Misc
+script BTNode
+
+	---@description "This property is deprecated."
+	---@deprecated
+	---@sealed
+	property boolean ExclusiveExecutionWhenRunning = false
+
+	---@description "Initialization calls this function."
+	---@sealed
+	property func InitFunction
+
+	---@description "The name of the node."
+	---@sealed
+	property string Name
+
+	---@description "AIComponent to have the node."
+	---@sealed
+	readonly property AIComponent ParentAI
+
+	---@description "Executes the node."
+	---@sealed
+	method BehaviourTreeStatus Behave(float deltaTime) end
+
+end

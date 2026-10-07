@@ -1,0 +1,8 @@
+---@description "The parent component of all Components. Provides basic functions of Components."
+@Component
+script MissingComponent extends Component
+
+	---@sealed
+	property string ComponentName = ""
+
+end

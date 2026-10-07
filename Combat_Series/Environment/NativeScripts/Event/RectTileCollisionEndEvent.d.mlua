@@ -1,0 +1,32 @@
+---@sealed
+---@description "This event occurs when being freed from the collided tile."
+@Event
+script RectTileCollisionEndEvent extends EventType
+
+	---@description "An Entity that collided with a tile."
+	---@sealed
+	property Entity Entity
+
+	---@description "A normal vector of the collided point."
+	---@sealed
+	property Vector2 Normal
+
+	---@description "A collided point."
+	---@sealed
+	property Vector2 Point
+
+	---@description "The detailed information on the tile."
+	---@sealed
+	property RectTileInfo TileInfo
+
+	---@description "The RectTileMapComponent to which the tile belongs."
+	---@sealed
+	property RectTileMapComponent TileMap
+
+	---@description "The location of the tile."
+	---@sealed
+	property Vector2Int TilePosition
+
+	constructor RectTileCollisionEndEvent(Entity entity = nil, RectTileMapComponent tileMap = nil, Vector2Int tilePosition = Vector2Int(0, 0), RectTileInfo tileInfo = nil, Vector2 point = Vector2(0, 0), Vector2 normal = Vector2(0, 0)) end
+
+end

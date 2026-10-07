@@ -1,0 +1,17 @@
+---@description "Makes only certain areas of the child UI Entity visible using a mask. The rotation function is not supported, and if the entity is rotated, it may not function as intended."
+@Component
+script MaskComponent extends Component
+
+	---@description "Sets the free space on the top, bottom, left, and right of the mask."
+	---@sealed
+	property RectOffset Padding
+
+	---@description "Specifies the shape of the mask."
+	---@sealed
+	property MaskShape Shape = MaskShape.Rect
+
+	---@description "Determines the area to blur naturally from the edge area of the mask."
+	---@sealed
+	property Vector2Int Softness
+
+end

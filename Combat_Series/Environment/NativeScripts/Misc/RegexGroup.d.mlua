@@ -1,0 +1,18 @@
+---@sealed
+---@description "A successful single capture result."
+@Misc
+script RegexGroup
+
+	---@description "The name of the group."
+	---@sealed
+	readonly property string Name
+
+	---@description "Shows the success status of the match operation."
+	---@sealed
+	readonly property boolean Success
+
+	---@description "Retrieves all captures matched using capturing groups."
+	---@sealed
+	method table<RegexCapture> GetCaptures() end
+
+end

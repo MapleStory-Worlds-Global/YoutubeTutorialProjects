@@ -1,0 +1,103 @@
+---@sealed
+---@description "Indicates tween operation."
+@Misc
+script Tweener
+
+	---@description "Sets whether to destroy automatically after tween is completed."
+	---@sealed
+	property boolean AutoDestroy = true
+
+	---@description "Indicates the number of times for repeating plays set in tween. The value is 1 upon the first play."
+	---@sealed
+	readonly property int32 CurrentLoopCount
+
+	---@description "Sets the play delay from the tween's total play time."
+	---@sealed
+	property float Delay = 0
+
+	---@description "Sets the motion type of the current Tweener."
+	---@sealed
+	property EaseType EaseType = EaseType.Linear
+
+	---@description "Checks whether the current Tweener is playing or not."
+	---@sealed
+	readonly property boolean IsPlaying
+
+	---@description "Defines the number of repeating plays of tween. In the case of -1, it repeats infinitely."
+	---@sealed
+	property int32 LoopCount = 1
+
+	---@description "Sets the repeating type of the current Tweener."
+	---@sealed
+	property TweenLoopType LoopType = TweenLoopType.Restart
+
+	---@description "Indicates the play progress status of the current tween. 0 refers to play start, and 1 refers to play completed status."
+	---@sealed
+	readonly property float ProgressRate
+
+	---@description "Completes tween immediately."
+	---@sealed
+	method void Complete() end
+
+	---@description "Destroys tween."
+	---@sealed
+	method void Destroy() end
+
+	---@description "Pauses tween."
+	---@sealed
+	method void Pause() end
+
+	---@description "Plays tween."
+	---@sealed
+	method void Play() end
+
+	---@description "Restarts tween from the beginning."
+	---@sealed
+	method void Restart() end
+
+	---@description "Resumes tween. If Tween hasn't started, it will operate the same as Start()."
+	---@sealed
+	method void Resume() end
+
+	---@description "Exchanges the start value for the end value."
+	---@sealed
+	method void Reverse() end
+
+	---@description "Returns tween to the initial state."
+	---@sealed
+	method void Rewind() end
+
+	---@description "This function is deprecated. Use the AutoDestroy property."
+	---@deprecated
+	---@sealed
+	method void SetAutoDestroy(boolean autoDestroy) end
+
+	---@description "This function is deprecated. Use the Delay property."
+	---@deprecated
+	---@sealed
+	method void SetDelay(float seconds) end
+
+	---@description "This function is deprecated. Use the EaseType property."
+	---@deprecated
+	---@sealed
+	method void SetEaseType(EaseType type) end
+
+	---@description "This function is deprecated. Use the LoopCount property."
+	---@deprecated
+	---@sealed
+	method void SetLoopCount(int32 loopCount) end
+
+	---@description "This function is deprecated. Use the LoopType property."
+	---@deprecated
+	---@sealed
+	method void SetLoopType(TweenLoopType type) end
+
+	---@description "Sets the callback function to be called after tween is completed."
+	---@sealed
+	method void SetOnEndCallback(func callback) end
+
+	---@description "Stops tween."
+	---@sealed
+	method void Stop() end
+
+end

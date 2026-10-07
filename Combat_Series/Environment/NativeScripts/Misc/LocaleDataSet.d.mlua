@@ -1,0 +1,54 @@
+---@sealed
+---@description "This is a user-created data table."
+@Misc
+script LocaleDataSet
+
+	---@description "A list containing the contents of each column in the data table."
+	---@sealed
+	readonly property ReadOnlyList<string> Columns
+
+	---@description "The Id of the data table."
+	---@sealed
+	readonly property string Id
+
+	---@description "The name of the data table."
+	---@sealed
+	readonly property string Name
+
+	---@description "Sets whether the data table is used exclusively in the server. If true, it can only be used on the server."
+	---@sealed
+	readonly property boolean ServerOnly
+
+	---@description "Gets the row wherein the value among the cells of the columns corresponding to columnName is the same as the value. If not present, nil is returned."
+	---@sealed
+	method UserDataRow FindRow(string columnName, string value) end
+
+	---@description "Gets the contents of all rows in a table."
+	---@sealed
+	method table<UserDataRow> GetAllRow() end
+
+	---@description "Gets the contents of a cell in a table. When accessing a cell out of range, nil is returned."
+	---@sealed
+	method string GetCell(int32 row_1based, int32 col_1based) end
+
+	---@description "Gets the contents of a cell in a table. When accessing a cell out of range, nil is returned."
+	---@sealed
+	method string GetCell(int32 row_1based, string columnName) end
+
+	---@description "Gets the contents of that column. When accessing a column out of range, nil is returned."
+	---@sealed
+	method table<string> GetColumn(int32 index_1based) end
+
+	---@description "Gets the contents of the specified column. When accessing a column out of range, nil is returned."
+	---@sealed
+	method table<string> GetColumn(string columnName) end
+
+	---@description "Gets the contents of that row. When accessing a row out of range, nil is returned."
+	---@sealed
+	method UserDataRow GetRow(int32 index_1based) end
+
+	---@description "Gets the contents of a row in a table."
+	---@sealed
+	method int32 GetRowCount() end
+
+end

@@ -1,0 +1,13 @@
+---@sealed
+@Event
+script EditorGUITabButtonEvent extends EventType
+
+	---@sealed
+	property string id
+
+	---@sealed
+	property int32 index
+
+	constructor EditorGUITabButtonEvent(string id = nil, int32 index = 0) end
+
+end

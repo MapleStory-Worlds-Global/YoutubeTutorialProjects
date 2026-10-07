@@ -1,0 +1,17 @@
+---@sealed
+---@description "Indicates how scrolling works when dragging in WebView"
+@Enum
+script DragMode
+	---@description "Dragging in WebView scrolls the page."
+	member DragToScroll = 0
+	---@description "It works just like a normal drag."
+	member DragWithinPage = 1
+	---@description "Dragging in WebView does not cause any action."
+	member Disabled = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method DragMode CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method DragMode CastFrom(string value) end
+end

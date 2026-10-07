@@ -1,0 +1,12 @@
+---@sealed
+---@description "An event that occurs when the scroll position changes on a scrollable UI Entity."
+@Event
+script ScrollPositionChangedEvent extends EventType
+
+	---@description "The normalized position of the scroll bar."
+	---@sealed
+	property Vector2 NormalizedPosition = Vector2(0.000, 0.000)
+
+	constructor ScrollPositionChangedEvent(Vector2 normalizedPosition = Vector2(0, 0)) end
+
+end

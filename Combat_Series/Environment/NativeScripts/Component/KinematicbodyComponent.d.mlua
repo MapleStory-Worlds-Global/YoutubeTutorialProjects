@@ -1,0 +1,105 @@
+---@description "Vertical and horizontal movement and collision control for top-down gameplay with RectTiles. Gravity does not affect acceleration and deceleration. Used if the tile map is RectTile."
+@Component
+script KinematicbodyComponent extends Component
+
+	---@description "This property is deprecated. Use the SpeedFactor property."
+	---@deprecated
+	---@sealed
+	property Vector2 Acceleration = Vector2(1.000, 1.000)
+
+	---@description "When true, the character on the rotating or slanted ladder will be affected by the shape of the ladder. When false, the character is not affected by the slant or rotation of the ladder."
+	---@sealed
+	@Sync
+	property boolean ApplyClimbableRotation = true
+
+	---@description "Shows whether you will use the jump feature."
+	---@sealed
+	@Sync
+	property boolean EnableJump = true
+
+	---@description "Shows whether you will use the shadow."
+	---@sealed
+	@Sync
+	property boolean EnableShadow = true
+
+	---@description "Sets whether to use the collision feature with RectTileMap."
+	---@sealed
+	@Sync
+	property boolean EnableTileCollision = true
+
+	---@description "Jump speed reduction. The greater the value, the faster the fall."
+	---@sealed
+	@Sync
+	property float JumpDrag = 20
+
+	---@description "The jump speed. The greater the value, the faster the jump."
+	---@sealed
+	@Sync
+	property float JumpSpeed = 6.3
+
+	---@description "Sets the movement speed. The value multiplied by SpeedFactor will be the final speed."
+	---@sealed
+	property Vector2 MoveVelocity
+
+	---@description "The shadow's color."
+	---@sealed
+	@Sync
+	property Color ShadowColor = Color(0.300, 0.300, 0.300, 0.800)
+
+	---@description "The shadow's position."
+	---@sealed
+	@Sync
+	property Vector2 ShadowOffset = Vector2(0.000, 0.000)
+
+	---@description "The rate of change of the shadow's size. The size varies depending on how high the Entity jumps."
+	---@sealed
+	@Sync
+	property float ShadowScalingRatio = 0.5
+
+	---@description "The shadow's size."
+	---@sealed
+	@Sync
+	property Vector2 ShadowSize = Vector2(0.700, 0.300)
+
+	---@description "When moving, this value is multiplied to the speed traveled in the X or Y direction. The greater the value, the faster the movement."
+	---@sealed
+	@Sync
+	property Vector2 SpeedFactor = Vector2(1.000, 1.000)
+
+	---@description "Returns position of the floor based on local coordinates."
+	---@sealed
+	method Vector2 GetGroundPosition() end
+
+	---@description "Returns position of the floor based on World coordinates."
+	---@sealed
+	method Vector2 GetWorldGroundPosition() end
+
+	---@description "Checks the current contact with the ground. Returns false when jumping."
+	---@sealed
+	method boolean IsOnGround() end
+
+	---@description "This function is called when RectTileEnterEvent occurs."
+	method void OnEnterRectTile(RectTileEnterEvent enterEvent) end
+
+	---@description "This function is called when RectTileLeaveEvent is generated."
+	method void OnLeaveRectTile(RectTileLeaveEvent leaveEvent) end
+
+	---@description "Sets an Entity's position based on local coordinates."
+	---@sealed
+	method void SetPosition(Vector2 position) end
+
+	---@description "Sets Entity's location to the world-based coordinates."
+	---@sealed
+	method void SetWorldPosition(Vector2 position) end
+
+	emitter EmitKinematicbodyJumpEvent(KinematicbodyJumpEvent event) end
+
+	emitter EmitRectTileCollisionBeginEvent(RectTileCollisionBeginEvent event) end
+
+	emitter EmitRectTileCollisionEndEvent(RectTileCollisionEndEvent event) end
+
+	emitter EmitRectTileEnterEvent(RectTileEnterEvent event) end
+
+	emitter EmitRectTileLeaveEvent(RectTileLeaveEvent event) end
+
+end

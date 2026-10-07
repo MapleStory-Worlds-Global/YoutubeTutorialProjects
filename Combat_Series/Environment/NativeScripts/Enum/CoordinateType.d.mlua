@@ -1,0 +1,15 @@
+---@sealed
+---@description "Indicates a positional representation."
+@Enum
+script CoordinateType
+	---@description "Indicates an absolute position."
+	member Absolute = 0
+	---@description "Indicates a relative position."
+	member Relative = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method CoordinateType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method CoordinateType CastFrom(string value) end
+end

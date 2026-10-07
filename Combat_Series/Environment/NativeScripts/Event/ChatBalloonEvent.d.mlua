@@ -1,0 +1,20 @@
+---@sealed
+---@description "This event occurs when a chat balloon appears."
+@Event
+script ChatBalloonEvent extends EventType
+
+	---@description "The displayed content in the chat balloon."
+	---@sealed
+	property string Message
+
+	---@description "The name of the Entity that generated the chat balloon."
+	---@sealed
+	property string SenderName
+
+	---@description "The user's Id generating the chat balloon."
+	---@sealed
+	property string UserId
+
+	constructor ChatBalloonEvent(string message = nil, string senderName = nil, string userId = nil) end
+
+end

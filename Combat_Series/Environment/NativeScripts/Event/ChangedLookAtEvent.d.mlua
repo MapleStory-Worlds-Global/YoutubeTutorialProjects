@@ -1,0 +1,12 @@
+---@sealed
+---@description "This occurs when changing the direction for the character to face in the PlayerControllerComponent."
+@Event
+script ChangedLookAtEvent extends EventType
+
+	---@description "Left if negative, right if positive."
+	---@sealed
+	property float LookAtX = 0
+
+	constructor ChangedLookAtEvent(float lookAtX = 0) end
+
+end

@@ -1,0 +1,113 @@
+---@description "Component available to interact with an Entity."
+@Component
+script InteractionComponent extends Component
+
+	---@description "Sets the usable Key for Interaction."
+	---@sealed
+	@Sync
+	property KeyboardKey ActionKey = KeyboardKey.E
+
+	---@description "Sets the name of the Interaction displayed in the chat balloons."
+	---@sealed
+	@Sync
+	property string ActionName = ""
+
+	---@description "Available on previous systems where IsLegacy is true. Sets the center point position of the collider rectangle based on Entity. "
+	---@deprecated
+	---@sealed
+	@Sync
+	property Vector2 BoxOffset = Vector2(0.000, 0.000)
+
+	---@description "Specifies the width and height of the rectangular collider."
+	---@sealed
+	@Sync
+	property Vector2 BoxSize = Vector2(1.000, 1.000)
+
+	---@description "The radius of the circular collider. Valid when ColliderType is Circle."
+	---@sealed
+	@Sync
+	property float CircleRadius = 0
+
+	---@description "This property is deprecated. Use CollisionGroup."
+	---@deprecated
+	---@sealed
+	readonly property string ColliderName = "Interaction"
+
+	---@description "Sets the center point position of the collider based on Entity. Available on new systems with IsLegacy set as false."
+	---@sealed
+	@Sync
+	property Vector2 ColliderOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the type of collider. Available on new systems with IsLegacy set as false."
+	---@sealed
+	@Sync
+	property ColliderType ColliderType = ColliderType.Box
+
+	---@description "Collider's collision group."
+	---@sealed
+	readonly property CollisionGroup CollisionGroup = CollisionGroups.Interaction
+
+	---@description "When InteractionType is set to KeyHoldingDuration or KeyUpAfterHoldingDuration, it sets how long the key should be held down in seconds."
+	---@sealed
+	@Sync
+	property float HoldingDuration = 0
+
+	---@description "This property is no longer used."
+	---@deprecated
+	---@sealed
+	@Sync
+	property Vector2 InfoOffset = Vector2(0.000, 0.000)
+
+	---@description "Sets the key input method required for interaction."
+	---@sealed
+	@Sync
+	property InteractType InteractionType = InteractType.KeyDown
+
+	---@description "Sets whether this Component will operate with the previous system."
+	---@sealed
+	property boolean IsLegacy = false
+
+	---@description "The positions of the points that make up the polygonal colliding body. Valid when ColliderType is Polygon."
+	---@sealed
+	@Sync
+	property SyncList<Vector2> PolygonPoints
+
+	---@description "Determines whether a chat balloon will appear and show the ActionName and ActionKey when a player approaches. A ChatBalloonComponent will be added automatically during gameplay to display the chat balloon."
+	---@sealed
+	@Sync
+	property boolean ShowActionInfo = true
+
+	---@description "This function is deprecated. Use InteractionEnterEvent."
+	---@deprecated
+	method void OnEnter() end
+
+	---@description "This function is deprecated. Use InteractionEvent."
+	---@deprecated
+	method void OnInteraction() end
+
+	---@description "This function is deprecated. Use InteractionLeaveEvent."
+	---@deprecated
+	method void OnLeave() end
+
+	---@description "This function is deprecated. Use InteractionEnterEvent."
+	---@deprecated
+	---@sealed
+	method void SetOnEnter(func onEnterFunction) end
+
+	---@description "This function is deprecated. Use InteractionEvent."
+	---@deprecated
+	---@sealed
+	method void SetOnInteraction(func onInteractionFunction) end
+
+	---@description "This function is deprecated. Use InteractionLeaveEvent."
+	---@deprecated
+	---@sealed
+	method void SetOnLeave(func onLeaveFunction) end
+
+	emitter EmitInteractionEnterEvent(InteractionEnterEvent event) end
+
+	emitter EmitInteractionEvent(InteractionEvent event) end
+
+	emitter EmitInteractionLeaveEvent(InteractionLeaveEvent event) end
+
+end

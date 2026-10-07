@@ -1,0 +1,96 @@
+---@sealed
+---@description "Can search and replace strings using regular expressions. Regular expressions have a time limit, so it will fail if not completed in time."
+@Misc
+script Regex
+
+	---@description "Checks if the matching direction of the regular expression is from right to left."
+	---@sealed
+	readonly property boolean IsRightToLeft
+
+	---@description "Initializes the Regex with the default value."
+	constructor Regex(string pattern) end
+
+	---@description "Initializes the Regex with specified pattern and options values."
+	constructor Regex(string pattern, RegexOption options) end
+
+	---@description "Returns the regular expression group names."
+	---@sealed
+	method table<string> GetGroupNames() end
+
+	---@description "Returns the regular expression group numbers."
+	---@sealed
+	method table<int32> GetGroupNumbers() end
+
+	---@description "Gets the name of the group whose number is number. When there is no match, returns nil."
+	---@sealed
+	method string GroupNameFromNumber(int32 number) end
+
+	---@description "Gets the number of the group whose name is name. When there is no match, returns -1."
+	---@sealed
+	method int32 GroupNumberFromName(string name) end
+
+	---@description "Finds and returns regular expression matches in the origin sentence."
+	---@sealed
+	method boolean IsMatch(string origin) end
+
+	---@description "Starting from the startIndex in the origin sentence, finds and returns the first hit that matches the regular expression pattern."
+	---@sealed
+	method boolean IsMatch(string origin, int32 startIndex) end
+
+	---@description "Searches the origin sentence for the first hit matching the regular expression pattern. If it fails, returns nil."
+	---@sealed
+	method RegexMatch Match(string origin) end
+
+	---@description "Starting from the startIndex in the origin sentence, searches for the first hit that matches the regular expression pattern. If it fails, returns nil."
+	---@sealed
+	method RegexMatch Match(string origin, int32 startIndex) end
+
+	---@description "Starting from the startIndex in the origin sentence, searches for the first hit that matches the regular expression pattern within the specified string length. If it fails, returns nil."
+	---@sealed
+	method RegexMatch Match(string origin, int32 startIndex, int32 length) end
+
+	---@description "Searches the origin sentence for the all hits matching the regular expression pattern."
+	---@sealed
+	method table<RegexMatch> Matches(string origin) end
+
+	---@description "Starting from the startIndex in the origin sentence, searches for the all the hits matching the regular expression pattern."
+	---@sealed
+	method table<RegexMatch> Matches(string origin, int32 startIndex) end
+
+	---@description "Replaces all hits matching the regular expression pattern in the origin sentence. If it fails, returns nil."
+	---@sealed
+	method string Replace(string origin, string replacement) end
+
+	---@description "Replaces hits matching the regular expression pattern in the origin sentence, up to a specified count. If it fails, returns nil."
+	---@sealed
+	method string Replace(string origin, string replacement, int32 count) end
+
+	---@description "Starting from the startIndex in the origin sentence, finds hits that match the regular expression pattern. Replaces hits, up to the specified count. If it fails, returns nil."
+	---@sealed
+	method string Replace(string origin, string replacement, int32 count, int32 startIndex) end
+
+	---@description "Replaces all hits matching the regular expression pattern in the origin sentence with the string returned by the evaluator. If it fails, returns nil."
+	---@sealed
+	method string ReplaceByEvaluator(string origin, func<RegexMatch> -> string evaluator) end
+
+	---@description "Replaces all hits matching the regular expression pattern in the origin sentence with the string returned by the evaluator up to the specified count. If it fails, returns nil."
+	---@sealed
+	method string ReplaceByEvaluator(string origin, func<RegexMatch> -> string evaluator, int32 count) end
+
+	---@description "Starting from the startIndex in the origin sentence, replaces hits matching the regular expression pattern with the string returned by the evaluator up to the specified count. If it fails, returns nil."
+	---@sealed
+	method string ReplaceByEvaluator(string origin, func<RegexMatch> -> string evaluator, int32 count, int32 startIndex) end
+
+	---@description "Splits the string in the origin sentence based on hits matching the regular expression pattern. If it fails, returns nil."
+	---@sealed
+	method table<string> Split(string origin) end
+
+	---@description "Splits the string in the origin sentence based on hits matching the regular expression pattern, up to the specified count. If it fails, returns nil."
+	---@sealed
+	method table<string> Split(string origin, int32 count) end
+
+	---@description "Starting from the startIndex in the origin sentence, splits the string based on hits matching the regular expression pattern, up to the specified count. If it fails, returns nil."
+	---@sealed
+	method table<string> Split(string origin, int32 count, int32 startIndex) end
+
+end

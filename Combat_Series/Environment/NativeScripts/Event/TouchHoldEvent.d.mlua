@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when an entity is touched. The entity must have a TouchReceiveComponent for the event to occur. Cannot be triggered by a short touch."
+@Event
+script TouchHoldEvent extends EventType
+
+	---@description "The Id that uniquely represents a specific input type. For example, left mouse click is 1. Touch inputs on mobile devices are incremented starting from 1."
+	---@sealed
+	property int32 TouchId
+
+	---@description "The screen coordinates where the touch occurred."
+	---@sealed
+	property Vector2 TouchPoint
+
+	constructor TouchHoldEvent(Vector2 touchPoint = Vector2(0, 0), int32 touchId = 1) end
+
+end

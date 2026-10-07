@@ -1,0 +1,18 @@
+---@sealed
+---@description "Provides features related to the entity."
+@Service
+script EntryService extends Service
+
+	---@description "Finds and returns the DataSet Id by the DataSet name."
+	---@sealed
+	method string GetDataSetIdByName(string name) end
+
+	---@description "Finds and returns the material Id by the material name."
+	---@sealed
+	method string GetMaterialIdByName(string name) end
+
+	---@description "Find and return the model Id by the model name."
+	---@sealed
+	method string GetModelIdByName(string name) end
+
+end

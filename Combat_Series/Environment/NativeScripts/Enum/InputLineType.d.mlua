@@ -1,0 +1,17 @@
+---@sealed
+---@description "Specifies how to enter."
+@Enum
+script InputLineType
+	---@description "Enter in a single line."
+	member SingleLine = 0
+	---@description "You can enter multiple lines, and it stops when the Enter key is pressed."
+	member MultiLineSubmit = 1
+	---@description "You can enter multiple lines, and insert line breaks by pressing the Enter key."
+	member MultiLineNewline = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method InputLineType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method InputLineType CastFrom(string value) end
+end

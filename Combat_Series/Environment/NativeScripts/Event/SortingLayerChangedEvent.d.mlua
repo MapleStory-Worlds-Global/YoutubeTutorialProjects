@@ -1,0 +1,12 @@
+---@sealed
+---@description "This event occurs when changing the component's SortingLayer."
+@Event
+script SortingLayerChangedEvent extends EventType
+
+	---@description "Changed SortingLayer."
+	---@sealed
+	property string SortingLayer
+
+	constructor SortingLayerChangedEvent(string sortingLayer = nil) end
+
+end

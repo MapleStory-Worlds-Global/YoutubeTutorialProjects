@@ -1,0 +1,21 @@
+---@sealed
+---@description "Indicates the shape of the damage skin."
+@Enum
+script DamageSkinTextType
+	---@description "Outputs the Miss damage skin."
+	member Miss = 0
+	---@description "Outputs the Guard damage skin."
+	member Guard = 1
+	---@description "Outputs the Resist damage skin."
+	member Resist = 2
+	---@description "Outputs the Shot damage skin."
+	member Shot = 3
+	---@description "Outputs the Counter damage skin."
+	member Counter = 4
+
+	---@description "Converts numbers to the applicable type."
+	static method DamageSkinTextType CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method DamageSkinTextType CastFrom(string value) end
+end

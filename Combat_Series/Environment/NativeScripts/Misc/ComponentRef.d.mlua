@@ -1,0 +1,19 @@
+---@description "A Ref entity to refer to the Component. It holds the Component's Id and searches for the Component when the access is required. Same usage as the Component type."
+@Misc
+script ComponentRef
+
+	---@description "The Id of the Entity with the Component that is being referred to."
+	---@sealed
+	readonly property string EntityId
+
+	---@description "The type name of the Component that is being referred to."
+	---@sealed
+	readonly property string TypeName
+
+	---@description "Initializes ComponentRef, which refers to the specified component."
+	constructor ComponentRef(Component component) end
+
+	---@description "Initializes ComponentRef, which refers to the component that entityId and componentType indicate."
+	constructor ComponentRef(string entityId, Type componentType) end
+
+end

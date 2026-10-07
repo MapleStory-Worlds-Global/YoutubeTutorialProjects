@@ -1,0 +1,42 @@
+---@sealed
+---@description "The result of a single match found using the regular expression."
+@Misc
+script RegexMatch
+
+	---@description "Retrieves the first position index of the captured string from the origin string."
+	---@sealed
+	readonly property int32 Index
+
+	---@description "Retrieves the length of the captured string."
+	---@sealed
+	readonly property int32 Length
+
+	---@description "The name of the group."
+	---@sealed
+	readonly property string Name
+
+	---@description "Returns the success status of the match operation."
+	---@sealed
+	readonly property boolean Success
+
+	---@description "Retrieves the captured string."
+	---@sealed
+	readonly property string Text
+
+	---@description "Retrieves all captures matched using capturing groups."
+	---@sealed
+	method table<RegexCapture> GetCaptures() end
+
+	---@description "Retrieves all groups matching the regular expression."
+	---@sealed
+	method table GetGroups() end
+
+	---@description "Starting from the character after the last match, retrieves the new RegexMatch and the result for the next match. If it fails, returns nil."
+	---@sealed
+	method RegexMatch NextMatch() end
+
+	---@description "Replaces a single match item with the specified substitution pattern and returns the result."
+	---@sealed
+	method string Result(string replacement) end
+
+end

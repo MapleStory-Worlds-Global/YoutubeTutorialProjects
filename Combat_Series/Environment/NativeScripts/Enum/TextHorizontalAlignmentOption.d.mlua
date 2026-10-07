@@ -1,0 +1,23 @@
+---@sealed
+---@description "How to align horizontal text."
+@Enum
+script TextHorizontalAlignmentOption
+	---@description "Aligns the text to the left."
+	member Left = 1
+	---@description "Aligns the text to the center."
+	member Center = 2
+	---@description "Aligns the text to the right."
+	member Right = 4
+	---@description "Aligns text to both edges of the text box. Adjusts spacing between words to make all lines the same width. The last line is not aligned to the same width."
+	member Justified = 8
+	---@description "Aligns text to both edges of the text box. Adjusts spacing between words to make all lines the same width. The last line adjusts spacing between letters to make the same row width."
+	member Flush = 16
+	---@description "Aligns the text to the center. The center of each line is aligned to the center of the text box."
+	member Geometry = 32
+
+	---@description "Converts numbers to the applicable type."
+	static method TextHorizontalAlignmentOption CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method TextHorizontalAlignmentOption CastFrom(string value) end
+end

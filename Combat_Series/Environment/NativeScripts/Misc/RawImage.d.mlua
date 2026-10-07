@@ -1,0 +1,14 @@
+---@sealed
+---@description "Represents image data."
+@Misc
+script RawImage
+
+	---@description "The height of the image."
+	---@sealed
+	property int32 Height
+
+	---@description "The width of the image."
+	---@sealed
+	property int32 Width
+
+end

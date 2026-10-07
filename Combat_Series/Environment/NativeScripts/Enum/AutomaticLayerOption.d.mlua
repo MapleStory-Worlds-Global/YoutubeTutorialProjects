@@ -1,0 +1,17 @@
+---@sealed
+---@description "Shows the relationship between the RigidbodyComponent and the SortingLayer of the ClimbableSpriteRendererComponent."
+@Enum
+script AutomaticLayerOption
+	---@description "Entity does not change based on foothold, ladder, or rope's SortingLayer."
+	member None = 0
+	---@description "When an Entity climbs a ladder or rope, it changes to the corresponding SortingLayer."
+	member Climbable = 1
+	---@description "Entity changes along the SortingLayer of the foothold it's stepping on, the ladder it's riding on, or the rope it's riding on."
+	member All = 2
+
+	---@description "Converts numbers to the applicable type."
+	static method AutomaticLayerOption CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method AutomaticLayerOption CastFrom(string value) end
+end

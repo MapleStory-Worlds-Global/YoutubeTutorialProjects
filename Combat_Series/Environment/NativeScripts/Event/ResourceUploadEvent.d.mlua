@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event is raised in ResourceService when a resource created during world play is uploaded. This event will fire on every server in the world where the resource was uploaded."
+@Event
+script ResourceUploadEvent extends EventType
+
+	---@description "The RUID of the uploaded resource."
+	---@sealed
+	property string RUID
+
+	---@description "The ID of the user who uploaded the resource."
+	---@sealed
+	property string UserId
+
+	constructor ResourceUploadEvent(string userId = nil, string ruid = nil) end
+
+end

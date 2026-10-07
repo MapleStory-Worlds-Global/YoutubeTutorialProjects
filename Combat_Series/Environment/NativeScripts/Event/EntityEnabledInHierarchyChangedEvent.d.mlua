@@ -1,0 +1,16 @@
+---@sealed
+---@description "This event occurs when the entity's EnabledInHierarchy changes."
+@Event
+script EntityEnabledInHierarchyChangedEvent extends EventType
+
+	---@description "The value of the entity's EnabledInHierarchy."
+	---@sealed
+	property boolean EnabledInHierarchy
+
+	---@description "Entity which made an event occur."
+	---@sealed
+	property Entity Entity
+
+	constructor EntityEnabledInHierarchyChangedEvent(Entity entity = nil, boolean enabledInHierarchy = false) end
+
+end

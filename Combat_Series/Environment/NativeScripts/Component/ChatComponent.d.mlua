@@ -1,0 +1,23 @@
+---@description "The component supports the chat function for players to communicate with each other."
+@Component
+script ChatComponent extends Component
+
+	---@description "Sets the avatar emote duration."
+	---@sealed
+	property float ChatEmotionDuration = 5
+
+	---@description "The function expands the chat window. "
+	---@sealed
+	property boolean Expand = true
+
+	---@description "The function for players to express a chat message as a chat balloon."
+	---@sealed
+	property boolean UseChatBalloon = false
+
+	---@description "The function to use avatar emotes in chat."
+	---@sealed
+	property boolean UseChatEmotion = true
+
+	emitter EmitChatEvent(ChatEvent event) end
+
+end
