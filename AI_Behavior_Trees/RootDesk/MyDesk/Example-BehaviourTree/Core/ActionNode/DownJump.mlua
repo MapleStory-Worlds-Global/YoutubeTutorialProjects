@@ -1,6 +1,10 @@
+-- Behaviour-tree action node: makes the AI entity drop down through the platform
+-- (foothold) it is standing on via MovementComponent:DownJump(). Completes in one tick.
 @BTNode
 script DownJump extends ActionNode
 
+	-- Called each tick while this node is active. Returns Success if the down-jump was
+	-- started, Failure if the AI/entity/MovementComponent is missing or DownJump() returns false.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then

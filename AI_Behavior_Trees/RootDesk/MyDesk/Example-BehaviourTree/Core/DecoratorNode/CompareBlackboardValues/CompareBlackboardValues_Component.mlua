@@ -1,17 +1,30 @@
+-- Behaviour tree decorator: reads two Component blackboard variables (LeftKey and RightKey) and compares
+-- them as "left Operator right" (see Util/Comparator). Ticks the child node only when the comparison
+-- passes; otherwise returns Failure without running the child.
+-- Only IsSet / IsNotSet / Equal / NotEqual are allowed for Component (Util/OperatorPolicy); other operators always fail.
 @BTNode
 script CompareBlackboardValues_Component extends DecoratorNode
 
+	-- Name of the Component blackboard variable used as the left-hand operand
 	property string LeftKey = ""
 
+	-- Name of the Component blackboard variable used as the right-hand operand (IsSet / IsNotSet only test the left value)
 	property string RightKey = ""
 
+	-- Comparison operator (_Comparator values): 0 IsSet, 1 IsNotSet, 2 Equal, 3 NotEqual,
+	-- 4 Greater, 5 GreaterOrEqual, 6 Less, 7 LessOrEqual
 	property integer Operator = 0
 
+	-- Unused: not read anywhere in this script (only this variant of the family declares it)
 	property number Probability = 1
 
+	-- Called each tick by the behaviour tree. Returns the child's status when "left Operator right"
+	-- passes, otherwise BehaviourTreeStatus.Failure. Unlike BlackboardCondition_Component, empty keys are not rejected up front.
 	method any OnBehave(number delta)
 		local leftValue = self.ParentAI.BlackBoard:GetComponent(self.LeftKey)
 		local rightValue = self.ParentAI.BlackBoard:GetComponent(self.RightKey)
+		-- Compare fails if Operator is not allowed for Component, or (except for IsSet / IsNotSet)
+		-- if either value is nil or their Lua types differ
 		if _Comparator:Compare(_ValueType.Component, self.Operator, leftValue, rightValue) then
 			return self:ChildBehave(delta)
 		end

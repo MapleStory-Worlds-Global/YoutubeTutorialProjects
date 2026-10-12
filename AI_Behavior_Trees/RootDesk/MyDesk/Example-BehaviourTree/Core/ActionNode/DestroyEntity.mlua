@@ -1,16 +1,23 @@
+-- Behaviour-tree action node: destroys an entity stored in the AI's blackboard, optionally
+-- after a delay (Entity:Destroy(delay)). Completes in one tick; the node does not wait for the delay.
 @BTNode
 script DestroyEntity extends ActionNode
 
+	-- Blackboard key holding the Entity to destroy
 	property string TargetEntityKey = ""
 
+	-- Seconds before the entity is actually destroyed (negative values are clamped to 0)
 	property number Delay = 0
 
+	-- Called when the node is initialized by the behaviour tree; clamps a negative Delay to 0.
 	method void OnInit()
 		if self.Delay < 0 then
 			self.Delay = 0
 		end
 	end
 
+	-- Called each tick while this node is active. Returns Failure if the AI or blackboard
+	-- entity is missing; otherwise schedules the destroy and returns Success immediately.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then

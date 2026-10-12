@@ -1,10 +1,18 @@
+-- Behaviour-tree action node that patrols between waypoints. The waypoints are the child
+-- entities of a parent entity stored on the blackboard; each run walks the AI to the current
+-- waypoint, succeeds on arrival, and advances to the next waypoint (looping back to the first).
 @BTNode
 script ActionPatrol extends ActionNode
 
+	-- Blackboard key holding the parent Entity whose children are the patrol waypoints
 	property string waypointID = ""
 
+	-- Distance (world units) at which a waypoint counts as reached
 	property number ArrivalThreshold = .5
 
+	-- Called every tick while active: moves toward the current waypoint (Running); on arrival
+	-- stops, advances the waypoint index and returns Success. Fails if waypoints or required
+	-- components are missing.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then
@@ -26,6 +34,7 @@ script ActionPatrol extends ActionNode
 			return BehaviourTreeStatus.Failure
 		end
 		
+		-- currentWaypoint is 0-based; Lua tables are 1-based, hence the +1
 		local targetEntity = waypoints[currentWaypoint + 1]
 		if targetEntity == nil then
 			return BehaviourTreeStatus.Failure
@@ -56,6 +65,7 @@ script ActionPatrol extends ActionNode
 		local distance = toTarget:Magnitude()
 		if distance < self.ArrivalThreshold then
 			movementComponent:Stop()
+			-- Advance to the next waypoint, wrapping around to 0 after the last one
 			currentWaypoint = (currentWaypoint + 1) % #self._T.waypoints
 			log(currentWaypoint)
 			self._T.currentWaypoint = currentWaypoint
@@ -66,8 +76,10 @@ script ActionPatrol extends ActionNode
 		return BehaviourTreeStatus.Running
 	end
 
+	-- Called when the node starts: on first use, caches the waypoint parent's children in _T and
+	-- starts at waypoint 0. Both values persist across runs so the patrol continues where it left off.
 	method void OnInit()
-		if isvalid(self._T.waypoints) == false then 
+		if isvalid(self._T.waypoints) == false then
 			local parent = self.ParentAI.BlackBoard:GetEntity(self.waypointID)
 			local wayPoints = parent.Children
 			self._T.waypoints = wayPoints

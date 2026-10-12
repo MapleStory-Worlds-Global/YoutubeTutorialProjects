@@ -7,7 +7,8 @@ script Environment
 	---@sealed
 	readonly property string WorldId
 
-	---@description "Returns the version information for the currently running application."
+	---@description "This function is deprecated. Use the ApplicationService's GetApplicationVersion()."
+	---@deprecated
 	---@sealed
 	@ExecSpace("ClientOnly")
 	method string GetApplicationVersion() end
@@ -20,11 +21,13 @@ script Environment
 	---@sealed
 	method boolean IsMakerPlay() end
 
-	---@description "Returns whether the current state is a mobile platform."
+	---@description "This function is deprecated. Use the IsMobilePlatform() of ApplicationService."
+	---@deprecated
 	---@sealed
 	method boolean IsMobilePlatform() end
 
-	---@description "Returns whether the current state is a PC platform."
+	---@description "This function is deprecated. Use the IsPCPlatform() function of ApplicationService."
+	---@deprecated
 	---@sealed
 	method boolean IsPCPlatform() end
 

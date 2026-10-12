@@ -1,7 +1,12 @@
+-- Behaviour-tree action node that switches the AI entity's StateComponent to a fixed state
+-- (e.g. "IDLE", "ATTACKMELEE"), which in turn drives the state animation. Succeeds
+-- immediately; fails if there is no StateComponent or the state name is empty.
 @BTNode
 script SetState extends ActionNode
+	-- State name passed to StateComponent:ChangeState
 	property string stateString = ""
 
+	-- Validates the entity, StateComponent and state name, changes state, and returns Success
 	method any OnBehave(number delta)
 		local entity = self.ParentAI.Entity
 		if isvalid(entity) == false then

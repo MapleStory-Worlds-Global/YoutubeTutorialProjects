@@ -1,7 +1,11 @@
+-- Debug decorator that ticks a child node, logs whether it succeeded, failed or is still
+-- running, and passes the child's status through unchanged. Returns Failure if no child is set.
 @BTNode
 script TestDecorator extends DecoratorNode
+	-- Child node to tick; read from this property rather than DecoratorNode:ChildBehave
 	property any child = nil
 
+	-- Ticks the child via child:Behave(delta), logs the result, and returns it
 	method any OnBehave(number delta)
 		if self.child == nil then 
 			return BehaviourTreeStatus.Failure

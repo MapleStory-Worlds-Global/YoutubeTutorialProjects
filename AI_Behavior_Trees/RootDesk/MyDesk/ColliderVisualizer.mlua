@@ -1,22 +1,35 @@
+-- Client-side debug gizmo: finds the first collider-style component on this entity
+-- (Trigger/Hit/Interaction/PhysicsCollider/Portal/Climbable) and draws its outline every
+-- frame with a LineRendererComponent on a spawned helper entity. Attach to any entity whose
+-- collision area you want to see while testing.
 @Component
 script ColliderVisualizer extends Component
 
+	-- Thickness of the outline drawn by the LineRendererComponent
 	property number LineWidth = 0.2
 
+	-- Color of the outline
 	property Color LineColor = Color(255,0,0,255)
 
+	-- The collider component being visualized (found automatically by FindCollider)
 	@HideFromInspector
 	property any collider = nil
 
+	-- True for PortalComponent/ClimbableComponent, which only expose a box shape (BoxSize/BoxOffset)
 	@HideFromInspector
 	property boolean isBoxOnly = false
 
+	-- Child of gizmoAnchor that holds the LineRendererComponent; carries the collider offset and scale
 	@HideFromInspector
 	property Entity gizmoBody = nil
 
+	-- Root helper entity spawned in the map; follows this entity's world position and rotation
 	@HideFromInspector
 	property Entity gizmoAnchor = nil
 
+	-- Each frame (client only, purely visual): makes sure the collider and gizmo entities exist,
+	-- reads the collider's shape/offset/scale/rotation, redraws the outline, and moves the gizmo
+	-- to match this entity.
 	@ExecSpace("ClientOnly")
 	method void OnUpdate(number delta)
 		if self:CheckInit() == false then
@@ -25,11 +38,13 @@ script ColliderVisualizer extends Component
 		
 		local size, colliderType, offset, radius, polygonPoints, scale, absScale, rot
 		
+		-- Legacy colliders: unscaled, unrotated box using BoxSize/BoxOffset
 		if self.collider.IsLegacy == true then
 			colliderType = ColliderType.Box
 			size = self.collider.BoxSize
 			scale = Vector3.one
 			offset = self.collider.BoxOffset
+		-- Portal/Climbable: box only, offset scaled by the accumulated (lossy) scale
 		elseif self.isBoxOnly == true then
 			colliderType = ColliderType.Box
 			size = self.collider.BoxSize
@@ -38,6 +53,7 @@ script ColliderVisualizer extends Component
 			offset = self.collider.BoxOffset * scale
 			rot = self.Entity.TransformComponent.WorldZRotation
 			scale = absScale
+		-- Modern colliders: Box, Circle or Polygon, read from ColliderType
 		else
 			colliderType = self.collider.ColliderType
 			scale = self:GetLossyScale()
@@ -50,13 +66,16 @@ script ColliderVisualizer extends Component
 				scale = absScale
 			elseif colliderType ==  ColliderType.Circle then
 				radius = self.collider.CircleRadius
+				-- Circles stay round: use the larger scale axis uniformly
 				local max = math.max(absScale.x, absScale.y)
 				scale = Vector2(max, max)
 			elseif colliderType ==  ColliderType.Polygon then
+				-- Polygon points are drawn as-is; scale keeps the signed lossy scale here
 				polygonPoints = self.collider.PolygonPoints
 			end
 		end
 		
+		-- Rebuild the outline points in the gizmo body's local space
 		if colliderType == ColliderType.Box then
 			self:DrawBox(size, self.LineColor, self.LineWidth, self.gizmoBody)
 		elseif colliderType == ColliderType.Circle then
@@ -68,18 +87,22 @@ script ColliderVisualizer extends Component
 		local gizmoAnchorTransform = self.gizmoAnchor.TransformComponent
 		local gizmoBodyTransform = self.gizmoBody.TransformComponent
 		
+		-- Anchor follows the entity's position/rotation; the body child applies the collider offset and scale
 		gizmoAnchorTransform.WorldPosition = self.Entity.TransformComponent.WorldPosition
 		gizmoBodyTransform.Position = offset:ToVector3()
 		gizmoAnchorTransform.WorldZRotation = rot
 		gizmoBodyTransform.Scale = Vector3(scale.x, scale.y, 1)
 	end
 
+	-- Cleans up the spawned gizmo entities when this entity is destroyed.
 	@ExecSpace("ClientOnly")
 	method void OnDestroy()
 		_EntityService:Destroy(self.gizmoBody)
 		_EntityService:Destroy(self.gizmoAnchor)
 	end
 
+	-- Lazily finds the collider and (re)spawns the gizmo entities if they are missing or invalid.
+	-- Returns false when the entity has no supported collider, so nothing is drawn.
 	@ExecSpace("ClientOnly")
 	method boolean CheckInit()
 		if self.collider == nil then
@@ -94,6 +117,7 @@ script ColliderVisualizer extends Component
 			return true
 		end
 		
+		-- Destroy any half-valid leftovers, then spawn a fresh anchor in the map and a body under it
 		_EntityService:Destroy(self.gizmoBody)
 		_EntityService:Destroy(self.gizmoAnchor)
 		self.gizmoAnchor = _SpawnService:SpawnByModelId("model://transformonly", "Collider (" .. self.Entity.Name .. ")", Vector3.zero, self.Entity.CurrentMap)
@@ -103,6 +127,8 @@ script ColliderVisualizer extends Component
 		return true
 	end
 
+	-- Looks up the first supported collider component on this entity, in priority order.
+	-- Portal and Climbable components only have box data, so isBoxOnly is set for them.
 	@ExecSpace("ClientOnly")
 	method void FindCollider()
 		self.collider = self.Entity:GetComponent(TriggerComponent)
@@ -130,6 +156,7 @@ script ColliderVisualizer extends Component
 		end
 	end
 
+	-- Draws a closed rectangle of the given size, centered on the gizmo entity's local origin.
 	@ExecSpace("ClientOnly")
 	method void DrawBox(Vector2 size, Color color, number width, Entity gizmoEntity)
 		local lineRenderer = gizmoEntity.LineRendererComponent
@@ -143,6 +170,7 @@ script ColliderVisualizer extends Component
 		lineRenderer.Points:Add(LinePoint(Vector2(-halfSize.x, -halfSize.y),color,width))
 	end
 
+	-- Approximates a circle with vertexNum points (closed loop) around the local origin.
 	@ExecSpace("ClientOnly")
 	method void DrawCircle(number radius, integer vertexNum, Color color, number width, Entity gizmoEntity)
 		if vertexNum < 3 then
@@ -154,6 +182,7 @@ script ColliderVisualizer extends Component
 		lineRenderer.Points:Clear()
 		lineRenderer.Loop = true
 			 
+		-- Angle step in degrees; points start at the top (90 degrees) and go counter-clockwise
 		local delta = 360 / vertexNum
 			 
 		for i = 0, vertexNum - 1 do
@@ -164,6 +193,7 @@ script ColliderVisualizer extends Component
 		end
 	end
 
+	-- Draws the collider's polygon points as a closed loop.
 	@ExecSpace("ClientOnly")
 	method void DrawPolygon(any polygonPoints, Color color, number width, Entity gizmoEntity)
 		local lineRenderer = gizmoEntity.LineRendererComponent
@@ -177,6 +207,8 @@ script ColliderVisualizer extends Component
 		end
 	end
 
+	-- Returns the entity's effective world scale by multiplying its local Scale with every
+	-- ancestor's Scale (signs preserved, so flipped entities give negative components).
 	@ExecSpace("ClientOnly")
 	method Vector2 GetLossyScale()
 		local lossyScale = Vector2.one
@@ -196,6 +228,7 @@ script ColliderVisualizer extends Component
 		return lossyScale
 	end
 
+	-- Mirrors this entity's enabled state onto the gizmo so the outline disappears with it.
 	@EventSender("Self")
 	handler HandleEntityEnabledInHierarchyChangedEvent(EntityEnabledInHierarchyChangedEvent event)
 		--------------- Native Event Sender Info ----------------
@@ -211,6 +244,7 @@ script ColliderVisualizer extends Component
 		self.gizmoAnchor.Enable = EnabledInHierarchy
 	end
 
+	-- Mirrors this entity's visibility onto the gizmo.
 	@EventSender("Self")
 	handler HandleEntityVisibleInHierarchyChangedEvent(EntityVisibleInHierarchyChangedEvent event)
 		--------------- Native Event Sender Info ----------------

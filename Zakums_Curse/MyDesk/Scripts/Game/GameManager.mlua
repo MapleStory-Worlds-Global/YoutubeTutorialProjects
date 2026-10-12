@@ -1,20 +1,33 @@
+-- Global game-flow controller for Zakum's Curse (accessed as _GameManager). Players enter
+-- the game area through a portal; once 2+ have joined, a 10 s countdown starts the round,
+-- a random player becomes the Zakum, and whoever holds the role when the 10 s round timer
+-- ends wins. Game state lives on the server; UI updates are pushed to clients as events.
 @Logic
 script GameManager extends Logic
 
+	-- ZakumPlayerComponent of the player currently holding the Zakum role (nil before the first round)
 	property ZakumPlayerComponent currentZakum = nil
 
+	-- Entity ID of the game-area start point players are moved to through the portal
 	property string startingAreaId = "fea6c6ae-8389-4ceb-bcdc-11d042210406"
 
+	-- Number of players currently in playersInGame
 	property number playerCount = 0
 
+	-- True while a round is in progress; blocks new players from joining mid-round
 	property boolean hasGameStarted = false
 
+	-- Timer ID of the active countdown (pre-game or round), so it can be cleared/restarted
 	property number gameStartTimer = 0
 
+	-- Players who entered the game area, keyed by UserId -> player Entity
 	property table playersInGame = {}
 
+	-- Entity ID of the lobby spawn point players are returned to when a round ends
 	property string spawnAreaId = "f0d2b929-063f-4d87-b300-06bf0eddf6da"
 
+	-- Transfers the Zakum role to the player with `userId`: unsets the previous Zakum (if any)
+	-- and calls SetZakum on the new one.
 	@ExecSpace("Server")
 	method void ChangeZakum(string userId)
 		local newZakum = _UserService:GetUserEntityByUserId(userId)
@@ -27,6 +40,7 @@ script GameManager extends Logic
 		self.currentZakum:SetZakum()
 	end
 
+	-- Picks a random player from playersInGame and makes them the Zakum. Does nothing if empty.
 	@ExecSpace("Server")
 	method void SetRandomZakum()
 		if self.playerCount == 0 then 
@@ -34,11 +48,14 @@ script GameManager extends Logic
 		end
 		
 		local randomUser = _UtilLogic:RandomIntegerRange(1,self.playerCount)
+		-- playersInGame is keyed by UserId, so index into its key list; the entity Name is the UserId
 		local userKey = table.keys(self.playersInGame)[randomUser]
 		
 		self:ChangeZakum(self.playersInGame[userKey].Name)
 	end
 
+	-- Called when a player uses the lobby portal. Unless a round is already running, plays the
+	-- portal sound, moves them to the game area, registers them and checks whether to start.
 	@ExecSpace("Server")
 	method void TeleportToStartingArea(string userId)
 		if self.hasGameStarted then return end
@@ -53,6 +70,8 @@ script GameManager extends Logic
 		self:CheckPlayerCount()
 	end
 
+	-- Starts (or restarts) the pre-game countdown once at least 2 players have joined;
+	-- GameStart runs when it finishes. Each additional joiner restarts the countdown.
 	@ExecSpace("Server")
 	method void CheckPlayerCount()
 		if self.playerCount < 2 then return end
@@ -61,10 +80,14 @@ script GameManager extends Logic
 		end)
 	end
 
+	-- Runs a 10-second countdown: once per second sends a TimerEvent to clients and plays the
+	-- count sound, then calls `onComplete` (a function) when it reaches 0. Any countdown
+	-- already running is cancelled first, so only one is ever active.
 	@ExecSpace("Server")
 	method void BeginCountdown(any onComplete)
 		_TimerService:ClearTimer(self.gameStartTimer)
 		
+		-- Repeats every 1 s (first tick after 1 s): ticks 10..1 notify clients, tick 0 completes
 		local countdown = 10
 		self.gameStartTimer = _TimerService:SetTimerRepeat(function() 
 			if countdown == 0 then 
@@ -78,6 +101,9 @@ script GameManager extends Logic
 		end, 1, 1)
 	end
 
+	-- Ends the round (called by the round countdown on the server): removes the Zakum role,
+	-- sends everyone back to the lobby, plays the winner sound and announces the player who
+	-- held the role last as the winner.
 	method void GameEnd()
 		self.hasGameStarted = false
 		if isvalid(self.currentZakum) then 
@@ -89,9 +115,13 @@ script GameManager extends Logic
 		_SoundManager:PlaySFX(_SFXList.WINNER)
 		
 		
+		-- currentZakum is still referenced after UnsetZakum, so it identifies the winner
 		self:GameEndEvent(self.currentZakum.Entity.PlayerComponent.UserId)
 	end
 
+	-- Starts a round (called by the pre-game countdown on the server): locks joining, picks a
+	-- random Zakum, notifies clients, plays the start sound and starts the 10 s round timer
+	-- that ends in GameEnd.
 	method void GameStart()
 		self.hasGameStarted = true
 		self:SetRandomZakum()
@@ -105,6 +135,7 @@ script GameManager extends Logic
 		end)
 	end
 
+	-- Moves every registered player back to the lobby spawn point and clears the roster.
 	method void MovePlayersToSpawn()
 		for userId,player in pairs(self.playersInGame) do 
 			player.PlayerComponent:MoveToEntity(self.spawnAreaId)
@@ -114,6 +145,9 @@ script GameManager extends Logic
 		self.playerCount = 0
 	end
 
+	-- The three methods below are Client space: called from the server they run on every
+	-- client, where SendEvent raises the event for ZakumUIComponent's handlers.
+	-- Raises a TimerEvent with the seconds remaining.
 	@ExecSpace("Client")
 	method void CountEvent(integer timer)
 		local evt = TimerEvent()
@@ -121,12 +155,14 @@ script GameManager extends Logic
 		self:SendEvent(evt)
 	end
 
+	-- Raises a GameStartEvent.
 	@ExecSpace("Client")
 	method void GameStartEvent()
 		local evt = GameStartEvent()
 		self:SendEvent(evt)
 	end
 
+	-- Raises a GameEndEvent carrying the winner's UserId.
 	@ExecSpace("Client")
 	method void GameEndEvent(string winnerUserId)
 		local evt = GameEndEvent()
@@ -134,11 +170,13 @@ script GameManager extends Logic
 		self:SendEvent(evt)
 	end
 
+	-- Starts the background music when the world starts (PlayBGM is forwarded to clients).
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		_SoundManager:PlayBGM()
 	end
 
+	-- Registers the player with `userId` in playersInGame and increments playerCount.
 	@ExecSpace("Server")
 	method void AddPlayer(string userId)
 		local player = _UserService:GetUserEntityByUserId(userId)
@@ -146,6 +184,8 @@ script GameManager extends Logic
 		self.playerCount += 1
 	end
 
+	-- Unregisters the player with `userId`. If they were the Zakum, the role is removed and
+	-- handed to a random remaining player.
 	@ExecSpace("Server")
 	method void RemovePlayer(string userId)
 		local player = _UserService:GetUserEntityByUserId(userId)
@@ -158,6 +198,7 @@ script GameManager extends Logic
 		end
 	end
 
+	-- Server: a player stole the role (sent by ZakumPlayerComponent); make them the new Zakum.
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleZakumChangedEvent(ZakumChangedEvent event)
@@ -167,6 +208,8 @@ script GameManager extends Logic
 		self:ChangeZakum(userId)
 	end
 
+	-- A player used the lobby portal entity (fired on the client); forwards to the
+	-- Server-space TeleportToStartingArea. The player entity's Name is its UserId.
 	@EventSender("Entity", "588c6e74-d502-4c4b-957a-111f59013720")
 	handler HandlePortalUseEvent(PortalUseEvent event)
 		--------------- Native Event Sender Info ----------------
@@ -181,6 +224,7 @@ script GameManager extends Logic
 		
 	end
 
+	-- Server: a user left the world; if they were in the game, remove them from the roster.
 	@EventSender("Service", "UserService")
 	handler HandleUserLeaveEvent(UserLeaveEvent event)
 		--------------- Native Event Sender Info ----------------

@@ -4,24 +4,31 @@
 [![Youtube Tutorial](https://img.youtube.com/vi/yjMLMl5KotY/0.jpg)](https://youtube.com/playlist?list=PLYnmZFABLxZzFWegbGAriHwqYU4WFFVno&si=V_Iu8BNT14kQUAvP "Let’s Explore Instance Worlds and Rooms")
 
 ## Mod Installation Instructions
-[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#project-import-instructions)
+[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#mod-file-import-instructions)
 
 ## Project File
-[Download Latest Project File](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/8a5f8acb5b51b595adf2175bad948005b8be92db/Instance_Maps/Room_World_Instance_Demo.mod)
-
----
+[Download Latest Project File](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Instance_Maps/Room_World_Instance_Demo.mod)
 
 ## Table of Contents
 - [Overview](#overview)
+- [Setup and Installation](#setup-and-installation)
 - [Script Documentation](#script-documentation)
   - [SceneManagement](#scenemanagement)
   - [RoomInfo](#roominfo)
   - [CustomPortalComponent](#customportalcomponent)
   - [WorldManagement](#worldmanagement)
-  - [MoveToMap](#movetomap)
   - [GameSystem](#gamesystem)
   - [RoomEnteredEvent](#roomenteredevent)
-- [Changelog](#changelog)
+  - [PlayerMapComponent](#playermapcomponent)
+  - [MoveToMap (Scripts/InstanceMapTest)](#movetomap-scriptsinstancemaptest)
+  - [MoveToMap (InstanceMapTest)](#movetomap-instancemaptest)
+  - [UIPopup (Scripts/UI)](#uipopup-scriptsui)
+  - [UIPopup (MyDesk root)](#uipopup-mydesk-root)
+  - [UIToast (Scripts/UI)](#uitoast-scriptsui)
+  - [UIToast (MyDesk root)](#uitoast-mydesk-root)
+  - [Popupbutton (Scripts/UI)](#popupbutton-scriptsui)
+  - [Popupbutton (MyDesk root)](#popupbutton-mydesk-root)
+- [Changelog & Download](#changelog)
 ---
 
 ## Overview
@@ -38,17 +45,24 @@ What You’ll Learn in this tutorial:
 - Chapter 5: Overview of Instance Worlds
 - Chapter 6: Shared memory between both instance rooms and worlds
 
----
+## Setup and Installation
+* Import the project file (see the installation guide above) and open it in MapleStory Worlds Maker.
+* `SceneManagement`, `WorldManagement`, `GameSystem`, `UIPopup` and `UIToast` are Logic scripts and run automatically; no component setup is needed for them.
+* `GameSystem` expects static map `Static_Starting` and instance maps `Instance_Room1` / `Instance_Room2`, plus the start button referenced by its `startButton` property.
+* Custom portals use the `CustomPortal` model (`MyDesk/Common/SceneManagement/Portal/Model`). On each portal set `roomName` to the destination map, tick `isInstanceRoom` if that map is an instance map, and optionally set `customPortalEntity` as an explicit landing point. Leave the native portal target empty so the custom routing runs.
+* Press Play:
+    * Walk into a custom portal to move between static maps, or from a static map into an instance room (and back).
+    * Click the start button on `Static_Starting` to move everyone on that map into a `GameInstance` instance room; a toast appears on arrival and a popup shows the shared counter value. Click it again inside the instance to return everyone to `Static_Starting`.
+    * Press **F1** to warp the local player to another open world instance (requires more than one world instance, e.g. a published world).
+    * If a `MoveToMap` component is attached to an entity, press **M** / **N** to move all players to an instance of `mapName` / back to static `map01`.
 
 ## Script Documentation
-
----
 
 ## SceneManagement
 
 **Purpose**  
-Coordinates room and scene transitions across static and instance maps.  
-Manages instance initialization, creation, and player movement between rooms while supporting shared-memory operations for global numeric values.  
+Global Logic (`_SceneManagement`) that coordinates room transitions across static and instance maps.  
+Registers instance-room "families", creates instance rooms, moves players between rooms and reads/writes numbers in room shared memory.
 
 ---
 
@@ -56,8 +70,8 @@ Manages instance initialization, creation, and player movement between rooms whi
 
 | Property  | Type                      | Purpose |
 |------------|---------------------------|----------|
-| `rooms`    | `table<string, RoomInfo>` | Stores configuration data for all instance rooms keyed by `instanceName`. Contains properties such as map lists and capacity. |
-| `roomIdx`  | `table`                   | Tracks the number of created rooms per `instanceName` to ensure each new instance receives a unique identifier. |
+| `rooms`    | `table<string, RoomInfo>` | Registered instance-room families keyed by `instanceName` (maps list and capacity). Filled by `InitInstanceRoom`. |
+| `roomIdx`  | `table`                   | Next index per `instanceName`, appended to the room key so each `CreateInstanceRoom` call creates a brand-new room. |
 
 ---
 
@@ -65,17 +79,17 @@ Manages instance initialization, creation, and player movement between rooms whi
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|----------|
-| `ReturnUsersToStatic(users, mapName)` | Server | Moves a list of users from an instance room back to its static version. |
-| `MoveToMap(userId, mapName, customPortalEntity)` | Server | Moves a single player between static or instance maps. Only works for same-space transitions. |
-| `ReturnToStatic(userId, mapName)` | Server | Returns a single user from an instance to the target static map. |
-| `CreateAndEnterInstanceMap(userId, instanceName, mapName)` | Server | Creates or fetches an instance room and moves a player to the specified map. |
-| `InitInstanceRoom(maps, instanceName, maxCapacity)` | Server | Initializes metadata for an instance room, defining maps and capacity. |
-| `CreateInstanceRoom(instanceName)` | Server | Creates a new instance room using previously initialized data. |
-| `GetOpenInstance(instanceName, usersToMove)` | Server | Returns the ID of an available instance room that can accommodate additional users. |
-| `MoveUsersToInstance(users, instanceName, mapName, withEvent)` | Server | Moves multiple users into an instance room and optionally triggers a post-move event. |
-| `CreateSharedNumber(space, variableName, variableValue)` | Client/Server | Creates a shared-memory numeric variable. |
-| `GetSharedNumber(space, variableName)` | Client/Server | Retrieves the numeric value of a shared variable from memory. |
-| `UpdateSharedNumber(space, variableName, variableValue)` | Client/Server | Atomically updates a shared-memory numeric variable with concurrency safety. |
+| `ReturnUsersToStatic(users, mapName)` | Server | Moves a list of users from an instance room back to a static map. |
+| `MoveToMap(userId, mapName, customPortalEntity)` | Server | Teleports a single player within the same room (static -> static or instance -> instance). |
+| `ReturnToStatic(userId, mapName)` | Server | Returns a single user from an instance room to the target static map. |
+| `CreateAndEnterInstanceMap(userId, instanceName, mapName)` | Server | Gets or creates the instance room keyed by `instanceName` and moves the player into it. |
+| `InitInstanceRoom(maps, instanceName, maxCapacity)` | Server | Registers an instance-room family (maps and capacity). |
+| `CreateInstanceRoom(instanceName)` | Server | Creates a new instance room from a registered family. |
+| `GetOpenInstance(instanceName, usersToMove)` | Server | Returns the key of an instance room with free capacity, creating one if needed. |
+| `MoveUsersToInstance(users, instanceName, mapName, withEvent)` | Server | Moves multiple users into an instance room and optionally sends an event to that room. |
+| `CreateSharedNumber(space, variableName, variableValue)` | Client/Server | Creates a numeric variable in room shared memory. |
+| `GetSharedNumber(space, variableName)` | Client/Server | Reads a numeric shared variable, creating it with `0` if missing. |
+| `UpdateSharedNumber(space, variableName, variableValue)` | Client/Server | Increments a numeric shared variable by 1 using ETag concurrency control. |
 
 ---
 
@@ -87,19 +101,17 @@ Manages instance initialization, creation, and player movement between rooms whi
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Moves multiple users from an instance back to its corresponding static map.
+Moves multiple users from an instance back to a static map.
 
 **Parameters**  
-- `users` *(table<string>)* – List of player IDs.  
+- `users` *(table<string>)* – List of user IDs.  
 - `mapName` *(string)* – Name of the static map to return to.
 
 **Behavior**  
 1. Calls `_RoomService:MoveUsersToStaticRoom(users, mapName)`.  
-2. Should only be executed within an instance room context.
+2. Only works when called from an instance room.
 
 </details>
-
----
 
 <details>
 <summary>MoveToMap</summary>
@@ -107,22 +119,20 @@ Moves multiple users from an instance back to its corresponding static map.
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Transfers a player between maps within the same environment type (static → static or instance → instance).
+Transfers a player between maps within the same room type (static -> static or instance -> instance).
 
 **Parameters**  
-- `userId` *(string)* – The player’s ID.  
+- `userId` *(string)* – The player’s user ID.  
 - `mapName` *(string)* – The name of the destination map.  
-- `customPortalEntity` *(Entity)* – Optional portal entity; if `nil`, a map path entity is used.
+- `customPortalEntity` *(Entity)* – Optional teleport target; if `nil`, the map entity is used.
 
 **Behavior**  
-1. Resolves a target entity using `_EntityService:GetEntityByPath("/maps/" .. mapName)` if not provided.  
-2. Validates that the target exists.  
-3. Calls `_TeleportService:TeleportToEntity(user, targetEntity)`.  
-4. Logs a warning if teleportation fails.
+1. If no target is given, resolves `_EntityService:GetEntityByPath("/maps/" .. mapName)`.  
+2. Logs a warning and returns if the target is invalid.  
+3. Gets the user entity with `_UserService:GetUserEntityByUserId(userId)`.  
+4. Calls `_TeleportService:TeleportToEntity(user, targetEntity)`.
 
 </details>
-
----
 
 <details>
 <summary>ReturnToStatic</summary>
@@ -133,7 +143,7 @@ Transfers a player between maps within the same environment type (static → sta
 Moves an individual player from an instance room back to a static map.
 
 **Parameters**  
-- `userId` *(string)* – ID of the player.  
+- `userId` *(string)* – User ID of the player.  
 - `mapName` *(string)* – Target static map name.
 
 **Behavior**  
@@ -141,8 +151,6 @@ Moves an individual player from an instance room back to a static map.
 2. Calls `_RoomService:MoveUserToStaticRoom(userId, mapName)`.
 
 </details>
-
----
 
 <details>
 <summary>CreateAndEnterInstanceMap</summary>
@@ -153,17 +161,16 @@ Moves an individual player from an instance room back to a static map.
 Creates or reuses an instance room for a player and moves them into it.
 
 **Parameters**  
-- `userId` *(string)* – Player ID.  
-- `instanceName` *(string)* – Instance name or key.  
-- `mapName` *(string)* – Map to move into.
+- `userId` *(string)* – User ID.  
+- `instanceName` *(string)* – Instance room key.  
+- `mapName` *(string)* – Destination map name (currently not used by the method body).
 
 **Behavior**  
 1. Gets or creates the instance room via `_RoomService:GetOrCreateInstanceRoom(instanceName)`.  
-2. Calls `instanceRoom:MoveUser(userId)`.
+2. Calls `instanceRoom:MoveUser(userId)`.  
+3. Does not consult the `RoomInfo` registered by `InitInstanceRoom` (no capacity check).
 
 </details>
-
----
 
 <details>
 <summary>InitInstanceRoom</summary>
@@ -171,21 +178,18 @@ Creates or reuses an instance room for a player and moves them into it.
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Initializes metadata for an instance room type.
+Registers metadata for an instance-room family.
 
 **Parameters**  
-- `maps` *(table)* – Maps associated with the instance.  
-- `instanceName` *(string)* – Key name for the instance.  
-- `maxCapacity` *(integer)* – Maximum player count per instance.
+- `maps` *(table)* – Map names included in each instance room.  
+- `instanceName` *(string)* – Key name for the family.  
+- `maxCapacity` *(integer)* – Maximum player count per instance room.
 
 **Behavior**  
-1. Ensures the instance hasn’t been initialized before.  
-2. Creates and stores a `RoomInfo` object with capacity and map data in `self.rooms[instanceName]`.  
-3. Prepares the instance for future creation calls.
+1. Logs a warning and returns if `instanceName` is already registered.  
+2. Creates a `RoomInfo` with `roomId`, `maxCapacity` and `maps` and stores it in `self.rooms[instanceName]`.
 
 </details>
-
----
 
 <details>
 <summary>CreateInstanceRoom</summary>
@@ -193,20 +197,20 @@ Initializes metadata for an instance room type.
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Creates a new instance room using stored configuration data.
+Creates a new instance room using a registered family.
 
 **Parameters**  
-- `instanceName` *(string)* – The instance type to create.
+- `instanceName` *(string)* – The family to create a room for.
+
+**Returns**  
+- *(InstanceRoom)* – The created room, or `nil` if the family is not registered.
 
 **Behavior**  
-1. Validates that the instance has been initialized.  
-2. Creates a unique instance using `_RoomService:CreateInstanceRoom()`.  
-3. Updates internal index tracking (`self.roomIdx`).  
-4. Returns the created instance room.
+1. Logs a warning and returns if the family has not been initialized.  
+2. Calls `_RoomService:CreateInstanceRoom("<instanceName>_<idx>", roomInfo.maps)`.  
+3. Increments `self.roomIdx[instanceName]` so the next call creates a different room.
 
 </details>
-
----
 
 <details>
 <summary>GetOpenInstance</summary>
@@ -214,21 +218,22 @@ Creates a new instance room using stored configuration data.
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Finds and returns an open instance room that has enough capacity for additional players.
+Finds an instance room with enough capacity for additional players.
 
 **Parameters**  
-- `instanceName` *(string)* – Instance name.  
+- `instanceName` *(string)* – Family name.  
 - `usersToMove` *(integer)* – Number of users to move.
 
+**Returns**  
+- *(string)* – `InstanceKey` of the selected room, or `nil`.
+
 **Behavior**  
-1. Iterates through `_RoomService.InstanceRooms`.  
-2. Selects the first available room with enough capacity.  
-3. Creates a new room if none are available.  
-4. Returns the instance key of the selected room.
+1. Iterates `_RoomService.InstanceRooms`.  
+2. Selects the first room where `GetUserCount() + usersToMove <= maxCapacity`. (The key is not actually matched against `instanceName`, so rooms of any family can be selected.)  
+3. If none fits, creates a new room with `CreateInstanceRoom`.  
+4. Returns the room's `InstanceKey`.
 
 </details>
-
----
 
 <details>
 <summary>MoveUsersToInstance</summary>
@@ -236,22 +241,20 @@ Finds and returns an open instance room that has enough capacity for additional 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Moves a group of players into a new or existing instance.
+Moves a group of players into a new or existing instance room.
 
 **Parameters**  
-- `users` *(table<string>)* – Player IDs to move.  
-- `instanceName` *(string)* – Instance to move to.  
-- `mapName` *(string)* – Destination map within that instance.  
-- `withEvent` *(any)* – Optional event triggered after movement.
+- `users` *(table<string>)* – User IDs to move.  
+- `instanceName` *(string)* – Family to move to.  
+- `mapName` *(string)* – Destination map within that instance room.  
+- `withEvent` *(any)* – Optional event sent to the room after the move.
 
 **Behavior**  
-1. Calls `GetOpenInstance()` to find a valid room.  
-2. Moves players using `_RoomService:MoveUsersToInstanceRoom()`.  
-3. Sends `withEvent` if provided.
+1. Calls `GetOpenInstance(instanceName, #users)` to find a room key.  
+2. Moves the users with `_RoomService:MoveUsersToInstanceRoom(key, users, mapName)`.  
+3. If `withEvent` is provided, sends it with `_RoomService:RequestSendEventToRoomAndWait(withEvent, key)`.
 
 </details>
-
----
 
 <details>
 <summary>CreateSharedNumber</summary>
@@ -259,7 +262,7 @@ Moves a group of players into a new or existing instance.
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Creates a numeric variable in shared memory.
+Creates a numeric variable in room shared memory.
 
 **Parameters**  
 - `space` *(string)* – Shared memory space.  
@@ -269,11 +272,9 @@ Creates a numeric variable in shared memory.
 **Behavior**  
 1. Retrieves shared memory via `_RoomService:GetSharedMemory(space)`.  
 2. Calls `mem:CreateVariableAndWait(variableName, tostring(variableValue))`.  
-3. Logs any creation failures.
+3. Logs an error on failure.
 
 </details>
-
----
 
 <details>
 <summary>GetSharedNumber</summary>
@@ -281,20 +282,21 @@ Creates a numeric variable in shared memory.
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Retrieves or creates a numeric shared variable if missing.
+Reads a numeric shared variable, creating it if missing.
 
 **Parameters**  
-- `space` *(string)* – Shared memory namespace.  
+- `space` *(string)* – Shared memory space.  
 - `variableName` *(string)* – Variable key.
+
+**Returns**  
+- *(number)* – The stored value, `0` if it was just created, or `nil` on failure.
 
 **Behavior**  
 1. Accesses memory via `_RoomService:GetSharedMemory(space)`.  
-2. Reads variable; if missing, calls `CreateSharedNumber()`.  
-3. Converts value to `number` and returns it.
+2. Reads the variable; if missing, creates it with `0` via `CreateSharedNumber()`.  
+3. Converts the value to `number` and returns it.
 
 </details>
-
----
 
 <details>
 <summary>UpdateSharedNumber</summary>
@@ -302,17 +304,17 @@ Retrieves or creates a numeric shared variable if missing.
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Safely updates a numeric shared-memory variable using ETag-based concurrency control.
+Increments a numeric shared-memory variable using ETag-based concurrency control.
 
 **Parameters**  
 - `space` *(string)* – Shared memory space.  
 - `variableName` *(string)* – Variable name.  
-- `variableValue` *(number)* – New value or increment.
+- `variableValue` *(number)* – Initial value used only when the variable does not exist yet.
 
 **Behavior**  
-1. Reads shared memory and fetches variable metadata (ETag).  
-2. Updates the value atomically with `mem:UpdateVariableAndWait()`.  
-3. Handles precondition failures by logging and recreating the variable if necessary.
+1. Reads the variable; if missing, creates it with `variableValue`.  
+2. Otherwise builds a `SharedVariableKeyInfo(Name, ETag)` and writes `value + 1` with `mem:UpdateVariableAndWait()`.  
+3. Logs an error on `PreconditionFailed` (ETag mismatch). The update is not retried.
 
 </details>
 
@@ -320,10 +322,11 @@ Safely updates a numeric shared-memory variable using ETag-based concurrency con
 
 ### Related Types & Services
 
-- **RoomInfo** – Stores configuration and capacity data for instance rooms.  
-- **_RoomService** – Handles instance creation, user movement, and shared-memory access.  
-- **_EntityService** – Used to find destination entities or maps by path.  
+- **RoomInfo** – Stores configuration and capacity data for instance-room families.  
+- **_RoomService** – Handles instance creation, user movement, room events and shared-memory access.  
+- **_EntityService** – Used to find destination map entities by path.  
 - **_TeleportService** – Teleports players to target entities.  
+- **_UserService** – Resolves user entities from user IDs.  
 - **SharedMemoryResultCode** – Return codes for shared-memory operations.  
 - **SharedVariableKeyInfo** – Used for concurrency-safe variable updates.  
 
@@ -332,8 +335,8 @@ Safely updates a numeric shared-memory variable using ETag-based concurrency con
 ## RoomInfo
 
 **Purpose**  
-Lightweight data container (struct) that describes an instance room configuration.  
-Holds a unique room identifier, capacity, and a list of related map names used by `SceneManagement` to initialize, create, and route players into instance rooms.
+Lightweight data container (struct) that describes an instance-room family.  
+Holds the family identifier, capacity and list of map names used by `SceneManagement` to create and fill instance rooms.
 
 ---
 
@@ -341,33 +344,23 @@ Holds a unique room identifier, capacity, and a list of related map names used b
 
 | Property       | Type              | Purpose |
 |----------------|-------------------|---------|
-| `roomId`       | `string`          | Unique identifier for the room/instance family. Used as a key to group and manage a set of instance rooms. |
-| `maxCapacity`  | `number`          | Maximum number of players allowed in a single instance of this room. Defaults to `10`. |
-| `maps`         | `table<string>`   | Collection of map names associated with this room (e.g., lobby/static map, destination/instance map). Used by scene/room creation logic to resolve teleport targets. |
+| `roomId`       | `string`          | Family name (same as the key in `SceneManagement.rooms`). |
+| `maxCapacity`  | `number`          | Maximum number of players allowed in a single instance room of this family. Defaults to `10`. |
+| `maps`         | `table<string>`   | Map names included when an instance room of this family is created. |
 
 ---
 
-### Method Summary
-
-_No methods defined._
-
----
-
-### Methods
-
-_No methods to document for this script._
+### Usage
+- Created and stored by `SceneManagement:InitInstanceRoom`.
+- Read by `SceneManagement:CreateInstanceRoom` (maps) and `SceneManagement:GetOpenInstance` (capacity).
 
 ---
-
-### Related Types & Services
-- **SceneManagement** – Consumes `RoomInfo` to initialize and create instance rooms, assign capacity, and resolve map names.
-- **_RoomService** – Uses room identifiers/capacity (from `RoomInfo`) when creating and managing instance rooms.
 
 ## CustomPortalComponent
 
 **Purpose**  
-Extends a standard portal with custom logic for **static** and **instance** room routing.  
-On startup it can initialize instance-room metadata, and on use it decides whether to send the user to an **instance** (creating/entering as needed) or to a **static** map via the central `SceneManagement` logic.
+Extends `PortalComponent` with custom routing between **static** and **instance** rooms.  
+On startup it registers an instance-room family for the portal; on use it moves the player within the same room type, back to a static map, or into an instance room via `_SceneManagement`.
 
 ---
 
@@ -375,9 +368,9 @@ On startup it can initialize instance-room metadata, and on use it decides wheth
 
 | Property              | Type         | Purpose |
 |----------------------|--------------|---------|
-| `isInstanceRoom`     | `boolean`    | When `true`, this portal treats the destination as part of an **instance** workflow (create or enter an instance). When `false`, it performs a regular static-room move. Defaults to `false`. |
-| `roomName`           | `string`     | Name of the destination map/room. Used by `SceneManagement` to locate `/maps/<roomName>` or to target an instance’s map. |
-| `customPortalEntity` | `EntityRef`  | Optional explicit destination entity. When `nil`, the component resolves `/maps/<roomName>` automatically. |
+| `isInstanceRoom`     | `boolean`    | `true` if the destination map is in an instance room. Defaults to `false`. |
+| `roomName`           | `string`     | Name of the destination map (`/maps/<roomName>`). |
+| `customPortalEntity` | `EntityRef`  | Optional explicit landing entity for same-room-type moves. When `nil`, `/maps/<roomName>` is used. |
 
 ---
 
@@ -385,8 +378,7 @@ On startup it can initialize instance-room metadata, and on use it decides wheth
 
 | Method                 | Execution Scope | Purpose |
 |------------------------|-----------------|---------|
-| `OnBeginPlay()`        | Client/Server   | Initializes instance-room metadata (e.g., registers `roomName` with `SceneManagement`) and sets up capacity defaults when needed. |
-| `HandlePortalUseEvent(event)` | Client/Server (handler) | Responds to a `PortalUseEvent`. If `isInstanceRoom` is set, moves the user into (or creates and enters) an instance; otherwise moves the user to a static destination. Honors `customPortalEntity` if provided. |
+| `OnBeginPlay`          | ServerOnly      | Registers an instance-room family for this portal with `SceneManagement`. |
 
 ---
 
@@ -395,59 +387,49 @@ On startup it can initialize instance-room metadata, and on use it decides wheth
 <details>
 <summary>OnBeginPlay</summary>
 
-**Execution Scope**: `Client/Server`  
+**Execution Scope**: `ServerOnly`  
 
 **Purpose**  
-Prepares this portal for use by registering instance configuration when `isInstanceRoom` is enabled.
+Prepares this portal for instance routing.
 
 **Behavior**  
-- Calls `_SceneManagement:InitInstanceRoom({ self.roomName }, self.Entity.Id, 2)` (from the script body preview), which:
-  - Registers the instance family using the portal’s entity ID as the `instanceName`.
-  - Seeds map configuration with `roomName`.
-  - Uses a default capacity of `2` (adjust this in the script if your design needs a different number).
+- Calls `_SceneManagement:InitInstanceRoom({ self.roomName }, self.Entity.Id, 2)`:
+  - Uses the portal’s entity ID as the `instanceName`.
+  - Includes `roomName` as the family's only map.
+  - Uses a capacity of `2`.
+- Runs for every portal, whether or not `isInstanceRoom` is set.
 
 </details>
 
 ---
 
-<details>
-<summary>HandlePortalUseEvent</summary>
+### Event Handlers
 
-**Execution Scope**: `Client/Server` (event handler)  
-
-**Purpose**  
-Routes the **local user** when this portal is used, choosing between **instance** and **static** flows. Also supports an explicit `customPortalEntity` anchor when present.
-
-**Parameters**  
-- `event` *(PortalUseEvent)* – Fired when the portal is interacted with/entered.
-
-**Behavior**  
-1. If a valid `customPortalEntity` is set, it becomes the target; otherwise the component resolves `/maps/<roomName>`.  
-2. If `isInstanceRoom` is `true`:
-   - Uses `_SceneManagement:CreateAndEnterInstanceMap(localUserId, self.Entity.Id, self.roomName)` to create (or fetch) an instance and move the user into its destination map.  
-3. If `isInstanceRoom` is `false`:
-   - Uses `_SceneManagement:MoveToMap(localUserId, self.roomName, self.customPortalEntity)` to move the user to the static destination.  
-4. May include safety checks (e.g., `isvalid(self.PortalEntityRef)`) before attempting movement.
-
-</details>
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandlePortalUseEvent` | `PortalUseEvent` | Self / ClientOnly | If the native `PortalEntityRef` is valid, only logs (the base portal teleports). Otherwise compares `_RoomService:IsInstanceRoom()` with `isInstanceRoom`: same type -> `_SceneManagement:MoveToMap(userId, roomName, customPortalEntity)`; in an instance going to static -> `ReturnToStatic(userId, roomName)`; in static going to an instance -> `CreateAndEnterInstanceMap(userId, self.Entity.Id, roomName)`. |
 
 ---
 
 ### Related Types & Services
-- **`SceneManagement`** – Performs all map/instance routing (`InitInstanceRoom`, `MoveToMap`, `CreateAndEnterInstanceMap`).  
-- **`PortalUseEvent`** – Event raised when a portal is used.  
+- **PortalComponent** – Base native portal component.  
+- **SceneManagement** – Performs all map/instance routing (`InitInstanceRoom`, `MoveToMap`, `ReturnToStatic`, `CreateAndEnterInstanceMap`).  
+- **_RoomService** – `IsInstanceRoom()` tells which room type the player is currently in.  
+- **PortalUseEvent** – Event raised when a portal is used.  
+
+---
 
 ## WorldManagement
 
 **Purpose**  
-Provides centralized control over **world-level instance management** and **shared data synchronization**.  
-Handles discovery of open world instances, warping users to available ones, and managing shared numeric data using the `_WorldInstanceService`.
+Global Logic (`_WorldManagement`) for **world-instance** operations.  
+Finds open world instances, warps users to them with a data payload, and manages numeric values in world shared memory using `_WorldInstanceService`.
 
 ---
 
 ### Properties
 
-_No properties defined in this script._
+This script has no custom properties.
 
 ---
 
@@ -455,11 +437,11 @@ _No properties defined in this script._
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|----------|
-| `FindOpenInstance(usersToMove)` | Server | Finds the next open world instance capable of accepting additional users. |
-| `WarpToOpenInstance(users)` | Server | Warps all provided users to the next available world instance. |
-| `CreateSharedNumber(space, variableName, variableValue)` | Client/Server | Creates a numeric variable in world-shared memory. |
-| `GetSharedNumber(space, variableName)` | Client/Server | Retrieves a numeric variable from shared memory. Creates one if missing. |
-| `UpdateSharedNumber(space, variableName, variableValue)` | Client/Server | Safely updates or increments a shared numeric variable with concurrency checks. |
+| `FindOpenInstance(usersToMove)` | Server | Finds a world instance with enough free capacity. |
+| `WarpToOpenInstance(users)` | Server | Warps the given users to an open world instance with a serialized payload. |
+| `CreateSharedNumber(space, variableName, variableValue)` | Client/Server | Creates a numeric variable in world shared memory. |
+| `GetSharedNumber(space, variableName)` | Client/Server | Reads a numeric variable from world shared memory, creating it if missing. |
+| `UpdateSharedNumber(space, variableName, variableValue)` | Client/Server | Increments a world shared numeric variable by 1 with ETag checks. |
 
 ---
 
@@ -471,20 +453,21 @@ _No properties defined in this script._
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Finds the next available open world instance with sufficient capacity for the specified number of players.
+Finds a world instance with sufficient capacity for the specified number of players.
 
 **Parameters**  
-- `usersToMove` *(integer)* – Number of users that must fit in the next instance.
+- `usersToMove` *(integer)* – Number of users that must fit.
+
+**Returns**  
+- *(WorldInstanceInfo)* – Matching instance info, or `nil`.
 
 **Behavior**  
-1. Calls `_WorldInstanceService:GetWorldInstanceInfoPagesAndWait()`.  
-2. Iterates through returned instance info pages.  
-3. Selects the first open instance that can accommodate the users.  
-4. Returns that instance’s metadata; returns `nil` if none is found.
+1. Calls `_WorldInstanceService:GetWorldInstanceInfoPagesAndWait()`; returns `nil` if no pages.  
+2. For each page, checks `CurrentUserCount + usersToMove <= MaxUserCount`.  
+3. Pages with `MoveToNextPageAndWait()` until `IsLastPage`; a match on a later page replaces an earlier one.  
+4. The current world instance is not excluded (the check is commented out).
 
 </details>
-
----
 
 <details>
 <summary>WarpToOpenInstance</summary>
@@ -492,20 +475,17 @@ Finds the next available open world instance with sufficient capacity for the sp
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Moves a set of users to the next available world instance discovered by `FindOpenInstance`.
+Moves a set of users to an open world instance found by `FindOpenInstance`.
 
 **Parameters**  
-- `users` *(table<string>)* – List of user IDs to warp.
+- `users` *(table)* – List of user IDs to warp.
 
 **Behavior**  
-1. Prepares optional data payloads (`warpData`) and serializes them with `_UtilLogic:TableToString()`.  
-2. Calls `self:FindOpenInstance(#users)` to retrieve a target instance.  
-3. If an instance is found, performs the warp using `_WorldInstanceService:WarpUsersToWorldInstanceAndWait(users, instanceKey, serializedData)`.  
-4. Logs failures or invalid instance results.
+1. Builds a sample payload `{coins = 100}` and serializes it with `_UtilLogic:TableToString()`.  
+2. Calls `self:FindOpenInstance(#users)`; logs a warning and returns if none is found.  
+3. Warps with `_TeleportService:WarpUsersToWorldAndWait(users, info.Id, serializedData)`.
 
 </details>
-
----
 
 <details>
 <summary>CreateSharedNumber</summary>
@@ -513,7 +493,7 @@ Moves a set of users to the next available world instance discovered by `FindOpe
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Creates a numeric variable in shared memory space accessible across all world instances.
+Creates a numeric variable in shared memory accessible across world instances.
 
 **Parameters**  
 - `space` *(string)* – Shared memory namespace.  
@@ -522,12 +502,10 @@ Creates a numeric variable in shared memory space accessible across all world in
 
 **Behavior**  
 1. Calls `_WorldInstanceService:GetSharedMemory(space)`.  
-2. Uses `mem:CreateVariableAndWait(variableName, tostring(variableValue))` to register it.  
-3. Logs an error if creation fails or the shared memory call returns a non-OK code.
+2. Uses `mem:CreateVariableAndWait(variableName, tostring(variableValue))`.  
+3. Logs an error if either call fails.
 
 </details>
-
----
 
 <details>
 <summary>GetSharedNumber</summary>
@@ -535,24 +513,21 @@ Creates a numeric variable in shared memory space accessible across all world in
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Retrieves the value of a shared numeric variable from world memory, creating it if it doesn’t exist.
+Reads a numeric variable from world shared memory, creating it with `0` if it doesn’t exist.
 
 **Parameters**  
 - `space` *(string)* – Shared memory space.  
 - `variableName` *(string)* – Target variable name.
 
 **Returns**  
-- *(number)* – Current or default numeric value.
+- *(number)* – Current value, `0` if just created, or `nil` on failure.
 
 **Behavior**  
 1. Gets shared memory using `_WorldInstanceService:GetSharedMemory(space)`.  
-2. Fetches the variable via `mem:GetVariableAndWait(variableName)`.  
-3. If the variable doesn’t exist, initializes it via `CreateSharedNumber()`.  
-4. Converts and returns the numeric value, logging conversion errors if needed.
+2. Fetches the variable via `mem:GetVariableAndWait(variableName)`; creates it if missing.  
+3. Converts and returns the numeric value, logging conversion errors.
 
 </details>
-
----
 
 <details>
 <summary>UpdateSharedNumber</summary>
@@ -560,142 +535,36 @@ Retrieves the value of a shared numeric variable from world memory, creating it 
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Safely updates a numeric shared-memory variable in world space using ETag validation.
+Increments a numeric variable in world shared memory using ETag validation.
 
 **Parameters**  
 - `space` *(string)* – Shared memory namespace.  
 - `variableName` *(string)* – Variable key name.  
-- `variableValue` *(number)* – Value to add or set.
+- `variableValue` *(number)* – Initial value used only if the variable does not exist yet.
 
 **Behavior**  
-1. Retrieves shared memory (`_WorldInstanceService:GetSharedMemory(space)`).  
-2. Reads current variable info with `mem:GetVariableAndWait(variableName)`.  
-3. If missing, creates a new variable.  
-4. Updates the variable using `mem:UpdateVariableAndWait(keyInfo, tostring(value + 1))` or equivalent logic.  
-5. Handles precondition failures (`PreconditionFailed`) by logging ETag mismatches.
+1. Reads the variable; if missing, creates it with `variableValue`.  
+2. Otherwise writes `value + 1` with `mem:UpdateVariableAndWait(SharedVariableKeyInfo(Name, ETag), ...)`.  
+3. Logs an error on `PreconditionFailed` (ETag mismatch).
 
 </details>
 
 ---
 
 ### Related Types & Services
-- **_WorldInstanceService** – Provides APIs for discovering and managing world instances, teleportation, and shared-memory access.  
-- **_UtilLogic** – Utility functions (e.g., serialization, table conversion).  
+- **_WorldInstanceService** – Lists world instances and provides world shared memory.  
+- **_TeleportService** – Warps users to another world instance (`WarpUsersToWorldAndWait`).  
+- **_UtilLogic** – Serializes the warp payload (`TableToString`).  
 - **SharedMemoryResultCode** – Enum for shared-memory operation outcomes.  
-- **SharedVariableKeyInfo** – Encapsulates shared variable metadata for safe updates.  
-
-## MoveToMap
-
-**Purpose**  
-Provides convenient developer/test utilities to move the local player to either a **new/existing instance** or a **static** map.  
-Includes a helper to get-or-create an instance room (incrementing an internal index) and simple handlers that can be tied to key input for quick teleports during development.
+- **SharedVariableKeyInfo** – Encapsulates variable name + ETag for safe updates.  
 
 ---
-
-### Properties
-
-| Property  | Type     | Purpose |
-|-----------|----------|---------|
-| `roomIdx` | `integer`| Internal counter used when creating successive instance rooms so each is unique. Starts at `0`. |
-| `mapName` | `string` | Default destination map name (e.g., `"map02"`). Used when moving to static or instance maps if no other target is provided. |
-
----
-
-### Method Summary
-
-| Method | Execution Scope | Purpose |
-|--------|-----------------|---------|
-| `GetOrCreateInstanceRoom()` | Server | Finds or creates a new instance room, incrementing `roomIdx` to ensure uniqueness, and returns the room handle/info. |
-| `MoveToInstance()` | Server | Moves the local (or targeted) user into the specified `mapName` inside a created/found instance room. |
-| `MoveToStatic()` | Server | Teleports the local (or targeted) user to the **static** version of `mapName`. |
-| `HandleKeyDownEvent(event)` | Client/Server | Keyboard event handler intended for dev/testing; triggers instance or static movement based on key input. |
-
----
-
-### Methods
-
-<details>
-<summary>GetOrCreateInstanceRoom</summary>
-
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Creates a **brand-new instance** (or returns an existing one as implemented) and advances `roomIdx` so each call yields a unique room when desired.
-
-**Behavior**  
-1. Uses room services to **create** an instance room (e.g., `_RoomService:GetOrCreateInstanceRoom(...)`).  
-2. Increments `self.roomIdx` (`self.roomIdx = self.roomIdx + 1`).  
-3. Returns the newly created or resolved `instanceRoom` reference.
-
-**Returns**  
-- *(any)* – Handle or info object representing the instance room.
-
-</details>
-
----
-
-<details>
-<summary>MoveToInstance</summary>
-
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Moves a user into the configured `mapName` located within an instance room.
-
-**Behavior**  
-1. Calls `self:GetOrCreateInstanceRoom()` to obtain an instance context.  
-2. Resolves a destination target (e.g., instance map anchor for `/maps/<mapName>`).  
-3. Invokes the appropriate service API to move the player to the instance’s `mapName` (e.g., `_RoomService` / teleport service).
-
-</details>
-
----
-
-<details>
-<summary>MoveToStatic</summary>
-
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Sends a user to the **static** map named by `self.mapName`.
-
-**Behavior**  
-1. Resolves the static map entity (e.g., `_EntityService:GetEntityByPath("/maps/" .. self.mapName)`).  
-2. Teleports the player to that static destination (e.g., via `_TeleportService` or room service).
-
-</details>
-
----
-
-<details>
-<summary>HandleKeyDownEvent</summary>
-
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Development convenience handler: reacts to keyboard input to trigger quick teleports to **instance** or **static** destinations.
-
-**Parameters**  
-- `event` *(KeyDownEvent)* – Keyboard event with a key code/name.
-
-**Behavior**  
-- Depending on your key mapping in the script (e.g., a specific key), invokes `MoveToInstance()` or `MoveToStatic()` for rapid testing.
-
-</details>
-
----
-
-### Related Types & Services
-- **_RoomService** – Creating/finding instance rooms and moving users between rooms.  
-- **_EntityService** – Resolving `/maps/<mapName>` anchors for static teleports.  
-- **_TeleportService** – Executing actual player teleports to target entities.  
-- **KeyDownEvent** – Input event used to trigger dev/test teleports.
 
 ## GameSystem
 
 **Purpose**  
-Top-level coordinator for lobby/game flow and quick testing actions.  
-Initializes instance configuration, wires UI (start button) interactions, moves players into **instance** rooms or back to **starting/static** rooms, reacts to **RoomEnteredEvent** toasts, and exposes developer shortcuts (e.g., F1 to warp to an open world instance). Also demonstrates reading warp payload data and showing a popup.
+Top-level Logic for the lobby/game flow.  
+Registers the `GameInstance` instance family, wires the start button to move players into an instance room or back to `Static_Starting`, shows a toast on `RoomEnteredEvent`, shows the shared counter in a popup on entry, reads world-warp payloads, and warps to another world instance on **F1**.
 
 ---
 
@@ -703,7 +572,7 @@ Initializes instance configuration, wires UI (start button) interactions, moves 
 
 | Property       | Type     | Purpose |
 |----------------|----------|---------|
-| `startButton`  | `Entity` | UI button entity used to start a run or return players to the starting area. The script connects a click handler on the client. *(Default GUID in file: `"7da83c1a-b787-499a-b1e4-4a23c40fdadf"`)* |
+| `startButton`  | `Entity` | UI button that moves players to the instance room (or back to the starting map when pressed inside an instance). |
 
 ---
 
@@ -711,14 +580,11 @@ Initializes instance configuration, wires UI (start button) interactions, moves 
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|---------|
-| `OnBeginPlay()` | Client/Server | Client: connects `startButton` click to trigger either **move to instance** or **return to starting** flows. Server: can be used for any boot-time setup if needed. |
-| `InitInstance()` | Client/Server | Prepares instance configuration (maps list, instance key, capacity) and registers it in `SceneManagement`. |
-| `MovePlayersToInstance()` | Client/Server | Groups target users (e.g., local player / party) and moves them to the configured **instance** destination. |
-| `MovePlayersToStarting()` | Client/Server | Returns the same set of users back to the **starting/static** map. |
-| `HandleRoomEnteredEvent(event)` | Client/Server | Handles a custom `RoomEnteredEvent` by reading `event.message` and displaying a toast. |
-| `ShowPopup()` | Client/Server | Opens a modal popup showing a value (example of `_UIPopup` usage). |
-| `UserEnterEvent(event)` | Client/Server | Runs when a user joins. Demonstrates reading **last warp record** data and decoding it for logging/logic. |
-| `OnKeyDown(event)` | Client/Server | Developer shortcut: on **F1**, warps the local user to the next **open world instance** via `WorldManagement`. |
+| `OnBeginPlay` | Client/Server | Client: connects the start button. Server: calls `InitInstance`. |
+| `InitInstance` | Client/Server | Registers the `GameInstance` family (Instance_Room1, Instance_Room2; capacity 10). |
+| `MovePlayersToInstance` | Server | Moves all users on `Static_Starting` into `Instance_Room1` of an open `GameInstance` room. |
+| `MovePlayersToStarting` | Server | Returns all users in the current room to `Static_Starting`. |
+| `ShowPopup` | Client | Opens `_UIPopup` with "The value is <value>". |
 
 ---
 
@@ -730,17 +596,13 @@ Initializes instance configuration, wires UI (start button) interactions, moves 
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Sets up UI and initial state; on the **client**, binds `startButton` click to drive either instance entry or return to starting.
+Sets up the start button on the client and registers the instance family on the server.
 
 **Behavior**  
-- If `self:IsClient()`:
-  1. Finds/uses `self.startButton`.
-  2. `ConnectEvent(ButtonClickEvent, function() ... end)` to react to clicks.
-  3. In the click handler, decides between `self:MovePlayersToStarting()` **or** `self:MovePlayersToInstance()` (e.g., based on your UI/flag), then invokes it.
+- Client: connects `ButtonClickEvent` on `startButton`. If `_RoomService:IsInstanceRoom()` calls `MovePlayersToStarting()`, otherwise `MovePlayersToInstance()` (both forwarded to the server).  
+- Server: calls `InitInstance()`.
 
 </details>
-
----
 
 <details>
 <summary>InitInstance</summary>
@@ -748,138 +610,86 @@ Sets up UI and initial state; on the **client**, binds `startButton` click to dr
 **Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Registers an instance “family” with maps and capacity so future calls can create/find instances.
+Registers the instance family used by the start button.
 
 **Behavior**  
-1. Builds a map list (e.g., `{"Instance_Room1", "Instance_Room2", ...}`).
-2. Chooses an `instanceName` and `maxCapacity`.
-3. Calls `_SceneManagement:InitInstanceRoom(maps, instanceName, maxCapacity)` to register.
+- Calls `_SceneManagement:InitInstanceRoom({"Instance_Room1", "Instance_Room2"}, "GameInstance", 10)`.
 
 </details>
-
----
 
 <details>
 <summary>MovePlayersToInstance</summary>
 
-**Execution Scope**: `Client/Server`  
+**Execution Scope**: `Server`  
 
 **Purpose**  
-Moves the selected users (commonly the local player, or a small group) into the configured **instance** map.
+Moves every player on the starting map into an instance room.
 
 **Behavior**  
-1. Gathers user IDs (e.g., `_UserService.LocalPlayer.PlayerComponent.UserId` or a group).
-2. Invokes `SceneManagement` to place users into a suitable open instance (e.g., `CreateAndEnterInstanceMap` / `MoveUsersToInstance` depending on your flow).
-3. Optionally passes an event/payload so clients can show UI after arrival.
+1. Collects user IDs from `_UserService:GetUsersByMapName("Static_Starting")`.  
+2. Reads `GlobalCounters/MyCounter` with `_SceneManagement:GetSharedNumber` and increments it with `UpdateSharedNumber`.  
+3. Creates a `RoomEnteredEvent` with message "New competitors have entered the room!".  
+4. Calls `_SceneManagement:MoveUsersToInstance(users, "GameInstance", "Instance_Room1", evt)`.
 
 </details>
-
----
 
 <details>
 <summary>MovePlayersToStarting</summary>
 
-**Execution Scope**: `Client/Server`  
+**Execution Scope**: `Server`  
 
 **Purpose**  
-Returns the same set of users back to the **static** starting area.
+Returns all players in the current room to the static starting map.
 
 **Behavior**  
-1. Gathers the relevant user IDs.
-2. Calls `SceneManagement` to return them to a static map (e.g., `ReturnUsersToStatic(users, mapName)`).
+1. Collects user IDs from `_UserService.UserEntities`.  
+2. Calls `_SceneManagement:ReturnUsersToStatic(users, "Static_Starting")`.
 
 </details>
-
----
-
-<details>
-<summary>HandleRoomEnteredEvent</summary>
-
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Shows feedback when room entry completes.
-
-**Parameters**  
-- `event` *(RoomEnteredEvent)* – Contains a `message` string to show.
-
-**Behavior**  
-- Reads `event.message`.
-- Calls `_UIToast:ShowMessage(msg)` to display a toast.
-
-</details>
-
----
 
 <details>
 <summary>ShowPopup</summary>
 
-**Execution Scope**: `Client/Server`  
+**Execution Scope**: `Client`  
 
 **Purpose**  
-Demonstrates `_UIPopup` usage to show a value in a modal dialog.
+Shows a value in the modal popup.
+
+**Parameters**  
+- `value` *(string)* – Text appended to "The value is ".
 
 **Behavior**  
-- Invokes `_UIPopup:Open("The value is " .. value, nil, nil)` (OK/Cancel callbacks can be supplied as needed).
+- Calls `_UIPopup:Open("The value is " .. value, nil, nil)`. When called from the server with a trailing user ID (as in `UserEnterEvent`), only that user’s client runs it.
 
 </details>
 
 ---
 
-<details>
-<summary>UserEnterEvent</summary>
+### Event Handlers
 
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Runs when a user enters the world; demonstrates reading data that might have been sent during a previous warp.
-
-**Parameters**  
-- `event` *(UserEnterEvent)* – Contains `UserId` for the joining user.
-
-**Behavior**  
-1. Reads `event.UserId`.  
-2. Retrieves the last warp record for that user via `_WorldInstanceService` (e.g., `GetLastWarpRecordAndWait`).  
-3. Deserializes payload: `_UtilLogic:StringToTable(warpRecord.Data)`.  
-4. Example: logs a field (e.g., `userData.coins`) for analytics or conditional UI.
-
-</details>
-
----
-
-<details>
-<summary>OnKeyDown</summary>
-
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Developer/testing shortcut to try multi-instance flows.
-
-**Parameters**  
-- `event` *(KeyDownEvent)* – Keyboard event (contains key code/name).
-
-**Behavior**  
-- If `event.key == KeyboardKey.F1`:
-  1. Builds a list with the local user ID: `{ _UserService.LocalPlayer.PlayerComponent.UserId }`.
-  2. Calls `_WorldManagement:WarpToOpenInstance(users)` to hop to a discovered open world instance.
-
-</details>
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleRoomEnteredEvent` | `RoomEnteredEvent` | Service: RoomService / Client/Server | Shows `event.message` with `_UIToast:ShowMessage`. |
+| `UserEnterEvent` | `UserEnterEvent` | Service: UserService / ServerOnly | Logs `coins` from `_TeleportService:GetWarpRecord(UserId)` if a warp payload exists; unless `_RoomService.RoomKey` contains "main", reads `GlobalCounters/MyCounter` and calls `ShowPopup(value, UserId)` for the entering user. |
+| `OnKeyDown` | `KeyDownEvent` | Service: InputService / ClientOnly | On **F1**, calls `_WorldManagement:WarpToOpenInstance({localUserId})`. |
 
 ---
 
 ### Related Types & Services
-- **`SceneManagement`** – Instance/static routing (`InitInstanceRoom`, move/return helpers).  
-- **`WorldManagement`** – Cross-world instance discovery and warping (`WarpToOpenInstance`).  
-- **`_WorldInstanceService`** – Access to world instances and warp records (e.g., `GetLastWarpRecordAndWait`).  
-- **`_UIPopup`, `_UIToast`** – UI helpers for modal dialogs and transient messages.  
+- **SceneManagement** – Instance/static routing and room shared memory.  
+- **WorldManagement** – World instance discovery and warping.  
+- **_TeleportService** – `GetWarpRecord` returns the payload sent with a world warp.  
+- **_UtilLogic** – `StringToTable` deserializes the warp payload; `Contains` checks the room key.  
+- **_UIPopup, _UIToast** – UI helpers for modal dialogs and transient messages.  
 - **Events** – `ButtonClickEvent`, `RoomEnteredEvent`, `UserEnterEvent`, `KeyDownEvent`.  
+
+---
 
 ## RoomEnteredEvent
 
 **Purpose**  
-Represents a simple event triggered when a player enters a new room or map.  
-Carries a string message payload that can be displayed to the player or used for logging.  
-Commonly consumed by `GameSystem` to show a toast message (`_UIToast:ShowMessage(event.message)`).
+Custom event sent to an instance room after players are moved into it.  
+Carries a message that `GameSystem` displays as a toast.
 
 ---
 
@@ -887,33 +697,408 @@ Commonly consumed by `GameSystem` to show a toast message (`_UIToast:ShowMessage
 
 | Property | Type    | Purpose |
 |-----------|---------|---------|
-| `message` | `string` | Optional text message passed along with the event. Used to display feedback or contextual information when a player enters a room. |
+| `message` | `string` | Text shown to players when the event arrives. |
+
+---
+
+### Usage
+- Created in `GameSystem:MovePlayersToInstance` and passed as `withEvent` to `SceneManagement:MoveUsersToInstance`, which sends it with `_RoomService:RequestSendEventToRoomAndWait`.
+- Handled by `GameSystem.HandleRoomEnteredEvent` (`_UIToast:ShowMessage(event.message)`).
+
+---
+
+## PlayerMapComponent
+
+**Purpose**  
+Empty placeholder component with no properties or logic. It is not referenced by any other script in this project.
+
+---
+
+### Properties
+
+This script has no custom properties.
+
+---
+
+### Related Types & Services
+- **Component** – Base class for entity components.
+
+---
+
+## MoveToMap (Scripts/InstanceMapTest)
+
+**Purpose**  
+Developer/test component that moves **all** players into a brand-new instance room or back to a static map using keyboard shortcuts.
+
+---
+
+### Properties
+
+| Property  | Type     | Purpose |
+|-----------|----------|---------|
+| `roomIdx` | `integer`| Counter appended to the instance key (`"Map"..roomIdx`) so each call creates a new instance room. Starts at `0`. |
+| `mapName` | `string` | Destination map inside the instance room. Defaults to `"map02"`. |
 
 ---
 
 ### Method Summary
 
-_No methods defined in this script._
+| Method | Execution Scope | Purpose |
+|--------|-----------------|---------|
+| `GetOrCreateInstanceRoom` | Server | Gets or creates instance room `"Map"..roomIdx`, then increments `roomIdx`. |
+| `MoveToInstance` | Server | Moves all users to `mapName` inside a new instance room. |
+| `MoveToStatic` | Server | Moves all users to the static map `map01`. |
 
 ---
 
 ### Methods
 
-_No methods to document for this script._
+<details>
+<summary>GetOrCreateInstanceRoom</summary>
+
+**Execution Scope**: `Server`  
+
+**Purpose**  
+Creates a fresh instance room each call.
+
+**Returns**  
+- *(InstanceRoom)* – The room from `_RoomService:GetOrCreateInstanceRoom("Map"..tostring(roomIdx))`.
+
+**Behavior**  
+1. Gets or creates the room keyed by the current `roomIdx`.  
+2. Increments `self.roomIdx`.
+
+</details>
+
+<details>
+<summary>MoveToInstance</summary>
+
+**Execution Scope**: `Server`  
+
+**Purpose**  
+Moves every user into `mapName` inside an instance room.
+
+**Behavior**  
+1. Calls `GetOrCreateInstanceRoom()`.  
+2. Collects all user IDs from `_UserService.UserEntities`.  
+3. Calls `_RoomService:MoveUsersToInstanceRoom(room.InstanceKey, users, self.mapName)`. Assumes an instance-enabled map named `mapName` exists.
+
+</details>
+
+<details>
+<summary>MoveToStatic</summary>
+
+**Execution Scope**: `Server`  
+
+**Purpose**  
+Sends every user to the static map `map01`.
+
+**Behavior**  
+1. Collects all user IDs from `_UserService.UserEntities`.  
+2. Calls `_RoomService:MoveUsersToStaticRoom(users, "map01")` (hard-coded; `mapName` is not used).
+
+</details>
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleKeyDownEvent` | `KeyDownEvent` | Service: InputService / Client | **M** calls `MoveToInstance()`, **N** calls `MoveToStatic()` (both forwarded to the server). |
 
 ---
 
 ### Related Types & Services
-- **`EventType`** – Base class for all custom event scripts in MapleStory Worlds.  
-- **`GameSystem`** – Listens for this event and displays the contained `message` to players via UI toast notifications.  
-
-
-## Changelog
-
-| Version | Notes |
-|---------|-------|
-| v1.0 | Initial release with scene, portal, and room coordination systems. |
+- **_RoomService** – Creates instance rooms and moves users between rooms.  
+- **_UserService** – Lists all user entities.  
+- **KeyDownEvent** – Input event used to trigger the test moves.
 
 ---
 
+## MoveToMap (InstanceMapTest)
 
+**Purpose**  
+Identical copy of [MoveToMap (Scripts/InstanceMapTest)](#movetomap-scriptsinstancemaptest) located in `MyDesk/InstanceMapTest/`. See that section for properties, methods and handlers.
+
+---
+
+## UIPopup (Scripts/UI)
+
+**Purpose**  
+Global Logic (`_UIPopup`) that shows a modal popup with a message and OK/Cancel buttons, with a scale/fade tween and optional callbacks. Used by `GameSystem:ShowPopup`.
+
+---
+
+### Properties
+
+| Property           | Type            | Purpose |
+|-------------------|----------------|---------|
+| `message`         | TextComponent   | Text element that displays the popup message. |
+| `btnOk`           | ButtonComponent | OK button. |
+| `btnCancel`       | ButtonComponent | Cancel button. |
+| `popupGroup`      | Entity          | Parent group enabled/disabled with the popup; its `CanvasGroupComponent` is faded. |
+| `popup`           | Entity          | Popup panel whose `UITransformComponent.UIScale` is tweened. |
+| `onOk`            | any             | Callback executed when OK is clicked. |
+| `onCancel`        | any             | Callback executed when Cancel is clicked. |
+| `duration`        | number          | Duration of the open/close tween in seconds (`0.15`). |
+| `from`            | number          | Starting scale for the tween (`0.5`). |
+| `to`              | number          | Target scale for the tween (`1`). |
+| `isOpen`          | boolean         | Whether the popup is currently open. |
+| `isTweenPlaying`  | boolean         | Whether a tween is in progress (clicks are ignored meanwhile). |
+| `tweenEventId`    | number          | Timer ID of the active tween. |
+| `okHandler`       | any             | Event handler returned by connecting the OK button. |
+| `cancelHandler`   | any             | Event handler returned by connecting the Cancel button. |
+
+---
+
+### Method Summary
+
+| Method         | Execution Scope  | Purpose |
+|----------------|-----------------|---------|
+| `Open`         | Client/Server   | Opens the popup with a message and optional OK/Cancel callbacks. |
+| `OnClickOk`    | Client/Server   | Runs the OK callback and closes the popup. |
+| `OnClickCancel`| Client/Server   | Runs the Cancel callback and closes the popup. |
+| `Close`        | Client/Server   | Disconnects the buttons and plays the closing tween. |
+| `StartTween`   | Client/Server   | Animates the popup scale and alpha for opening or closing. |
+
+---
+
+### Methods
+
+<details>
+<summary>Open</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Displays the popup with the given message and callbacks.
+
+**Parameters**  
+- `message` *(string)* – Message to display.  
+- `onOk` *(any)* – Optional callback for OK.  
+- `onCancel` *(any)* – Optional callback for Cancel.
+
+**Behavior**  
+1. Returns if the popup is already open; otherwise sets `isOpen`.  
+2. Enables `popupGroup` and sets the message text.  
+3. Stores the callbacks and connects the buttons to `OnClickOk` / `OnClickCancel`.  
+4. Calls `StartTween(true)`.
+
+</details>
+
+<details>
+<summary>OnClickOk</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Handles the OK button.
+
+**Behavior**  
+1. Ignores the click while a tween is playing.  
+2. Runs `onOk` if set, then clears it.  
+3. Calls `Close()`.
+
+</details>
+
+<details>
+<summary>OnClickCancel</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Handles the Cancel button.
+
+**Behavior**  
+1. Ignores the click while a tween is playing.  
+2. Runs `onCancel` if set, then clears it.  
+3. Calls `Close()`.
+
+</details>
+
+<details>
+<summary>Close</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Closes the popup.
+
+**Behavior**  
+1. Disconnects the OK and Cancel button handlers.  
+2. Calls `StartTween(false)`; `isOpen` is cleared when the tween finishes.
+
+</details>
+
+<details>
+<summary>StartTween</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Animates the popup's scale and transparency.
+
+**Parameters**  
+- `open` *(boolean)* – `true` for opening, `false` for closing.
+
+**Behavior**  
+1. Sets the initial scale (and alpha 0 when opening) and marks `isTweenPlaying`.  
+2. Starts a 1/60 s repeating timer that accumulates elapsed time from `_UtilLogic.ElapsedSeconds`.  
+3. Each tick sets `UIScale` from `_TweenLogic:Ease(from, to, duration, EaseType.SineEaseIn, t)` and `GroupAlpha = t / duration` (time runs backwards when closing).  
+4. When `duration` is reached, clears the timer and `isTweenPlaying`; when closing also disables `popupGroup` and clears `isOpen`.
+
+</details>
+
+---
+
+### Related Types & Services
+- **Logic** – Base class for global logic scripts.  
+- **TextComponent / ButtonComponent** – Message text and buttons.  
+- **CanvasGroupComponent / UITransformComponent** – Fade and scale targets.  
+- **_TweenLogic** – Easing function for the animation.  
+- **_TimerService** – Repeating timer that drives the tween.  
+- **_UtilLogic** – Elapsed time in seconds.
+
+---
+
+## UIPopup (MyDesk root)
+
+**Purpose**  
+Identical copy of [UIPopup (Scripts/UI)](#uipopup-scriptsui) located directly in `MyDesk/`. See that section for details.
+
+---
+
+## UIToast (Scripts/UI)
+
+**Purpose**  
+Global Logic (`_UIToast`) that displays a temporary toast message with fade-in/fade-out and a slide animation. Used by `GameSystem.HandleRoomEnteredEvent`.
+
+---
+
+### Properties
+
+| Property          | Type            | Purpose |
+|------------------|----------------|---------|
+| `message`        | TextComponent   | Text component that displays the toast message. |
+| `toastGroup`     | Entity          | Parent entity enabled while the toast is visible. |
+| `duration`       | number          | Seconds the toast stays visible before fading out (`2`). |
+| `tweenDuration`  | number          | Seconds for the fade-in and fade-out (`0.1`). |
+| `tweenEventId`   | number          | Timer ID of the active tween (`0` when idle). |
+| `isTweenPlaying` | boolean         | Declared but not used by the current code. |
+| `inited`         | boolean         | Whether `offset` has been captured. |
+| `offset`         | number          | Vertical slide distance, captured from the text's initial anchored Y position. |
+
+---
+
+### Method Summary
+
+| Method         | Execution Scope | Purpose |
+|----------------|----------------|---------|
+| `ShowMessage`  | Client         | Shows a toast message with automatic fade-in and fade-out. |
+| `StartTween`   | Client/Server  | Animates the toast's alpha and vertical position. |
+
+---
+
+### Methods
+
+<details>
+<summary>ShowMessage</summary>
+
+**Execution Scope**: `Client`  
+
+**Purpose**  
+Displays a toast message.
+
+**Parameters**  
+- `message` *(string)* – The message text.
+
+**Behavior**  
+1. On first use, stores `offset` from the text's anchored Y position.  
+2. Sets the text and calls `StartTween()`.
+
+</details>
+
+<details>
+<summary>StartTween</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Animates the toast's alpha and vertical position.
+
+**Behavior**  
+1. If a tween is running, clears its timer (keeping the current alpha); otherwise starts from alpha 0.  
+2. Enables `toastGroup` and starts a 1/60 s repeating timer.  
+3. Fades in for `duration` seconds, then fades out over `tweenDuration`; position follows `_TweenLogic:Ease` of the alpha.  
+4. After `duration + tweenDuration`, disables `toastGroup` and clears the timer.
+
+</details>
+
+---
+
+### Related Types & Services
+- **Logic** – Base class for global logic scripts.  
+- **TextComponent** – UI text element.  
+- **CanvasGroupComponent / UITransformComponent** – Fade and position targets.  
+- **_TweenLogic** – Easing function.  
+- **_TimerService** – Repeating timer that drives the tween.  
+- **_UtilLogic** – Elapsed time in seconds.
+
+---
+
+## UIToast (MyDesk root)
+
+**Purpose**  
+Identical copy of [UIToast (Scripts/UI)](#uitoast-scriptsui) located directly in `MyDesk/`. See that section for details.
+
+---
+
+## Popupbutton (Scripts/UI)
+
+**Purpose**  
+UI template component that opens and closes sample popups (Basic, Shop, ShopResult, Achievement, DailyReward, Inventory, Result) when specific UI buttons are clicked, and toggles the shop button group.
+
+---
+
+### Properties
+
+This script has no custom properties.
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleButtonClickEvent` | `ButtonClickEvent` | Entity a99c2783-... / ClientOnly | Enables `/ui/PopupGroup/BasicPopup`; its OK and Cancel buttons disable it. |
+| `HandleButtonClickEvent2` | `ButtonClickEvent` | Entity 241ee38a-... / ClientOnly | Enables `ShopPopup`; `Panel/CloseButton` disables it. |
+| `HandleButtonClickEvent3` | `ButtonClickEvent` | Entity 57602223-... / ClientOnly | Enables `ShopResult`; `PopupBtnOK` disables it. |
+| `HandleButtonClickEvent4` | `ButtonClickEvent` | Entity 076c41ef-... / ClientOnly | Enables `AchievementPopup`; `Panel/CloseButton` disables it. |
+| `HandleButtonClickEvent5` | `ButtonClickEvent` | Entity 5fbdaa56-... / ClientOnly | Enables `DailyRewardPopup`; `Panel/CloseButton` disables it. |
+| `HandleButtonClickEvent6` | `ButtonClickEvent` | Entity 872aef39-... / ClientOnly | Enables `InventoryPopup`; `Panel/CloseButton` disables it. |
+| `HandleButtonClickEvent7` | `ButtonClickEvent` | Entity 0cfa965e-... / ClientOnly | Enables `ResultPanel`; `ReturnToLobby` disables it. |
+| `HandleButtonClickEvent8` | `ButtonClickEvent` | Entity c760d7e3-... / ClientOnly | Toggles `/ui/ButtonGroup/Btn_Shop` and `Btn_ShopResult` and flips the clicked button's `UISprite`. |
+
+Note: each open click connects a new close handler without disconnecting the previous one, so handlers accumulate on repeated use.
+
+---
+
+### Related Types & Services
+- **_EntityService** – Finds the popup entities by path.  
+- **ButtonClickEvent** – Raised by the UI buttons.  
+- **SpriteGUIRendererComponent** – Flipped to indicate the toggle state.
+
+---
+
+## Popupbutton (MyDesk root)
+
+**Purpose**  
+Identical copy of [Popupbutton (Scripts/UI)](#popupbutton-scriptsui) located directly in `MyDesk/`. See that section for details.
+
+---
+
+## Changelog
+| Version | Changelog | Download |
+|---------|-------------|-------------|
+| V1_0 | Initial release with scene, portal, and room coordination systems. | [Download](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Instance_Maps/Room_World_Instance_Demo.mod) |

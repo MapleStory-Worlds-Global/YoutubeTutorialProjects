@@ -1,3 +1,6 @@
+-- Payload-less event sent to the local player entity when the Enter button on the dungeon
+-- reservation UI is clicked (InstanceDungeonReservationUI.EnterDungeon). DynamicMapPortal
+-- handles it and asks the server to move the reserved party into the instance. Has no properties.
 @Event
 script EnterDungeonEvent extends EventType
 

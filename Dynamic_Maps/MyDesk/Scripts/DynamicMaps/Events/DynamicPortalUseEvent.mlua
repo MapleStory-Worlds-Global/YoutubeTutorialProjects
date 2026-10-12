@@ -1,3 +1,6 @@
+-- Payload-less event intended to signal that a dynamic map portal was used.
+-- Not currently sent or handled by any script in this project (DynamicMapPortal reacts to the
+-- native PortalUseEvent instead); kept as an extension point. Has no properties.
 @Event
 script DynamicPortalUseEvent extends EventType
 

@@ -131,7 +131,7 @@ script PhysicsRigidbodyComponent extends Component
 	---@sealed
 	method void SetLinearVelocityY(float velocityY) end
 
-	---@description "Sets the rigid body's position in world coordinates."
+	---@description "Sets the location of the rigid body using world coordinates."
 	---@sealed
 	method void SetPosition(Vector2 position) end
 

@@ -1,20 +1,28 @@
+-- Base struct for ActionButtonComponent actions. Subclasses (e.g. ToggleEnable) override one of
+-- the GetBehavior* methods to return a closure that ActionButtonComponent stores and calls on
+-- click. All base implementations return nil (no action).
 @Struct
 script ActionButtonBehavior
 
+	-- Entity the action operates on (not used by the current subclasses, which take it as a parameter)
 	property Entity target = nil
 
+	-- Returns an action closure for `entity` that takes a boolean parameter; nil by default.
 	method any GetBehaviorWithBoolean(Entity entity, boolean param)
 		return nil
 	end
 
+	-- Intended for a numeric parameter (note: declared with a boolean param); nil by default.
 	method any GetBehaviorWithNum(Entity entity, boolean param)
 		return nil
 	end
 
+	-- Intended for a string parameter (note: declared with a boolean param); nil by default.
 	method any GetBehaviorWithString(Entity entity, boolean param)
 		return nil
 	end
 
+	-- Returns a parameterless action closure for `entity`; nil by default.
 	method any GetBehavior(Entity entity)
 		return nil
 	end

@@ -1,12 +1,18 @@
+-- Server-side self-destruct for one-shot effect entities: waits for the entity's sprite
+-- animation clip to finish playing once, then destroys the entity.
 @Component
 script DestroyAfterFrames extends Component
 
+	-- Runs on the server (entity destruction is server-authoritative): blocks until the
+	-- animation length has elapsed, then destroys the entity.
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		self:WaitForFrames()
 		_EntityService:Destroy(self.Entity)
 	end
 
+	-- Waits (yielding) for the total duration of the SpriteRendererComponent's animation clip.
+	-- Returns immediately if there is no sprite renderer or the RUID is not an animation clip.
 	method void WaitForFrames()
 		local ren = self.Entity.SpriteRendererComponent
 		if isvalid(ren) == false then
@@ -19,6 +25,7 @@ script DestroyAfterFrames extends Component
 			return
 		end
 		
+		-- Sum every frame's Delay, then multiply by PlayRate to get the clip length
 		local anim = _ResourceService:LoadAnimationClipAndWait(ruid)
 		local frames = anim.Frames
 		local duration = 0 

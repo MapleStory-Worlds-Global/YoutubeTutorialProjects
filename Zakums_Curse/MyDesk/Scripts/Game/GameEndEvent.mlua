@@ -1,6 +1,10 @@
+-- Custom event fired on clients when a round ends. Sent by GameManager.GameEndEvent
+-- (a Client-space method, so it is raised on every client) and handled by
+-- ZakumUIComponent.HandleGameEndEvent to show the end effect and the winner.
 @Event
 script GameEndEvent extends EventType
 
+	-- UserId of the player who held the Zakum helmet when the round timer ran out
 	property string winnerUserId = ""
 
 end

@@ -1,20 +1,33 @@
+-- Client-side dungeon reservation (party finder) panel. Opened by UIManager when a player uses
+-- a DynamicMapPortal; shows who is reserved for the next dungeon instance and has three buttons:
+-- Register ("Search Party"/"Leave Party"), Enter, and Close. Button clicks are turned into
+-- PlayerRegisteredEvent / EnterDungeonEvent on the local player, which DynamicMapPortal handles.
 @Component
 script InstanceDungeonReservationUI extends Component
 
+	-- Model used to spawn one InstanceDungeonReservationUIItem row per reserved player
 	property string reservationUIItemModel = "model://9148e3ff-822e-480c-8b6c-46229df821d4"
 
+	-- Pool of spawned row components; rows are reused across refreshes and hidden when unused
 	property table reservationListItems = {}
 
+	-- UI entity (scroll/list container) that spawned rows are parented under
 	property Entity reservationScrollParent = "22c57a79-e2c9-417b-a79f-ce1ee901a641"
 
+	-- "Search Party" / "Leave Party" toggle button; its TextComponent label is updated by UpdateRegistered
 	property Entity buttonRegister = "f5544615-07ff-49b6-b428-3737d04a1936"
 
+	-- Closes the panel (and unregisters the player if registered)
 	property Entity buttonClose = "8bbd1309-ceca-4820-af1b-4faf1561c6f2"
 
+	-- Moves the reserved party into the dungeon instance
 	property Entity buttonEnter = "89bee144-2e8b-4d47-91c8-aaf4fea096ab"
 
+	-- Shows the panel with one row per userId (rendered as the player's nickname). Reuses pooled
+	-- rows and hides any leftover rows from a previous, longer list.
 	@ExecSpace("Client")
 	method void Show(table userIds)
+		-- Index of the next pooled row to hand out; reset on every refresh
 		self._T.createdListItemsPointer = 1
 		for index, userId in ipairs(userIds) do 
 			local item = self:GetOrCreateReservationItem()
@@ -23,6 +36,7 @@ script InstanceDungeonReservationUI extends Component
 			item:Show()
 		end
 		
+		-- Hide every pooled row past the last one used above
 		if #self.reservationListItems > 0 then 
 			for index = self._T.createdListItemsPointer, #self.reservationListItems do
 				self.reservationListItems[index]:Hide()
@@ -32,11 +46,14 @@ script InstanceDungeonReservationUI extends Component
 		self.Entity:SetEnable(true)
 	end
 
+	-- Returns the pooled row at the current pointer, spawning a new row under
+	-- reservationScrollParent if the pool is not big enough yet, then advances the pointer.
 	method InstanceDungeonReservationUIItem GetOrCreateReservationItem()
 		local pointer = self._T.createdListItemsPointer
 		
 		local item = self.reservationListItems[pointer]
 		if isvalid(item) == false then 
+			-- Spawned locally on this client; the row model carries an InstanceDungeonReservationUIItem component
 			item = _SpawnService:SpawnByModelId(self.reservationUIItemModel, "ReservationListItem_" .. pointer, Vector3.zero, self.reservationScrollParent).InstanceDungeonReservationUIItem
 			table.insert(self.reservationListItems, item)
 		end
@@ -47,6 +64,8 @@ script InstanceDungeonReservationUI extends Component
 		return item
 	end
 
+	-- Client-only setup: clears the row pool, wires the three buttons, and starts in the
+	-- "not registered" state.
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		self.reservationListItems = {}
@@ -56,6 +75,9 @@ script InstanceDungeonReservationUI extends Component
 		self:UpdateRegistered(false)
 	end
 
+	-- Register button handler: sends a PlayerRegisteredEvent to the local player carrying the
+	-- CURRENT registered state, so DynamicMapPortal knows whether to reserve or unreserve.
+	-- The button label is only updated later, when the server's DynamicMapReservedEvent arrives.
 	method void PlayerRegistered()
 		local isRegistered = self._T.isRegistered
 		local userId = _UserService.LocalPlayer.PlayerComponent.UserId
@@ -65,6 +87,8 @@ script InstanceDungeonReservationUI extends Component
 		 _UserService.LocalPlayer:SendEvent(evt)
 	end
 
+	-- Enter button handler: sends an EnterDungeonEvent to the local player (handled by
+	-- DynamicMapPortal) and resets this panel's registered state.
 	@ExecSpace("Client")
 	method void EnterDungeon()
 		local evt = EnterDungeonEvent()
@@ -72,6 +96,8 @@ script InstanceDungeonReservationUI extends Component
 		self:UpdateRegistered(false)
 	end
 
+	-- Closes the panel. If the player is still registered, also unregisters them so they do not
+	-- keep a reserved slot after closing the UI.
 	@ExecSpace("Client")
 	method void Hide()
 		self.Entity:SetEnable(false)
@@ -82,12 +108,17 @@ script InstanceDungeonReservationUI extends Component
 		
 	end
 
+	-- Stores the local player's registered state (in the client-local _T table) and swaps the
+	-- Register button label between "Leave Party" and "Search Party".
 	@ExecSpace("Client")
 	method void UpdateRegistered(boolean isRegistered)
 		self.buttonRegister.TextComponent.Text = isRegistered and "Leave Party" or "Search Party"
 		self._T.isRegistered = isRegistered
 	end
 
+	-- Receives the latest reservation list from SceneManager (sent to this client). Updates the
+	-- registered state, and if the panel is open, redraws the list: the full party if the local
+	-- player is in it, otherwise an empty list.
 	@EventSender("Logic", "SceneManager")
 	handler HandleDynamicMapReservedEvent(DynamicMapReservedEvent event)
 		-- Parameters
@@ -99,6 +130,7 @@ script InstanceDungeonReservationUI extends Component
 		local isRegistered = _Utils:Contains(users, localUserId)
 		self:UpdateRegistered(isRegistered)
 		
+		-- Panel closed: keep the state but don't reopen it
 		if self.Entity.EnabledInHierarchy == false then return end 
 		
 		if isRegistered == true then 

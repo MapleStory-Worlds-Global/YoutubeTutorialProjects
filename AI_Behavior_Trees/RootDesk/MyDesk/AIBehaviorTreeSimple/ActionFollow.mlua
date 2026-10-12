@@ -1,10 +1,17 @@
+-- Behaviour-tree action node that moves the AI entity toward a target entity stored on the
+-- blackboard using its MovementComponent. Returns Running while moving, Success (and stops)
+-- once within ArrivalThreshold, and Failure if the target or a required component is missing.
 @BTNode
 script ActionFollow extends ActionNode
 
+	-- Distance (world units) at which the AI counts as having reached the target
 	property number ArrivalThreshold = 0.5
 
+	-- Blackboard key holding the Entity to follow
 	property string TargetEntityKey = "bb_Target"
 
+	-- Called every tick while the node is active: checks the distance to the target and either
+	-- stops (Success) or keeps moving in the target's direction (Running)
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then
@@ -44,6 +51,7 @@ script ActionFollow extends ActionNode
 			return BehaviourTreeStatus.Success
 		end
 		
+		-- Not there yet: keep moving along the normalised direction to the target
 		movementComponent:MoveToDirection(toTarget:Normalize(), delta)
 		return BehaviourTreeStatus.Running
 	end

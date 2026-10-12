@@ -1,59 +1,91 @@
+-- AI component (behaviour-tree runner) for the boss. On the server it periodically finds the
+-- nearest players and writes them to the blackboard, tracks HP from HitEvents, and exposes
+-- long-running attack methods (AttackMelee / AttackRange) that the tree's ExecuteMethod node
+-- triggers via the OnMethodExecuted event. On the client it keeps the health bar in sync.
 @Component
 script BossAI extends AIComponent
+	-- Warning circle colour (not currently read by this script)
 	property Color warningColor = Color.red
+	-- Material for the full-size warning polygon (not currently read by this script)
 	property string polygonMaterialID = "material://ced46239-2260-47a1-a86c-1bed987ae921"
+	-- Material for the growing warning polygon (not currently read by this script)
 	property string polygonGrowMaterialID = "material://9a01fd98-3f5c-4db1-b337-1d49dbb35ac7"
+	-- Players within this distance are written to the melee-target blackboard key
 	property number meleeDetectRadius = 2.0
+	-- Players within this distance are written to the ranged-target blackboard key
 	property number rangeDetectRadius = 3.0
+	-- Radius of the melee area attack and its warning circle
 	property number meleeRadius = 1.0
+	-- Radius of the area hit around the boss during the ranged attack and its warning circle
 	property number rangeRadius = 2.0
 
 	--Health Bar
+	-- World-space health bar updated with hp / maxHp on the client
 	property HealthbarComponent healthBar = nil
 
 	--Projectile
+	-- Number of projectiles fired per ranged attack
 	property integer projectileCount = 3
+	-- Projectile model ID (not currently read; BossAttackComponent.projectileModelID is used instead)
 	property string rangedProjectileId = ""
+	-- Parent entity of possible ranged attack positions (not currently read by this script)
 	property Entity attackPositionsParent = nil
 
 	--Attack Frames
+	-- Frame range (x = first, y = last, 1-based) of the melee animation during which the hit lands
 	property Vector2 meleeAttackFrame = Vector2(1,999)
+	-- Frame range (x = first, y = last, 1-based) of the ranged animation used for the warning and firing
 	property Vector2 rangedAttackFrame = Vector2(1,999)
 
 	--BlackBoard Vars
+	-- Blackboard key for the closest player inside meleeDetectRadius (nil if none)
 	property string bbMeleeTargetId = "bb_TargetMelee"
+	-- Blackboard key for the closest player inside rangeDetectRadius (nil if none)
 	property string bbRangeTargetId = "bb_TargetRange"
+	-- Blackboard key for the closest player in the map regardless of distance
 	property string bbNearestTarget = "bb_Target"
+	-- Blackboard bool key set to true when the boss dies
 	property string bbIsDeadKey = "bb_IsDead"
 
 	--Health / Death
+	-- Starting / maximum HP
 	property number maxHp = 100
 
+	-- Current HP; changed on the server and synced so the client can update the health bar
 	@Sync
 	@HideFromInspector
 	property number hp = 0
 
+	-- True once the boss has died; guards against further damage and repeated death handling
 	@Sync
 	@HideFromInspector
 	property boolean isDead = false
 
 	--Polygons for Warning Renderers
+	-- Warning circle that grows from 0 to the attack radius during the wind-up
 	property PolygonRendererComponent polygonGrowComp = nil
+	-- Warning circle drawn at the full attack radius during the wind-up
 	property PolygonRendererComponent polygonFullComp = nil
 
 	--Comp Reference Caches.
+	-- Cached StateComponent used to switch animation states
 	@HideFromInspector
 	property StateComponent stateComp = nil
+	-- Cached StateAnimationComponent used to look up the RUID of each state's animation
 	@HideFromInspector
 	property StateAnimationComponent stateAnimComp = nil
+	-- Cached BossAttackComponent that performs melee and ranged attacks
 	@HideFromInspector
 	property BossAttackComponent attackComp = nil
 
+	-- Runs on both server and client; all setup lives in Init
 	method void OnBeginPlay()
 		--Init for both client & Server.
 		self:Init()
 	end
 
+	-- Caches component references and resets HP/death state. On the client it fills the health
+	-- bar; on the server it starts a repeating 0.5 s timer that refreshes the blackboard targets.
 	method void Init()
 		local positions = {}
 
@@ -70,22 +102,28 @@ script BossAI extends AIComponent
 		end
 		
 
+		-- Target search only matters where the behaviour tree runs (server); timer ID kept in _T for cleanup
 		if self:IsServer() then
-			self._T.targetCheckTimer = _TimerService:SetTimerRepeat(function() self:UpdateTarget() end, 0.5, 0.5)
+			self._T.targetCheckTimer =_TimerService:SetTimerRepeat(function() self:UpdateTarget() end, 0.5, 0.5)
 		end
 	end
 
+	-- Stops the server-side target search timer when the boss is destroyed
 	method void OnDestroy()
 		if self:IsServer() then
 			_TimerService:ClearTimer(self._T.targetCheckTimer)
 		end
 	end
 
+	-- Server timer callback: scans every player in the boss's map and writes three blackboard
+	-- entities - the closest player inside meleeDetectRadius, the closest inside
+	-- rangeDetectRadius, and the closest overall (each nil when no player qualifies).
 	method void UpdateTarget()
 		local mc = self.Entity.CurrentMap.MapComponent
 		local players = _UserService:GetUsersByMapComponent(mc)
 
 		--Find Users within range & melee radius
+		-- Each "closestDistance" starts at its detect radius, so only players inside it can win
 		local closestMeleeUser = nil
 		local closestDistanceMelee = self.meleeDetectRadius
 		local closestRangeUser = nil
@@ -121,10 +159,14 @@ script BossAI extends AIComponent
 		self.BlackBoard:SetEntity(self.bbNearestTarget, closestTarget)
 	end
 
+	-- Writes the "bb_isMethodComplete" flag that the ExecuteMethod node polls; attack methods set
+	-- it to false when they start and true when they finish
 	method void SetMethodComplete(boolean value)
 		self.BlackBoard:SetBool("bb_isMethodComplete", value)
 	end
 
+	-- Marks the boss dead once (synced isDead), flags it on the blackboard so the tree can react,
+	-- and switches to the DEAD state. Server-only because HP and the tree are server-authoritative.
 	@ExecSpace("ServerOnly")
 	method void Dead()
 		if self.isDead then
@@ -139,6 +181,8 @@ script BossAI extends AIComponent
 		end
 	end
 
+	-- Server-side handler for HitEvents raised on this entity (via its HitComponent): subtracts
+	-- the damage from hp (synced to clients) and calls Dead() when hp reaches 0
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandleHitEvent(HitEvent event)
@@ -153,6 +197,7 @@ script BossAI extends AIComponent
 		end
 	end
 
+	-- Client-side: refreshes the health bar fill whenever the synced hp value arrives
 	@ExecSpace("ClientOnly")
 	method void OnSyncProperty(string name, any value)
 		if name == "hp" then
@@ -160,12 +205,16 @@ script BossAI extends AIComponent
 		end
 	end
 
+	-- Returns a random entry from _T.rangedPositions (currently unused; its call in AttackRange is
+	-- commented out and nothing in this script fills _T.rangedPositions)
 	method Vector3 GetRandomPosition()
 		return self._T.rangedPositions[_UtilLogic:RandomIntegerRange(1, #self._T.rangedPositions)]
 	end
 
+	-- Moves the polygon's existing vertices evenly around a circle of the given radius centred on
+	-- offset (relative to the polygon's entity); the vertex count comes from the polygon itself
 	method void UpdateRadius(PolygonRendererComponent polygon, Vector2 offset, number radius)
-		
+
 		local res = polygon.Points.Count
 		for i = 1, res do
 			local rad = 2 * math.pi * (i / tonumber(res))
@@ -175,6 +224,8 @@ script BossAI extends AIComponent
 		end
 	end
 
+	-- Blocking (yields via wait): shows the full-size circle at `range` and grows the second circle
+	-- from 0 to `range` over `duration` seconds, updating 10 times per second, then hides both.
 	method void ShowAttackWarningAndWait(Vector2 offset, number range, number duration)
 		local frameInterval = 1/10
 		local timer = 0
@@ -192,10 +243,15 @@ script BossAI extends AIComponent
 		self.polygonGrowComp.Entity:SetEnable(false)
 	end
 
+	-- Melee attack sequence, run (and allowed to yield) from the OnMethodExecuted handler:
+	-- play ATTACKMELEE, wait through the wind-up frames, show the warning for the attack frames,
+	-- hit players within meleeRadius, wait out the rest of the animation, return to WAIT and
+	-- signal completion to the ExecuteMethod node.
 	method void AttackMelee()
 		self:SetMethodComplete(false)
 
 		self.stateComp:ChangeState("ATTACKMELEE")
+		-- Resolve the animation RUID mapped to the ATTACKMELEE state so frame timings can be measured
 		local animKey = self.stateAnimComp:StateStringToAnimationKey("ATTACKMELEE")
 		local ruid = self.stateAnimComp.ActionSheet[animKey]
 
@@ -204,6 +260,7 @@ script BossAI extends AIComponent
 			_SpriteUtils:WaitForFrames(ruid,1, self.meleeAttackFrame.x - 1)
 		end
 
+		-- The warning lasts exactly as long as the attack frame range, so the hit lands as it ends
 		local animDuration = _SpriteUtils:GetAnimationLength(ruid, self.meleeAttackFrame.x, self.meleeAttackFrame.y)
 		self:ShowAttackWarningAndWait(Vector2.zero, self.meleeRadius, animDuration)
 
@@ -212,13 +269,19 @@ script BossAI extends AIComponent
 		attackInfo.effectRUID = ""
 		self.attackComp:AttackMelee(attackInfo, self.meleeRadius)
 		
+		-- Wait out the recovery frames after the attack range before handing control back to the tree
 		_SpriteUtils:WaitForFrames(ruid, self.meleeAttackFrame.y + 1, 999)
 		self.stateComp:ChangeState("WAIT")
 		self:SetMethodComplete(true)
 	end
 
-	method void AttackRange()	
+	-- Ranged attack sequence, run (and allowed to yield) from the OnMethodExecuted handler:
+	-- play ATTACKRANGE, wait through the wind-up frames, show the warning for the attack frames,
+	-- then fire projectileCount projectiles at the nearest player (one every 6 animation frames),
+	-- return to WAIT and signal completion to the ExecuteMethod node.
+	method void AttackRange()
 		self:SetMethodComplete(false)
+		-- Debug: dump the state -> animation mapping
 		log("attacking Range")
 		for key, value in pairs(self.stateAnimComp.ActionSheet:ToTable()) do
 			log(key .. " = " .. tostring(value))
@@ -245,6 +308,7 @@ script BossAI extends AIComponent
 
 		self:ShowAttackWarningAndWait(Vector2.zero, self.rangeRadius, animDuration)
 
+		-- Fire one projectile, then wait 6 frames (frameCount..frameCount+5) before the next one
 		local frameCount = to + 1
 		for i = 1, self.projectileCount do
 			local attackInfo = AttackInfo()
@@ -256,12 +320,16 @@ script BossAI extends AIComponent
 			frameCount += 6
 		end
 		
+		-- Wait out the remaining frames of the animation before handing control back to the tree
 		_SpriteUtils:WaitForFrames(ruid, frameCount - 1, 999)
 		self.stateComp:ChangeState("WAIT")
 		log("Range Attack Complete")
 		self:SetMethodComplete(true)
 	end
 
+	-- Server-side handler for the OnMethodExecuted event sent by the ExecuteMethod node: calls the
+	-- named method on this component. Running it inside an event handler lets methods such as
+	-- AttackMelee/AttackRange yield with wait() without blocking the behaviour tree tick.
 	@EventSender("Self")
 	@ExecSpace("ServerOnly")
 	handler OnMethodExecuted(OnMethodExecuted evt)

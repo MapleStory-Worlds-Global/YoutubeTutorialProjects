@@ -1,8 +1,15 @@
+-- Holds named pools of pre-spawned, disabled entities under this entity. Created per map by
+-- the PoolManager logic (on an "ObjectPool" child of the map); Get hands out an entity and
+-- Release disables it and puts it back. Entity names double as the pool key.
 @Component
 script ObjectPoolComponent extends Component
+	-- poolName -> array of currently idle (disabled) entities
 	property table pools = {}
+	-- poolName -> function that spawns and returns a new entity for that pool
 	property table createCallback = {}
 
+	-- Creates pool `poolName` and pre-spawns `count` disabled entities from `modelID` as children
+	-- of this entity. Does nothing if a pool with that name already exists.
 	method void Fill(integer count, string modelID, string poolName)
 		if self.pools[poolName] ~= nil then
 			log("Pool with name " .. poolName .. " already exists.")
@@ -10,11 +17,13 @@ script ObjectPoolComponent extends Component
 		end
 		
 		self.pools[poolName] = {}
+		-- Locals captured by the spawn closure; the entity is named after the pool so Release can find it
 		local id = modelID
 		local name = poolName
 		local parent = self.Entity
 		self.createCallback[poolName] = function ()
 			local spawn = _SpawnService:SpawnByModelId(id, name, Vector3.zero, parent)
+			-- Tag the entity with PooledObject so Release can verify it came from a pool
 			local poolObj = spawn:AddComponent(PooledObject).Entity.PooledObject
 			poolObj:Init() 
 			return spawn
@@ -27,6 +36,8 @@ script ObjectPoolComponent extends Component
 		end
 	end
 
+	-- Takes the last idle entity from the pool, enables it and returns it. If the pool is
+	-- empty a new entity is spawned instead (the pool grows); returns nil for an unknown pool.
 	method Entity Get(string poolName)
 		local pool = self.pools[poolName]
 		if pool == nil then
@@ -45,6 +56,8 @@ script ObjectPoolComponent extends Component
 		return entity
 	end
 
+	-- Returns an entity to the pool named after entity.Name: notifies its PooledObject,
+	-- disables it and pushes it back on the idle list.
 	method void Release(Entity entity)
 		local poolName = entity.Name
 		local pool = self.pools[poolName]

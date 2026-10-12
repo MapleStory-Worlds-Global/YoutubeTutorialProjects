@@ -1,8 +1,14 @@
+-- Behaviour tree DecoratorNode that only runs its child while the AI entity is standing on the
+-- ground (RigidbodyComponent:IsOnGround()); otherwise it returns Failure.
+-- Requires a RigidbodyComponent on the AI entity.
 @BTNode
 script IsOnGround extends DecoratorNode
 
+	-- Called each tick: returns Failure (without ticking the child) when there is no rigidbody or the
+	-- entity is airborne; otherwise ticks the child and returns its result.
 	method any OnBehave(number delta)
 		local rigidbody = self.ParentAI.Entity.RigidbodyComponent
+		-- The ground check needs the entity's RigidbodyComponent
 		if rigidbody == nil then
 			return BehaviourTreeStatus.Failure
 		end

@@ -1,22 +1,35 @@
+-- Behaviour-tree action node: plays a built-in area particle effect (AreaParticleType) via
+-- _ParticleService:PlayAreaParticle, attached to the Instigator or, by default, the AI entity.
+-- Fire-and-forget: Success in one tick, Failure if no entity or the particle type is None.
 @BTNode
 script PlayAreaParticle extends ActionNode
 
+	-- AreaParticleType enum value as an integer (converted with AreaParticleType.CastFrom)
 	property integer ParticleType = 0
 
+	-- Size of the area the particles are emitted over
 	property Vector2 AreaSize = Vector2(1, 1)
 
+	-- Entity the effect is played on; nil uses the AI's own entity
 	property Entity Instigator = nil
 
+	-- Position offset passed to PlayAreaParticle
 	property Vector3 Position = Vector3(0, 0, 0)
 
+	-- Z-axis rotation of the effect, in degrees
 	property number ZRotation = 0
 
+	-- Scale of the effect
 	property Vector3 Scale = Vector3(1, 1, 1)
 
+	-- Whether the effect loops instead of playing once
 	property boolean IsLoop = false
 
+	-- Called each tick while this node is active. Resolves the instigator and particle type,
+	-- starts the effect and returns Success without waiting for it to finish.
 	method any OnBehave(number delta)
 		local instigatorEntity = self.Instigator
+		-- Fall back to the entity that owns this behaviour tree
 		if instigatorEntity == nil then
 			instigatorEntity = self.ParentAI.Entity
 		end

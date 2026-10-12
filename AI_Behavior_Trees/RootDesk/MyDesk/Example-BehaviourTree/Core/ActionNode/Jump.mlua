@@ -1,6 +1,11 @@
+-- Behaviour-tree action node: makes the AI entity jump via MovementComponent:Jump().
+-- Completes in one tick.
 @BTNode
 script Jump extends ActionNode
 
+	-- Called each tick while this node is active. Returns Success if the jump was started,
+	-- Failure if the AI/entity/MovementComponent is missing or Jump() returns false
+	-- (e.g. the entity cannot jump right now).
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then

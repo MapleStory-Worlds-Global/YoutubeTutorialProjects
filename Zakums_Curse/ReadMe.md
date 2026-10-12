@@ -4,7 +4,7 @@
 [![Youtube Tutorial](http://img.youtube.com/vi/7hNKAn9JmBQ/0.jpg)](https://youtu.be/7hNKAn9JmBQ?feature=shared "MapleStory Worlds Tutorial: Pro Mode Chapter 8 - Bringing Everything Together")
 
 ## Mod Installation Instructions
-[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#project-import-instructions)
+[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#mod-file-import-instructions)
 
 ## Project File
 [Download Latest Project File](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod)
@@ -12,36 +12,43 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Setup and Installation](#setup-and-installation)
-- [Monster](#monster)
-- [MonsterAttack](#monsterattack)
-- [PlayerAttack](#playerattack)
-- [PlayerHit](#playerhit)
-- [UIPopup](#uipopup)
-- [UIToast](#uitoast)
-- [GameManager](#gamemanager)
-- [GameEndEvent](#gameendevent)
-- [TimerEvent](#timerevent)
-- [ZakumChangedEvent](#zakumchangedevent)
-- [RespawnComponent](#respawncomponent)
-- [ZakumPlayerComponent](#zakumplayercomponent)
-- [SoundManager](#soundmanager)
-- [SFXList](#sfxlist)
-- [ZakumUIComponent](#zakumuicomponent)
+- [Script Documentation](#script-documentation)
+  - [Monster](#monster)
+  - [MonsterAttack](#monsterattack)
+  - [PlayerAttack](#playerattack)
+  - [PlayerHit](#playerhit)
+  - [UIPopup](#uipopup)
+  - [UIToast](#uitoast)
+  - [GameManager](#gamemanager)
+  - [GameEndEvent](#gameendevent)
+  - [GameStartEvent](#gamestartevent)
+  - [TimerEvent](#timerevent)
+  - [ZakumChangedEvent](#zakumchangedevent)
+  - [RespawnComponent](#respawncomponent)
+  - [ZakumPlayerComponent](#zakumplayercomponent)
+  - [SoundManager](#soundmanager)
+  - [SFXList](#sfxlist)
+  - [ZakumUIComponent](#zakumuicomponent)
 - [Changelog & Download](#changelog)
 ---
 
-## Overview 
+## Overview
 Time for the ultimate test—let’s build a world together from start to finish! 
 In this video, we’ll put everything we’ve learned so far into practice. There’s a lot to cover, so don’t worry if it doesn’t all click right away! Think of this as your rite of passage—follow along, take it step by step, and soon you’ll be building your own worlds with confidence!
+The finished world is a multiplayer game of keep-away: players take a portal into the game area, and once at least two have joined a 10-second countdown starts the round. A random player is cursed with the Zakum helmet (and a speed boost); anyone who touches the helmet wearer steals it, and whoever is wearing it when the 10-second round timer runs out wins.
 
 ## Setup and Installation
-* Ensure the ZakumPlayerComponent is attached to the DefaultPlayer entity.  
+* Ensure the `ZakumPlayerComponent` is attached to the DefaultPlayer entity (it also needs a `TriggerComponent` so player-to-player contact fires `TriggerEnterEvent`).  
+* `ZakumUIComponent` drives the HUD; its `waitingForPlayersUI`, `gameTimerUI` and `gameWinnerUI` properties must point at the matching UI entities (the winner UI needs a child named `WinnerText`).  
+* `GameManager`, `SoundManager`, `SFXList`, `UIPopup` and `UIToast` are Logic scripts and need no attachment. `GameManager.startingAreaId` / `spawnAreaId` and `RespawnComponent.respawnLocation` reference entity IDs in the map.  
 * Press Play to run the world
     * A second player must be added to trigger the gameplay. 
     * Add a second client, and move both to the portal to teleport to the game area. 
     * After the game begins, collide with the player with the zakum helmet to steal the helmet. 
     * Notice the zakum helmet owner has a slight speed boost. 
-    * Onwer of the zakum helmet must run away and retain the helmet when the countdown timer ends. 
+    * Owner of the zakum helmet must run away and retain the helmet when the countdown timer ends. 
+
+## Script Documentation
 
 ## Monster
 
@@ -145,8 +152,16 @@ Processes incoming hit events and applies damage to the monster.
 
 ---
 
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleHitEvent` | `HitEvent` | Self / ServerOnly | Applies damage, triggers death and schedules respawn. |
+
+---
+
 ### Related Types & Services
-- **Component** – Base class for Unity-style entity components.  
+- **Component** – Base class for entity components.  
 - **_TimerService** – Schedules delayed and repeated callbacks.  
 - **StateComponent** – Manages the entity's current state.  
 - **HitEvent** – Event triggered when the monster receives damage.  
@@ -248,7 +263,7 @@ Determines whether a given entity is a valid target for the monster’s attack.
 ## PlayerAttack
 
 **Purpose**  
-Handles a basic player attack system, defining a hitbox and executing attacks on nearby player targets. Supports critical hits and fixed damage calculation.
+Handles a basic player attack system, defining a hitbox and executing attacks on targets in the `Player` collision group. Supports critical hits and fixed damage calculation. Part of the shared `Common/Scripts/Combat` scripts.
 
 ---
 
@@ -299,7 +314,7 @@ Executes a basic attack in front of the player.
 
 **Behavior**  
 1. Retrieves `PlayerControllerComponent` and `TransformComponent`.  
-2. Calculates `attackOffset` in front of the player based on look direction.  
+2. Calculates `attackOffset` 0.5 units in front of the player (based on `LookDirectionX`) and 0.5 units up.  
 3. Updates `self.Shape.Position` to the calculated offset.  
 4. Calls `AttackFast` with the hitbox and `CollisionGroups.Player`.
 
@@ -363,6 +378,14 @@ Listens for player action events and triggers the normal attack.
 
 ---
 
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandlePlayerActionEvent` | `PlayerActionEvent` | Self / ServerOnly | Calls `AttackNormal` when the player performs the `"Attack"` action. |
+
+---
+
 ### Related Types & Services
 - **AttackComponent** – Base class for handling attacks and hit detection.  
 - **BoxShape** – Represents rectangular attack hitboxes.  
@@ -371,7 +394,7 @@ Listens for player action events and triggers the normal attack.
 - **PlayerControllerComponent** – Provides player orientation and control data.  
 - **TransformComponent** – Provides world position and scale of the player entity.  
 - **Entity** – The player entity executing attacks.  
-- **_TimerService** – Can be used for scheduled repeated attacks (not used here).  
+- **PlayerActionEvent** – Fired when the player performs an action such as `"Attack"`.  
 ---
 
 ## PlayerHit
@@ -586,7 +609,7 @@ Displays temporary toast messages in the UI with fade-in and fade-out animations
 | `duration`       | number          | Duration in seconds the toast stays visible before fading out. |
 | `tweenDuration`  | number          | Duration in seconds for the fade-in and fade-out animation. |
 | `tweenEventId`   | number          | Timer ID for the active tween animation. |
-| `isTweenPlaying` | boolean         | Whether a tween animation is currently running. |
+| `isTweenPlaying` | boolean         | Declared but not currently read or written by the script. |
 | `inited`         | boolean         | Indicates whether the toast has been initialized. |
 | `offset`         | number          | Vertical offset used for tween animation. |
 
@@ -663,10 +686,10 @@ Handles core game flow, including player management, Zakum selection, teleportat
 | Property             | Type                    | Purpose |
 |---------------------|------------------------|---------|
 | `currentZakum`       | ZakumPlayerComponent    | Tracks the current player designated as Zakum. |
-| `startingAreaId`     | string                  | ID of the starting area for players. |
+| `startingAreaId`     | string                  | Entity ID of the game-area start point players are moved to through the portal. |
 | `playerCount`        | number                  | Current number of players in the game. |
-| `hasGameStarted`     | boolean                 | Indicates if the game has started. |
-| `gameStartTimer`     | number                  | Timer ID for the game start countdown. |
+| `hasGameStarted`     | boolean                 | Indicates if a round is in progress; blocks new players from joining. |
+| `gameStartTimer`     | number                  | Timer ID of the active countdown (pre-game or round). |
 | `playersInGame`      | table                   | Maps user IDs to player entities currently in the game. |
 | `spawnAreaId`        | string                  | ID of the spawn area where players are sent after the game ends. |
 
@@ -680,9 +703,9 @@ Handles core game flow, including player management, Zakum selection, teleportat
 | `SetRandomZakum`            | Server         | Randomly selects a new Zakum from players in the game. |
 | `TeleportToStartingArea`    | Server         | Teleports a player to the starting area and adds them to the game. |
 | `CheckPlayerCount`          | Server         | Checks if enough players are present to start the game and begins countdown. |
-| `BeginCountdown`            | Server         | Starts a countdown timer and executes a callback when complete. |
-| `GameStart`                 | Client/Server  | Starts the game, selects a Zakum, and sets the end-game countdown. |
+| `BeginCountdown`            | Server         | Starts a 10-second countdown timer and executes a callback when complete. |
 | `GameEnd`                   | Client/Server  | Ends the game, resets players, and notifies clients of the winner. |
+| `GameStart`                 | Client/Server  | Starts the game, selects a Zakum, and sets the end-game countdown. |
 | `MovePlayersToSpawn`        | Client/Server  | Moves all players to the spawn area and resets the game state. |
 | `CountEvent`                | Client         | Sends a countdown timer event to clients. |
 | `GameStartEvent`            | Client         | Sends a game start event to clients. |
@@ -749,6 +772,20 @@ Teleports a player to the starting area and adds them to the game.
 </details>
 
 <details>
+<summary>CheckPlayerCount</summary>
+
+**Execution Scope**: `Server`  
+
+**Purpose**  
+Starts the pre-game countdown once at least two players have joined.
+
+**Behavior**  
+1. Returns if `playerCount` is less than 2.  
+2. Calls `BeginCountdown` with a callback that runs `GameStart()`. Because `BeginCountdown` clears any running countdown, each additional player who joins restarts the 10-second countdown.
+
+</details>
+
+<details>
 <summary>BeginCountdown</summary>
 
 **Execution Scope**: `Server`  
@@ -761,9 +798,9 @@ Starts a countdown timer and executes a callback when complete.
 
 **Behavior**  
 1. Clears any existing countdown timer.  
-2. Starts a 10-second repeating timer.  
-3. Each second, calls `CountEvent()` and plays a sound effect.  
-4. Calls `onComplete()` when countdown reaches zero and stops the timer.
+2. Starts a timer that repeats every second (first tick after 1 second), counting down from 10.  
+3. On ticks 10 through 1, calls `CountEvent(countdown)` and plays `_SFXList.COUNT`.  
+4. When the countdown reaches zero, stops the timer and calls `onComplete()`.
 
 </details>
 
@@ -776,6 +813,10 @@ Starts a countdown timer and executes a callback when complete.
 - `GameStart`: Starts the game, selects a random Zakum, and schedules game end.  
 - `GameEnd`: Ends the game, resets player positions, and triggers winner event.
 
+**Behavior**  
+- `GameStart` (run by the pre-game countdown on the server): sets `hasGameStarted`, calls `SetRandomZakum()`, raises `GameStartEvent` on clients, plays `_SFXList.START`, and starts a second 10-second countdown that calls `GameEnd()`.  
+- `GameEnd`: clears `hasGameStarted`, calls `UnsetZakum()` on the current Zakum, calls `MovePlayersToSpawn()`, plays `_SFXList.WINNER`, and raises `GameEndEvent` with the last Zakum's UserId as the winner.
+
 </details>
 
 <details>
@@ -786,6 +827,10 @@ Starts a countdown timer and executes a callback when complete.
 **Purpose**  
 Moves all players back to the spawn area and resets game state.
 
+**Behavior**  
+1. Calls `PlayerComponent:MoveToEntity(spawnAreaId)` for every player in `playersInGame`.  
+2. Clears `playersInGame` and resets `playerCount` to 0.
+
 </details>
 
 <details>
@@ -795,6 +840,19 @@ Moves all players back to the spawn area and resets game state.
 
 **Purpose**  
 Sends relevant client events for countdown, game start, and game end with winner info.
+
+**Behavior**  
+These are called from the server; because they are `Client`-space methods they run on every client, where each creates the matching event (`TimerEvent` with `timerIndex`, `GameStartEvent`, or `GameEndEvent` with `winnerUserId`) and raises it with `SendEvent` for `ZakumUIComponent` to handle.
+
+</details>
+
+<details>
+<summary>OnBeginPlay</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Starts the background music by calling `_SoundManager:PlayBGM()` (a `Client`-space method) when the world starts.
 
 </details>
 
@@ -807,18 +865,24 @@ Sends relevant client events for countdown, game start, and game end with winner
 - `AddPlayer`: Adds a player to the game state.  
 - `RemovePlayer`: Removes a player, decrements player count, and handles Zakum reassignment if needed.
 
-</details>
+**Parameters**  
+- `userId` *(string)* – UserId of the player to add or remove.
 
-<details>
-<summary>Event Handlers</summary>
-
-**Execution Scope**: Varies  
-
-- `HandleZakumChangedEvent` – Updates Zakum when a ZakumChangedEvent is received.  
-- `HandlePortalUseEvent` – Teleports a player to the starting area when they use a portal.  
-- `HandleUserLeaveEvent` – Removes a player from the game when they leave.
+**Behavior**  
+- `AddPlayer` stores the player entity in `playersInGame[userId]` and increments `playerCount`.  
+- `RemovePlayer` clears `playersInGame[userId]`, decrements `playerCount`, and if the player was the Zakum, calls `UnsetZakum()` on them and `SetRandomZakum()` to pass the role on.
 
 </details>
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleZakumChangedEvent` | `ZakumChangedEvent` | Self / ServerOnly | Calls `ChangeZakum(event.userId)` when a player steals the Zakum role. |
+| `HandlePortalUseEvent` | `PortalUseEvent` | Portal entity (`588c6e74-...`) / Client | Calls `TeleportToStartingArea` (Server) for the player who used the lobby portal. |
+| `HandleUserLeaveEvent` | `UserLeaveEvent` | UserService / Server | Calls `RemovePlayer` if the leaving user was in the game. |
 
 ---
 
@@ -831,7 +895,8 @@ Sends relevant client events for countdown, game start, and game end with winner
 - **_SFXList** – Predefined sound effect identifiers.  
 - **_UtilLogic** – Provides random numbers and other utility functions.  
 - **Entity** – Represents a player or map entity.  
-- **TextComponent** – UI component for displaying text.  
+- **TimerEvent / GameStartEvent / GameEndEvent** – Client events consumed by `ZakumUIComponent`.  
+- **ZakumChangedEvent** – Server event requesting a Zakum role change.  
 ---
 
 ## GameEndEvent
@@ -851,8 +916,8 @@ Represents the event triggered when a game ends, notifying clients of the winnin
 
 ### Usage
 
-- Sent from the server (`GameManager`) to all clients when the game concludes.
-- Clients can listen to this event to display winner information or trigger end-of-game UI.
+- Raised on every client by `GameManager.GameEndEvent` (a `Client`-space method called from `GameManager.GameEnd` on the server) when the round concludes.
+- Handled by `ZakumUIComponent.HandleGameEndEvent`, which resets the HUD, plays the end effect and shows the winner's nickname.
 
 ---
 
@@ -871,8 +936,8 @@ This event has no custom properties.
 
 ### Usage
 
-- Sent from the server (`GameManager`) to all clients when the game begins.
-- Clients can listen to this event to initialize gameplay UI, timers, or other start-of-game behaviors.
+- Raised on every client by `GameManager.GameStartEvent` (a `Client`-space method called from `GameManager.GameStart` on the server) when the round begins.
+- Handled by `ZakumUIComponent.HandleGameStartEvent`, which plays the start effect and hides the previous winner banner.
 
 ---
 
@@ -887,21 +952,21 @@ Represents a timer update event, typically used to notify clients of countdowns 
 
 | Property       | Type   | Purpose |
 |----------------|--------|---------|
-| `timerIndex`   | number | The current value of the timer or countdown. |
+| `timerIndex`   | number | Seconds remaining in the current countdown (10 down to 1). |
 
 ---
 
 ### Usage
 
-- Sent from server or client logic to indicate the current timer value.
-- Commonly used in countdowns, game start sequences, or UI timer updates.
+- Raised on every client once per second by `GameManager.CountEvent`, during both the pre-game countdown and the round timer (`GameManager.BeginCountdown`).
+- Handled by `ZakumUIComponent.HandleTimerEvent`, which updates the timer text and plays the countdown effect for 3, 2 and 1.
 
 ---
 
 ## ZakumChangedEvent
 
 **Purpose**  
-Signals that the current Zakum player has changed, typically to update the game state or UI to reflect the new Zakum.
+Server-side request to hand the Zakum role to another player after they touch the current Zakum.
 
 ---
 
@@ -909,14 +974,14 @@ Signals that the current Zakum player has changed, typically to update the game 
 
 | Property   | Type   | Purpose |
 |------------|--------|---------|
-| `userId`   | string | The UserId of the player who is now designated as Zakum. |
+| `userId`   | string | The UserId of the player who should become the new Zakum. |
 
 ---
 
 ### Usage
 
-- Sent when the Zakum role is assigned to a different player.
-- Handlers for this event typically update the game state or notify clients about the new Zakum.
+- Sent to `_GameManager` by `ZakumPlayerComponent.HandleTriggerEnterEvent` (server) when a player touches a non-immune Zakum.
+- Handled by `GameManager.HandleZakumChangedEvent`, which calls `ChangeZakum(userId)`.
 
 ---
 
@@ -931,7 +996,7 @@ Handles automatic player respawn when entering a designated trigger area, moving
 
 | Property             | Type   | Purpose |
 |----------------------|--------|---------|
-| `respawnLocation`    | string | The Entity ID or path of the respawn location where players will be moved. |
+| `respawnLocation`    | string | Entity ID of the respawn location where players will be moved (defaults to the same ID as `GameManager.startingAreaId`). |
 
 ---
 
@@ -939,7 +1004,7 @@ Handles automatic player respawn when entering a designated trigger area, moving
 
 | Method                       | Execution Scope | Purpose |
 |-------------------------------|----------------|---------|
-| `HandleTriggerEnterEvent`     | Client/Server  | Triggered when an entity enters the attached trigger. Moves valid player entities to the respawn location. |
+| `HandleTriggerEnterEvent`     | Client/Server  | Triggered when an entity enters the specific trigger entity named in the `@EventSender` annotation. Moves valid player entities to the respawn location. |
 
 ---
 
@@ -949,7 +1014,7 @@ Handles automatic player respawn when entering a designated trigger area, moving
 <summary>HandleTriggerEnterEvent</summary>
 
 **Execution Scope**: `Client/Server`  
-**Event Sender**: `Entity` (TriggerComponent)
+**Event Sender**: `Entity` `b2fce237-ded0-4e96-9335-5e761da7157a` (that entity's TriggerComponent, not necessarily the entity this component is attached to)
 
 **Purpose**  
 Moves players to the respawn location when they enter the trigger area.
@@ -962,6 +1027,14 @@ Moves players to the respawn location when they enter the trigger area.
 2. If valid, calls `MoveToEntity(respawnLocation)` on the player to move them to the respawn point.
 
 </details>
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleTriggerEnterEvent` | `TriggerEnterEvent` | Trigger entity `b2fce237-...` / Client/Server | Moves the entering player to `respawnLocation`. |
 
 ---
 
@@ -1093,11 +1166,19 @@ Handles collisions with other players to potentially transfer the Zakum role.
 2. Checks if the colliding entity has a valid `ZakumPlayerComponent`.  
 3. Logs "Immunity" if the colliding player is currently immune.  
 4. If the colliding player is Zakum and not immune:  
-   - Triggers `ZakumChangedEvent` with this entity as the new Zakum.  
-   - Grants temporary immunity using `Immunity()`.  
+   - Creates a `ZakumChangedEvent` with this entity's name (its UserId) as the new Zakum.  
+   - Grants this player (the new Zakum) temporary immunity using `Immunity()`, so the role can't be stolen straight back.  
    - Sends the event to `_GameManager`.
 
 </details>
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleTriggerEnterEvent` | `TriggerEnterEvent` | Self / Client/Server (logic runs on server only) | Steals the Zakum role when touching a non-immune Zakum. |
 
 ---
 
@@ -1134,7 +1215,7 @@ Provides a centralized logic for playing background music (BGM) and sound effect
 |---------------------|----------------|---------|
 | `PlaySFXAtPos`      | Client         | Plays a sound effect at a specified world position for the local player. |
 | `PlayBGM`            | Client         | Plays the background music (BGM) for the local player. |
-| `PlaySFX`            | Server         | Plays a global sound effect for all players. |
+| `PlaySFX`            | Server         | Plays a non-positional sound effect for all players. |
 
 ---
 
@@ -1182,15 +1263,16 @@ Plays a sound effect globally for all players.
 - `sfx` *(string)* – Resource ID of the sound effect.
 
 **Behavior**  
-Uses `_SoundService:PlaySound` with volume 1.
+Uses `_SoundService:PlaySound` with volume 1. `PlaySound` is a `Client`-space native call, so invoking it from the server relays playback to the clients.
 
 </details>
 
 ---
 
-### Related Services
+### Related Types & Services
 - **_SoundService** – Handles playback of sound effects and background music.  
-- **_UserService.LocalPlayer** – Provides the local player entity for client-side positional audio.
+- **_UserService.LocalPlayer** – Provides the local player entity for client-side positional audio.  
+- **_SFXList** – Sound-effect RUIDs passed to `PlaySFX` / `PlaySFXAtPos`.
 
 ---
 
@@ -1205,11 +1287,19 @@ Provides a centralized list of sound effect (SFX) resource IDs used throughout t
 
 | Property   | Type   | Purpose |
 |------------|--------|---------|
-| `STEALZAKUM` | string | SFX for when the Zakum player is stolen or targeted. |
+| `STEALZAKUM` | string | SFX played at a player's position when they become the Zakum (`ZakumPlayerComponent.SetZakum`). |
 | `WINNER`     | string | SFX played when a player wins the game. |
 | `START`      | string | SFX played when the game starts. |
-| `COUNT`      | string | SFX for countdown ticks during game start or events. |
+| `COUNT`      | string | SFX for each countdown tick (pre-game countdown and round timer). |
 | `PORTAL`     | string | SFX played when a player uses a portal. |
+
+---
+
+### Usage
+
+- `@Logic` script with no methods; read as `_SFXList.<NAME>` by `GameManager` and `ZakumPlayerComponent` and passed to `_SoundManager.PlaySFX` / `PlaySFXAtPos`.
+
+---
 
 ## ZakumUIComponent
 
@@ -1222,7 +1312,7 @@ Manages the UI and visual effects for the Zakum game mode, including countdown t
 
 | Property                  | Type    | Purpose |
 |---------------------------|---------|---------|
-| `timerEffectRUIDs`        | table   | List of effect RUIDs for countdown timers. |
+| `timerEffectRUIDs`        | table   | Effect RUIDs for the countdown numbers 1-3 (filled in `OnInitialize`). |
 | `waitingForPlayersUI`     | Entity  | UI element displayed while waiting for players. |
 | `gameTimerUI`             | Entity  | UI element showing the current game timer. |
 | `gameStartEffectRUID`     | string  | Effect played at the start of the game. |
@@ -1403,6 +1493,7 @@ Initializes the `timerEffectRUIDs` list for the countdown timer.
 - **_UILogic** – Provides screen-to-world position conversion.  
 - **_UserService** – Access to player entities and information.
 
+---
 
 ## Changelog
 | Version | Changelog | Download |

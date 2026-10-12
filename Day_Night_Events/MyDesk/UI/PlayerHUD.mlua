@@ -1,10 +1,15 @@
+-- HUD logic with Day and Night buttons. Each click changes the world time locally on the
+-- clicking player's client via _WorldTimeManagement (other players are not affected).
 @Logic
 script PlayerHUD extends Logic
 
+	-- UI button that sets the time to day (0.0)
 	property Entity buttonDay = "bdf82c44-d03e-48d9-b6e7-fdcb149f959f"
 
+	-- UI button that sets the time to night (1.0)
 	property Entity buttonNight = "7210691a-1147-47c3-9b0f-3863ca52a7fc"
 
+	-- Hooks up the two buttons' click events. Client-only because UI only exists on the client.
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		self.buttonDay:ConnectEvent(ButtonClickEvent, function () 
@@ -16,6 +21,7 @@ script PlayerHUD extends Logic
 		end)
 	end
 
+	-- Forwards the target blend value (0 = day, 1 = night) to the world-time manager.
 	method void SetTime(number value)
 		_WorldTimeManagement:SetTime(value)
 	end

@@ -1,18 +1,29 @@
+-- Behaviour-tree action node: clones SourceEntity with _SpawnService:SpawnByEntity under
+-- ParentEntity, and optionally stores the new entity in the AI's blackboard (ResultEntityKey).
+-- Completes in one tick: Failure if SourceEntity or ParentEntity is unset, otherwise Success.
 @BTNode
 script SpawnEntity extends ActionNode
 
+	-- Existing entity to copy
 	property Entity SourceEntity = nil
 
+	-- Name given to the spawned entity
 	property string SpawnEntityName = nil
 
+	-- Position the spawned entity is placed at
 	property Vector3 SpawnPosition = Vector3(0, 0, 0)
 
+	-- Parent the spawned entity is created under (e.g. the map entity); required
 	property Entity ParentEntity = nil
 
+	-- Whether SourceEntity's children are copied along with it
 	property boolean IncludeChildren = true
 
+	-- Optional blackboard key to write the spawned entity to; empty/nil skips this
 	property string ResultEntityKey = nil
 
+	-- Called each tick while this node is active. Spawns the copy and, if requested, records
+	-- it on the blackboard so later nodes can use it.
 	method any OnBehave(number delta)
 		if self.SourceEntity == nil then
 			return BehaviourTreeStatus.Failure
@@ -23,6 +34,8 @@ script SpawnEntity extends ActionNode
 		end
 		
 		local spawnedEntity = _SpawnService:SpawnByEntity(self.SourceEntity, self.SpawnEntityName, self.SpawnPosition, self.ParentEntity, self.IncludeChildren)
+		-- Only write to the blackboard when a key was configured and the spawn succeeded;
+		-- a failed spawn still returns Success below
 		if not _UtilLogic:IsNilorEmptyString(self.ResultEntityKey) and spawnedEntity ~= nil then
 			local aiComponent = self.ParentAI
 			if aiComponent ~= nil then

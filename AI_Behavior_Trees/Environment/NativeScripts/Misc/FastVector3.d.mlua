@@ -147,7 +147,7 @@ script FastVector3
 	static method number Dot(FastVector3 a, FastVector3 b) end
 
 	---@description "Creates a FastVector3 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
-	static method FastVector3 Lerp(FastVector3 a, FastVector3 b) end
+	static method FastVector3 Lerp(FastVector3 a, FastVector3 b, number t) end
 
 	---@description "Creates a FastVector3 entity that linearly interpolates two Vectors with t and then returns it."
 	static method FastVector3 LerpUnclamped(FastVector3 a, FastVector3 b, number t) end

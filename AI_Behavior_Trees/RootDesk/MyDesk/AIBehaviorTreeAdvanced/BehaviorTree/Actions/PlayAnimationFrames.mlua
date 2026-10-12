@@ -1,7 +1,13 @@
+-- Stub behaviour-tree action node intended to play a frame range of an animation clip.
+-- Only its inspector properties are declared; there is no OnInit/OnBehave logic yet, so
+-- it does nothing at runtime. WaitAnimationDuration covers the frame-range timing use case.
 @BTNode
 script PlayAnimationFrames extends ActionNode
+	-- Animation clip RUID whose frames would be played
 	property string animationRUID = ""
+	-- First frame of the range to play
 	property integer frameStartIndex = 0
+	-- Last frame of the range to play (999 = effectively "until the end of the clip")
 	property integer frameEndIndex = 999
 
 	

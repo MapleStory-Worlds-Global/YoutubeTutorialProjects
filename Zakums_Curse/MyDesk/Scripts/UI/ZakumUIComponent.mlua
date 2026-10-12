@@ -1,18 +1,28 @@
+-- Client-side HUD and screen effects for Zakum's Curse. Listens for the TimerEvent,
+-- GameStartEvent and GameEndEvent sent by the GameManager logic and updates the
+-- "waiting for players" label, countdown timer, start/end effects and winner banner.
 @Component
 script ZakumUIComponent extends Component
 
+	-- Countdown effect RUIDs indexed by seconds remaining (only 1-3 have effects); filled in OnInitialize
 	property table timerEffectRUIDs = {}
 
+	-- UI entity shown between rounds while waiting for enough players
 	property Entity waitingForPlayersUI = "00582ea9-252a-4822-a97a-84a7d229fdfd"
 
+	-- UI entity whose TextComponent shows the countdown number
 	property Entity gameTimerUI = "c8678fb7-00f1-4c5d-95d0-fef3d16fd81b"
 
+	-- Effect RUID played at screen center when a round starts
 	property string gameStartEffectRUID = "eee4571f66ff4acf8b7f3878860642fa"
 
+	-- Effect RUID played at screen center when a round ends
 	property string gameEndEffectRUID = "ad24ef5bcf8448fa9713a868aff14d6d"
 
+	-- UI entity showing the winner; must have a child named "WinnerText" with a TextComponent
 	property Entity gameWinnerUI = "df86c881-67c5-4c82-bcf6-2f15556986ca"
 
+	-- Plays the countdown effect for `timerIndex` seconds remaining, if one exists for that number.
 	@ExecSpace("Client")
 	method void TimerEffect(integer timerIndex)
 		if timerIndex > 0 and timerIndex <= #self.timerEffectRUIDs then
@@ -20,21 +30,27 @@ script ZakumUIComponent extends Component
 		end
 	end
 
+	-- Plays the round-start effect at the center of the screen.
 	@ExecSpace("Client")
 	method void GameStartEffect()
 		_EffectService:PlayEffect(self.gameStartEffectRUID, self.Entity, self:GetScreenCenterPos(), 0, Vector3.one)
 	end
 
+	-- Returns the world position currently at the center of the screen, so effects appear
+	-- centered in the player's view wherever the camera is.
 	@ExecSpace("Client")
 	method Vector3 GetScreenCenterPos()
 		return _UILogic:ScreenToWorldPosition(Vector2(_UILogic.ScreenWidth/2, _UILogic.ScreenHeight/2)):ToVector3()
 	end
 
+	-- Shows the "waiting for players" label and hides the countdown timer.
 	method void SetWaitingForPlayers()
 		self.waitingForPlayersUI:SetEnable(true)
 		self.gameTimerUI:SetEnable(false)
 	end
 
+	-- Shows the countdown timer (hiding the waiting label), sets its text to `timer` and plays
+	-- the matching countdown effect.
 	@ExecSpace("Client")
 	method void SetTimer(integer timer)
 		self.gameTimerUI:SetEnable(true)
@@ -44,21 +60,25 @@ script ZakumUIComponent extends Component
 		self:TimerEffect(timer)
 	end
 
+	-- Plays the round-end effect at the center of the screen.
 	@ExecSpace("Client")
 	method void GameEndEffect()
 		_EffectService:PlayEffect(self.gameEndEffectRUID, self.Entity, self:GetScreenCenterPos(), 0, Vector3.one)
 	end
 
+	-- Shows the winner banner with "<username> is the winner!".
 	method void ShowWinner(string username)
 		self.gameWinnerUI:SetEnable(true)
 		local winnerText = self.gameWinnerUI:GetChildByName("WinnerText").TextComponent
 		winnerText.Text = username .. " is the winner!"
 	end
 
+	-- Hides the winner banner.
 	method void HideWinner()
 		self.gameWinnerUI:SetEnable(false)
 	end
 
+	-- Fills timerEffectRUIDs on the client; index N is the effect for N seconds remaining.
 	@ExecSpace("ClientOnly")
 	method void OnInitialize()
 		self.timerEffectRUIDs = {
@@ -68,6 +88,7 @@ script ZakumUIComponent extends Component
 		}
 	end
 
+	-- Countdown tick from GameManager.CountEvent: updates the timer display.
 	@EventSender("Logic", "GameManager")
 	handler HandleTimerEvent(TimerEvent event)
 		-- Parameters
@@ -76,12 +97,15 @@ script ZakumUIComponent extends Component
 		self:SetTimer(timerIndex)
 	end
 
+	-- Round started: plays the start effect and clears the previous round's winner banner.
 	@EventSender("Logic", "GameManager")
 	handler HandleGameStartEvent(GameStartEvent event)
 		self:GameStartEffect()
 		self:HideWinner()
 	end
 
+	-- Round ended: returns to the waiting state, plays the end effect and, if the winner is
+	-- still in the world, shows their nickname in the winner banner.
 	@EventSender("Logic", "GameManager")
 	handler HandleGameEndEvent(GameEndEvent event)
 		-- Parameters

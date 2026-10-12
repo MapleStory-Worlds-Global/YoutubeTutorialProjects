@@ -1,4 +1,7 @@
+-- Event sent by PoolManager:Release to the released entity itself, so its scripts
+-- (e.g. BossProjectile) can reset their state before the entity is reused.
 @Event
 script OnPoolRelease extends EventType
+	-- The entity that was just returned to its pool
 	property Entity entity = nil
 end

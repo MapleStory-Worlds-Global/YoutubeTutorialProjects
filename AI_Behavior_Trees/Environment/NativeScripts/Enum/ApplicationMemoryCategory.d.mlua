@@ -1,0 +1,15 @@
+---@sealed
+---@description "Displays the application's memory category."
+@Enum
+script ApplicationMemoryCategory
+	---@description "Memory used in a Lua script. Increases with the number of tables, strings, and functions created from the script."
+	member Lua = 0
+	---@description "Memory used internally by the MapleStory Worlds engine. Increases with the size of loaded resources and with the number of entities placed in the world. "
+	member Native = 1
+
+	---@description "Converts numbers to the applicable type."
+	static method ApplicationMemoryCategory CastFrom(number value) end
+
+	---@description "Converts strings to the applicable type."
+	static method ApplicationMemoryCategory CastFrom(string value) end
+end

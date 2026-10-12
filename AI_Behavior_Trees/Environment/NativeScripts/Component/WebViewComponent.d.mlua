@@ -1,4 +1,4 @@
----@description "Place a WebView in the UI and world. Set whether the webpage can be manipulated, how to navigate, and more."
+---@description "Place a WebView in the UI and world. Set whether the webpage can be manipulated, how to navigate, and more. Mobile environments aren't supported and the webview area will display as an empty screen."
 @Component
 script WebViewComponent extends Component
 

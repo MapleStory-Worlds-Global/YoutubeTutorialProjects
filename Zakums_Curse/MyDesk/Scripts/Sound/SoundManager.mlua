@@ -1,8 +1,14 @@
+-- Global audio helper, accessed as _SoundManager. Wraps _SoundService so gameplay scripts
+-- (GameManager, ZakumPlayerComponent) can trigger BGM and sound effects from the server;
+-- the Client-space methods are forwarded to clients when called from the server.
 @Logic
 script SoundManager extends Logic
 
+	-- RUID of the looping background music started by PlayBGM
 	property string bgmRUID = "087646b059894dc0b68448d8ea41da1d"
 
+	-- Plays sound effect `sfx` (an _SFXList RUID) at world position `pos`, heard relative to
+	-- the local player. Client space: a server call runs this on the clients.
 	@ExecSpace("Client")
 	method void PlaySFXAtPos(string sfx, Vector3 pos)
 		local localPlayer = _UserService.LocalPlayer
@@ -11,11 +17,15 @@ script SoundManager extends Logic
 		
 	end
 
+	-- Starts the background music (bgmRUID) at full volume. Client space; called from
+	-- GameManager.OnBeginPlay on the server.
 	@ExecSpace("Client")
 	method void PlayBGM()
 		_SoundService:PlayBGM(self.bgmRUID, 1)
 	end
 
+	-- Plays non-positional sound effect `sfx` at full volume. Runs on the server; the native
+	-- _SoundService:PlaySound is a Client-space call, so it is relayed to the clients.
 	@ExecSpace("Server")
 	method void PlaySFX(string sfx)
 		_SoundService:PlaySound(sfx, 1)

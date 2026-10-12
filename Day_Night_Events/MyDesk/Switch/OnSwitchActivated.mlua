@@ -1,6 +1,9 @@
+-- Custom event sent by SwitchComponent (server) to the entity that stepped into the switch's
+-- trigger. CustomPlayerComponent handles it on the player to switch the world between day and night.
 @Event
 script OnSwitchActivated extends EventType
 
+	-- The switch's state after toggling: true = ON (day), false = OFF (night)
 	property boolean state = false
 
 end

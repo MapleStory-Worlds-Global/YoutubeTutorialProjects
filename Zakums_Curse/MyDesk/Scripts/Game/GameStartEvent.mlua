@@ -1,3 +1,7 @@
+-- Custom event fired on clients when a round begins. Sent by GameManager.GameStartEvent
+-- (a Client-space method, so it is raised on every client) and handled by
+-- ZakumUIComponent.HandleGameStartEvent to play the start effect and hide the last winner.
+-- Carries no data.
 @Event
 script GameStartEvent extends EventType
 

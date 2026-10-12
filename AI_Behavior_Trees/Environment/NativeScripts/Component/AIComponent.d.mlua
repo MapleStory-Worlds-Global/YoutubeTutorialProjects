@@ -23,14 +23,17 @@ script AIComponent extends Component
 	property UpdateAuthorityType UpdateAuthority = UpdateAuthorityType.Server
 
 	---@description "Creates an Action node. Calls function that had been passed to onBehaveFunction when the node is executed. Parameter of onBehaveFunction is delta, which means time per frame."
+	---@deprecated
 	---@sealed
 	method BTNode CreateLeafNode(string nodeName, func<float> -> BehaviourTreeStatus onBehaveFunction) end
 
 	---@description "Create an Action node based on BTNodeType."
+	---@deprecated
 	---@sealed
 	method BTNode CreateNode(string nodeType, string nodeName = nil, func<float> -> BehaviourTreeStatus onBehaveFunction = nil) end
 
 	---@description "Sets the node as the top-level node."
+	---@deprecated
 	---@sealed
 	method void SetRootNode(BTNode node) end
 

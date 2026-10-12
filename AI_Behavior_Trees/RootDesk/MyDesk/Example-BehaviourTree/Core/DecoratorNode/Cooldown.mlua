@@ -1,17 +1,25 @@
+-- Behaviour tree DecoratorNode that rate-limits its child: after the child finishes (Success or
+-- Failure), the node returns Failure without ticking the child until Duration seconds have passed.
+-- Time is measured with _UtilLogic.ServerElapsedSeconds.
 @BTNode
 script Cooldown extends DecoratorNode
 
+	-- Cooldown length in seconds, started each time the child finishes
 	property number Duration = 0
 
+	-- Runtime state: server-elapsed time (seconds) at which the cooldown expires (0 = ready)
 	@HideFromInspector
 	property number CooldownEndTime = 0
 
+	-- Called each tick: returns Failure while on cooldown; otherwise ticks the child, starts a new
+	-- cooldown once the child stops Running, and returns the child's result.
 	method any OnBehave(number delta)
 		if self.CooldownEndTime > _UtilLogic.ServerElapsedSeconds then
 			return BehaviourTreeStatus.Failure
 		end
 		
 		local result = self:ChildBehave(delta)
+		-- Only a finished run (Success or Failure) starts the cooldown; Running keeps the child going
 		if result ~= BehaviourTreeStatus.Running then
 			self.CooldownEndTime = _UtilLogic.ServerElapsedSeconds + self.Duration
 		end

@@ -1,19 +1,30 @@
+-- Behaviour-tree decorator that only runs its child when "is there a valid target entity on
+-- the blackboard" equals compareValue (true = run when a target exists, false = run when there
+-- is none); otherwise it returns Failure. With finishIfStarted, a child that has started
+-- running is allowed to finish even if the target condition changes.
 @BTNode
 script HasTarget extends DecoratorNode
 
+	-- Blackboard key holding the target Entity to test
 	property string targetEntityKey = "bb_Target"
 
+	-- Required result of isvalid(target) for the child to run
 	property boolean compareValue = false
 
+	-- If true, keep ticking a child that returned Running without re-checking the condition
 	property boolean finishIfStarted = false
 
+	-- Set once the child has returned Running during this activation
 	@HideFromInspector
 	property boolean hasStarted = false
 
+	-- Called when the decorator starts: clears hasStarted for this activation
 	method void OnInit()
 		self.hasStarted = false
 	end
 
+	-- Ticks the child when the condition holds (or when it already started and finishIfStarted
+	-- is set) and returns the child's status; otherwise returns Failure
 	method any OnBehave(number delta)
 		if self.hasStarted and self.finishIfStarted then
 			return self:ChildBehave(delta)

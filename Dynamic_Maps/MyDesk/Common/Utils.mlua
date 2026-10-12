@@ -1,8 +1,13 @@
+-- Shared helper functions (accessed as _Utils) used by SceneManager, DynamicMapInfo,
+-- DynamicMapPortal and the reservation UI.
 @Logic
 script Utils extends Logic
 
+	-- Returns true if any value in targetList equals toCheck (linear scan over all keys).
+	-- No ExecSpace, so it runs locally on whichever side calls it.
 	method boolean Contains(table targetList, any toCheck)
 		local contains = false
+		-- pairs() rather than ipairs() so it also works for non-array tables
 		for key, value in pairs(targetList) do 
 			if value == toCheck then 
 				contains = true

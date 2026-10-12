@@ -1,6 +1,10 @@
+-- Global math helper singleton (accessed as _MathUtils): 2D point rotation and cheap
+-- distance functions used by gameplay scripts such as BossProjectile.
 @Logic
 script MathUtils extends Logic
 
+	-- Scales `point` by the transform's Scale and rotates it by its ZRotation (degrees) using a
+	-- standard 2D rotation matrix. Returns the resulting offset (translation is not applied).
 	method Vector2 RotatePointAroundZRotation(Vector2 point, TransformComponent transform)
 		local radian = math.rad(transform.ZRotation)
 		local scale = transform.Scale
@@ -18,6 +22,7 @@ script MathUtils extends Logic
 		if dx < 0 then dx = -dx end
 		if dy < 0 then dy = -dy end
 
+		-- Ensure dx is the larger component (alpha * max + beta * min)
 		if dx < dy then
 			dx, dy = dy, dx
 		end

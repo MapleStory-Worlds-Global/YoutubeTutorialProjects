@@ -4,34 +4,47 @@
 script AntiCheatService extends Service
 
 	---@sealed
+	@ReleaseOnly
+	@ExecSpace("ServerOnly")
+	method boolean IsAILiedetectorAvailable(string userId) end
+
+	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method void LogValue(string userId, string name, string value, Dictionary<string, string> extras) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method MODScriptAsyncTask RequestUserAnalysisAndWait(int32 type, string userId) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method int32 SendActionLog(int32 type, string userId, table extra) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method void SendHackLog(string userId, string title, table detail, int32 cnt) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ClientOnly")
 	method int32 SendScreenShotLog(string desc) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method int32 StartRecordUserHistory(string userId) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method boolean WarpAdminToWorldInstanceAndWait(string userId, string destinationWorldInstanceId, string warpData) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method void WritePrivateLog(string userId, string name, string value, table extras) end
 

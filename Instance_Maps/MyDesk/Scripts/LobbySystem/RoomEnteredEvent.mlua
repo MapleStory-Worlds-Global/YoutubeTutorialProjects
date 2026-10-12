@@ -1,4 +1,8 @@
+-- Custom event created by GameSystem:MovePlayersToInstance and passed to SceneManagement:MoveUsersToInstance,
+-- which sends it to the target instance room via _RoomService:RequestSendEventToRoomAndWait.
+-- Handled by GameSystem.HandleRoomEnteredEvent, which shows the message as a toast.
 @Event
 script RoomEnteredEvent extends EventType
+	-- Text shown to players in the instance room when the event arrives
 	property string message = ""
 end

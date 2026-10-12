@@ -1,22 +1,34 @@
+-- Per-player Zakum role logic; attach to the DefaultPlayer. The current "Zakum" wears the
+-- Zakum helmet and moves faster. Any player who touches the Zakum steals the role (via a
+-- ZakumChangedEvent to GameManager) and becomes briefly immune so it can't be stolen right back.
 @Component
 script ZakumPlayerComponent extends Component
 
+	-- True while this player holds the Zakum role (synced so clients can read it)
 	@Sync
 	property boolean isZakum = false
 
+	-- Avatar item RUID of the Zakum helmet equipped in the Cap slot while Zakum
 	property string zakumHatRUID = "0e86cfa425ba4194823506bb112db272"
 
+	-- True during the post-steal grace period; while set, touching this player won't steal the role
 	@Sync
 	property boolean isImmune = false
 
+	-- Length of the post-steal immunity, in seconds
 	property number immunityDuration = 5
 
+	-- Effect RUID played attached to the player when they become Zakum
 	property string zakumEffectRUID = "4bb474c81d884844857dacaca279152b"
 
+	-- MovementComponent.InputSpeed while holding the Zakum role
 	property number zakumSpeed = 1.5
 
+	-- MovementComponent.InputSpeed for a normal (non-Zakum) player
 	property number normalSpeed = 1
 
+	-- Gives this player the Zakum role: equips the helmet, applies the speed boost, and plays
+	-- the steal sound and effect. Called by GameManager.ChangeZakum.
 	@ExecSpace("Server")
 	method void SetZakum()
 		self.isZakum = true
@@ -28,6 +40,7 @@ script ZakumPlayerComponent extends Component
 		_EffectService:PlayEffectAttached(self.zakumEffectRUID, self.Entity, Vector3.zero, 0, Vector3.one)
 	end
 
+	-- Removes the Zakum role: clears the Cap slot (removing the helmet) and restores normal speed.
 	@ExecSpace("Server")
 	method void UnsetZakum()
 		self.isZakum = false
@@ -36,25 +49,32 @@ script ZakumPlayerComponent extends Component
 		self:SetSpeed(self.normalSpeed)
 	end
 
+	-- Starts the post-steal grace period: isImmune is true for immunityDuration seconds.
 	@ExecSpace("Server")
 	method void Immunity()
 		self.isImmune = true
+		-- One-shot timer clears the flag when the grace period ends
 		_TimerService:SetTimerOnce(function() 
 			self.isImmune = false
 		end, self.immunityDuration)
 	end
 
+	-- Applies the normal movement speed when the player spawns (server only).
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		self:SetSpeed(self.normalSpeed)
 	end
 
+	-- Sets the player's MovementComponent.InputSpeed to `speed`.
 	@ExecSpace("Server")
 	method void SetSpeed(number speed)
 		local movementComponent = self.Entity.MovementComponent
 		movementComponent.InputSpeed = speed
 	end
 
+	-- Fires when another body enters this player's trigger. If the other entity is the current
+	-- Zakum and is not immune, this player steals the role: it becomes immune itself and asks
+	-- GameManager (via ZakumChangedEvent) to make it the new Zakum. Logic runs on the server only.
 	@EventSender("Self")
 	handler HandleTriggerEnterEvent(TriggerEnterEvent event)
 		--------------- Native Event Sender Info ----------------
@@ -66,6 +86,7 @@ script ZakumPlayerComponent extends Component
 		local TriggerBodyEntity = event.TriggerBodyEntity
 		---------------------------------------------------------
 		
+		-- The trigger event fires on both server and client; only the server decides role changes
 		if self:IsClient() then return end
 		
 		local zpc = TriggerBodyEntity.ZakumPlayerComponent
@@ -76,6 +97,8 @@ script ZakumPlayerComponent extends Component
 			log("Immunity")
 		end
 		
+		-- The other player is the (non-immune) Zakum: this player (self) takes the role.
+		-- self becomes immune so the previous Zakum can't immediately steal it back.
 		if zpc.isZakum and not zpc.isImmune then 
 			local evt = ZakumChangedEvent()
 			evt.userId = self.Entity.Name

@@ -1,5 +1,10 @@
+-- Global helper (_WorldManagement) for world-instance level operations: finds a world instance with free
+-- capacity, warps users to it (with a serialized data payload), and reads/writes numbers in world-instance
+-- shared memory (_WorldInstanceService:GetSharedMemory). GameSystem calls WarpToOpenInstance on F1.
 @Logic
 script WorldManagement extends Logic
+	-- Pages through all world instances and returns the WorldInstanceInfo of one whose current user count
+	-- plus usersToMove fits MaxUserCount, or nil. Does not teleport anyone despite the description.
 	@ExecSpace("Server")
 	---@description "Find the next open world instance and teleport users"
 	method any FindOpenInstance(integer usersToMove)
@@ -20,6 +25,9 @@ script WorldManagement extends Logic
 				-- 	continue
 				-- end
 
+				-- The current world instance is not skipped (see the commented-out check above), so it can match.
+				-- `break` only exits this for-loop; the while-loop keeps paging until the last page, so a
+				-- match on a later page overwrites `info`.
 				if data.CurrentUserCount + usersToMove <= data.MaxUserCount then
 					log("World Instance Found!")
 					log(data.Id)
@@ -42,6 +50,9 @@ script WorldManagement extends Logic
 		return info
 	end
 
+	-- Warps the given user IDs to an open world instance found by FindOpenInstance. A sample payload
+	-- ({coins = 100}) is serialized and attached; the destination reads it back with
+	-- _TeleportService:GetWarpRecord (see GameSystem.UserEnterEvent).
 	@ExecSpace("Server")
 	---@description "Warp All users to the next open instance"
 	method void WarpToOpenInstance(table users)
@@ -59,6 +70,8 @@ script WorldManagement extends Logic
 	end
 
 
+	-- Same as SceneManagement:CreateSharedNumber but in world shared memory, which is visible across
+	-- all world instances. Creates variableName with variableValue (stored as a string).
 	method void CreateSharedNumber(string space, string variableName, number variableValue)
 		local success = false
 		local code, mem = _WorldInstanceService:GetSharedMemory(space)
@@ -75,6 +88,8 @@ script WorldManagement extends Logic
 		end
 	end
 
+	-- Reads variableName from world shared memory as a number; creates it with 0 (and returns 0) if missing.
+	-- Returns nil if the memory space or number conversion fails. Not called by other scripts in this project.
 	method number GetSharedNumber(string space, string variableName)
 		local value = nil 
 
@@ -99,6 +114,8 @@ script WorldManagement extends Logic
 		return value
 	end
 
+	-- Increments variableName in world shared memory by 1 (creating it with variableValue if missing).
+	-- Note: when the variable exists, variableValue is ignored and stored value + 1 is written, guarded by the ETag.
 	method void UpdateSharedNumber(string space, string variableName, number variableValue)
 
 		local code, mem = _WorldInstanceService:GetSharedMemory(space)
@@ -119,6 +136,7 @@ script WorldManagement extends Logic
 				log_error ("Failed to convert " .. getCounter.Info.Value .. " to number")
 			end
 
+			-- PreconditionFailed means another instance changed the value after it was read (stale ETag)
 			local updated = mem:UpdateVariableAndWait(keyInfo, tostring(value + 1))
 			if updated.Code == SharedMemoryResultCode.PreconditionFailed then
 				log_error ("Update Failed. ETag Mismatch.")

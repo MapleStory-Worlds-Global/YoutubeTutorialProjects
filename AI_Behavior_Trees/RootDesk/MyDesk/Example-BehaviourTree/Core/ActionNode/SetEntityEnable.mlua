@@ -1,10 +1,16 @@
+-- Behaviour-tree action node: enables or disables an entity stored in the AI's blackboard
+-- (Entity:SetEnable). Completes in one tick.
 @BTNode
 script SetEntityEnable extends ActionNode
 
+	-- Blackboard key holding the Entity to enable/disable
 	property string TargetEntityKey = nil
 
+	-- Enable state to apply (true = enable, false = disable)
 	property boolean Enabled = false
 
+	-- Called each tick while this node is active. Returns Failure if the AI or blackboard
+	-- entity is missing; otherwise applies Enabled and returns Success.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then

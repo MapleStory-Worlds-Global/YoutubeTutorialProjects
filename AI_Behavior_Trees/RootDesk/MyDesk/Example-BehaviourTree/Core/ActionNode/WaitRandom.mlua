@@ -1,21 +1,32 @@
+-- Behaviour-tree action node: waits a random duration between WaitTimeMin and WaitTimeMax
+-- seconds (re-rolled each time the node is initialized). Returns Running until it elapses, then Success.
 @BTNode
 script WaitRandom extends ActionNode
 
+	-- Lower bound of the random wait, in seconds
 	property number WaitTimeMin = 0.0
 
+	-- Upper bound of the random wait, in seconds
 	property number WaitTimeMax = 0.0
 
+	-- Internal timer: seconds accumulated since the node was initialized
 	@HideFromInspector
 	property number ElapsedTime = 0.0
 
+	-- Internal: the duration rolled for the current wait
 	@HideFromInspector
 	property number WaitTime = 0.0
 
+	-- Called when the node is initialized by the behaviour tree; rolls a new wait time and
+	-- resets the timer.
 	method void OnInit()
+		-- Linear interpolation: RandomDouble() in [0, 1) mapped onto [WaitTimeMin, WaitTimeMax)
 		self.WaitTime = _UtilLogic:RandomDouble() * (self.WaitTimeMax - self.WaitTimeMin) + self.WaitTimeMin
 		self.ElapsedTime = 0.0
 	end
 
+	-- Called each tick while this node is active. Accumulates delta and returns Success once
+	-- the rolled WaitTime is reached, otherwise Running.
 	method any OnBehave(number delta)
 		self.ElapsedTime = self.ElapsedTime + delta
 		if self.ElapsedTime >= self.WaitTime then

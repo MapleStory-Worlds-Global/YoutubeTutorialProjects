@@ -1,12 +1,21 @@
+-- Behaviour-tree action node: walks the AI entity toward a target entity from the blackboard using
+-- MovementComponent:MoveToDirection, flipping the sprite to face the target. Can either track the
+-- target live or head to the position the target had when the node started (moveToLastKnownPosition).
+-- Returns Running while moving, Success (after stopping) on arrival, Failure (with a warning) if data is missing.
 @BTNode
 script MoveToTarget extends ActionNode
 
+	-- Blackboard key holding the Entity to move toward
 	property string TargetEntityKey = ""
 
+	-- Distance (world units) at which the AI stops and counts as having arrived
 	property number ArrivalThreshold = 0
 
+	-- If true, move to the target's position captured in OnInit instead of following it live
 	property boolean moveToLastKnownPosition = false
 
+	-- Called when the node is initialized by the behaviour tree. In last-known-position mode,
+	-- snapshots the target's current 2D position into self._T (a per-instance scratch table).
 	method void OnInit()
 		if self.moveToLastKnownPosition then
 			local aiComponent = self.ParentAI
@@ -31,6 +40,8 @@ script MoveToTarget extends ActionNode
 		end
 	end
 
+	-- Called each tick while this node is active. Validates the AI/target/components, faces the
+	-- target, then either stops (Success) or keeps moving toward it (Running).
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then
@@ -75,6 +86,7 @@ script MoveToTarget extends ActionNode
 			return BehaviourTreeStatus.Failure
 		end
 
+		-- Live target position by default; the OnInit snapshot in last-known-position mode
 		local targetPos = targetTransform.WorldPosition:ToVector2()
 		if self.moveToLastKnownPosition then
 			targetPos = self._T.lastKnownPosition
@@ -83,12 +95,15 @@ script MoveToTarget extends ActionNode
 		local toTarget = targetPos - transform.WorldPosition:ToVector2()
 		local distance = toTarget:Magnitude()
 
+		-- Face the target: FlipX = true when it is to the right, false when to the left
+		-- (assumes the sprite art faces left when unflipped)
 		if spriteRenderer.FlipX == true and toTarget.x < 0 then
 			spriteRenderer.FlipX = false
 		elseif spriteRenderer.FlipX == false and toTarget.x > 0 then
 				spriteRenderer.FlipX = true
 		end
 
+		-- Arrived: stop movement input so the entity does not keep walking
 		if distance < self.ArrivalThreshold then
 			movementComponent:Stop()
 			return BehaviourTreeStatus.Success

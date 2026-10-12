@@ -1,6 +1,11 @@
+-- Plain data struct describing one boss attack. Built by BossAI / SpawnProjectileAttack and
+-- passed to BossAttackComponent and BossProjectile:Init so the projectile knows how much
+-- damage to deal and which explosion effect to play.
 @Struct
 script AttackInfo
+	-- Damage applied by the projectile's ProjectileAttackComponent on hit
 	property number Damage = 1
+	-- Effect/animation RUID played on explosion; its sprite size also sets the explosion radius
 	property string effectRUID = ""
 
 	

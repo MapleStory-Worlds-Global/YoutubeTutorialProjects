@@ -1,8 +1,14 @@
+-- Sent to the local player entity when the Register ("Search Party" / "Leave Party") button on the
+-- dungeon reservation UI is clicked, or when the panel is closed while registered
+-- (InstanceDungeonReservationUI.PlayerRegistered). DynamicMapPortal handles it and toggles the reservation.
 @Event
 script PlayerRegisteredEvent extends EventType
 
+	-- UserId of the local player who clicked the button
 	property string userId = ""
 
+	-- The player's registration state BEFORE the click: true means "currently registered, so unregister",
+	-- false means "not registered, so reserve a spot"
 	property boolean registered = false
 
 end

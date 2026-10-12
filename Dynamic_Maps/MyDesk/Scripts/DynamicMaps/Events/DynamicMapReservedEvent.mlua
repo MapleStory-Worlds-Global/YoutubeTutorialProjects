@@ -1,8 +1,13 @@
+-- Sent by SceneManager.SendReservationEvent (on each affected player's client) whenever the
+-- reservation list for a dynamic map instance changes. Handled by InstanceDungeonReservationUI
+-- to refresh the party list and the local player's registered state.
 @Event
 script DynamicMapReservedEvent extends EventType
 
+	-- Name of the dynamic map instance the reservation belongs to (e.g. "<mapName>_1")
 	property string mapInstanceId = ""
 
+	-- Current reservation list for that instance (array of userIds)
 	property table users = {}
 
 end

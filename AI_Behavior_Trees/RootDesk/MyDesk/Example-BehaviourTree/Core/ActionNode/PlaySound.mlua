@@ -1,10 +1,16 @@
+-- Behaviour-tree action node: plays a sound (by RUID) at the AI entity's position via
+-- _SoundService:PlaySound. Fire-and-forget: always returns Success in one tick.
 @BTNode
 script PlaySound extends ActionNode
 
+	-- Sound resource RUID to play
 	property string SoundId = ""
 
+	-- Playback volume (1 = full volume)
 	property number Volume = 1
 
+	-- Called each tick while this node is active. Plays the sound attached to the AI's
+	-- entity and returns Success without waiting for playback to finish.
 	method any OnBehave(number delta)
 		_SoundService:PlaySound(self.SoundId, self.Volume, self.ParentAI.Entity)
 		

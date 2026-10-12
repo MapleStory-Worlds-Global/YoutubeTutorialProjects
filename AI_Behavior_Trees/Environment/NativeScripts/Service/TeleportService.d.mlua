@@ -110,11 +110,13 @@ script TeleportService extends Service
 
 	---@description "Warps a user to another World and returns whether the operation was successful or not. Only the open World among the released Worlds can be set as a target World. Script executions are suspended during operation. userId is the Id of the user who will be warped, and destinationWorldId is the Id of the target World. Data passed to warpData can be checked using the GetWarpRecord function."
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method boolean WarpUserToWorldAndWait(string userId, string destinationWorldId, string warpData) end
 
 	---@description "Warps a user to another World. Only the open Worlds among the released games can be set as a target World. This operation is performed asynchronously, and the function passed to callbackFunction is called with whether successful or not upon completion of the operation. The userId is the Id of the user who will be warped, and destinationWorldId is the Id of the target World. Data passed to warpData can be checked using the GetWarpRecord function."
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method void WarpUserToWorldAsync(string userId, string destinationWorldId, string warpData, func<boolean> callbackFunction) end
 
@@ -132,11 +134,13 @@ script TeleportService extends Service
 
 	---@description "Warps users to another World and returns whether the operation was successful or not. Only the open Worlds among the released games can be set as a target World. Script executions are suspended during operation. userIds are the Ids of the users who will be warped, and destinationWorldInstanceId is the Id of the target World instance. Data passed to warpData can be checked using the GetWarpRecord function."
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method boolean WarpUsersToWorldAndWait(table<string> userIds, string destinationWorldId, string warpData) end
 
 	---@description "Warps users to another World. Only the open Worlds among the released games can be set as a target World. This operation is performed asynchronously, and the function passed to callbackFunction is called whether successful or not upon completion of the operation. The userId is the Id of the user who will be warped, and destinationWorldId is the Id of the target World. Data passed to warpData can be checked using the GetWarpRecord function."
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method void WarpUsersToWorldAsync(table<string> userIds, string destinationWorldId, string warpData, func<boolean> callbackFunction) end
 

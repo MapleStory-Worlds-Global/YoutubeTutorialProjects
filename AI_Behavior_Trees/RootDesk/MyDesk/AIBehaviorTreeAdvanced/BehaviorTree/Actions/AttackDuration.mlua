@@ -1,13 +1,23 @@
+-- Behaviour-tree action node that performs a single instant circular area attack against
+-- players, using the AI entity's AttackComponent. The radius (and optionally the centre)
+-- come from blackboard variables, so it can reuse the same radius the ShowWarning node drew.
+-- Succeeds after one attack; fails if any required component or blackboard value is missing.
 @BTNode
 script AttackDuration extends ActionNode
+	-- Blackboard key holding the attack radius (number), shared with ShowWarning by default
 	property string radiusIDKey = "bb_warningRadius"
+	-- Optional blackboard key holding a Vector2 attack centre; empty = attack around the AI entity
 	property string attackPosKey = ""
+	-- Called when the node starts; nothing to prepare for this node
 	method void OnInit()
 
 	end
 
+	-- Builds a CircleShape at the attack position and hits every player inside it once,
+	-- then returns Success. Returns Failure if the entity, AttackComponent, transform or
+	-- radius cannot be found.
 	method any OnBehave(number delta)
-		
+
 		local entity = self.ParentAI.Entity
 		if isvalid(entity) == false then
 			return BehaviourTreeStatus.Failure
@@ -28,11 +38,13 @@ script AttackDuration extends ActionNode
 			return BehaviourTreeStatus.Failure
 		end
 
+		-- Default to the AI's own position; override with the blackboard position if a key is set
 		local attackPos = transform.WorldPosition:ToVector2()
 		if _UtilLogic:IsNilorEmptyString(self.attackPosKey) == false then
 			attackPos = self.ParentAI.BlackBoard:GetVector2(self.attackPosKey)
 		end
 
+		-- Only the Player collision group is tested, so other monsters are never hit
 		local shape = CircleShape(attackPos, radius)
 		attackComp:AttackFast(shape, nil, CollisionGroups.Player)
 

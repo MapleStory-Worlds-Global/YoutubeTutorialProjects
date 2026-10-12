@@ -16,6 +16,7 @@ script LogStorageService extends Service
 	method void LogPurchaseInfo(WorldShopPurchaseInfo purchaseInfo, string message) end
 
 	---@sealed
+	@ReleaseOnly
 	@ExecSpace("ServerOnly")
 	method void SendHackLog(string userId, string title, table detail, int32 cnt) end
 

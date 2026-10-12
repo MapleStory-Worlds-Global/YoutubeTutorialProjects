@@ -1,10 +1,18 @@
+-- Behaviour-tree action node that runs a long, yielding method on the AI component by name
+-- (e.g. BossAI.AttackMelee / AttackRange). It does not call the method directly; it sends an
+-- OnMethodExecuted event so the method runs in the AI component's event handler (where it may
+-- wait()), and then stays Running until that method sets a "complete" flag on the blackboard.
 @BTNode
 script ExecuteMethod extends ActionNode
 
+	-- Name of the method on the ParentAI component to run
 	property string methodName = ""
 
+	-- Blackboard bool the target method sets to true when it finishes (BossAI.SetMethodComplete)
 	property string methodIsCompleteKey = "bb_isMethodComplete"
 
+	-- Called when the node starts: if the method exists on the AI component, fires the
+	-- OnMethodExecuted event once to start it; otherwise logs a warning.
 	method void OnInit()
 		if isvalid(self.ParentAI[self.methodName]) then
 			self:SendExecutionEvt()
@@ -13,6 +21,8 @@ script ExecuteMethod extends ActionNode
 		end
 	end
 
+	-- Polls the completion flag each tick: Success once the method reports it is done,
+	-- Running while it is still executing, Failure if the method name does not exist.
 	method any OnBehave(number delta)
 		if isvalid(self.ParentAI[self.methodName]) == false then
 			log_warning("ExecuteMethod: Method not found - " .. self.methodName)
@@ -20,6 +30,7 @@ script ExecuteMethod extends ActionNode
 		end
 
 		--self.ParentAI[self.methodName](self.ParentAI, self._T.elapsed)
+		-- The method itself runs in BossAI's OnMethodExecuted handler; here we only read the flag it sets
 		local isComplete = self.ParentAI.BlackBoard:GetBool(self.methodIsCompleteKey)
 		if isComplete then
 			return BehaviourTreeStatus.Success
@@ -29,6 +40,7 @@ script ExecuteMethod extends ActionNode
 		
 	end
 
+	-- Sends OnMethodExecuted(methodName) to the AI entity; BossAI handles it and calls the method
 	method void SendExecutionEvt()
 		local evt = OnMethodExecuted()
 		evt.methodName = self.methodName

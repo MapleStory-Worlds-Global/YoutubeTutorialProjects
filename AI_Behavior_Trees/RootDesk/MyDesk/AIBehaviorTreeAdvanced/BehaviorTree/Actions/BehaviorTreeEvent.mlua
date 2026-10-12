@@ -1,3 +1,6 @@
+-- Empty placeholder event type for behaviour-tree messaging; it declares no fields and is
+-- not sent or handled anywhere yet. OnMethodExecuted is the event actually used by the
+-- ExecuteMethod node to talk to BossAI.
 @Event
 script BehaviorTreeEvent extends EventType
 

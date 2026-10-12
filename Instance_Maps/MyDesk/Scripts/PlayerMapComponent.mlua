@@ -1,3 +1,5 @@
+-- Empty placeholder component (no properties or logic yet). Not referenced by any other script in
+-- this project; kept as a starting point for per-player map logic.
 @Component
 script PlayerMapComponent extends Component
 

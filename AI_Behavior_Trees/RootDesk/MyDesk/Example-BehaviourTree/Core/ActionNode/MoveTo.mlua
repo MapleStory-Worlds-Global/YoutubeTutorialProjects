@@ -1,12 +1,20 @@
+-- Behaviour-tree action node: moves the AI entity straight toward a world position (Vector3 read
+-- from the blackboard) by writing TransformComponent.WorldPosition directly (no physics/footholds).
+-- Returns Running while moving, Success on arrival, Failure if required data is missing.
 @BTNode
 script MoveTo extends ActionNode
 
+	-- Blackboard key holding the destination as a Vector3 world position
 	property string TargetPositionKey = ""
 
+	-- Blackboard key holding the move speed (world units per second); must be > 0
 	property string MoveSpeedKey = ""
 
+	-- Distance (world units) at which the AI counts as having arrived
 	property number ArrivalThreshold = 0
 
+	-- Called each tick while this node is active. Steps the AI toward the destination by
+	-- moveSpeed * delta and reports Running / Success / Failure.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then
@@ -33,19 +41,23 @@ script MoveTo extends ActionNode
 			return BehaviourTreeStatus.Failure
 		end
 		
+		-- Distance is measured in 2D (x/y only)
 		local currentPosition = transform.WorldPosition:ToVector2()
 		local toTarget = targetPosition:ToVector2() - currentPosition
 		local distance = toTarget:Magnitude()
+		-- Already within the arrival radius: done
 		if distance < self.ArrivalThreshold then
 			return BehaviourTreeStatus.Success
 		end
 		
+		-- Distance this frame; if it would overshoot, snap onto the destination and finish
 		local moveDistance = moveSpeed * delta
 		if moveDistance > distance then
 			transform.WorldPosition = targetPosition
 			return BehaviourTreeStatus.Success
 		end
 		
+		-- Otherwise take one step along the unit direction and keep running next tick
 		local normalizedDirection = toTarget:Normalize()
 		transform.WorldPosition = (currentPosition + normalizedDirection * moveDistance):ToVector3()
 		return BehaviourTreeStatus.Running

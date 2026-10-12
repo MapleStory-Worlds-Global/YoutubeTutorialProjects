@@ -19,7 +19,7 @@ See the README file in each package for detailed usage information.
 ## Mod File Import Instructions
 
 ### What is a Mod File?
-A mod file contains a copy of a full project that can be imported into a MapleStory Worlds project. When importing a .mod file, it will import the entire project at the state that it was when it was created, but will overwrite all the files of your current project. 
+A mod file contains a copy of a full project that can be imported into a MapleStory Worlds project. When importing a .mod file, it will import the entire project at the state that it was when it was created, but will overwrite all the files of your current project.
 
 ### Create a new Project
 Create a new project in MapleStory Worlds through "Create" > "Create New" using any template  (The project will be overwritten by the project files.)
@@ -27,31 +27,33 @@ Create a new project in MapleStory Worlds through "Create" > "Create New" using 
 ![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7090461064b890e909107c4b0669c884aed47a4a/HowToImportModProject/HowTo_2.png "Start from an empty project")
 
 ### Download the .mod File
-Click download on your desired project in the download section to download the mod file associated with the project. 
+Click download on your desired project in the download section to download the mod file associated with the project.
 
 ### Import the .mod File to Maker Project
-Import the .mod file by navigating to File > Import from File to import the project file and overwrite the current project with the project downloaded in the previous step. 
+Import the .mod file by navigating to File > Import from File to import the project file and overwrite the current project with the project downloaded in the previous step.
 ![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/2def2cfbc9b9f5465d55c411be8516db4f1fbac9/HowToImportModProject/HowTo_4.png "Import the mod into your new project")
 
-### Follow the readme instructions 
+### Follow the readme instructions
 Reference the project page found in the associated github project folder for project specific instructions or additional info (Link to project page also found in the download section).
- 
+
 ## ModPackage File Import Instructions
 
 ### What is a ModPackage File?
-A mod package file, as the name suggests, is a package of certain scripts, assets, models, etc from a certain MapleStory Worlds Project. A mod package does not share the entire project, but rather allows the sharing of parts of your project with other creators, or with your other projects. 
+A mod package file, as the name suggests, is a package of certain scripts, assets, models, etc from a certain MapleStory Worlds Project. A mod package does not share the entire project, but rather allows the sharing of parts of your project with other creators, or with your other projects.
 
-### Download the .modpackage file 
-Download the modpackage file from the download section of the github repository. 
-### Import the .modpackage file 
-Import the .modpackage file into the project you wish to import. 
+### Download the .modpackage file
+Download the modpackage file from the download section of the github repository.
 
-### Select Assets for import 
-Select which assets from the package that you wish to import. 
-As a rule of thumb, if you're importing a package from MapleStory-Worlds-Global repositories, the assets in the "Core" folder will be the critical main logic behind the project, and the "Sample" is an optional implementation of the assets in the "Core" folder. 
+### Import the .modpackage file
+Import the .modpackage file into the project you wish to import.
+![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7fe64477e9e49f86623a5bba007bc62bf78e0d31/HowToImportModPackage/HowTo_2.png "Import the package")
+
+### Select Assets for import
+Select which assets from the package that you wish to import.
+As a rule of thumb, if you're importing a package from MapleStory-Worlds-Global repositories, the assets in the "Core" folder will be the critical main logic behind the project, and the "Sample" is an optional implementation of the assets in the "Core" folder.
 ![Import Mod](https://github.com/MapleStory-Worlds-Global/GithubAssets/blob/7fe64477e9e49f86623a5bba007bc62bf78e0d31/HowToImportModPackage/HowTo_3.png "Select import assets")
 
-### Follow the readme instructions 
+### Follow the readme instructions
 Reference the project page found in the associated github project folder for project specific instructions or additional info (Link to project page also found in the download section).
 
 ## Download
@@ -59,9 +61,10 @@ Reference the project page found in the associated github project folder for pro
 | Projects | Description | Documentation | Project Files Download |
 |---------|-------------|---------|--------------------|
 | Zakum's Curse | Learn to create your first project by following along with this tutorial! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Zakums_Curse) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Zakums_Curse/Zakums_Curse_V1_1.mod) |
-| Dynamic Maps Demo | Dynamic Maps open the door to infinite possibilities! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Dynamic_Maps) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/c238059a4c78c1bf75875a6b5f68d04c37620e36/Dynamic_Maps/DynamicMapsTutorial.mod) |
-| Instance Maps Demo | separate players into their own separate map instances or even world instances! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Instance_Maps) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/8a5f8acb5b51b595adf2175bad948005b8be92db/Instance_Maps/Room_World_Instance_Demo.mod) |
+| Dynamic Maps Demo | Dynamic Maps open the door to infinite possibilities! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Dynamic_Maps) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Dynamic_Maps/DynamicMapsTutorial.mod) |
+| Instance Maps Demo | Separate players into their own separate map instances or even world instances! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Instance_Maps) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Instance_Maps/Room_World_Instance_Demo.mod) |
 | Day Night Events Demo | Use events to manipulate the time of day! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/Day_Night_Events) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Day_Night_Events/DayNightEvents.mod) |
+| AI Behavior Trees Demo | Bring monsters and bosses to life with node-based AI behavior trees! | [View](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/tree/main/AI_Behavior_Trees) | [Download Mod](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/AI_Behavior_Trees/AIBehaviorTrees.mod) |
 
 ## License
 

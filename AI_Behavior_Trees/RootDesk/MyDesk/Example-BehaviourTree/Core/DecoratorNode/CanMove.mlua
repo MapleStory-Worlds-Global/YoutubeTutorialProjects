@@ -1,16 +1,26 @@
+-- Behaviour tree DecoratorNode that only runs its child while the AI entity can keep walking on its
+-- current foothold: it fails if the foothold is predicted to end within LookAheadDistance in the
+-- checked direction (e.g. to stop at a ledge). Requires a RigidbodyComponent on the AI entity.
 @BTNode
 script CanMove extends DecoratorNode
 
+	-- How far ahead (world units) to probe for the end of the current foothold
 	property number LookAheadDistance = 0
 
+	-- Direction to probe, passed to PredictFootholdEnd: true checks to the right, false to the left
+	-- (a fixed world direction, not the entity's facing)
 	property boolean IsForward = false
 
+	-- Called each tick: returns Failure (without ticking the child) when there is no rigidbody or
+	-- the foothold ends ahead; otherwise ticks the child and returns its result.
 	method any OnBehave(number delta)
 		local rigidbody = self.ParentAI.Entity.RigidbodyComponent
+		-- The foothold check needs the entity's RigidbodyComponent
 		if rigidbody == nil then
 			return BehaviourTreeStatus.Failure
 		end
 		
+		-- true means the foothold is predicted to end within LookAheadDistance in that direction
 		if rigidbody:PredictFootholdEnd(self.LookAheadDistance, self.IsForward) then
 			return BehaviourTreeStatus.Failure
 		end

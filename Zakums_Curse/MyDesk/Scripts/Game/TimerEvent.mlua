@@ -1,6 +1,10 @@
+-- Custom event fired on clients once per second during a countdown (both the pre-game
+-- countdown and the in-round timer). Sent by GameManager.CountEvent and handled by
+-- ZakumUIComponent.HandleTimerEvent to update the on-screen timer.
 @Event
 script TimerEvent extends EventType
 
+	-- Seconds remaining in the current countdown (10 down to 1)
 	property number timerIndex = 0
 
 end

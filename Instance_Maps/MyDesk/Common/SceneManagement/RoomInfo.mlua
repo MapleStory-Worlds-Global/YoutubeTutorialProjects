@@ -1,6 +1,11 @@
+-- Data struct describing one instance-room "family". Created by SceneManagement:InitInstanceRoom and
+-- stored in SceneManagement.rooms[instanceName]; read when creating rooms and checking capacity.
 @Struct
 script RoomInfo
+	-- Instance family name (same as the key in SceneManagement.rooms)
 	property string roomId = ""
+	-- Maximum number of users allowed in one instance room of this family
 	property number maxCapacity = 10
+	-- Map names included when an instance room of this family is created
 	property table<string> maps = {}
 end

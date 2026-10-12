@@ -1,16 +1,26 @@
+-- Per-base-map bookkeeping struct owned by SceneManager (one per map passed to InitDynamicMap).
+-- Creates dynamic map instances named "<mapName>_<idx>", tracks which users are inside each
+-- instance and which are reserved (queued) for it, and destroys instances once they empty out.
+-- Only used on the server (SceneManager's Server methods are its only callers).
 @Struct
 script DynamicMapInfo
 
+	-- Capacity of one instance; FindOpenMap counts users + reservations against it
 	property number maxPlayers = 10
 
+	-- Base (template) map name that dynamic instances are copied from
 	property string mapName = ""
 
+	-- Next instance number; incremented on every GenerateMap so instance names stay unique
 	property integer idx = 1
 
+	-- instanceName -> array of userIds currently inside that instance
 	property table users = {}
 
+	-- instanceName -> array of userIds reserved to enter that instance (moved in by MoveReservations)
 	property table reservations = {}
 
+	-- Sets the base map and capacity and clears all tracking tables.
 	@ExecSpace("ServerOnly")
 	method void Init(integer maxPlayers, string mapName)
 		self.mapName = mapName
@@ -19,20 +29,26 @@ script DynamicMapInfo
 		self.users = {}
 	end
 
+	-- Creates a new dynamic copy of mapName and returns its instance name ("<mapName>_<idx>").
+	-- SceneManager later recovers the base name by splitting the instance name on "_".
 	method string GenerateMap()
 		local newMapName = string.format("%s_%d",self.mapName, self.idx)
 		self.idx += 1
 		
 		local resultCode = _DynamicMapService:CreateDynamicMap(self.mapName, newMapName)
+		-- Failure is only logged; the instance is still registered below
 		if resultCode ~= DynamicMapResultCode.Success then 
 			log(tostring(resultCode))
 		end
 		
+		-- Register the instance with an empty user list so it can be found/reserved
 		self.users[newMapName] = {}
 		
 		return newMapName
 	end
 
+	-- Adds userId to the instance's user list (if it exists and is not full) and teleports
+	-- that player to position (0, 10, 0) in the instance.
 	method void EnterMap(string instanceName, string userId)
 		local userTable = self.users[instanceName]
 		if (userTable == nil) then 
@@ -51,6 +67,8 @@ script DynamicMapInfo
 		_TeleportService:TeleportToMapPosition(user, Vector3(0,10,0), instanceName)
 	end
 
+	-- Removes userId from the instance's user list. When the last user leaves, the dynamic
+	-- map is destroyed and its entry is cleared. Called by SceneManager when a user leaves the world.
 	method void LeaveMap(string userId, string instanceName)
 		local userTable = self.users[instanceName]
 		if (userTable == nil) then 
@@ -78,6 +96,7 @@ script DynamicMapInfo
 			table.remove(userTable, foundIndex)
 			if #userTable == 0 then 
 				log("Instance Destroyed " .. instanceName)
+				-- nil is written back below, removing the instance from self.users
 				userTable = nil
 				_DynamicMapService:DestroyDynamicMap(instanceName)
 			end
@@ -88,8 +107,11 @@ script DynamicMapInfo
 		end
 	end
 
+	-- Returns the first existing instance whose users + reservations are below maxPlayers,
+	-- or nil if every instance is full (the caller then creates a new one).
 	method string FindOpenMap()
 		local foundMap = nil
+		-- pairs() order is not guaranteed, so "first" is not necessarily the oldest instance
 		for map, userTable in pairs(self.users) do 
 			local userCount = #userTable
 			
@@ -108,6 +130,8 @@ script DynamicMapInfo
 		return foundMap
 	end
 
+	-- Appends userId to the instance's reservation list (created on first use). Does not teleport;
+	-- reserved users are moved in later by MoveReservations. The instance must already exist.
 	method void ReserveMap(string instanceName, string userId)
 		local userTable = self.users[instanceName]
 		if (userTable == nil) then 
@@ -125,6 +149,8 @@ script DynamicMapInfo
 		table.insert(reservations, userId)
 	end
 
+	-- Moves every reserved user into the instance (via EnterMap, which teleports them) and then
+	-- clears that instance's reservation list.
 	method void MoveReservations(string instanceName)
 		local reservations = self.reservations[instanceName]
 		if (reservations == nil) then 
@@ -140,6 +166,7 @@ script DynamicMapInfo
 		self.reservations[instanceName] = nil
 	end
 
+	-- Returns the instance's reservation list (array of userIds), or nil if it has none.
 	method table GetReservations(string instanceName)
 		local reservations = self.reservations[instanceName]
 		if (reservations == nil) then 
@@ -150,6 +177,7 @@ script DynamicMapInfo
 		return reservations
 	end
 
+	-- Removes userId from the instance's reservation list (the player cancelled or left).
 	method void UnregisterMap(string instanceName, string userId)
 		log("Unregistering Map: " .. instanceName)
 		local reservations = self.reservations[instanceName]
@@ -178,6 +206,7 @@ script DynamicMapInfo
 		end
 	end
 
+	-- Returns the name of the instance that userId is inside or reserved for, or nil.
 	method string GetInstance(string userId)
 		-- TODO: Optimize search. Please refrain from overusing this function. 
 		local foundMap = nil
@@ -200,6 +229,8 @@ script DynamicMapInfo
 		return foundMap
 	end
 
+	-- Teleports every user in the instance to (0, 10, 0) on targetMap, then forgets the
+	-- instance and destroys the dynamic map. Used when a dungeon is cleared.
 	method void CloseDynamicMap(string instanceName, string targetMap)
 		local userTable = self.users[instanceName]
 		if (userTable == nil) then 

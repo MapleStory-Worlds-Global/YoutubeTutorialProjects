@@ -1,11 +1,23 @@
+-- Behaviour-tree action node for the boss's ranged attack: does an instant circular area hit
+-- around the boss, then takes a BossProjectile from the object pool and launches it at the
+-- blackboard target's current position. All the work happens once in OnInit; OnBehave just
+-- reports Success. Requires the pool to have been filled first (BossAttackComponent.OnBeginPlay).
 @BTNode
 script SpawnProjectileAttack extends ActionNode
+	-- Blackboard key holding the target Entity to aim the projectile at
 	property string targetEntityKey = "bb_Target"
+	-- Blackboard key holding the radius (number) of the area hit around the boss
 	property string radiusIDKey = "bb_rangeRadius"
+	-- Object pool name to pull the projectile entity from (see PoolManager)
 	property string poolName = "BossProjectile"
+	-- Damage dealt by the projectile's explosion (passed via AttackInfo)
 	property number damage = 10
+	-- Explosion effect RUID played by the projectile; its sprite size sets the explosion radius
 	property string effectRUID = ""
 
+	-- Runs once when the node starts: validates the entity, AttackComponent, transform, target,
+	-- radius and map (silently returning if any is missing), performs the area hit, then spawns
+	-- and launches the pooled projectile.
 	method void OnInit()
 		local entity = self.ParentAI.Entity
 		if isvalid(entity) == false then
@@ -37,6 +49,7 @@ script SpawnProjectileAttack extends ActionNode
 			return
 		end
 
+		-- Instant area hit around the boss (players only) before the projectile is fired
 		local myPos = transform.WorldPosition
 		local shape = CircleShape(myPos:ToVector2(), radius)
 		attackComp:AttackFast(shape, nil, CollisionGroups.Player)
@@ -62,6 +75,7 @@ script SpawnProjectileAttack extends ActionNode
 		end
 	end
 
+	-- The attack was already fired in OnInit, so the node completes on its first tick
 	method any OnBehave(number delta)
 		return BehaviourTreeStatus.Success
 	end

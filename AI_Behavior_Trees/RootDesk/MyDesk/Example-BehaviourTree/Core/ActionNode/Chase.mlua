@@ -1,12 +1,20 @@
+-- Behaviour-tree action node: moves the AI entity straight toward a target entity (read from
+-- the blackboard) by writing TransformComponent.WorldPosition directly (no physics/footholds).
+-- Returns Running while closing in, Success on arrival, Failure if required data is missing.
 @BTNode
 script Chase extends ActionNode
 
+	-- Blackboard key holding the Entity to chase
 	property string TargetEntityKey = ""
 
+	-- Blackboard key holding the move speed (world units per second); must be > 0
 	property string MoveSpeedKey = ""
 
+	-- Distance (world units) at which the AI counts as having reached the target
 	property number ArrivalThreshold = 0
 
+	-- Called each tick while this node is active. Steps the AI toward the target by
+	-- moveSpeed * delta and reports Running / Success / Failure.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then
@@ -44,16 +52,19 @@ script Chase extends ActionNode
 		---@type Vector2
 		local toTarget = targetPosition - currentPosition
 		local distance = toTarget:Magnitude()
+		-- Already within the arrival radius: done
 		if distance < self.ArrivalThreshold then
 			return BehaviourTreeStatus.Success
 		end
 		
+		-- Distance this frame; if it would overshoot, snap onto the target and finish
 		local moveDistance = moveSpeed * delta
 		if moveDistance > distance then
 			transform.WorldPosition = targetPosition:ToVector3()
 			return BehaviourTreeStatus.Success
 		end
 		
+		-- Otherwise take one step along the unit direction and keep running next tick
 		local normalizedDirection = toTarget:Normalize()
 		transform.WorldPosition = (currentPosition + normalizedDirection * moveDistance):ToVector3()
 		return BehaviourTreeStatus.Running

@@ -1,10 +1,17 @@
+-- Global helper (_SceneManagement) for moving players between static and instance rooms via _RoomService:
+-- teleports within the same room type, returns to static rooms, registers/creates instance-room families
+-- (RoomInfo), finds rooms with free capacity, and reads/writes numbers in room shared memory.
+-- Used by CustomPortalComponent and GameSystem. Routing methods are @ExecSpace("Server").
 @Logic
 script SceneManagement extends Logic
 
+	-- Registered instance-room families keyed by instanceName (filled by InitInstanceRoom)
 	property table<string, RoomInfo> rooms = {}
 
+	-- Next index per instanceName, appended to the room key so CreateInstanceRoom always makes a new room
 	property table roomIdx = {}
 
+	-- Sends a list of users from the current instance room to the static map mapName.
 	@ExecSpace("Server")
 	---@description "Move players back to a target static room. This method only works if called from an instance room."
 	method void ReturnUsersToStatic(table<string> users, string mapName)
@@ -12,10 +19,13 @@ script SceneManagement extends Logic
 		_RoomService:MoveUsersToStaticRoom(users, mapName)
 	end
 
+	-- Teleports one user to customPortalEntity, or to the map entity /maps/<mapName> when no target is
+	-- given. Uses _TeleportService, so it only works between maps in the same room.
 	@ExecSpace("Server")
 	---@description "Move a Player to a map. This function only works from static -> static, or instance -> instance"
 	method void MoveToMap(string userId, string mapName, Entity customPortalEntity)
 		local targetEntity = customPortalEntity
+		-- No explicit target: teleport to the map's root entity
 		if targetEntity == nil then
 			local path = "/maps/" .. mapName 
 			targetEntity = _EntityService:GetEntityByPath(path)
@@ -31,6 +41,7 @@ script SceneManagement extends Logic
 		_TeleportService:TeleportToEntity(user, targetEntity)
 	end
 
+	-- Sends one user from the current instance room to the static map mapName.
 	@ExecSpace("Server")
 	---@description "Return a single player back to a target static room. This method only works if called from an instance room."
 	method void ReturnToStatic(string userId, string mapName)
@@ -38,12 +49,16 @@ script SceneManagement extends Logic
 		_RoomService:MoveUserToStaticRoom(userId, mapName)
 	end
 
+	-- Gets (or creates) the instance room whose key is instanceName and moves the user into it.
+	-- Note: mapName is not used here, and the RoomInfo registered by InitInstanceRoom is not consulted.
 	@ExecSpace("Server")
 	method void CreateAndEnterInstanceMap(string userId, string instanceName, string mapName)
 		local instanceRoom = _RoomService:GetOrCreateInstanceRoom(instanceName)
 		instanceRoom:MoveUser(userId)
 	end
 
+	-- Registers an instance-room family (maps + max capacity) under instanceName. Must be called
+	-- before CreateInstanceRoom / GetOpenInstance; a second call with the same name only logs a warning.
 	@ExecSpace("Server")
 	---@description "Initialize Instance Room for creation"
 	method void InitInstanceRoom(table maps, string instanceName, integer maxCapacity)
@@ -58,6 +73,8 @@ script SceneManagement extends Logic
 		self.rooms[instanceName] = roomInfo
 	end
 
+	-- Creates a brand-new instance room "<instanceName>_<idx>" containing the family's maps and returns
+	-- the InstanceRoom (nil if the family was never initialized).
 	@ExecSpace("Server")
 	---@description "Create instance room based on intialized instance room info data. Rooms must be initialized first with InitInstanceRoom() prior to calling this function!"
 	method any CreateInstanceRoom(string instanceName)
@@ -79,6 +96,8 @@ script SceneManagement extends Logic
 		return instanceRoom
 	end
 
+	-- Returns the InstanceKey of an existing instance room with room for usersToMove more users, or
+	-- creates a new room of this family when none fits. Returns nil if the family is not initialized.
 	@ExecSpace("Server")
 	---@description "finds and returnds the instance ID of the next open instance room associated with the instanceName"
 	method string GetOpenInstance(string instanceName, integer usersToMove)
@@ -90,6 +109,8 @@ script SceneManagement extends Logic
 		for instanceKey, room in pairs(rooms) do
 			log("Searching instance: " .. instanceKey .. "/" .. instanceName)
 
+			-- Splits the key into tokens; note the pattern "([^_])" yields single characters, so t[1] is the
+			-- key's first character and is never compared with instanceName (any instance room can match)
 			local t = {}
 			for str in string.gmatch(instanceKey, "([^_])") do
 				table.insert(t, str)
@@ -100,6 +121,7 @@ script SceneManagement extends Logic
 			if (id ~= nil) then
 				local userCount = room:GetUserCount()
 				
+				-- First room with enough free capacity wins
 				if roomInfo ~= nil then
 					if userCount + usersToMove <= roomInfo.maxCapacity then
 						openRoom = room.InstanceKey
@@ -111,6 +133,8 @@ script SceneManagement extends Logic
 			end
 		end
 
+		-- No open room: create a new one. (The else branch also runs when an open room WAS found,
+		-- so the "Not Initialized" warning below can be logged spuriously.)
 		if openRoom == nil and roomInfo ~= nil then
 			log("Creating new Instance")
 			---@type InstanceRoom
@@ -123,23 +147,31 @@ script SceneManagement extends Logic
 		return openRoom
 	end
 
+	-- Moves a group of users to map mapName inside an open (or newly created) instance room of the
+	-- instanceName family, then optionally sends withEvent (an EventType) to that room.
 	@ExecSpace("Server")
 	---@description "Move players to an instance"
 	method void MoveUsersToInstance(table<string> users, string instanceName, string mapName, any withEvent)
+		-- Despite the name, roomInfo holds the target room's InstanceKey
 		---@type string
 		local roomInfo = self:GetOpenInstance(instanceName, #users)
 
+		-- Note: there is no return here, so a nil key still reaches the string concatenation below
 		if (roomInfo == nil) then
 			log_warning("Could not find instance " .. instanceName)
 		end
 		
 		log("Attempting move to instance " .. roomInfo)
 		_RoomService:MoveUsersToInstanceRoom(roomInfo, users, mapName)
+		-- Deliver the optional event to every listener in the target room (e.g. RoomEnteredEvent)
 		if (withEvent ~= nil) then
 			_RoomService:RequestSendEventToRoomAndWait(withEvent, roomInfo)
 		end
 	end
 
+	-- Creates variableName in the room shared-memory space `space` with variableValue (stored as a string).
+	-- Room shared memory is visible to the static room and all instance rooms of this world instance.
+	-- No @ExecSpace: runs wherever it is called (GameSystem calls it on the server).
 	method void CreateSharedNumber(string space, string variableName, number variableValue)
 		local success = false
 		local code, mem = _RoomService:GetSharedMemory(space)
@@ -156,6 +188,8 @@ script SceneManagement extends Logic
 		end
 	end
 
+	-- Reads variableName from room shared memory as a number. If it does not exist it is created with 0
+	-- and 0 is returned; returns nil if the memory space or number conversion fails.
 	method number GetSharedNumber(string space, string variableName)
 		local value = nil 
 
@@ -180,6 +214,9 @@ script SceneManagement extends Logic
 		return value
 	end
 
+	-- Increments variableName in room shared memory by 1 (creating it with variableValue if missing).
+	-- Note: when the variable exists, variableValue is ignored and stored value + 1 is written.
+	-- The ETag in SharedVariableKeyInfo makes the write fail if another room changed the value first.
 	method void UpdateSharedNumber(string space, string variableName, number variableValue)
 
 		local code, mem = _RoomService:GetSharedMemory(space)
@@ -200,6 +237,7 @@ script SceneManagement extends Logic
 				log_error ("Failed to convert " .. getCounter.Info.Value .. " to number")
 			end
 
+			-- Optimistic concurrency: PreconditionFailed means the ETag is stale (value changed since the read)
 			local updated = mem:UpdateVariableAndWait(keyInfo, tostring(value + 1))
 			if updated.Code == SharedMemoryResultCode.PreconditionFailed then
 				log_error ("Update Failed. ETag Mismatch.")

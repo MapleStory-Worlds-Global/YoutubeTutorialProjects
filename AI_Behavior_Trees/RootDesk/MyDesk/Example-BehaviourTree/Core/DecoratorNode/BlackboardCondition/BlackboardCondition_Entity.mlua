@@ -1,18 +1,32 @@
+-- Behaviour tree decorator: reads the Entity blackboard variable named Key and compares it with
+-- CompareValue using Operator (see Util/Comparator). Ticks the child node only when the comparison
+-- passes; otherwise returns Failure without running the child.
+-- Only IsSet / IsNotSet / Equal / NotEqual are allowed for Entity (Util/OperatorPolicy); other operators always fail.
 @BTNode
 script BlackboardCondition_Entity extends DecoratorNode
 
+	-- Name of the Entity blackboard variable to test; an empty Key makes the node fail
 	property string Key = ""
 
+	-- Comparison operator (_Comparator values): 0 IsSet, 1 IsNotSet, 2 Equal, 3 NotEqual,
+	-- 4 Greater, 5 GreaterOrEqual, 6 Less, 7 LessOrEqual
 	property integer Operator = 0
 
+	-- Constant Entity value the blackboard variable is compared against (ignored by IsSet / IsNotSet).
+	-- Defaults to nil; while nil, Equal / NotEqual always fail, so only IsSet / IsNotSet can pass.
 	property Entity CompareValue = nil
 
+	-- Called each tick by the behaviour tree. Returns the child's status when
+	-- "blackboard[Key] Operator CompareValue" passes, otherwise BehaviourTreeStatus.Failure.
 	method any OnBehave(number delta)
+		-- No variable named: fail without evaluating the child
 		if _UtilLogic:IsNilorEmptyString(self.Key) then
 			return BehaviourTreeStatus.Failure
 		end
 		
 		local compareValue = self.ParentAI.BlackBoard:GetEntity(self.Key)
+		-- Compare fails if Operator is not allowed for Entity, or (except for IsSet / IsNotSet)
+		-- if either value is nil or their Lua types differ
 		if _Comparator:Compare(_ValueType.Entity, self.Operator, compareValue, self.CompareValue) then
 			return self:ChildBehave(delta)
 		end

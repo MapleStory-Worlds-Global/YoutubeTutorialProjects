@@ -1,20 +1,28 @@
+-- Shared player melee attack (from the Common combat scripts). When the player performs
+-- the "Attack" action, the server places a 1x1 hitbox just in front of the player and
+-- hits anything in the Player collision group with fixed damage and a 30% crit chance.
 @Component
 script PlayerAttack extends AttackComponent
 
+	-- Reused 1x1 hitbox shape; only its position is updated on each attack
 	@HideFromInspector
 	property any Shape = nil
 
+	-- Creates the hitbox once on the server (attacks are only resolved server-side).
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		self.Shape = BoxShape(Vector2.zero, Vector2.one, 0)
 	end
 
+	-- Moves the hitbox in front of the player (based on facing direction) and hits every
+	-- overlapping target in the Player collision group.
 	@ExecSpace("ServerOnly")
 	method void AttackNormal()
 		local playerController = self.Entity.PlayerControllerComponent
 		local transform = self.Entity.TransformComponent
 		if playerController and transform then
 			local worldPosition = transform.WorldPosition
+			-- 0.5 units forward along LookDirectionX (-1 left / 1 right) and 0.5 units up
 			local attackOffset = Vector2(worldPosition.x + 0.5 * playerController.LookDirectionX, worldPosition.y + 0.5)
 			self.Shape.Position = attackOffset
 			
@@ -22,18 +30,23 @@ script PlayerAttack extends AttackComponent
 		end
 	end
 
+	-- Override: every hit deals a fixed 50 base damage.
 	method int CalcDamage(Entity attacker, Entity defender, string attackInfo)
 		return 50
 	end
 
+	-- Override: 30% chance for a hit to be critical.
 	method boolean CalcCritical(Entity attacker, Entity defender, string attackInfo)
 		return _UtilLogic:RandomDouble() < 0.3
 	end
 
+	-- Override: critical hits deal 2x damage.
 	method number GetCriticalDamageRate()
 		return 2
 	end
 
+	-- Listens for this player's actions on the server and triggers AttackNormal when the
+	-- action is "Attack" (the default attack key).
 	@ExecSpace("ServerOnly")
 	@EventSender("Self")
 	handler HandlePlayerActionEvent(PlayerActionEvent event)

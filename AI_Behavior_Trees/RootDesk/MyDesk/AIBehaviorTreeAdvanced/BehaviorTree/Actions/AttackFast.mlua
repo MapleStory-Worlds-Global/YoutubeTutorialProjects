@@ -1,3 +1,6 @@
+-- Placeholder behaviour-tree action node with no logic yet (no OnInit/OnBehave overrides).
+-- The working circular area attack node is AttackDuration, which calls
+-- AttackComponent:AttackFast directly.
 @BTNode
 script AttackFast extends ActionNode
 

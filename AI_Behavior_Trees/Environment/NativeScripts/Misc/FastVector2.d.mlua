@@ -62,7 +62,7 @@ script FastVector2
 
 	---@description "Creates a FastVector2 entity composed of the value that rounds down each element, then returns it."
 	---@sealed
-	method FastVector2 FloorToint() end
+	method FastVector2 FloorToInt() end
 
 	---@description "Creates a FastVector2 entity that linearly interpolates two Vectors with t and then returns it. The value of t is between 0 to 1."
 	---@sealed

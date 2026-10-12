@@ -1,8 +1,15 @@
+-- Global sprite/animation helper singleton (accessed as _SpriteUtils): measures sprite sizes
+-- in world units, computes animation clip lengths over a frame range, and waits for frames
+-- (used by BossAI to time attacks to specific animation frames). Loaded clips are cached.
 @Logic
 script SpriteUtils extends Logic
 
+	-- Cache of loaded AnimationClip objects keyed by RUID (filled lazily by GetAnimation)
 	property table AnimationsByRUID = {}
 
+	-- Returns { SIZE, OFFSET } for frame `frame` of an animation clip, in world units.
+	-- `offset` is a normalized point within the sprite (e.g. (0.5, 0.5) = center); OFFSET is
+	-- that point's position relative to the sprite's pivot. Loads the clip synchronously.
 	method table GetSpriteAnimSize(string ruid, Vector2 offset, integer frame)
 		local spriteInfo = {}
 		local clip = _ResourceService:LoadAnimationClipAndWait(ruid)
@@ -10,23 +17,28 @@ script SpriteUtils extends Logic
 		local firstSpriteSizeInPixel = Vector2(firstFrameSprite.Width, firstFrameSprite.Height)
 		local ppu = firstFrameSprite.PixelPerUnit
 		
+		-- Pixels / PixelPerUnit = world units
 		spriteInfo["SIZE"] = firstSpriteSizeInPixel / ppu
 		spriteInfo["OFFSET"] = (Vector2(firstSpriteSizeInPixel.x * offset.x, firstSpriteSizeInPixel.y * offset.y) - firstFrameSprite.PivotPixel:ToVector2()) / ppu
 		
 		return spriteInfo
 	end
 
+	-- Blocks the calling coroutine (via wait) for the play time of frames frameFrom..frameTo.
 	method void WaitForFrames(string ruid, integer frameFrom, integer frameTo)
 		local length = self:GetAnimationLength(ruid, frameFrom, frameTo)
 		wait(length)
 	end
 
+	-- Non-blocking version: schedules `onComplete` with a one-shot timer after the frame range's play time.
 	method void WaitForFramesAsync(string ruid, integer frameFrom, integer frameTo, any onComplete)
 		local length = self:GetAnimationLength(ruid, frameFrom, frameTo)
 		
 		_TimerService:SetTimerOnce(onComplete, length)
 	end
 
+	-- Returns the cached AnimationClip for `ruid`. When not cached and loadIfNotFound is true,
+	-- loads it synchronously (logging a warning) and caches it; otherwise returns nil.
 	method any GetAnimation(string ruid, boolean loadIfNotFound)
 		local animation = self.AnimationsByRUID[ruid]
 		
@@ -46,6 +58,8 @@ script SpriteUtils extends Logic
 		return animation
 	end
 
+	-- Returns the number of frames in the clip, or 0 if the RUID is empty or the clip has not
+	-- already been cached (this does not load the clip).
 	method integer GetAnimationFrameCount(string ruid)
 		if ruid == nil then
 			log_warning("Failed to get animation length; ruid is nil")
@@ -68,6 +82,9 @@ script SpriteUtils extends Logic
 		return 0
 	end
 
+	-- Returns the play time in seconds of frames frameFrom..frameTo (1-based, inclusive): the sum
+	-- of their Delay values divided by the clip's PlayRate. frameTo is clamped to the frame count.
+	-- Returns 0 for invalid input (empty RUID, frameFrom < 1, frameFrom >= frameTo, PlayRate <= 0).
 	method number GetAnimationLength(string ruid, integer frameFrom, integer frameTo)
 		if ruid == nil then
 			log_warning("Failed to get animation length; ruid is nil")
@@ -98,6 +115,7 @@ script SpriteUtils extends Logic
 				return 0
 			end
 
+			-- Unreachable: frameFrom <= 0 already returned above
 			if frameFrom == 0 then
 				log_warning("Frame to must start from 1")
 				frameFrom = 1
@@ -112,6 +130,7 @@ script SpriteUtils extends Logic
 				length += clip.Frames[i].Delay
 			end
 			
+			-- Higher PlayRate plays faster, so it shortens the duration
 			length /= clip.PlayRate
 		else
 			log_warning("Failed to find animation clip with RUID " .. ruid .. "; Returning 0")
@@ -120,6 +139,8 @@ script SpriteUtils extends Logic
 		return length
 	end
 
+	-- Like GetSpriteAnimSize but accepts either a sprite RUID or an animation clip RUID (uses
+	-- its first frame). Returns { SIZE, OFFSET } in world units, or nil if it cannot be loaded.
 	method table GetSpriteSize(string ruid, Vector2 offset)
 		local sprite = nil
 		

@@ -1,12 +1,21 @@
+-- Behaviour tree ActionNode that writes a fixed Component value into the owning AI's Blackboard.
+-- Configure Key (the Blackboard variable name) and Value on the node; it completes in a single
+-- tick, returning Success, or Failure when the node has no parent AIComponent.
+-- Note: Value and the Blackboard variable should use the same concrete component type.
 @BTNode
 script SetBlackboardValue_Component extends ActionNode
 
+	-- Name of the Blackboard variable to write
 	property string Key = ""
 
+	-- Component value stored under Key each time the node runs
 	property Component Value = nil
 
+	-- Called each time the tree ticks this node: writes Value to the Blackboard under Key and
+	-- returns Success immediately (delta is unused).
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
+		-- Without an owning AIComponent there is no Blackboard to write to
 		if aiComponent == nil then
 			return BehaviourTreeStatus.Failure
 		end

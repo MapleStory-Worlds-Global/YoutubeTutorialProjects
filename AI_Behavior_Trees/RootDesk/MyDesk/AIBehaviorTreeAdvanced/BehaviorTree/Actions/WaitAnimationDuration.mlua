@@ -1,15 +1,28 @@
+-- Behaviour-tree action node that measures how long a frame range of an animation clip lasts,
+-- writes that duration to the blackboard (so later nodes, e.g. ShowWarning's warnDurationKey,
+-- can use it), and optionally waits that long before succeeding. Loading the clip yields, so
+-- it is done in OnInit rather than OnBehave.
 @BTNode
 script WaitAnimationDuration extends ActionNode
+	-- Animation clip RUID to measure
 	property string animRUID = ""
+	-- Blackboard key (number) the measured duration is written to
 	property string resultValueKey = "bb_animationDuration"
+	-- Inclusive frame range to sum, x = first frame, y = last frame (1-based; 999 = to the end)
 	property Vector2 fromTo = Vector2(1,999)
+	-- true = stay Running for the measured duration; false = succeed right after measuring
 	property boolean addDelay = false
 
+	-- Measured duration of the frame range, in seconds
 	@HideFromInspector
 	property number waitDuration = 0
+	-- Set once OnInit has finished measuring; OnBehave stays Running until then
 	@HideFromInspector
 	property boolean animLoaded = false
 
+	-- Called when the node starts: loads the clip (yielding), sums the frame delays in the
+	-- fromTo range, stores the result in waitDuration and on the blackboard, and resets the timer.
+	-- Returns early (leaving animLoaded unchanged) if the RUID is empty or not an animation clip.
 	method void OnInit()
 		if _UtilLogic:IsNilorEmptyString(self.animRUID) then
 			return 
@@ -29,6 +42,7 @@ script WaitAnimationDuration extends ActionNode
 			end
 		end
 
+		-- Scales the summed frame delays by the clip's play rate
 		duration *= anim.PlayRate
 		self.waitDuration = duration
 		self.animLoaded = true
@@ -38,12 +52,15 @@ script WaitAnimationDuration extends ActionNode
 		self.ParentAI.BlackBoard:SetNumber(self.resultValueKey, duration)
 	end
 
+	-- Running until the clip has been measured; then Success immediately if addDelay is false,
+	-- otherwise counts up a timer and succeeds once waitDuration has elapsed
 	method any OnBehave(number delta)
-		if self.animLoaded == false then 
+		if self.animLoaded == false then
 			return BehaviourTreeStatus.Running 
 		end
 
 		if self.addDelay == false or self._T.timer >= self.waitDuration then
+			-- Reset so the next run of this node re-measures in OnInit
 			self._T.timer = 0
 			self.animLoaded = false
 			return BehaviourTreeStatus.Success

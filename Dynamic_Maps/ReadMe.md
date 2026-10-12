@@ -6,15 +6,14 @@
 [![Youtube Tutorial](https://img.youtube.com/vi/wnDo6Bn17Ek/0.jpg)](https://youtu.be/wnDo6Bn17Ek?si=Y9EGrOUec15plb-c "Let’s create a PQ Dungeon with Dynamic Maps! Part 2")
 
 ## Mod Installation Instructions
-[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#project-import-instructions)
+[Mod File Installation Guide](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects?tab=readme-ov-file#mod-file-import-instructions)
 
 ## Project File
-[Download Latest Project File](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/c238059a4c78c1bf75875a6b5f68d04c37620e36/Dynamic_Maps/DynamicMapsTutorial.mod)
-
----
+[Download Latest Project File](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Dynamic_Maps/DynamicMapsTutorial.mod)
 
 ## Table of Contents
 - [Overview](#overview)
+- [Setup and Installation](#setup-and-installation)
 - [Script Documentation](#script-documentation)
   - [SceneManager](#scenemanager)
   - [UIManager](#uimanager)
@@ -24,29 +23,47 @@
   - [DynamicMapReservedEvent](#dynamicmapreservedevent)
   - [DynamicPortalUseEvent](#dynamicportaluseevent)
   - [EnterDungeonEvent](#enterdungeonevent)
+  - [PlayerRegisteredEvent](#playerregisteredevent)
   - [InstanceDungeonReservationUI](#instancedungeonreservationui)
   - [InstanceDungeonReservationUIItem](#instancedungeonreservationuiitem)
-  - [InstanceDungeonReservationUIItem (duplicate section)](#instancedungeonreservationuiitem-1)
-  - [PlayerRegisteredEvent](#playerregisteredevent)
+  - [Monster](#monster)
   - [InstanceDungeonMonster](#instancedungeonmonster)
-- [Changelog](#changelog)
-
+  - [MonsterAttack](#monsterattack)
+  - [PlayerAttack](#playerattack)
+  - [PlayerHit](#playerhit)
+  - [Popupbutton](#popupbutton)
+- [Changelog & Download](#changelog)
 ---
+
 ## Overview
 This project is provided as supplemental resource for the "Let’s create a PQ Dungeon with Dynamic Maps!" tutorial series. 
 
 Dynamic Maps open the door to infinite possibilities — from dungeons and event rooms to boss raids that change every run. Whether you’re a creator or a player, this is the feature that takes your world-building to the next level. Let's learn!
 
----
+In this demo, a portal in a hub map opens a party-finder panel. Players register ("Search Party") to reserve a slot in a dynamic copy of a dungeon map, then press **Enter** to move the whole reserved party into that private instance. Defeating the boss inside closes the instance and returns everyone to a static map.
+
+## Setup and Installation
+* Import the mod file (see the installation guide above) and open the world in MSW Maker.
+* Make sure the `SceneManager`, `UIManager` and `Utils` logic scripts are present (they are accessed globally as `_SceneManager`, `_UIManager` and `_Utils`).
+* On the hub map, attach `DynamicMapPortal` to a portal entity:
+    * Set `mapName` to the base dungeon map to copy. The name must not contain `_`, because instances are named `<mapName>_<n>` and the base name is recovered by splitting on `_`.
+    * Set `maxPlayers` to the party size per instance.
+    * Leave the portal's destination portal (`PortalEntityRef`) empty, otherwise the reservation flow is skipped.
+* The UI must contain the reservation panel with `InstanceDungeonReservationUI` (referenced by `UIManager.instanceDungeon`) and its Register / Enter / Close buttons, plus the row model that carries `InstanceDungeonReservationUIItem`.
+* In the dungeon map, give the boss `InstanceDungeonMonster` (and `MonsterAttack`) and set `returnMapOnDefeat` to the static map players should return to. Regular monsters use `Monster` and `MonsterAttack`.
+* Attach `PlayerAttack` and `PlayerHit` to the DefaultPlayer so players can fight.
+* Press Play to test:
+    * Walk into the portal to open the party panel, then click **Search Party** to reserve a slot (add more clients to test a group).
+    * Click **Enter** (or press **F**) to move the reserved party into a new dungeon instance.
+    * Defeat the boss; after a short delay the instance closes and everyone is sent to `returnMapOnDefeat`.
 
 ## Script Documentation
 
----
 ## SceneManager
 
 **Purpose**  
 Manages **dynamic map instances** by tracking user reservations, initializing maps with capacity limits, moving users into dynamically created instances, and handling clean-up when users leave or maps are closed.  
-Supports multiplayer scenes where unique instance names are generated and associated with reserved users.
+Keeps one `DynamicMapInfo` per base map; instance names are `<mapName>_<n>`, and the base name is recovered by splitting the instance name on `_`.
 
 ---
 
@@ -54,24 +71,23 @@ Supports multiplayer scenes where unique instance names are generated and associ
 
 | Property          | Type   | Purpose |
 |-------------------|--------|---------|
-| `dynamicMapInfos` | `table` | Holds `DynamicMapInfo` objects for each map type (indexed by base map name). Stores state like current reservations, user slots, and active instances. Initialized as an empty table `{}`. |
+| `dynamicMapInfos` | `table` | Holds `DynamicMapInfo` objects for each map type (indexed by base map name). Initialized as an empty table `{}`. |
 
 ---
 
 ### Method Summary
 
-| Method                    | Execution Scope | Purpose |
-|---------------------------|-----------------|---------|
-| `CreateDynamicMap(mapName)` | Server | Returns a new dynamic instance name if the map is initialized. Otherwise logs a warning and returns `nil`. |
-| `ReserveDynamicMap(userId, mapName)` | Server | Reserves a spot for the user in a dynamic instance of the specified map. |
-| `InitDynamicMap(mapName, maxPlayers)` | Server | Initializes internal tracking for the given map type, setting up a new `DynamicMapInfo`. |
-| `MoveReservationsToMap(mapInstanceName)` | Server | Moves all users currently reserved for a given map instance into that instance. |
-| `SendReservationEvent(mapInstanceName, users)` | Client | Sends a `DynamicMapReservedEvent` to users once their map reservation is confirmed. |
-| `GetReservedUsers(mapInstanceName)` | Server | Returns the list of currently reserved users for a given dynamic map instance. |
-| `UnregisterDynamicMap(mapInstanceName, userId)` | Server | Removes a user's reservation for the specified instance. |
-| `FindInstanceName(mapName, userId)` | Server | Retrieves the instance name where the given user is reserved. |
-| `CloseDynamicMap(mapInstanceName, targetMap)` | Server | Ends a dynamic map instance and optionally moves players to a fallback/target map. |
-| `HandleUserLeaveEvent(event)` | Client/Server | Handles native leave events to remove users from reservation lists. |
+| Method | Execution Scope | Purpose |
+|--------|-----------------|---------|
+| `CreateDynamicMap` | Server | Creates a new dynamic instance of an initialized base map and returns its name; otherwise logs a warning and returns `nil`. |
+| `ReserveDynamicMap` | Server | Reserves a spot for the user in an open (or newly created) instance and notifies everyone reserved for it. |
+| `InitDynamicMap` | Server | Creates and stores a `DynamicMapInfo` for the given base map and capacity. |
+| `MoveReservationsToMap` | Server | Moves all users reserved for a given instance into that instance. |
+| `SendReservationEvent` | Client | Sends a `DynamicMapReservedEvent` with the instance name and current reservation list. |
+| `GetReservedUsers` | Server | Returns the reservation list for a given instance. |
+| `UnregisterDynamicMap` | Server | Removes a user's reservation and notifies the remaining users and the removed user. |
+| `FindInstanceName` | Server | Returns the instance a user is in or reserved for. |
+| `CloseDynamicMap` | Server | Teleports all users in an instance to a target map and destroys the instance. |
 
 ---
 
@@ -83,17 +99,15 @@ Supports multiplayer scenes where unique instance names are generated and associ
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Generates a unique map instance name if the map has been previously initialized via `InitDynamicMap`.
+Generates a new dynamic instance if the map has been previously initialized via `InitDynamicMap`.
 
 **Parameters**  
 - `mapName` *(string)* – The base name of the map to instantiate.
 
 **Returns**  
-- *(string)* – Instance name if successful, or `nil` if the map is uninitialized.
+- *(string)* – Instance name from `DynamicMapInfo:GenerateMap()`, or `nil` if the map is uninitialized.
 
 </details>
-
----
 
 <details>
 <summary>ReserveDynamicMap</summary>
@@ -101,18 +115,19 @@ Generates a unique map instance name if the map has been previously initialized 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Reserves a spot for the given user in a dynamic map instance. Must be initialized beforehand.
+Reserves a spot for the given user in a dynamic map instance. The base map must be initialized beforehand.
 
 **Parameters**  
 - `userId` *(string)* – The user's ID to reserve a space for.  
 - `mapName` *(string)* – The base map name.
 
-**Returns**  
-- *(string)* – Name of the reserved instance or `nil` on failure.
+**Behavior**  
+1. Calls `FindOpenMap()`; if no instance has space, creates one with `CreateDynamicMap`.  
+2. If an existing instance was found and the user is already in its reservation list, logs a warning and returns.  
+3. If the user entity is valid, calls `ReserveMap` and sends `SendReservationEvent` to every reserved user.  
+4. Returns the instance name.
 
 </details>
-
----
 
 <details>
 <summary>InitDynamicMap</summary>
@@ -120,15 +135,13 @@ Reserves a spot for the given user in a dynamic map instance. Must be initialize
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Initializes a dynamic map by associating it with a `DynamicMapInfo` object and defining max player capacity.
+Initializes a dynamic map by associating it with a `DynamicMapInfo` object and defining max player capacity. Called by `DynamicMapPortal.OnBeginPlay`.
 
 **Parameters**  
 - `mapName` *(string)* – Name of the base map to initialize.  
-- `maxPlayers` *(integer)* – Maximum number of players for this dynamic instance.
+- `maxPlayers` *(integer)* – Maximum number of players for each dynamic instance.
 
 </details>
-
----
 
 <details>
 <summary>MoveReservationsToMap</summary>
@@ -136,14 +149,12 @@ Initializes a dynamic map by associating it with a `DynamicMapInfo` object and d
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Transfers all users with active reservations into the specified dynamic instance.
+Transfers all users with active reservations into the specified dynamic instance (`DynamicMapInfo:MoveReservations`).
 
 **Parameters**  
-- `mapInstanceName` *(string)* – The full dynamic name of the instance (e.g., `"DungeonMap_001"`).
+- `mapInstanceName` *(string)* – The full dynamic name of the instance (e.g., `"DungeonMap_1"`).
 
 </details>
-
----
 
 <details>
 <summary>SendReservationEvent</summary>
@@ -151,15 +162,13 @@ Transfers all users with active reservations into the specified dynamic instance
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Sends a `DynamicMapReservedEvent` to a list of users to confirm their reservation and destination instance.
+Sends a `DynamicMapReservedEvent` to confirm the current reservation list. Server code calls it with a trailing target `userId`, so it runs on that user's client.
 
 **Parameters**  
 - `mapInstanceName` *(string)* – Instance name the users were assigned.  
-- `users` *(table)* – List of user IDs to notify.
+- `users` *(table)* – List of reserved user IDs.
 
 </details>
-
----
 
 <details>
 <summary>GetReservedUsers</summary>
@@ -173,11 +182,9 @@ Returns all users who have active reservations in the given dynamic instance.
 - `mapInstanceName` *(string)* – Dynamic map name.
 
 **Returns**  
-- *(table)* – List of reserved user IDs.
+- *(table)* – List of reserved user IDs, or `nil` if there are none or the base map is uninitialized.
 
 </details>
-
----
 
 <details>
 <summary>UnregisterDynamicMap</summary>
@@ -185,15 +192,17 @@ Returns all users who have active reservations in the given dynamic instance.
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Removes a user's reservation entry from the internal dynamic map tracking structure.
+Removes a user's reservation entry and broadcasts the updated list.
 
 **Parameters**  
 - `mapInstanceName` *(string)* – Full name of the instance.  
 - `userId` *(string)* – User ID to remove.
 
-</details>
+**Behavior**  
+1. Calls `DynamicMapInfo:UnregisterMap`.  
+2. Sends `SendReservationEvent` to every remaining reserved user, and also to the removed user so their UI updates.
 
----
+</details>
 
 <details>
 <summary>FindInstanceName</summary>
@@ -212,50 +221,44 @@ Finds the dynamic instance name associated with a specific user for a particular
 
 </details>
 
----
-
 <details>
 <summary>CloseDynamicMap</summary>
 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Closes the specified instance and can optionally warp all users to a fallback static map.
+Closes the specified instance and warps all users inside it to a static map. Called by `InstanceDungeonMonster` when the boss is defeated.
 
 **Parameters**  
 - `mapInstanceName` *(string)* – Dynamic instance to shut down.  
-- `targetMap` *(string)* – Optional static fallback map name.
+- `targetMap` *(string)* – Static map name to send users to.
 
 </details>
 
 ---
 
-<details>
-<summary>HandleUserLeaveEvent</summary>
+### Event Handlers
 
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Native system callback when users leave the game; cleans up any active reservations for that user.
-
-**Parameters**  
-- `event` *(UserLeaveEvent)* – Contains the leaving user’s ID.
-
-</details>
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleUserLeaveEvent` | `UserLeaveEvent` | UserService / Server | Removes the leaving user from the dynamic instance they are in (`DynamicMapInfo:LeaveMap`), destroying the instance if it becomes empty. |
 
 ---
 
 ### Related Types & Services
-- **`DynamicMapInfo`** – Custom type holding instance capacity, user list, and allocation logic.  
-- **`DynamicMapReservedEvent`** – Event emitted when reservation is complete.  
-- **`_UtilLogic`** – Used for various utility functions including string manipulation functions like `Split()`.  
+- **`DynamicMapInfo`** – Custom struct holding instance capacity, user lists, and reservations.  
+- **`DynamicMapReservedEvent`** – Event emitted when the reservation list changes.  
+- **`_UtilLogic`** – Used for `Split()` to recover the base map name from an instance name.  
+- **`_Utils`** – `Contains()` helper for duplicate-reservation checks.  
 - **`UserLeaveEvent`** – Native user departure event.
+
+---
 
 ## UIManager
 
 **Purpose**  
 Central controller for showing and hiding **UI elements** related to dynamic dungeon instance reservations.  
-Includes popup messages and a dedicated dungeon reservation UI component that displays users scheduled to enter a dungeon.
+Server scripts call its Client methods with a trailing target `userId`, so each call runs on that player's client.
 
 ---
 
@@ -269,11 +272,11 @@ Includes popup messages and a dedicated dungeon reservation UI component that di
 
 ### Method Summary
 
-| Method                    | Execution Scope | Purpose |
-|---------------------------|-----------------|---------|
-| `ShowPopup(message)`      | Client          | Displays a popup dialog showing the given message string. |
-| `ShowDungeonReservation(users)` | Client   | Displays the dungeon reservation UI with a list of user names or IDs. |
-| `HideDungeonReservation()` | Client         | Hides the reservation UI. |
+| Method | Execution Scope | Purpose |
+|--------|-----------------|---------|
+| `ShowPopup` | Client | Placeholder popup: currently only logs the message. |
+| `ShowDungeonReservation` | Client | Displays the dungeon reservation UI with a list of user IDs. |
+| `HideDungeonReservation` | Client | Hides the reservation UI. |
 
 ---
 
@@ -285,17 +288,15 @@ Includes popup messages and a dedicated dungeon reservation UI component that di
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Displays a generic popup message to the user.
+Shows a message to the user. No popup UI is wired up yet.
 
 **Parameters**  
-- `message` *(string)* – Text to show in the popup.
+- `message` *(string)* – Text to show.
 
 **Behavior**  
-- Likely uses `_UIPopup:Open()` or similar internal utility (inferred from naming convention).
+- Calls `log(message)`.
 
 </details>
-
----
 
 <details>
 <summary>ShowDungeonReservation</summary>
@@ -303,17 +304,15 @@ Displays a generic popup message to the user.
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Displays the reservation UI and populates it with a list of reserved users for an upcoming instance.
+Displays the reservation UI and populates it with a list of reserved users.
 
 **Parameters**  
-- `users` *(table)* – List of user names or IDs to show in the UI.
+- `users` *(table)* – List of user IDs to show (an empty table opens an empty list).
 
 **Behavior**  
-- Activates the `instanceDungeon` component and injects the `users` list into it for display.
+- Calls `self.instanceDungeon:Show(users)`.
 
 </details>
-
----
 
 <details>
 <summary>HideDungeonReservation</summary>
@@ -321,10 +320,10 @@ Displays the reservation UI and populates it with a list of reserved users for a
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Closes or hides the dungeon reservation UI from view.
+Closes the dungeon reservation UI.
 
 **Behavior**  
-- Calls `self.instanceDungeon:Hide()` or disables visibility (assumed based on standard practice).
+- Calls `self.instanceDungeon:Hide()`, which also unregisters the local player if they are still registered.
 
 </details>
 
@@ -332,19 +331,20 @@ Closes or hides the dungeon reservation UI from view.
 
 ### Related Types & Services
 - **`InstanceDungeonReservationUI`** – Custom UI component responsible for displaying the user reservation list for dungeon entry.
-- **`_UIPopup`** - Modal popup system for alerts, confirmations, or messages.
+
+---
 
 ## Utils
 
 **Purpose**  
-Provides utility logic functions for use across the game logic layer.  
+Provides utility logic functions for use across the game logic layer (accessed as `_Utils`).  
 Currently includes basic list-checking functionality.
 
 ---
 
 ### Properties
 
-_No properties defined in this script._
+This script has no custom properties.
 
 ---
 
@@ -352,7 +352,7 @@ _No properties defined in this script._
 
 | Method        | Execution Scope | Purpose |
 |---------------|-----------------|---------|
-| `Contains(targetList, toCheck)` | Client/Server | Returns whether the `targetList` contains the specified value. |
+| `Contains` | Client/Server | Returns whether the `targetList` contains the specified value. |
 
 ---
 
@@ -374,21 +374,23 @@ Checks if a value exists in a given list or table.
 - *(boolean)* – `true` if `toCheck` is found in `targetList`; otherwise `false`.
 
 **Behavior**  
-- Iterates through the `targetList`.  
-- If `value == toCheck`, returns `true` immediately.  
-- If loop completes without a match, returns `false`.
+- Iterates through `targetList` with `pairs`.  
+- If `value == toCheck`, stops and returns `true`.  
+- If the loop completes without a match, returns `false`.
 
 </details>
 
 ---
 
 ### Related Types & Services
-- **Logic Script** – This is a generic logic script (`extends Logic`), intended to be reused by other scripts for common operations.
+- **Logic** – This is a generic logic script (`extends Logic`), reused by other scripts for common operations.
+
+---
 
 ## DynamicMapInfo
 
 **Purpose**  
-Coordinates creation and lifecycle of dynamic (instanced) maps derived from a base map.  
+Struct (one per base map, owned by `SceneManager`) that coordinates creation and lifecycle of dynamic (instanced) maps derived from a base map.  
 Manages instance generation, capacity, reservations, and player movement while cleaning up instances when empty.  
 
 ---
@@ -397,11 +399,11 @@ Manages instance generation, capacity, reservations, and player movement while c
 
 | Property  | Type                      | Purpose |
 |------------|---------------------------|----------|
-| `users`    | `table<string, table<string>>` | Maps `instanceName -> { userId, ... }` for active players inside each dynamic instance. |
-| `reservations`  | `table<string, table<string>>` | Maps `instanceName -> { userId, ... }` for players reserved to enter a given instance. |
+| `maxPlayers` | `number`                | Maximum number of players allowed in a single dynamic instance (users + reservations). Default `10`. |
 | `mapName`  | `string`                   | Base/static map name used as a template for generating dynamic instances. |
-| `maxPlayers` | `number`                | Maximum number of players allowed in a single dynamic instance. |
-| `idx`      | `integer`                 | Monotonic counter for generating unique instance names (e.g., `map_1`, `map_2`). |
+| `idx`      | `integer`                 | Counter for generating unique instance names (e.g., `map_1`, `map_2`). |
+| `users`    | `table` | Maps `instanceName -> { userId, ... }` for active players inside each dynamic instance. |
+| `reservations`  | `table` | Maps `instanceName -> { userId, ... }` for players reserved to enter a given instance. |
 
 ---
 
@@ -409,17 +411,19 @@ Manages instance generation, capacity, reservations, and player movement while c
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|----------|
-| `Init(maxPlayers, mapName)` | Server | Initializes base map, capacity, and tracking tables for instances. |
-| `GenerateMap()` | Server | Creates a new dynamic instance based on `mapName` and returns its `instanceName`. |
-| `EnterMap(instanceName, userId)` | Server | Adds a user to an instance (capacity-checked) and teleports them into it. |
-| `LeaveMap(userId, instanceName)` | Server | Removes a user from an instance; destroys the instance if it becomes empty. |
-| `FindOpenMap()` | Server | Returns the first instance name with available capacity, considering reservations. |
-| `ReserveMap(instanceName, userId)` | Server | Reserves a seat for a user in an instance (no immediate teleport). |
-| `MoveReservations(instanceName)` | Server | Admits all reserved users into the instance and clears reservations. |
-| `GetReservations(instanceName)` | Server | Retrieves the reservation list for an instance. |
-| `UnregisterMap(instanceName, userId)` | Server | Removes a specific user’s reservation from an instance. |
-| `GetInstance(userId)` | Server | Returns the instance containing or reserving the given user, or `nil`. |
-| `CloseDynamicMap(instanceName, targetMap)` | Server | Teleports all users to `targetMap` and destroys the dynamic instance. |
+| `Init` | ServerOnly | Initializes base map, capacity, and tracking tables. |
+| `GenerateMap` | Client/Server | Creates a new dynamic instance based on `mapName` and returns its name. |
+| `EnterMap` | Client/Server | Adds a user to an instance (capacity-checked) and teleports them into it. |
+| `LeaveMap` | Client/Server | Removes a user from an instance; destroys the instance if it becomes empty. |
+| `FindOpenMap` | Client/Server | Returns an instance with available capacity, counting reservations. |
+| `ReserveMap` | Client/Server | Reserves a seat for a user in an instance (no immediate teleport). |
+| `MoveReservations` | Client/Server | Admits all reserved users into the instance and clears reservations. |
+| `GetReservations` | Client/Server | Retrieves the reservation list for an instance. |
+| `UnregisterMap` | Client/Server | Removes a specific user’s reservation from an instance. |
+| `GetInstance` | Client/Server | Returns the instance containing or reserving the given user, or `nil`. |
+| `CloseDynamicMap` | Client/Server | Teleports all users to `targetMap` and destroys the dynamic instance. |
+
+> All methods except `Init` have no `@ExecSpace`; in practice they are only called from `SceneManager`'s Server methods, so they run on the server.
 
 ---
 
@@ -428,7 +432,7 @@ Manages instance generation, capacity, reservations, and player movement while c
 <details>
 <summary>Init</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `ServerOnly`  
 
 **Purpose**  
 Initializes dynamic instance metadata and tracking.
@@ -443,33 +447,26 @@ Initializes dynamic instance metadata and tracking.
 
 </details>
 
----
-
 <details>
 <summary>GenerateMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Creates a new dynamic instance using the base map.
 
-**Parameters**  
-- *(none)*
-
 **Behavior**  
-1. Builds `instanceName = mapName .. "_" .. idx`, then increments `idx`.  
-2. Calls `_DynamicMapService:CreateDynamicMap(mapName, instanceName)`.  
+1. Builds `instanceName = "<mapName>_<idx>"`, then increments `idx`.  
+2. Calls `_DynamicMapService:CreateDynamicMap(mapName, instanceName)` and logs the result code on failure.  
 3. Initializes `users[instanceName] = {}`.  
 4. Returns `instanceName`.  
 
 </details>
 
----
-
 <details>
 <summary>EnterMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Moves a player into an instance if it exists and has capacity.
@@ -485,12 +482,10 @@ Moves a player into an instance if it exists and has capacity.
 
 </details>
 
----
-
 <details>
 <summary>LeaveMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Removes a user from an instance; destroys it if no users remain.
@@ -501,22 +496,17 @@ Removes a user from an instance; destroys it if no users remain.
 
 **Behavior**  
 1. Removes `userId` from `users[instanceName]`.  
-2. If the instance becomes empty, calls `_DynamicMapService:DestroyDynamicMap(instanceName)` and clears tracking.  
+2. If the instance becomes empty, calls `_DynamicMapService:DestroyDynamicMap(instanceName)` and clears its entry.  
 
 </details>
-
----
 
 <details>
 <summary>FindOpenMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Finds an instance with available capacity (users + reservations).
-
-**Parameters**  
-- *(none)*
 
 **Behavior**  
 1. Iterates known instances and computes `count = #users + #reservations`.  
@@ -524,32 +514,29 @@ Finds an instance with available capacity (users + reservations).
 
 </details>
 
----
-
 <details>
 <summary>ReserveMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Queues a player for entry into an instance.
+Queues a player for entry into an existing instance.
 
 **Parameters**  
 - `instanceName` *(string)* – Target instance name.  
 - `userId` *(string)* – Player ID.
 
 **Behavior**  
-1. Ensures `reservations[instanceName]` exists.  
-2. Inserts `userId` into the reservation list.  
+1. Returns with a warning if the instance does not exist.  
+2. Ensures `reservations[instanceName]` exists.  
+3. Inserts `userId` into the reservation list.  
 
 </details>
-
----
 
 <details>
 <summary>MoveReservations</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Admits all reserved players into an instance.
@@ -563,12 +550,10 @@ Admits all reserved players into an instance.
 
 </details>
 
----
-
 <details>
 <summary>GetReservations</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Retrieves reservations for an instance.
@@ -576,17 +561,15 @@ Retrieves reservations for an instance.
 **Parameters**  
 - `instanceName` *(string)* – Instance name.
 
-**Behavior**  
-1. Returns `reservations[instanceName]` or `nil` if none.  
+**Returns**  
+- *(table)* – `reservations[instanceName]`, or `nil` (with a warning) if none.  
 
 </details>
-
----
 
 <details>
 <summary>UnregisterMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Removes a specific user’s reservation from an instance.
@@ -600,32 +583,26 @@ Removes a specific user’s reservation from an instance.
 
 </details>
 
----
-
 <details>
 <summary>GetInstance</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Locates the instance that contains or reserves a given user.
+Locates the instance that contains or reserves a given user (linear search; the code notes it should not be overused).
 
 **Parameters**  
 - `userId` *(string)* – Player ID.
 
-**Behavior**  
-1. Scans `users` for membership.  
-2. If not found, scans `reservations`.  
-3. Returns the matching `instanceName` or `nil`.  
+**Returns**  
+- *(string)* – The matching `instanceName`, or `nil`.  
 
 </details>
-
----
 
 <details>
 <summary>CloseDynamicMap</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Teleports all users out and destroys the instance.
@@ -636,7 +613,7 @@ Teleports all users out and destroys the instance.
 
 **Behavior**  
 1. Teleports each user in `users[instanceName]` to `targetMap` at `Vector3(0, 10, 0)`.  
-2. Clears tracking and calls `_DynamicMapService:DestroyDynamicMap(instanceName)`.  
+2. Clears `users[instanceName]` and calls `_DynamicMapService:DestroyDynamicMap(instanceName)`.  
 
 </details>
 
@@ -647,15 +624,15 @@ Teleports all users out and destroys the instance.
 - **_DynamicMapService** – Creates and destroys dynamic instances.  
 - **_TeleportService** – Teleports players to map positions.  
 - **_UserService** – Resolves `userId` to player entity.  
-- **_Utils** – Helpers for membership checks and table ops.  
+- **_Utils** – Helper for membership checks.  
 
 ---
 
 ## DynamicMapPortal
 
 **Purpose**  
-Coordinates player interaction with portals that route into dynamic (instanced) maps.  
-Manages instance discovery/creation, group reservation, and teleportation flow using DynamicMap services.  
+Portal component (extends `PortalComponent`) that routes players into dynamic (instanced) maps through a party reservation flow.  
+Using the portal opens the reservation UI; the UI's Register and Enter buttons are handled here and forwarded to `SceneManager`.
 
 ---
 
@@ -663,8 +640,8 @@ Manages instance discovery/creation, group reservation, and teleportation flow u
 
 | Property  | Type                      | Purpose |
 |------------|---------------------------|----------|
-| `targetBaseMap`    | `string` | Base/static map used as the template for new dynamic instances. |
-| `maxPlayers`  | `number`                   | Capacity hint used when selecting or creating target instances for this portal. |
+| `mapName`    | `string` | Base/static map used as the template for new dynamic instances. |
+| `maxPlayers`  | `number`                   | Maximum players per instance, passed to `SceneManager:InitDynamicMap`. Default `5`. |
 
 ---
 
@@ -672,271 +649,159 @@ Manages instance discovery/creation, group reservation, and teleportation flow u
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|----------|
-| `OnUse(userId)` | Server | Handles a player activating the portal; ensures/open-finds an instance and teleports the user. |
-| `TeleportToTarget(userId, mapName, customPortalEntity)` | Server | Teleports a single player to the portal’s target (static or instance) entry point. |
-| `ReturnUserToHub(userId, mapName)` | Server | Returns a player from an instance to a designated hub/static map. |
-| `CreateOrEnterInstance(userId, instanceName, mapName)` | Server | Ensures a dynamic instance exists and moves the user into its entry map. |
-| `InitPortal(targetBaseMap, maxPlayers)` | Server | Initializes portal metadata, including base map and capacity hint. |
-| `CreateInstance(instanceName)` | Server | Creates a new dynamic instance for the portal’s base map. |
-| `FindOpenInstance(instanceName, usersToMove)` | Server | Locates an instance with space for additional users, considering capacity. |
-| `MoveUsersIntoInstance(users, instanceName, mapName, withEvent)` | Server | Moves multiple users through the portal into an instance and optionally emits an event. |
-| `CreateSharedNumber(space, variableName, variableValue)` | Client/Server | Creates a shared numeric counter (e.g., usage metrics) in shared memory. |
-| `GetSharedNumber(space, variableName)` | Client/Server | Reads a shared numeric counter, creating it if missing. |
-| `UpdateSharedNumber(space, variableName, variableValue)` | Client/Server | Atomically updates a shared numeric counter with concurrency safety. |
+| `OnBeginPlay` | ServerOnly | Registers `mapName` / `maxPlayers` with `SceneManager:InitDynamicMap`. |
+| `EnterMap` | Server | Earlier direct-entry version: creates a fresh dynamic map and teleports a single user into it. Currently unused. |
+| `UsePortal` | Server | Opens the dungeon reservation UI for the user. |
+| `EnterReservation` | Server | Moves the reserved party into the instance if the requesting user is registered. |
+| `ReserveMap` | Server | Reserves a slot for the user and stores the instance name on their client. |
+| `UpdateLocalReservation` | Client | Stores the reserved instance name in the client-local `_T.reservedMap`. |
+| `UnReserveMap` | Client | Cancels the local player's reservation (if any) via `SceneManager:UnregisterDynamicMap`. |
 
 ---
 
 ### Methods
 
 <details>
-<summary>OnUse</summary>
+<summary>OnBeginPlay</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Initializes the dynamic map tracking for this portal's target map.
+
+**Behavior**  
+- Calls `_SceneManager:InitDynamicMap(self.mapName, self.maxPlayers)`.
+
+</details>
+
+<details>
+<summary>EnterMap</summary>
 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Handles a player activating the portal and routes them to a suitable dynamic instance.
+Creates a new dynamic map and teleports one user straight into it (from the first part of the tutorial; its call in `HandlePortalUseEvent` is commented out).
 
 **Parameters**  
-- `userId` *(string)* – The player’s ID.  
+- `userId` *(string)* – The player's ID.
 
 **Behavior**  
-1. Calls `FindOpenInstance(targetBaseMap, 1)` to locate capacity.  
-2. If none found, calls `CreateInstance(targetBaseMap)`.  
-3. Calls `MoveUsersIntoInstance({userId}, instanceName, targetBaseMap, nil)`.
+1. Uses a counter in `_T.idx` to build the name `mapName .. idx`.  
+2. Calls `_DynamicMapService:CreateDynamicMap`; logs and returns on failure.  
+3. Teleports the user to `Vector3(0, 10, 0)` in the new map and increments the counter.
 
 </details>
 
----
-
 <details>
-<summary>TeleportToTarget</summary>
+<summary>UsePortal</summary>
 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Transfers a player to a specific map or portal entry within the same space.
+Opens the reservation panel for the player who used the portal.
 
 **Parameters**  
-- `userId` *(string)* – The player’s ID.  
-- `mapName` *(string)* – Destination map name.  
-- `customPortalEntity` *(Entity)* – Optional portal entity; if `nil`, resolves a map path entity.
+- `userId` *(string)* – The player's ID.
 
 **Behavior**  
-1. Resolves a target entity using `_EntityService:GetEntityByPath("/maps/" .. mapName)` if `customPortalEntity` is `nil`.  
-2. Validates the target exists.  
-3. Calls `_TeleportService:TeleportToEntity(user, targetEntity)`.  
-4. Logs a warning if teleportation fails.
+- Calls `_UIManager:ShowDungeonReservation({}, userId)` (empty list, shown on that user's client).
 
 </details>
 
----
-
 <details>
-<summary>ReturnUserToHub</summary>
+<summary>EnterReservation</summary>
 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Moves an individual player from a dynamic instance back to a designated hub/static map.
+Moves the whole reserved party into their dynamic instance.
 
 **Parameters**  
-- `userId` *(string)* – Player ID.  
-- `mapName` *(string)* – Hub/static map to return to.
+- `reservedMap` *(string)* – Instance name stored on the requesting client.
 
 **Behavior**  
-1. Logs the action.  
-2. Calls `_RoomService:MoveUserToStaticRoom(userId, mapName)`.
+1. If `reservedMap` is `nil`, shows "No Registered Users" to the sender and returns.  
+2. Gets the reserved users; if the sender (`senderUserId`) is not among them, shows "Please Register First".  
+3. Clears the sender's local reservation, calls `_SceneManager:MoveReservationsToMap(reservedMap)`, and hides the reservation UI for every moved user.
 
 </details>
 
----
-
 <details>
-<summary>CreateOrEnterInstance</summary>
+<summary>ReserveMap</summary>
 
 **Execution Scope**: `Server`  
 
 **Purpose**  
-Creates or reuses a dynamic instance for the portal and moves the player into it.
+Reserves a slot for the user in an open instance.
 
 **Parameters**  
-- `userId` *(string)* – Player ID.  
-- `instanceName` *(string)* – Instance key/prefix for grouping instances.  
-- `mapName` *(string)* – Entry map within the instance.
+- `userId` *(string)* – The player's ID.
 
 **Behavior**  
-1. Calls `_RoomService:GetOrCreateInstanceRoom(instanceName)` to ensure availability.  
-2. Calls `instanceRoom:MoveUser(userId)`.
+1. Calls `_SceneManager:ReserveDynamicMap(userId, self.mapName)`.  
+2. Calls `UpdateLocalReservation(mapName, userId)` to store the instance name on that user's client.
+
+</details>
+
+<details>
+<summary>UpdateLocalReservation</summary>
+
+**Execution Scope**: `Client`  
+
+**Purpose**  
+Remembers which instance the local player is reserved for.
+
+**Parameters**  
+- `reservedMap` *(string)* – Instance name, or `nil` to clear.
+
+</details>
+
+<details>
+<summary>UnReserveMap</summary>
+
+**Execution Scope**: `Client`  
+
+**Purpose**  
+Cancels the local player's reservation.
+
+**Parameters**  
+- `userId` *(string)* – The player's ID.
+
+**Behavior**  
+1. Returns if `_T.reservedMap` is `nil`.  
+2. Calls `_SceneManager:UnregisterDynamicMap(reservedMap, userId)` and clears the local reservation.
 
 </details>
 
 ---
 
-<details>
-<summary>InitPortal</summary>
+### Event Handlers
 
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Initializes portal metadata and capacity hint.
-
-**Parameters**  
-- `targetBaseMap` *(string)* – Base map used when creating dynamic instances.  
-- `maxPlayers` *(integer)* – Maximum player count per instance (hint for selection).
-
-**Behavior**  
-1. Stores `targetBaseMap` and `maxPlayers`.  
-2. Prepares the portal for instance creation and user movement.
-
-</details>
-
----
-
-<details>
-<summary>CreateInstance</summary>
-
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Creates a new dynamic instance derived from the portal’s base map.
-
-**Parameters**  
-- `instanceName` *(string)* – Instance type/prefix to create.
-
-**Behavior**  
-1. Validates that the portal has been initialized.  
-2. Calls `_RoomService:CreateInstanceRoom()` or `_DynamicMapService:CreateDynamicMap(targetBaseMap, instanceName)` per environment.  
-3. Tracks/returns the created instance identifier.
-
-</details>
-
----
-
-<details>
-<summary>FindOpenInstance</summary>
-
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Finds and returns an open instance with capacity for additional users.
-
-**Parameters**  
-- `instanceName` *(string)* – Instance key/prefix.  
-- `usersToMove` *(integer)* – Number of users to accommodate.
-
-**Behavior**  
-1. Iterates through available instances for `instanceName`.  
-2. Selects the first room with capacity `< maxPlayers`.  
-3. Creates a new instance if none available.  
-4. Returns the selected instance key.
-
-</details>
-
----
-
-<details>
-<summary>MoveUsersIntoInstance</summary>
-
-**Execution Scope**: `Server`  
-
-**Purpose**  
-Moves a group of players into an instance through the portal.
-
-**Parameters**  
-- `users` *(table<string>)* – Player IDs to move.  
-- `instanceName` *(string)* – Target instance.  
-- `mapName` *(string)* – Destination map within that instance.  
-- `withEvent` *(any)* – Optional event payload after movement.
-
-**Behavior**  
-1. Calls `FindOpenInstance(instanceName, #users)`.  
-2. Moves players using `_RoomService:MoveUsersToInstanceRoom(users, instanceKey, mapName)`.  
-3. Emits/sends `withEvent` if provided.
-
-</details>
-
----
-
-<details>
-<summary>CreateSharedNumber</summary>
-
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Creates a numeric variable in shared memory (e.g., portal usage counters).
-
-**Parameters**  
-- `space` *(string)* – Shared memory space.  
-- `variableName` *(string)* – Variable name.  
-- `variableValue` *(number)* – Initial value.
-
-**Behavior**  
-1. Retrieves shared memory via `_RoomService:GetSharedMemory(space)`.  
-2. Calls `mem:CreateVariableAndWait(variableName, tostring(variableValue))`.  
-3. Logs creation failures.
-
-</details>
-
----
-
-<details>
-<summary>GetSharedNumber</summary>
-
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Retrieves or creates a numeric shared variable if missing.
-
-**Parameters**  
-- `space` *(string)* – Shared memory namespace.  
-- `variableName` *(string)* – Variable key.
-
-**Behavior**  
-1. Accesses memory via `_RoomService:GetSharedMemory(space)`.  
-2. Reads the variable; if missing, calls `CreateSharedNumber()`.  
-3. Converts value to `number` and returns it.
-
-</details>
-
----
-
-<details>
-<summary>UpdateSharedNumber</summary>
-
-**Execution Scope**: `Client/Server`  
-
-**Purpose**  
-Safely updates a numeric shared-memory variable using ETag-based concurrency control.
-
-**Parameters**  
-- `space` *(string)* – Shared memory space.  
-- `variableName` *(string)* – Variable name.  
-- `variableValue` *(number)* – New value or increment.
-
-**Behavior**  
-1. Reads shared memory and fetches variable metadata (ETag).  
-2. Updates the value atomically with `mem:UpdateVariableAndWait()`.  
-3. Handles precondition failures by logging and recreating the variable if necessary.
-
-</details>
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandlePortalUseEvent` | `PortalUseEvent` | Self (PortalComponent) / Client | If the portal has no destination (`PortalEntityRef`), calls `UsePortal` for the player. |
+| `HandleKeyDownEvent` | `KeyDownEvent` | InputService / Client | Temporary shortcut: pressing **F** calls `EnterReservation`. |
+| `HandlePlayerRegisteredEvent` | `PlayerRegisteredEvent` | LocalPlayer / ClientOnly | Toggles the reservation: unreserves if `registered` is true, otherwise reserves. |
+| `HandleEnterDungeonEvent` | `EnterDungeonEvent` | LocalPlayer / ClientOnly | Calls `EnterReservation` with the local reserved map. |
+| `HandleUserLeaveEvent` | `UserLeaveEvent` | UserService / Server | Looks up the leaving user's instance and calls `UnReserveMap`. |
 
 ---
 
 ### Related Types & Services
 
-- **_RoomService / _DynamicMapService** – Instance discovery/creation and user movement into instances.  
-- **_EntityService** – Resolves portal destination entities or map paths.  
-- **_TeleportService** – Teleports players to portal targets.  
-- **SharedMemoryResultCode** – Return codes for shared memory operations.  
-- **SharedVariableKeyInfo** – Metadata for concurrency-safe updates.  
+- **PortalComponent** – Native base class providing `PortalEntityRef` and `PortalUseEvent`.  
+- **_SceneManager** – Instance creation, reservations, and movement.  
+- **_UIManager** – Shows/hides the reservation UI and popups.  
+- **_DynamicMapService / _TeleportService** – Used by the legacy `EnterMap`.  
+- **PlayerRegisteredEvent / EnterDungeonEvent** – Sent by the reservation UI.  
 
 ---
 
 ## DynamicMapReservedEvent
 
 **Purpose**  
-Custom event used to notify players when a reservation in a **dynamic map instance** is completed.  
-Carries the destination instance ID and a list of users who are part of the reservation.
+Custom event used to notify players when the reservation list of a **dynamic map instance** changes.  
+Carries the destination instance ID and the list of users who are part of the reservation.
 
 ---
 
@@ -944,80 +809,86 @@ Carries the destination instance ID and a list of users who are part of the rese
 
 | Property        | Type    | Purpose |
 |-----------------|---------|---------|
-| `mapInstanceId` | string  | The name or ID of the reserved dynamic map instance (e.g., `"DungeonMap_1"`). |
+| `mapInstanceId` | string  | The name of the reserved dynamic map instance (e.g., `"DungeonMap_1"`). |
 | `users`         | table   | A table of user IDs that are part of this reservation group. |
 
 ---
 
-### Method Summary
+### Usage
 
-_No methods defined in this script._
+- Sent by `SceneManager.SendReservationEvent` (on each affected user's client) from `ReserveDynamicMap` and `UnregisterDynamicMap`.
+- Handled by `InstanceDungeonReservationUI` to update the registered state and refresh the party list.
 
 ---
-
-### Related Types & Services
-
-- **SceneManager** – Sends this event to clients after dynamic instance reservation.
-- **UIManager** – May listen to this event to show a reservation popup.
-- **DynamicMapPortal** – Initiates the reservation and dispatches this event to users.
 
 ## DynamicPortalUseEvent
 
 **Purpose**  
-Custom event fired when a player interacts with a **dynamic map portal**.  
-Acts as a signal for other systems to react to a portal activation (e.g., start reservation/teleport flow).
+Custom event intended to signal that a player interacted with a **dynamic map portal**.
 
 ---
 
 ### Properties
 
-_No properties defined in this script._
+This event has no custom properties.
 
 ---
 
-### Method Summary
+### Usage
 
-_No methods defined in this script._
+- Not currently sent or handled by any script in this project; `DynamicMapPortal` reacts to the native `PortalUseEvent` instead.
 
 ---
-
-### Related Types & Services
-
-- **DynamicMapPortal** – Emits this event when a portal is used.
-- **SceneManager** – May listen and initiate routing to instances.
-- **UIManager** – Can react to show loading/transition UI.
 
 ## EnterDungeonEvent
 
 **Purpose**  
-Custom event used to signal that a player (or party) is entering a **dungeon**—typically via a portal or matchmaking flow.  
-Other systems listen for this event to begin transition, reservation, or teleportation into the target dungeon instance.
+Custom event used to signal that the local player wants to move the reserved party into the **dungeon** instance.
 
 ---
 
 ### Properties
 
-_No properties defined in this script._
+This event has no custom properties.
 
 ---
 
-### Method Summary
+### Usage
 
-_No methods defined in this script._
+- Sent to the local player entity by `InstanceDungeonReservationUI.EnterDungeon` when the **Enter** button is clicked.
+- Handled by `DynamicMapPortal.HandleEnterDungeonEvent`, which calls `EnterReservation`.
 
 ---
 
-### Related Types & Services
+## PlayerRegisteredEvent
 
-- **DynamicMapPortal** – May dispatch this event when a dungeon portal is used.
-- **SceneManager** – Can listen and route players to the appropriate dungeon map/instance.
-- **UIManager** – May react to display loading or transition UI during dungeon entry.
+**Purpose**  
+Custom event sent when the player toggles their **reservation registration**.  
+Carries the player’s ID and whether they were registered at the time of the click.
+
+---
+
+### Properties
+
+| Property   | Type    | Purpose |
+|------------|---------|---------|
+| `userId`   | string  | The ID of the local player. |
+| `registered` | boolean | The registration state before the click: `true` means the player should be unregistered, `false` means they should be reserved. |
+
+---
+
+### Usage
+
+- Sent to the local player entity by `InstanceDungeonReservationUI.PlayerRegistered` (Register button, or closing the panel while registered).
+- Handled by `DynamicMapPortal.HandlePlayerRegisteredEvent`, which calls `UnReserveMap` or `ReserveMap`.
+
+---
 
 ## InstanceDungeonReservationUI
 
 **Purpose**  
-Client-side UI component that displays the **dungeon reservation** state (who’s in the party, whether the local player is registered, and when entry is available).  
-Subscribes to reservation events and wires button interactions to register, close the panel, or enter the dungeon instance.
+Client-side UI component that displays the **dungeon reservation** state (who’s in the party and whether the local player is registered).  
+Wires the Register, Enter and Close buttons to events handled by `DynamicMapPortal`, and refreshes itself from `DynamicMapReservedEvent`.
 
 ---
 
@@ -1025,12 +896,12 @@ Subscribes to reservation events and wires button interactions to register, clos
 
 | Property                   | Type    | Purpose |
 |---------------------------|---------|---------|
-| `reservationUIItemModel`  | string  | Model/Prefab ID used to spawn a single row/item representing a reserved user in the UI list. |
-| `reservationListItems`    | table   | Runtime list tracking the spawned UI row entities for the reservation list. |
-| `reservationScrollParent` | Entity  | UI container (e.g., a vertical layout/scroll view) under which spawned list items are parented. |
-| `buttonRegister`          | Entity  | UI button entity the player clicks to toggle/register into the reservation. |
-| `buttonClose`             | Entity  | UI button entity to close/hide the reservation panel. |
-| `buttonEnter`             | Entity  | UI button entity to confirm entry into the reserved dungeon instance. |
+| `reservationUIItemModel`  | string  | Model ID used to spawn a row (`InstanceDungeonReservationUIItem`) for a reserved user. |
+| `reservationListItems`    | table   | Pool of spawned row components; reused between refreshes. |
+| `reservationScrollParent` | Entity  | UI container under which spawned rows are parented. |
+| `buttonRegister`          | Entity  | "Search Party" / "Leave Party" toggle button. |
+| `buttonClose`             | Entity  | Closes the panel. |
+| `buttonEnter`             | Entity  | Moves the reserved party into the dungeon instance. |
 
 ---
 
@@ -1038,15 +909,13 @@ Subscribes to reservation events and wires button interactions to register, clos
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|---------|
-| `Show(users)` | Client | Shows the reservation panel and renders the current `users` list. |
-| `Hide()` | Client | Hides the reservation panel and clears transient UI state. |
-| `PopulateList(users)` | Client | Spawns/updates UI rows for each user in `users`. |
-| `ClearList()` | Client | Destroys all spawned list item entities and clears `reservationListItems`. |
-| `UpdateRegistered(isRegistered)` | Client | Updates button states/labels based on whether the local user is currently registered. |
-| `OnRegisterClicked()` | Client | Handles the **Register** button; toggles local user registration (emits a request/event). |
-| `OnCloseClicked()` | Client | Handles the **Close** button; hides the reservation panel. |
-| `OnEnterClicked()` | Client | Handles the **Enter** button; confirms entry (emits a request/event to proceed). |
-| `HandleDynamicMapReservedEvent(event)` | Client | Processes a `DynamicMapReservedEvent`; updates registration state and refreshes the list UI. |
+| `Show` | Client | Shows the panel and renders one row per user ID (by nickname). |
+| `GetOrCreateReservationItem` | Client/Server | Returns the next pooled row, spawning one if needed. |
+| `OnBeginPlay` | ClientOnly | Connects the three buttons and resets the registered state. |
+| `PlayerRegistered` | Client/Server | Sends a `PlayerRegisteredEvent` with the current registered state. |
+| `EnterDungeon` | Client | Sends an `EnterDungeonEvent` and resets the registered state. |
+| `Hide` | Client | Hides the panel, unregistering the player if registered. |
+| `UpdateRegistered` | Client | Stores the registered state and updates the Register button label. |
 
 ---
 
@@ -1061,15 +930,57 @@ Subscribes to reservation events and wires button interactions to register, clos
 Displays the reservation panel and renders the provided user list.
 
 **Parameters**  
-- `users` *(table<string>)* – User IDs currently reserved.
+- `userIds` *(table)* – User IDs currently reserved.
 
 **Behavior**  
-1. Enables the panel if it’s hidden.  
-2. Calls `PopulateList(users)` to render rows.  
-3. Ensures buttons reflect the latest registration state.
+1. Resets the row pointer, then for each user gets a row via `GetOrCreateReservationItem`, calls `Init` with the user's nickname (`_UserService.Users[userId].Nickname`) and `Show`.  
+2. Hides any leftover pooled rows.  
+3. Enables the panel entity.
+
 </details>
 
----
+<details>
+<summary>GetOrCreateReservationItem</summary>
+
+**Execution Scope**: `Client/Server` (called from `Show` on the client)  
+
+**Purpose**  
+Returns the pooled row at the current pointer, spawning a new one under `reservationScrollParent` with `_SpawnService:SpawnByModelId` if needed, and advances the pointer.
+
+**Returns**  
+- *(InstanceDungeonReservationUIItem)* – The row component.
+
+</details>
+
+<details>
+<summary>OnBeginPlay</summary>
+
+**Execution Scope**: `ClientOnly`  
+
+**Purpose**  
+Clears the row pool, connects `buttonRegister` → `PlayerRegistered`, `buttonEnter` → `EnterDungeon`, `buttonClose` → `Hide`, and calls `UpdateRegistered(false)`.
+
+</details>
+
+<details>
+<summary>PlayerRegistered</summary>
+
+**Execution Scope**: `Client/Server` (button handler on the client)  
+
+**Purpose**  
+Sends a `PlayerRegisteredEvent` (local user ID + current `_T.isRegistered`) to the local player entity. The button label updates later when the server's `DynamicMapReservedEvent` arrives.
+
+</details>
+
+<details>
+<summary>EnterDungeon</summary>
+
+**Execution Scope**: `Client`  
+
+**Purpose**  
+Sends an `EnterDungeonEvent` to the local player entity and calls `UpdateRegistered(false)`.
+
+</details>
 
 <details>
 <summary>Hide</summary>
@@ -1077,54 +988,9 @@ Displays the reservation panel and renders the provided user list.
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Closes the reservation UI.
+Disables the panel; if the player is still registered, calls `PlayerRegistered` to unregister them.
 
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Calls `ClearList()` to remove spawned rows.  
-2. Disables the panel/root entity.
 </details>
-
----
-
-<details>
-<summary>PopulateList</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Creates or updates UI list entries for each reserved user.
-
-**Parameters**  
-- `users` *(table<string>)* – Users to display.
-
-**Behavior**  
-1. Calls `ClearList()` to reset.  
-2. For each `userId`, spawns `reservationUIItemModel` under `reservationScrollParent`.  
-3. Pushes each spawned row into `reservationListItems` and binds any per-row data as needed.
-</details>
-
----
-
-<details>
-<summary>ClearList</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Removes all currently spawned reservation row entities.
-
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Iterates `reservationListItems` and destroys each entity.  
-2. Empties `reservationListItems`.
-</details>
-
----
 
 <details>
 <summary>UpdateRegistered</summary>
@@ -1132,275 +998,31 @@ Removes all currently spawned reservation row entities.
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Reflects whether the local user is part of the reservation (e.g., toggles button states).
+Sets the Register button text to "Leave Party" or "Search Party" and stores the state in `_T.isRegistered`.
 
 **Parameters**  
 - `isRegistered` *(boolean)* – Whether the local user is currently in the reservation.
 
-**Behavior**  
-1. Enables/disables `buttonEnter` depending on `isRegistered`.  
-2. Updates the **Register** button label/state accordingly.
 </details>
 
 ---
 
-<details>
-<summary>OnRegisterClicked</summary>
+### Event Handlers
 
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Handles click on the **Register** button.
-
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Emits a request/event to register or unregister the local user for the active reservation.  
-2. Optionally disables the button briefly to avoid double clicks.
-</details>
-
----
-
-<details>
-<summary>OnCloseClicked</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Handles click on the **Close** button.
-
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Calls `Hide()` to close the panel.  
-2. Clears list state.
-</details>
-
----
-
-<details>
-<summary>OnEnterClicked</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Handles click on the **Enter** button.
-
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Emits a request/event to proceed into the reserved instance for the group.  
-2. Optionally disables the button until a response is received.
-</details>
-
----
-
-<details>
-<summary>HandleDynamicMapReservedEvent</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Processes a `DynamicMapReservedEvent` for the local player’s space and updates UI.
-
-**Parameters**  
-- `event` *(`DynamicMapReservedEvent`)* – Contains `mapInstanceId` and `users`.
-
-**Behavior**  
-1. Logs the instance ID (`mapInstanceId`).  
-2. Resolves local user ID and checks `_Utils:Contains(event.users, localUserId)`.  
-3. Calls `UpdateRegistered(isRegistered)`.  
-4. If the UI is visible and `isRegistered` is `true`, calls `Show(event.users)`; otherwise `Show({})`.
-</details>
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleDynamicMapReservedEvent` | `DynamicMapReservedEvent` | Logic / SceneManager | Updates the registered state; if the panel is open, shows the full party when the local player is registered, otherwise an empty list. |
 
 ---
 
 ### Related Types & Services
 
+- **InstanceDungeonReservationUIItem** – Row component spawned per reserved user.  
 - **DynamicMapReservedEvent** – Event payload this UI listens to (`mapInstanceId`, `users`).  
-- **_UserService** – Used to fetch the local user ID.  
-- **_Utils** – Provides `Contains(table, value)` helper used by the script.  
-- **UI system** – Button entities (`buttonRegister`, `buttonClose`, `buttonEnter`) and list container (`reservationScrollParent`).  
-
----
-
-## InstanceDungeonReservationUIItem
-
-**Purpose**  
-Represents a single row in the **dungeon reservation** UI list.  
-Displays a player’s identity and registration state, and wires any per-row interactions (e.g., remove/unregister) back to the reservation UI flow.  
-
----
-
-### Properties
-
-| Property             | Type    | Purpose |
-|---------------------|---------|---------|
-| `userId`            | string  | The user ID this UI item represents. |
-| `displayNameLabel`  | Entity  | UI text element used to show the player’s display name. |
-| `statusLabel`       | Entity  | UI text element used to show reservation/ready status. |
-| `avatarImage`       | Entity  | UI image element used to show the player’s avatar (if available). |
-| `buttonRemove`      | Entity  | Optional UI button to remove/unregister this user from the reservation list. |
-| `isLocalUser`       | boolean | Indicates whether this row represents the local player (used for styling/behavior). |
-
----
-
-### Method Summary
-
-| Method | Execution Scope | Purpose |
-|--------|-----------------|---------|
-| `Init(userId, displayName)` | Client | Initializes the row with the target user and sets initial UI text/images. |
-| `BindUser(userId, displayName)` | Client | (Re)binds this item to a specific user and updates visuals. |
-| `UpdateRegistered(isRegistered)` | Client | Updates the status label/state to reflect reservation/ready status. |
-| `SetIsLocal(isLocal)` | Client | Marks this item as representing the local user (e.g., highlight). |
-| `SetAvatar(avatarIdOrEntity)` | Client | Sets or refreshes the avatar image for this row, if supported. |
-| `OnRemoveClicked()` | Client | Handles the remove/unregister action for this user. |
-| `Destroy()` | Client | Cleans up spawned UI and detaches events for this row. |
-
----
-
-### Methods
-
-<details>
-<summary>Init</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Initializes the UI item for a specific user and primes the visual elements.
-
-**Parameters**  
-- `userId` *(string)* – Player ID to show in this row.  
-- `displayName` *(string)* – Player display name to render.
-
-**Behavior**  
-1. Stores `userId` and sets `displayNameLabel` text.  
-2. Resets `statusLabel` (e.g., “Pending”).  
-3. Optionally requests avatar and calls `SetAvatar(...)`.  
-4. Binds `buttonRemove` click to `OnRemoveClicked()` if present.
-</details>
-
----
-
-<details>
-<summary>BindUser</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Re-binds this UI item to a different user and refreshes visuals.
-
-**Parameters**  
-- `userId` *(string)* – New player ID.  
-- `displayName` *(string)* – New display name.
-
-**Behavior**  
-1. Updates internal `userId`.  
-2. Updates `displayNameLabel` and resets `statusLabel`.  
-3. Optionally refreshes avatar via `SetAvatar(...)`.
-</details>
-
----
-
-<details>
-<summary>UpdateRegistered</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Reflects whether the represented user is currently registered/ready.
-
-**Parameters**  
-- `isRegistered` *(boolean)* – `true` if registered/ready, otherwise `false`.
-
-**Behavior**  
-1. Sets `statusLabel` (e.g., “Ready” / “Pending”).  
-2. Optionally toggles row styling to indicate readiness.
-</details>
-
----
-
-<details>
-<summary>SetIsLocal</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Marks this row as the local player (for styling or button visibility).
-
-**Parameters**  
-- `isLocal` *(boolean)* – Whether the row is for the local user.
-
-**Behavior**  
-1. Stores `isLocalUser`.  
-2. Optionally highlights the row or disables `buttonRemove` for non-local rows.
-</details>
-
----
-
-<details>
-<summary>SetAvatar</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Sets the avatar image for the row.
-
-**Parameters**  
-- `avatarIdOrEntity` *(any)* – ID or entity handle used to resolve the avatar.
-
-**Behavior**  
-1. Resolves the avatar source.  
-2. Applies it to `avatarImage` if available.
-</details>
-
----
-
-<details>
-<summary>OnRemoveClicked</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Handles the remove/unregister action for this user from the reservation.
-
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Emits a UI/event signal to request removal/unregistration of `userId`.  
-2. May disable the button to avoid double-submission until a response is received.
-</details>
-
----
-
-<details>
-<summary>Destroy</summary>
-
-**Execution Scope**: `Client`  
-
-**Purpose**  
-Cleans up the row UI and any bound listeners.
-
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Unbinds click handlers.  
-2. Destroys the row entity or hides it and clears references.
-</details>
-
----
-
-### Related Types & Services
-
-- **InstanceDungeonReservationUI** – Parent list/controller that creates and manages item rows.  
-- **DynamicMapReservedEvent** – Source of reservation updates that drive item state.  
-- **_UserService** – May supply display names/avatars for users.  
-- **UI system** – Text/Image/Button entities used to render and interact with the row.  
+- **PlayerRegisteredEvent / EnterDungeonEvent** – Events this UI sends to the local player.  
+- **_UserService** – Local user ID and nicknames.  
+- **_Utils** – Provides `Contains(table, value)`.  
+- **_SpawnService** – Spawns row entities.  
 
 ---
 
@@ -1408,7 +1030,7 @@ Cleans up the row UI and any bound listeners.
 
 **Purpose**  
 Represents a single **reservation list item** in the dungeon UI.  
-Displays a user’s identifier in a text field and provides simple show/hide controls for the row.
+Displays a player’s name in a text field and provides simple show/hide controls for the row.
 
 ---
 
@@ -1416,7 +1038,7 @@ Displays a user’s identifier in a text field and provides simple show/hide con
 
 | Property    | Type          | Purpose |
 |-------------|---------------|---------|
-| `userText`  | `TextComponent` | UI text component used to display the user’s identifier in this row. |
+| `userText`  | `TextComponent` | UI text component used to display the player's name in this row. |
 
 ---
 
@@ -1424,9 +1046,9 @@ Displays a user’s identifier in a text field and provides simple show/hide con
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|----------|
-| `Init(userId)` | Client | Binds this UI item to a specific `userId` and updates the text label. |
-| `Show()` | Client | Enables the row entity, making the UI item visible. |
-| `Hide()` | Client | Disables the row entity, hiding the UI item. |
+| `Init` | Client/Server | Sets the row's text. |
+| `Show` | Client/Server | Enables the row entity, making the UI item visible. |
+| `Hide` | Client/Server | Disables the row entity, hiding the UI item. |
 
 ---
 
@@ -1435,97 +1057,144 @@ Displays a user’s identifier in a text field and provides simple show/hide con
 <details>
 <summary>Init</summary>
 
-**Execution Scope**: `Client`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Initializes the UI row with the given user ID.
+Initializes the UI row with the given text.
 
 **Parameters**  
-- `userId` *(string)* – Identifier to display in `userText`.
+- `userId` *(string)* – Text to display in `userText` (the caller passes the player's nickname).
 
 **Behavior**  
-1. Sets `self.userText.Text = userId`.  
-2. Leaves visibility unchanged (controlled by `Show`/`Hide`).
-</details>
+1. Sets `self.userText.Text = userId`.
 
----
+</details>
 
 <details>
 <summary>Show</summary>
 
-**Execution Scope**: `Client`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Makes this list item visible.
+Makes this list item visible by calling `self.Entity:SetEnable(true)`.
 
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Calls `self.Entity:SetEnable(true)`.
 </details>
-
----
 
 <details>
 <summary>Hide</summary>
 
-**Execution Scope**: `Client`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
-Hides this list item.
+Hides this list item by calling `self.Entity:SetEnable(false)`.
 
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Calls `self.Entity:SetEnable(false)`.
 </details>
 
 ---
 
 ### Related Types & Services
 
-- **TextComponent** – Displays the bound `userId` string.  
-- **UI system** – Provides the `Entity` and enable/disable behavior used by `Show`/`Hide`.  
+- **InstanceDungeonReservationUI** – Parent list that spawns, pools and drives these rows.  
+- **TextComponent** – Displays the player's name.  
 
 ---
 
-## PlayerRegisteredEvent
+## Monster
 
 **Purpose**  
-Custom event used to notify systems when a player’s **reservation registration state** changes.  
-Carries the player’s ID and whether they are currently registered for the reservation/group.
+Represents a monster entity with health, death, and respawn mechanics. Handles taking damage and state changes, including optional automatic respawn. Base class of `InstanceDungeonMonster`.
 
 ---
 
 ### Properties
 
-| Property   | Type    | Purpose |
-|------------|---------|---------|
-| `userId`   | string  | The ID of the player whose registration state changed. |
-| `registered` | boolean | `true` if the player is registered; `false` if they unregistered. |
+| Property         | Type    | Purpose |
+|-----------------|---------|---------|
+| `MaxHp`          | number  | Maximum health points of the monster. Sync. |
+| `Hp`             | number  | Current health points. Sync. |
+| `RespawnOn`      | boolean | Whether the monster should automatically respawn after death. Sync. |
+| `IsDead`         | boolean | Tracks if the monster is dead. Sync, HideFromInspector. |
+| `RespawnDelay`   | number  | Time in seconds before the monster respawns if `RespawnOn` is true. Sync. |
+| `DestroyDelay`   | number  | Delay before the monster entity is hidden (and destroyed if not respawning) after death. Sync. |
 
 ---
 
 ### Method Summary
 
-_No methods defined in this script._
+| Method          | Execution Scope | Purpose |
+|-----------------|----------------|---------|
+| `OnBeginPlay`   | Client/Server  | Initializes `Hp` to `MaxHp` when the entity spawns. |
+| `Dead`          | ServerOnly     | Handles monster death: changes state, hides the entity, and optionally destroys it. |
+| `Respawn`       | ServerOnly     | Resets the monster to alive state and restores HP and visibility. |
+
+---
+
+### Methods
+
+<details>
+<summary>OnBeginPlay</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Sets `Hp` to `MaxHp`.
+
+</details>
+
+<details>
+<summary>Dead</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Handles the monster's death sequence.
+
+**Behavior**  
+1. Sets `IsDead` to `true`.  
+2. Changes the entity’s state to `"DEAD"` if a `StateComponent` exists.  
+3. After `DestroyDelay`, hides and disables the entity.  
+4. If `RespawnOn` is `false`, the entity is destroyed at that point.
+
+</details>
+
+<details>
+<summary>Respawn</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Respawns the monster after death.
+
+**Behavior**  
+1. Sets `IsDead` to `false`.  
+2. Makes the entity visible and enabled.  
+3. Resets `Hp` to `MaxHp`.  
+4. Changes the entity’s state to `"IDLE"` if a `StateComponent` exists.
+
+</details>
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleHitEvent` | `HitEvent` | Self / ServerOnly | Subtracts `TotalDamage` from `Hp`; on the hit that drops HP to 0 or below, calls `Dead()` and schedules `Respawn()` after `RespawnDelay` if `RespawnOn`. |
 
 ---
 
 ### Related Types & Services
+- **_TimerService** – Schedules delayed hide and respawn.  
+- **StateComponent** – Manages the entity's current state.  
+- **HitEvent** – Event triggered when the monster receives damage.  
 
-- **InstanceDungeonReservationUI** – Updates UI when a player registers/unregisters.
-- **DynamicMapPortal** – May initiate or react to registration changes before entering an instance.
-- **SceneManager** – Coordinates routing logic based on current party registration state.
-- **DynamicMapReservedEvent** – Complementary event indicating a reservation group is ready/assigned.
+---
 
 ## InstanceDungeonMonster
 
 **Purpose**  
-Server-authoritative boss/monster that orchestrates defeat flow in a **dynamic dungeon instance**.  
-On death it plays client VFX, hides the entity, and requests the dynamic map to close—returning players to a configured fallback map.  
+Boss monster for a **dynamic dungeon instance** (extends `Monster`).  
+Plays start/finish effects and, on death, closes the dynamic map and returns players to a configured map.  
 
 ---
 
@@ -1533,7 +1202,7 @@ On death it plays client VFX, hides the entity, and requests the dynamic map to 
 
 | Property            | Type    | Purpose |
 |---------------------|---------|---------|
-| `returnMapOnDefeat` | string  | Static/hub map name to return players to when the boss is defeated and the dynamic map is closed. |
+| `returnMapOnDefeat` | string  | Static map name to return players to when the boss is defeated and the dynamic map is closed. |
 
 ---
 
@@ -1541,10 +1210,10 @@ On death it plays client VFX, hides the entity, and requests the dynamic map to 
 
 | Method | Execution Scope | Purpose |
 |--------|-----------------|----------|
-| `Dead()` | Server | Marks the monster as dead, switches to `DEAD` state, schedules hide/disable, and triggers the defeat sequence (`BossFinish`). |
-| `OnBeginPlay()` | Server | Initializes the monster on spawn and starts the boss encounter (`BossStart`). |
-| `BossStart()` | Client | Plays a client-side start VFX at the boss position to signal encounter start. |
-| `BossFinish()` | Client | Plays a client-side finish VFX and, after a delay, closes the dynamic map and returns players to `returnMapOnDefeat`. |
+| `Dead` | ServerOnly | Marks the monster as dead, switches to `DEAD` state, schedules hide/disable, and triggers `BossFinish`. |
+| `OnBeginPlay` | Client/Server | Runs `Monster.OnBeginPlay` and plays the start effect (`BossStart`). |
+| `BossStart` | Client | Plays the encounter-start effect above the boss. |
+| `BossFinish` | Client | Plays the finish effect and, after a delay, closes the dynamic map via `SceneManager`. |
 
 ---
 
@@ -1553,41 +1222,32 @@ On death it plays client VFX, hides the entity, and requests the dynamic map to 
 <details>
 <summary>Dead</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `ServerOnly`  
 
 **Purpose**  
-Handles server-side death logic and kicks off the defeat sequence.
-
-**Parameters**  
-- *(none)*
+Handles server-side death logic and kicks off the defeat sequence. Overrides `Monster.Dead`; the entity is never destroyed here because the whole instance is destroyed instead.
 
 **Behavior**  
 1. Sets `self.IsDead = true`.  
-2. Fetches `stateComponent = self.Entity.StateComponent`; if present, calls `stateComponent:ChangeState("DEAD")` and logs the transition.  
-3. Defines `delayHide` that calls `self.Entity:SetVisible(false)` and `self.Entity:SetEnable(false)`.  
-4. Schedules `delayHide` via `_TimerService:SetTimerOnce(delayHide, self.DestroyDelay)`.  
-5. Calls `self:BossFinish()` to run the client finish flow.  
-</details>
+2. If a `StateComponent` exists, calls `ChangeState("DEAD")`.  
+3. Schedules hide/disable after `DestroyDelay`.  
+4. Calls `self:BossFinish()` (runs on clients).  
 
----
+</details>
 
 <details>
 <summary>OnBeginPlay</summary>
 
-**Execution Scope**: `Server`  
+**Execution Scope**: `Client/Server`  
 
 **Purpose**  
 Runs when the monster spawns; performs base initialization and starts the encounter.
 
-**Parameters**  
-- *(none)*
-
 **Behavior**  
 1. Calls `__base:OnBeginPlay()` (from `Monster`).  
-2. Calls `self:BossStart()` to play the start VFX on clients.  
-</details>
+2. Calls `self:BossStart()`.  
 
----
+</details>
 
 <details>
 <summary>BossStart</summary>
@@ -1595,17 +1255,9 @@ Runs when the monster spawns; performs base initialization and starts the encoun
 **Execution Scope**: `Client`  
 
 **Purpose**  
-Signals the start of the boss encounter with a visual effect.
+Calls `_EffectService:PlayEffect` with effect `"eee4571f66ff4acf8b7f3878860642fa"` at `TransformComponent.Position + Vector3.up * 2`.
 
-**Parameters**  
-- *(none)*
-
-**Behavior**  
-1. Computes an effect position: `self.Entity.TransformComponent.Position + Vector3.up * 2`.  
-2. Calls `_EffectService:PlayEffect("eee4571f66ff4acf8b7f3878860642fa", self.Entity, pos, 0, Vector3.one)`.  
 </details>
-
----
 
 <details>
 <summary>BossFinish</summary>
@@ -1615,35 +1267,300 @@ Signals the start of the boss encounter with a visual effect.
 **Purpose**  
 Signals the end of the encounter, then closes the dynamic map and returns players to a static map.
 
-**Parameters**  
-- *(none)*
-
 **Behavior**  
-1. Plays finish VFX at `self.Entity.TransformComponent.Position + Vector3.up * 2` using effect ID `"ad24ef5bcf8448fa9713a868aff14d6d"`.  
-2. Schedules a timer with `_TimerService:SetTimerOnce(function() ... end, self.DestroyDelay * 2)` that:  
-   - Reads `mapName = self.Entity.CurrentMap.Name`.  
-   - Calls `_SceneManager:CloseDynamicMap(mapName, self.returnMapOnDefeat)`.  
+1. Plays finish effect `"ad24ef5bcf8448fa9713a868aff14d6d"` two units above the boss.  
+2. After `DestroyDelay * 2` seconds, calls `_SceneManager:CloseDynamicMap(self.Entity.CurrentMap.Name, self.returnMapOnDefeat)`.  
+
 </details>
 
 ---
 
 ### Related Types & Services
 
-- **Monster** – Base class providing `__base:OnBeginPlay()`, `IsDead`, and common monster behavior.  
-- **StateComponent** – Enables state transitions (e.g., `ChangeState("DEAD")`).  
-- **_TimerService** – Schedules delayed hide and map-closing actions.  
-- **_EffectService** – Plays start/finish VFX on clients.  
+- **Monster** – Base class providing HP, `IsDead`, `DestroyDelay`, and hit handling.  
+- **StateComponent** – State transitions (`ChangeState("DEAD")`).  
+- **_TimerService** – Schedules delayed hide and map closing.  
+- **_EffectService** – Plays start/finish effects.  
 - **_SceneManager** – Closes the dynamic map and routes players to `returnMapOnDefeat`.  
-- **Vector3** – Used to offset VFX spawn positions.  
+
+---
+
+## MonsterAttack
+
+**Purpose**  
+Handles automatic contact attacks for monster entities based on their sprite size, creating a hitbox and repeatedly attacking overlapping player entities.
+
+---
+
+### Properties
+
+| Property         | Type      | Purpose |
+|-----------------|-----------|---------|
+| `AttackInterval` | number    | Time interval between repeated attacks (seconds). Must be ≥ 0. |
+| `Shape`          | any       | The hitbox shape used for attacks. HideFromInspector. |
+| `SpriteSize`     | Vector2   | Size of the monster's sprite, used to define attack area. HideFromInspector. |
+| `PositionOffset` | Vector2   | Offset from the monster’s position to align the attack hitbox. HideFromInspector. |
+
+---
+
+### Method Summary
+
+| Method         | Execution Scope | Purpose |
+|----------------|----------------|---------|
+| `OnBeginPlay`  | ServerOnly     | Initializes attack shape and starts repeated attacks based on sprite size. |
+| `AttackNear`   | Client/Server  | Updates attack hitbox position and executes attack on nearby players. |
+| `IsAttackTarget` | Client/Server | Checks if a given entity is a valid player target for the monster attack. |
+
+---
+
+### Methods
+
+<details>
+<summary>OnBeginPlay</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Initializes the monster’s attack system when the game begins.
+
+**Behavior**  
+1. Checks if the entity has a `Monster` component; returns if missing.  
+2. Initializes `Shape` as a default `BoxShape`.  
+3. Preloads the monster’s sprite and uses the first animation frame to calculate `SpriteSize` and `PositionOffset`.  
+4. Starts a repeated timer that calls `AttackNear` every `AttackInterval` seconds while the monster is alive.
+
+</details>
+
+<details>
+<summary>AttackNear</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Performs an attack on nearby players using a dynamically calculated hitbox.
+
+**Behavior**  
+1. Reads the entity’s `TransformComponent` (world position, scale, rotation).  
+2. Rotates and scales `PositionOffset`, then updates `Shape` size, position, and angle.  
+3. Calls `AttackFast` with the hitbox and `CollisionGroups.Player`.
+
+</details>
+
+<details>
+<summary>IsAttackTarget</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Determines whether a given entity is a valid target for the monster’s attack.
+
+**Parameters**  
+- `defender` *(Entity)* – Potential target entity.  
+- `attackInfo` *(string)* – Optional attack metadata.  
+
+**Behavior**  
+- Returns `false` if the entity does not have a `PlayerComponent`.  
+- Otherwise, defers to the base `AttackComponent:IsAttackTarget` logic.
+
+</details>
+
+---
+
+### Related Types & Services
+- **AttackComponent** – Base class for attack logic and hit detection.  
+- **_ResourceService** – Loads the sprite's animation clip.  
+- **_TimerService** – Schedules repeated attacks.  
+- **BoxShape** – Rectangular hitbox with size, position, and rotation.  
+- **CollisionGroups** – Collision groups (`Player` here).  
+
+---
+
+## PlayerAttack
+
+**Purpose**  
+Handles a basic player attack, placing a hitbox in front of the player and attacking monsters when the Attack action is used. Supports critical hits and fixed damage.
+
+---
+
+### Properties
+
+| Property | Type | Purpose |
+|----------|------|---------|
+| `Shape`  | any  | Hitbox shape used for attacks. HideFromInspector. |
+
+---
+
+### Method Summary
+
+| Method               | Execution Scope  | Purpose |
+|---------------------|-----------------|---------|
+| `OnBeginPlay`        | ServerOnly      | Initializes the attack hitbox shape. |
+| `AttackNormal`       | ServerOnly      | Performs a basic attack in front of the player against monsters. |
+| `CalcDamage`         | Client/Server   | Returns a fixed damage value of `50`. |
+| `CalcCritical`       | Client/Server   | 30% chance of a critical hit. |
+| `GetCriticalDamageRate` | Client/Server | Returns the critical damage multiplier (`2`). |
+
+---
+
+### Methods
+
+<details>
+<summary>OnBeginPlay</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Creates a `BoxShape` at `(0,0)` with size `(1,1)` and rotation `0`, stored in `Shape`.
+
+</details>
+
+<details>
+<summary>AttackNormal</summary>
+
+**Execution Scope**: `ServerOnly`  
+
+**Purpose**  
+Executes a basic attack in front of the player.
+
+**Behavior**  
+1. Retrieves `PlayerControllerComponent` and `TransformComponent`.  
+2. Positions `Shape` 0.5 units in the look direction and 0.5 units up from the player.  
+3. Calls `AttackFast` with the hitbox and `CollisionGroups.Monster`.
+
+</details>
+
+<details>
+<summary>CalcDamage</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Returns a fixed damage value of `50`.
+
+</details>
+
+<details>
+<summary>CalcCritical</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Returns `_UtilLogic:RandomDouble() < 0.3` (30% critical chance).
+
+</details>
+
+<details>
+<summary>GetCriticalDamageRate</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Returns `2` (critical hits deal double damage).
+
+</details>
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandlePlayerActionEvent` | `PlayerActionEvent` | Self / ServerOnly | Calls `AttackNormal` when `ActionName` is `"Attack"`. |
+
+---
+
+### Related Types & Services
+- **AttackComponent** – Base class for attacks and hit detection.  
+- **BoxShape** – Rectangular attack hitbox.  
+- **CollisionGroups** – Collision layers (`Monster` here).  
+- **_UtilLogic** – Random number generation.  
+- **PlayerControllerComponent** – Provides the look direction.  
+
+---
+
+## PlayerHit
+
+**Purpose**  
+Handles the player's hit detection and damage immunity timing, ensuring the player cannot be hit repeatedly within a short interval.
+
+---
+
+### Properties
+
+| Property           | Type    | Purpose |
+|-------------------|---------|---------|
+| `ImmuneCooldown`  | number  | Minimum time (in seconds) between consecutive hits. Must be ≥ 0. |
+| `LastHitTime`     | number  | Timestamp of the last time the player was hit. HideFromInspector. |
+
+---
+
+### Method Summary
+
+| Method           | Execution Scope  | Purpose |
+|-----------------|-----------------|---------|
+| `IsHitTarget`    | Client/Server   | Determines whether the player can currently be hit based on cooldown. |
+
+---
+
+### Methods
+
+<details>
+<summary>IsHitTarget</summary>
+
+**Execution Scope**: `Client/Server`  
+
+**Purpose**  
+Checks if the player is eligible to receive damage at the current moment.
+
+**Parameters**  
+- `attackInfo` *(string)* – Optional information about the attack. Not used.
+
+**Behavior**  
+1. Gets the current time from `_UtilLogic.ElapsedSeconds`.  
+2. If `LastHitTime + ImmuneCooldown` is earlier than the current time, updates `LastHitTime` and returns `true`.  
+3. Otherwise returns `false`.
+
+</details>
+
+---
+
+### Related Types & Services
+- **HitComponent** – Base class for entities that can be hit.  
+- **_UtilLogic** – Provides elapsed time in seconds.  
+
+---
+
+## Popupbutton
+
+**Purpose**  
+Sample UI script that opens one of four popup panels under `/ui/Popup` when its matching button is clicked, and wires the panel's close button(s) to hide it again. Not used by the dynamic map flow.
+
+---
+
+### Properties
+
+This script has no custom properties.
+
+---
+
+### Event Handlers
+
+| Handler | Event Type | Sender / Scope | Purpose |
+|---------|------------|----------------|---------|
+| `HandleButtonClickEvent` | `ButtonClickEvent` | Entity `a721af74-...` / ClientOnly | Button named `"1"`: opens `GameResultPanel`; `Btn_Ok_1` closes it. |
+| `HandleButtonClickEvent2` | `ButtonClickEvent` | Entity `02210bfa-...` / ClientOnly | Button named `"2"`: opens `InventoryUI`; `CloseButton` closes it. |
+| `HandleButtonClickEvent3` | `ButtonClickEvent` | Entity `5ec12c2a-...` / ClientOnly | Button named `"3"`: opens `BasicPopup2`; `CloseButton` closes it. |
+| `HandleButtonClickEvent4` | `ButtonClickEvent` | Entity `e07d430e-...` / ClientOnly | Button named `"4"`: opens `BasicPopup`; `Btn_Ok` and `Btn_No` close it. |
+
+---
+
+### Related Types & Services
+- **_EntityService** – Looks up popup entities by path.  
+- **ButtonClickEvent** – Native UI button click event.  
 
 ---
 
 ## Changelog
-
-| Version | Notes |
-|---------|-------|
-| v1.0 | Initial release with dynamic map and party reservation systems. |
-
----
-
-
+| Version | Changelog | Download |
+|---------|-------------|-------------|
+| V1_0 | Initial release with dynamic map and party reservation systems. | [Download](https://github.com/MapleStory-Worlds-Global/YoutubeTutorialProjects/raw/refs/heads/main/Dynamic_Maps/DynamicMapsTutorial.mod) |

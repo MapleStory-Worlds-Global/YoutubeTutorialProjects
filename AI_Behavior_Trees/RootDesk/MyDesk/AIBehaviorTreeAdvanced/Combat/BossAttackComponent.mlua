@@ -1,22 +1,34 @@
+-- Attack component on the boss. Pre-fills the "BossProjectile" object pool for the boss's map
+-- and provides the melee (circle around the boss) and ranged (circle hit + a pooled projectile
+-- flying in a straight line toward a target) attacks that BossAI's attack methods call.
 @Component
 script BossAttackComponent extends AttackComponent
+	-- Model ID of the projectile entity (with BossProjectile + ProjectileAttackComponent) to pool
 	property string projectileModelID = ""
 
+	-- Creates/fills the "BossProjectile" pool with 6 projectile entities in the boss's map so
+	-- ranged attacks can reuse them instead of spawning new ones each time
 	method void OnBeginPlay()
 		_PoolManager:Init("BossProjectile", 6, self.projectileModelID, self.Entity.CurrentMap)
 	end
 
+	-- Hits everything the AttackComponent considers a valid target inside a circle of `radius`
+	-- around the boss. `info` is accepted but not used here (damage comes from CalcDamage).
 	method void AttackMelee(AttackInfo info, number radius)
 		local myPos = self.Entity.TransformComponent.WorldPosition:ToVector2()
 		local shape = CircleShape(myPos, radius)
 		self:AttackFast(shape, "")
 	end
 
+	-- Does the same circular hit around the boss as AttackMelee, then takes a projectile from
+	-- the pool at the boss's position, initialises it with `info` (damage + explosion effect)
+	-- and launches it toward `target`'s current position.
 	method void AttackRanged(AttackInfo info, number radius, Entity target)
 		local myPos = self.Entity.TransformComponent.WorldPosition
 		local shape = CircleShape(myPos:ToVector2(), radius)
 		self:AttackFast(shape, "")
 
+		-- Reuse a pooled projectile; PoolManager:Get also moves it to myPos
 		local projectile = _PoolManager:Get("BossProjectile", myPos, self.Entity.CurrentMap)
 		if isvalid(projectile) then
 			local projectileComp = projectile.BossProjectile

@@ -1,20 +1,31 @@
+-- Behaviour tree ActionNode that copies an entity's current position into the owning AI's Blackboard.
+-- Unlike the other SetBlackboardValue_* variants it has no fixed Value: it reads the Entity stored
+-- under ValueKey and writes that entity's (x, y) position as a Vector2 under Key. Completes in one
+-- tick: Success, or Failure when there is no parent AIComponent or no entity under ValueKey.
 @BTNode
 script SetBlackboardValue_TargetPos extends ActionNode
 
+	-- Name of the Blackboard Vector2 variable that receives the target's position
 	property string Key = ""
+	-- Name of the Blackboard Entity variable holding the target whose position is read
 	property string ValueKey = ""
 
+	-- Called each time the tree ticks this node: looks up the Entity under ValueKey and stores its
+	-- position under Key, returning Success; returns Failure if either lookup fails (delta is unused).
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
+		-- Without an owning AIComponent there is no Blackboard to read from or write to
 		if aiComponent == nil then
 			return BehaviourTreeStatus.Failure
 		end
 
 		local target = aiComponent.BlackBoard:GetEntity(self.ValueKey)
+		-- No target entity stored under ValueKey yet
 		if target == nil then
 			return BehaviourTreeStatus.Failure
 		end
 
+		-- Uses TransformComponent.Position (parent-relative, not WorldPosition), dropping z via ToVector2()
 		aiComponent.BlackBoard:SetVector2(self.Key, target.TransformComponent.Position:ToVector2())
 		
 		return BehaviourTreeStatus.Success

@@ -1,6 +1,11 @@
+-- StateAnimationComponent replacement (used on the boss model) that, on a state change,
+-- looks up the state's animation clip in the ActionSheet and assigns it directly to the
+-- entity's SpriteRendererComponent instead of the native AnimationClipEvent path.
 @Component
 script CustomStateAnimationComponent extends StateAnimationComponent
 
+	-- Override of the native handler: maps the new state name to an ActionSheet key and, if
+	-- a clip RUID exists for it, sets it as the sprite renderer's SpriteRUID.
 	method void ReceiveStateChangeEvent(IEventSender sender, StateChangeEvent stateEvent)
 		local spriteRenderer = self.Entity.SpriteRendererComponent
 		local stateName = stateEvent.CurrentStateName
@@ -17,6 +22,7 @@ script CustomStateAnimationComponent extends StateAnimationComponent
 		end
 	end
 
+	-- Helper: returns the animation clip RUID mapped to `stateName` in the ActionSheet (nil if none).
 	method string StateStringtoAnimationRUID(string stateName)
 		local key = self:StateStringToAnimationKey(stateName)
 		return self.ActionSheet[key]

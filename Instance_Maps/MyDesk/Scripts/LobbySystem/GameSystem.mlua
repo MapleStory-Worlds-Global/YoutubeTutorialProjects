@@ -1,9 +1,16 @@
+-- Lobby flow for the demo. Server: registers the "GameInstance" instance family. Client: the start button
+-- moves players from Static_Starting into an instance room (or back to Static_Starting when pressed inside an
+-- instance). Also bumps a room shared-memory counter, shows it in a popup on entry, reads warp payloads,
+-- shows the RoomEnteredEvent toast, and warps to another world instance on F1.
 @Logic
 script GameSystem extends Logic
+	-- UI button entity that triggers the move to/from the instance room
 	property Entity startButton = "7da83c1a-b787-499a-b1e4-4a23c40fdadf"
 	
+	-- Client: hooks the start button. Server: registers the instance-room family.
 	method void OnBeginPlay()
 		if self:IsClient() then
+			-- Both move methods are @ExecSpace("Server"), so the click is forwarded to the server
 			self.startButton:ConnectEvent(ButtonClickEvent, function ()
 			if _RoomService:IsInstanceRoom() then
 				self:MovePlayersToStarting()
@@ -16,6 +23,8 @@ script GameSystem extends Logic
 		end
 	end
 
+	-- Registers the "GameInstance" family: maps Instance_Room1 + Instance_Room2, max 10 users per room.
+	-- Called from OnBeginPlay on the server.
 	method void InitInstance()
 		local maps = {"Instance_Room1", "Instance_Room2"}
 		local instanceName = "GameInstance"
@@ -23,6 +32,8 @@ script GameSystem extends Logic
 		_SceneManagement:InitInstanceRoom(maps, instanceName, maxCapacity)
 	end
 
+	-- Collects every user on Static_Starting, increments the GlobalCounters/MyCounter shared number, and
+	-- moves the group to Instance_Room1 of an open GameInstance room with a RoomEnteredEvent attached.
 	@ExecSpace("Server")
 	method void MovePlayersToInstance()
 		local toSendPlayers = {}
@@ -37,6 +48,7 @@ script GameSystem extends Logic
 
 		--Update shared storage
 		local num = _SceneManagement:GetSharedNumber("GlobalCounters", "MyCounter")
+		-- UpdateSharedNumber increments the stored value by 1; num + 1 is only used if the variable is missing
 		_SceneManagement:UpdateSharedNumber("GlobalCounters", "MyCounter", num + 1)
 
 		--Create Room event to be read in HandleRoomEnteredEvent()
@@ -45,6 +57,7 @@ script GameSystem extends Logic
 		_SceneManagement:MoveUsersToInstance(toSendPlayers, "GameInstance", "Instance_Room1", evt)
 	end
 
+	-- Sends every user in the current room back to the static Static_Starting map.
 	@ExecSpace("Server")
 	method void MovePlayersToStarting()
 		local toSendPlayers = {}
@@ -60,17 +73,24 @@ script GameSystem extends Logic
 		_SceneManagement:ReturnUsersToStatic(toSendPlayers, "Static_Starting")
 	end
 
+	-- Receives the RoomEnteredEvent sent to this room by SceneManagement:MoveUsersToInstance and shows its
+	-- message via _UIToast:ShowMessage (@ExecSpace("Client"), so a server call reaches the clients).
 	@EventSender("Service", "RoomService")
 	handler HandleRoomEnteredEvent(RoomEnteredEvent event)
 		local msg = event.message
 		_UIToast:ShowMessage(msg)
 	end
 
+	-- Opens the UIPopup with "The value is <value>". Client exec space; the server targets one player by
+	-- passing that user's ID as an extra trailing argument (see UserEnterEvent).
 	@ExecSpace("Client")
 	method void ShowPopup(string value)
 		_UIPopup:Open("The value is " .. value, nil, nil)
 	end
 
+	-- Server-side handler for a user joining this room: logs `coins` from any world-warp payload
+	-- (see WorldManagement:WarpToOpenInstance), and outside rooms whose key contains "main" shows the
+	-- shared counter to that user in a popup.
 	@ExecSpace("ServerOnly")
 	@EventSender("Service", "UserService")
 	handler UserEnterEvent(UserEnterEvent event)
@@ -91,12 +111,15 @@ script GameSystem extends Logic
 
 		local value = _SceneManagement:GetSharedNumber("GlobalCounters", "MyCounter")
 		if (value ~= nil) then
+			-- Trailing UserId sends the Client-space call only to the entering user
 			self:ShowPopup(tostring(value), UserId)
 		end
 
 		
 	end
 
+	-- F1 on the client asks the server (WarpToOpenInstance is Server space) to warp the local player
+	-- to an open world instance.
 	@ExecSpace("ClientOnly")
 	@EventSender("Service", "InputService")
 	handler OnKeyDown(KeyDownEvent event)

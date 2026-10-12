@@ -1,3 +1,6 @@
+-- Hit component for the boss entity. It adds no overrides, so it uses the default
+-- HitComponent behaviour; the resulting HitEvent is handled by BossAI.HandleHitEvent,
+-- which subtracts HP and triggers death.
 @Component
 script BossHitComponent extends HitComponent
 

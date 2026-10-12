@@ -1,4 +1,7 @@
+-- Event sent by the ExecuteMethod behaviour-tree node to the AI entity, asking its AI
+-- component (BossAI.OnMethodExecuted handler) to run a method by name.
 @Event
 script OnMethodExecuted extends EventType
+	-- Name of the method on the AI component to invoke (e.g. "AttackMelee", "AttackRange")
 	property string methodName = ""
 end

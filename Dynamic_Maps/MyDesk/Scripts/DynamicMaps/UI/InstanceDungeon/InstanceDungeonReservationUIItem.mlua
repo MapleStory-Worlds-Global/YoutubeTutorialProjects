@@ -1,16 +1,23 @@
+-- One row of the dungeon reservation party list. Spawned from a model and pooled by
+-- InstanceDungeonReservationUI, which calls Init/Show/Hide on it (client side).
 @Component
 script InstanceDungeonReservationUIItem extends Component
 
+	-- Text component that displays the player's name for this row (assigned in the row model)
 	property TextComponent userText = nil
 
+	-- Sets the row's text. Despite the parameter name, InstanceDungeonReservationUI passes the
+	-- player's nickname here, not the raw userId.
 	method void Init(string userId)
 		self.userText.Text = userId
 	end
 
+	-- Makes the row visible.
 	method void Show()
 		self.Entity:SetEnable(true)
 	end
 
+	-- Hides the row (kept in the pool for reuse rather than destroyed).
 	method void Hide()
 		self.Entity:SetEnable(false)
 	end

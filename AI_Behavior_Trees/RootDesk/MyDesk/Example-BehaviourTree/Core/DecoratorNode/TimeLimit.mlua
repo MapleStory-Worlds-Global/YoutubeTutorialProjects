@@ -1,16 +1,25 @@
+-- Behaviour tree DecoratorNode that gives its child a time budget: TimeLeft starts at Duration (in
+-- OnInit) and is reduced by delta every tick; once it reaches 0 the node returns Failure instead of
+-- ticking the child.
 @BTNode
 script TimeLimit extends DecoratorNode
 
+	-- Time budget in seconds for the child
 	property number Duration = 0
 
+	-- Runtime state: seconds remaining in the budget (set to Duration in OnInit)
 	@HideFromInspector
 	property number TimeLeft = 0
 
+	-- Node initialization hook: refills the time budget.
 	method void OnInit()
 		self.TimeLeft = self.Duration
 	end
 
+	-- Called each tick: spends delta seconds of the budget, returns Failure once it is used up,
+	-- otherwise ticks the child and returns its result.
 	method any OnBehave(number delta)
+		-- TimeLeft is only refilled in OnInit, not when the child finishes
 		self.TimeLeft -= delta
 		if self.TimeLeft <= 0 then
 			return BehaviourTreeStatus.Failure

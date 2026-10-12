@@ -1,12 +1,18 @@
+-- Local player info HUD: shows the player's nickname and an HP bar/label. The HP bar is a
+-- UI image whose width is scaled to Hp / MaxHp every frame. Child entities are found by path.
 @Component
 script UIMyInfo extends Component
 
+	-- Transform of the HP bar image (info_bottom/Hp/img_bar); resized to show current HP
 	property UITransformComponent hpBar = nil
 
+	-- Full width of the HP bar, captured at start, corresponding to 100% HP
 	property number maxWidth = 0
 
+	-- Text showing "hp / maxhp" (info_bottom/Hp/text_value)
 	property TextComponent hpText = nil
 
+	-- Client-only UI setup: fills in the nickname and caches the HP bar/text references.
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		local currentPath = self.Entity.Path
@@ -20,6 +26,7 @@ script UIMyInfo extends Component
 		
 	end
 
+	-- Every frame: resizes the bar to the HP ratio and updates the HP text.
 	@ExecSpace("ClientOnly")
 	method void OnUpdate(number delta)
 		if self.hpBar ~= nil then

@@ -1,19 +1,33 @@
+-- Portal that routes the player between static and instance rooms through _SceneManagement.
+-- Placed on portal entities (see Portal/Model/CustomPortal.model). If the native PortalEntityRef is set the
+-- built-in portal teleport is used; otherwise this script decides whether to move within the same room type,
+-- return to a static room, or create/enter an instance room keyed by this portal's entity Id.
 @Component
 script CustomPortalComponent extends PortalComponent
 
+	-- True if the destination map (roomName) lives in an instance room; false if it is a static room
 	property boolean isInstanceRoom = false
 
+	-- Name of the destination map (resolved as /maps/<roomName>)
 	property string roomName = ""
+	-- Optional explicit teleport target used for same-room-type moves; when nil, /maps/<roomName> is used
 	property EntityRef customPortalEntity = nil
 
+	-- Registers an instance-room "family" for this portal with _SceneManagement (maps = {roomName},
+	-- instanceName = this entity's Id, max capacity 2). Server-only because _SceneManagement's room
+	-- table lives on the server. Runs for every portal, even ones with isInstanceRoom = false.
 	@ExecSpace("ServerOnly")
 	method void OnBeginPlay()
 		_SceneManagement:InitInstanceRoom({self.roomName}, self.Entity.Id, 2)
 	end
 
+	-- Fires on the client of the player who used this portal. Picks the routing call based on the
+	-- current room type vs. the destination type; the _SceneManagement methods are @ExecSpace("Server"),
+	-- so each call is forwarded to the server.
 	@ExecSpace("ClientOnly")
 	@EventSender("Self")
 	handler HandlePortalUseEvent(PortalUseEvent event)
+		-- A native portal target is set: the base PortalComponent performs the teleport itself
 		if isvalid(self.PortalEntityRef) then
 			log("Teleported to Target Portal")
 			
@@ -24,6 +38,8 @@ script CustomPortalComponent extends PortalComponent
 			if (isInstance == self.isInstanceRoom) then
 				_SceneManagement:MoveToMap(localUserId, self.roomName, self.customPortalEntity)
 			else
+				-- Instance -> static: leave the instance room for the static map
+				-- Static -> instance: get/create the instance room keyed by this portal's entity Id
 				if (isInstance) then 
 					_SceneManagement:ReturnToStatic(localUserId, self.roomName)
 				else

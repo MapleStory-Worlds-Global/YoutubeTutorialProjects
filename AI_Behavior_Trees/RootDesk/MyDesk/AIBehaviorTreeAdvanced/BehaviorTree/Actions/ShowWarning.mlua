@@ -1,20 +1,35 @@
+-- Behaviour-tree action node that telegraphs an incoming area attack: it draws a filled
+-- circle (a PolygonRendererComponent added to the AI entity on demand) that grows from zero
+-- to the full attack radius over warnDuration seconds, then hides it and returns Success.
+-- Pair it with AttackDuration, which reads the same radius key to perform the actual hit.
 @BTNode
 script ShowWarning extends ActionNode
+	-- Fill colour of the warning circle (set once, when the polygon renderer is first created)
 	property Color warningColor = Color(0, 1, 0, 0.25)
+    -- Blackboard key for a warning ID (declared for the tree but not read by this script)
     property string warningIDKey = "bb_warningID"
+	-- Blackboard key holding the full warning radius (number)
 	property string radiusIDKey = "bb_warningRadius"
+	-- Optional blackboard key with a Vector2 position to centre the circle on; empty = on the AI entity
 	property string positionKey = ""
+	-- Optional blackboard key that overrides warnDuration with a number (e.g. an animation length)
 	property string warnDurationKey = ""
+    -- Seconds the circle takes to grow to full size before the node succeeds
     property number warnDuration = 2.0
 
+	-- Circle centre relative to the AI entity, recalculated in GetOrAddPolygonRenderer
 	@HideFromInspector
 	property Vector2 offset = Vector2.zero
 
+	-- Returns the AI entity's PolygonRendererComponent, adding and initialising it (24 points,
+	-- warning colour, same sorting layer as the sprite) the first time. Also refreshes the
+	-- circle offset and the warn duration from the blackboard on every call.
 	method PolygonRendererComponent GetOrAddPolygonRenderer()
 		local polygon = self.ParentAI.Entity.PolygonRendererComponent
 		if polygon == nil then
 			self.ParentAI.Entity:AddComponent("PolygonRendererComponent")
 			polygon = self.ParentAI.Entity.PolygonRendererComponent
+			-- 24 placeholder vertices; UpdateRadius moves them onto a circle each tick
 			local res = 24
 			for i = 1, res do
 				polygon.Points:Add(Vector2(0, 0))
@@ -28,6 +43,7 @@ script ShowWarning extends ActionNode
 		if _UtilLogic:IsNilorEmptyString(self.positionKey) then
 			self.offset = Vector2.zero
 		else
+			-- Polygon points are local to the entity, so convert the target position into an offset
 			local targetPos = self.ParentAI.BlackBoard:GetVector2(self.positionKey)
 			self.offset = targetPos - self.ParentAI.Entity.TransformComponent.Position:ToVector2()
 		end
@@ -38,10 +54,12 @@ script ShowWarning extends ActionNode
 		return polygon
 	end
 
+	-- Places every polygon vertex evenly around a circle of the given radius, centred on offset
 	method void UpdateRadius(number radius)
 		local warningEntity = self:GetOrAddPolygonRenderer()
-		
+
 		local res = warningEntity.Points.Count
+		-- Vertex i sits at angle 2*pi*i/res, giving a closed circle approximation
 		for i = 1, res do
 			local rad = 2 * math.pi * (i / tonumber(res))
 			local x = math.cos(rad) * radius
@@ -50,17 +68,21 @@ script ShowWarning extends ActionNode
 		end
 	end
 
+	-- Called when the node starts: resets the per-run timer (stored in _T) and shows the circle
 	method void OnInit()
         self._T.warnTimer = 0.0
 		local warningEntity = self:GetOrAddPolygonRenderer()
 		warningEntity.Enable = true
     end
 
+    -- Advances the timer, grows the circle proportionally (0 to full radius over warnDuration),
+    -- and returns Running until the duration has elapsed, then hides the circle and succeeds
     method any OnBehave(number delta)
         local timer = self._T.warnTimer
         timer = timer + delta
         self._T.warnTimer = timer
 
+        -- Fraction of the warning elapsed, clamped to 1 so the circle never exceeds the radius
         local growPct = math.min(timer / self.warnDuration, 1.0)
         local radius = self.ParentAI.BlackBoard:GetNumber(self.radiusIDKey)
 

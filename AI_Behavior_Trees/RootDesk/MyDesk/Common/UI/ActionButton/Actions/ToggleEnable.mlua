@@ -1,6 +1,9 @@
+-- ActionButtonBehavior used by ActionButtonComponent when execution = "ToggleEnable":
+-- each click flips the target entity between enabled and disabled.
 @Struct
 script ToggleEnable extends ActionButtonBehavior
 
+	-- Returns a closure that toggles `entity` based on its current EnabledInHierarchy state.
 	method any GetBehavior(Entity entity)
 		return function()
 			entity:SetEnable(not entity.EnabledInHierarchy)

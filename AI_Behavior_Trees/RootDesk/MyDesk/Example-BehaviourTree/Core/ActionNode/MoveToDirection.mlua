@@ -1,10 +1,17 @@
+-- Behaviour-tree action node: walks the AI entity toward a blackboard world position using
+-- MovementComponent:MoveToDirection (so it moves with the entity's own movement/physics rules).
+-- Returns Running while moving, Success (after stopping) on arrival, Failure if data is missing.
 @BTNode
 script MoveToDirection extends ActionNode
 
+	-- Blackboard key holding the destination as a Vector3 world position
 	property string LookAtPositionKey = ""
 
+	-- Distance (world units) at which the AI stops and counts as having arrived
 	property number ArrivalThreshold = 0
 
+	-- Called each tick while this node is active. Feeds the normalized direction to the
+	-- MovementComponent each frame until within ArrivalThreshold, then calls Stop().
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then
@@ -34,6 +41,7 @@ script MoveToDirection extends ActionNode
 		---@type Vector2
 		local direction = targetPosition:ToVector2() - transform.WorldPosition:ToVector2()
 		local distance = direction:Magnitude()
+		-- Arrived: stop movement input so the entity does not keep walking
 		if distance < self.ArrivalThreshold then
 			movementComponent:Stop()
 			return BehaviourTreeStatus.Success

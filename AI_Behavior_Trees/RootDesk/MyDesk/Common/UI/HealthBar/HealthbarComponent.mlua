@@ -1,9 +1,17 @@
+-- UI health bar: a fill sprite (FillAmount), an optional handle graphic that slides to mark
+-- the end of the fill, and an optional percentage label. Call Set(pct) with a 0..1
+-- value (e.g. BossAI calls Set(hp / maxHp) when the boss takes damage).
 @Component
 script HealthbarComponent extends Component
+	-- Optional marker entity moved horizontally to the current fill position (hidden at 100%)
 	property Entity handleGraphic = nil
+	-- Fill sprite whose FillAmount shows the remaining health
 	property SpriteGUIRendererComponent sprite = nil
+	-- Optional text label showing the percentage
 	property TextGUIRendererComponent text = nil
 
+	-- Normalizes the UI layout so the math in Set works: the handle is anchored to the bar's
+	-- left-middle, and the fill sprite stretches horizontally with a left pivot.
 	method void OnBeginPlay()
 		if isvalid(self.handleGraphic) then
 			local trans = self.handleGraphic.UITransformComponent
@@ -20,10 +28,12 @@ script HealthbarComponent extends Component
 		end
 	end
 
+	-- Updates the bar to `pct` (0..1): moves the handle, updates the label and the fill amount.
 	method void Set(number pct)
 		if isvalid(self.handleGraphic) then
 			local trans = self.handleGraphic.UITransformComponent
 
+			-- Handle is anchored at the left edge, so x = bar width * pct puts it at the fill's end
 			local myWidth = self.Entity.UITransformComponent.RectSize.x
 			trans.anchoredPosition = Vector2(myWidth * pct, 0)
 			self.handleGraphic:SetVisible(pct < 1)

@@ -1,6 +1,10 @@
+-- Server-side request to hand the Zakum role to another player. Sent to _GameManager by
+-- ZakumPlayerComponent.HandleTriggerEnterEvent when a player touches the current Zakum,
+-- and handled by GameManager.HandleZakumChangedEvent, which calls ChangeZakum.
 @Event
 script ZakumChangedEvent extends EventType
 
+	-- UserId (player entity name) of the player who should become the new Zakum
 	property string userId = ""
 
 end

@@ -1,18 +1,27 @@
+-- Global UI facade (accessed as _UIManager). Server scripts such as DynamicMapPortal call these
+-- Client methods with a trailing target userId, so each call runs only on that player's client.
+-- Wraps the dungeon reservation panel and a placeholder popup.
 @Logic
 script UIManager extends Logic
 
+	-- The InstanceDungeonReservationUI component on the reservation panel entity in the UI (set by entity ID)
 	property InstanceDungeonReservationUI instanceDungeon = "a869fc03-e701-48a3-8758-333f4c28a086"
 
+	-- Shows a message to the player. Placeholder: currently only writes the message to the log
+	-- (no popup UI is wired up yet).
 	@ExecSpace("Client")
 	method void ShowPopup(string message)
 		log(message)
 	end
 
+	-- Opens the dungeon reservation panel listing the given user IDs (an empty table shows an empty list).
 	@ExecSpace("Client")
 	method void ShowDungeonReservation(table users)
 		self.instanceDungeon:Show(users)
 	end
 
+	-- Closes the dungeon reservation panel (InstanceDungeonReservationUI.Hide also unregisters
+	-- the local player if they were still registered).
 	@ExecSpace("Client")
 	method void HideDungeonReservation()
 		self.instanceDungeon:Hide() 

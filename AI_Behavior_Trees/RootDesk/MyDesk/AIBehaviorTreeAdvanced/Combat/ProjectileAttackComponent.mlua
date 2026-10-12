@@ -1,11 +1,16 @@
+-- Attack component on the boss projectile entity. Its damage is set per shot by
+-- BossProjectile:Init, and BossProjectile:Explode uses it to hit players in the blast radius.
 @Component
 script ProjectileAttackComponent extends AttackComponent
+	-- Damage dealt to each target hit by this projectile's attack
 	property number damage = 1
 
+	-- Sets the damage for the next attack (called from BossProjectile:Init with AttackInfo.Damage)
 	method void Init(number damageValue)
 		self.damage = damageValue
 	end
 
+	-- Overrides the AttackComponent damage calculation to return the configured flat damage
 	method integer CalcDamage(Entity attacker, Entity defender, string attackInfo)
 		return self.damage
 	end

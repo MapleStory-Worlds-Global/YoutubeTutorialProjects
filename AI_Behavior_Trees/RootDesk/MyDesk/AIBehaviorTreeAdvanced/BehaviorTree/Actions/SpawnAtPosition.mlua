@@ -1,10 +1,18 @@
+-- Behaviour-tree action node that spawns one entity from a model at a position read from the
+-- blackboard, parented to the AI entity's current map. Succeeds when the spawn works; fails if
+-- the position is missing or the spawn returns nothing.
 @BTNode
 script SpawnAtPosition extends ActionNode
+	-- Blackboard key holding the Vector2 spawn position
 	property string positionKey = "bb_spawnPosition"
+	-- Model ID of the entity to spawn
 	property string modelID = ""
+	-- Name given to the spawned entity
 	property string entityName = ""
 
-	
+
+	-- Reads the spawn position, spawns the model on the AI entity's map, and returns
+	-- Success/Failure based on whether a valid entity was created
 	method any OnBehave(number delta)
 
 		local parentAI = self.ParentAI

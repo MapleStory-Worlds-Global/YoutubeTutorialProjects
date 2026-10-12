@@ -1,15 +1,27 @@
+-- Pooled boss projectile. After Init + Launch it flies in a straight line toward a fixed target
+-- point (moved by a repeating timer) and explodes when it gets close, when its flight time runs
+-- out, or when it touches a player. The explosion plays an effect, deals area damage through
+-- ProjectileAttackComponent, and returns the entity to the object pool.
 @Component
 script BossProjectile extends Component
+	-- Travel speed in world units per second
 	property number moveSpeed = 3
+	-- Maximum flight time in seconds; overwritten in Init with the projectile animation's length
 	property number flyDuration = 1
 
+	-- Cached ProjectileAttackComponent used to deal the explosion damage
 	@HideFromInspector
 	property ProjectileAttackComponent attackComp = nil
+	-- Attack data for the current shot (damage and explosion effect RUID)
 	@HideFromInspector
 	property AttackInfo attackInfo = nil
+	-- True once exploded, so trigger contacts are ignored until the pool resets it
 	@HideFromInspector
 	property boolean isDead = false
 
+	-- Prepares the projectile for a shot: stores `info`, passes its damage to the attack
+	-- component, and sets flyDuration to the length of the projectile's own sprite animation
+	-- (which may load the clip and yield the first time).
 	method void Init(AttackInfo info)
 		-- Add Boolean and calculate fly duration based on animation time. 
 		self.attackComp = self.Entity.ProjectileAttackComponent
@@ -21,9 +33,13 @@ script BossProjectile extends Component
 
 	end
 
+	-- Starts moving toward targetPos using a repeating timer at ~30 ticks per second. Each tick
+	-- moves moveSpeed * delta along the direction to the target; it explodes once within 0.5
+	-- units (squared distance < 0.25) or after flyDuration seconds, and stops the timer.
 	method void Launch(Vector2 targetPos)
 		local transform = self.Entity.TransformComponent
 		local moveSpeed = self.moveSpeed
+		-- Fixed timestep used both as the timer interval and the movement step
 		local delta = 1/30
 		local elapsedTime = 0
 		local flyTimer = 0
@@ -31,6 +47,7 @@ script BossProjectile extends Component
 		local moveFunc = function()
 			if isvalid(transform) then
 				local currentPos = transform.WorldPosition:ToVector2()
+				-- Squared-distance check (0.25 = 0.5^2) avoids a square root each tick
 				local hasReachedTarget = _MathUtils:DistanceSquared(currentPos, targetPos) < 0.25
 				if hasReachedTarget or elapsedTime >= self.flyDuration then
 					_TimerService:ClearTimer(flyTimer)
@@ -38,15 +55,19 @@ script BossProjectile extends Component
 					return
 				end
 				
+				-- Step of moveSpeed * delta world units toward the target this tick
 				local dir = (targetPos - currentPos):Normalize() * moveSpeed * delta
 				transform:Translate(dir.x, dir.y)
 				elapsedTime = elapsedTime + delta
 			end
 		end
 
+		-- moveFunc captures flyTimer as an upvalue, so it can clear its own timer once assigned here
 		flyTimer = _TimerService:SetTimerRepeat(moveFunc, delta, 0)
 	end
 
+	-- Hides the projectile, plays the explosion effect, damages players within a radius equal to
+	-- half the effect sprite's width, marks itself dead and returns the entity to the pool.
 	method void Explode()
 		--Hide Sprite
 		self.Entity:SetVisible(false)
@@ -63,11 +84,13 @@ script BossProjectile extends Component
 		_PoolManager:Release(self.Entity)
 	end
 
+	-- Restores the projectile for reuse (clears isDead and makes it visible again)
 	method void Reset()
 		self.isDead = false
 		self.Entity:SetVisible(true)
 	end
 
+	-- Explodes early when the projectile's trigger touches a player (ignored once already exploded)
 	@EventSender("Self")
 	handler OnTriggerEnter(TriggerEnterEvent event)
 		if self.isDead then
@@ -80,6 +103,7 @@ script BossProjectile extends Component
 		end
 	end
 
+	-- PoolManager sends OnPoolRelease to the entity when it is released; reset it for the next shot
 	@EventSender("Self")
 	handler OnPoolRelease(OnPoolRelease event)
 		self:Reset()

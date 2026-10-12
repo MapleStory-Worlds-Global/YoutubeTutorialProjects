@@ -1,17 +1,26 @@
+-- Behaviour tree DecoratorNode that repeats its child: each time the child succeeds it counts one
+-- iteration and keeps returning Running until LoopCount iterations are done (then Success), or
+-- forever when IsInfinite is true. A child Failure ends the loop immediately with Failure.
 @BTNode
 script Loop extends DecoratorNode
 
+	-- When true, repeats the child indefinitely and LoopCount is ignored
 	property boolean IsInfinite = false
 
+	-- Number of successful child runs required before the loop returns Success
 	property integer LoopCount = 1
 
+	-- Runtime state: successful iterations completed so far (reset in OnInit)
 	@HideFromInspector
 	property integer CurrentCount = 0
 
+	-- Node initialization hook: resets the iteration counter.
 	method void OnInit()
 		self.CurrentCount = 0
 	end
 
+	-- Called each tick: ticks the child once and maps its result to the loop's status
+	-- (Running/Failure pass through; Success advances the iteration count).
 	method any OnBehave(number delta)
 		local result = self:ChildBehave(delta)
 
@@ -33,6 +42,7 @@ script Loop extends DecoratorNode
 			return BehaviourTreeStatus.Success
 		end
 
+		-- More iterations remain: report Running so the child is ticked again next time
 		return BehaviourTreeStatus.Running
 	end
 

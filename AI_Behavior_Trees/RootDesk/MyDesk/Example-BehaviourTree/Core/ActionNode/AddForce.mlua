@@ -1,8 +1,14 @@
+-- Behaviour-tree action node: reads a Vector2 force from the AI's blackboard and adds it
+-- to the AI entity's RigidbodyComponent (accumulates on top of existing forces).
+-- Completes in a single tick: Success once applied, Failure if anything is missing.
 @BTNode
 script AddForce extends ActionNode
 
+	-- Blackboard key holding the Vector2 force to add
 	property string ForceKey = nil
 
+	-- Called each tick while this node is active. Returns Failure if the AI, entity,
+	-- rigidbody or blackboard force is missing; otherwise applies the force and returns Success.
 	method any OnBehave(number delta)
 		local aiComponent = self.ParentAI
 		if aiComponent == nil then

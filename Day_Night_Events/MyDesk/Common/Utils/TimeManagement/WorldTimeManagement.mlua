@@ -1,25 +1,38 @@
+-- Global day/night controller (accessed as _WorldTimeManagement). Blends the map's background
+-- material and tilemap tint between day (0) and night (1) on each client. Called locally by
+-- PlayerHUD's buttons, or from the server by CustomPlayerComponent when a switch is toggled.
 @Logic
 script WorldTimeManagement extends Logic
 
+	-- Night tint colour (hex) the tilemap is lerped toward as time approaches 1
 	property string colorHex = "#31639c"
 
+	-- Background whose material exposes the "BlendIntensity" property used for the day/night blend
 	property BackgroundComponent bg = "7ee4456d-3399-46c6-b9eb-fbf5228839e1"
 
+	-- Tilemap tinted from white (day) to colorHex (night)
 	property TileMapComponent tileMap = "c9a3018a-f6fa-4c4b-b91e-404ac5ce9858"
 
+	-- Material property bag passed to _MaterialService; holds the current BlendIntensity (0..1)
 	property table materialProps = {}
 
+	-- Caches the night colour and background material id in the client-local _T table and
+	-- starts at full day (BlendIntensity = 0). Client-only because all visuals are client-side.
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		self._T.color = Color.FromHexCode(self.colorHex)
-		self._T.color.a = 1
+		self._T.color.a = 1 -- force fully opaque so the tint never fades the tilemap
 		self._T.matId = self.bg.MaterialId
 		
 		self.materialProps = {["BlendIntensity"] = 0}
 	end
 
+	-- Tweens the blend from its current value to `time` (0 = day, 1 = night) over 2 seconds.
+	-- Client exec space: when called from the server (CustomPlayerComponent) the call is
+	-- forwarded to clients, so every player sees the change.
 	@ExecSpace("Client")
 	method void SetTime(number time)
+		-- Stop any tween still running so a new request starts from the current blend value
 		if isvalid(self._T.currentTween) then 
 			self._T.currentTween:Stop()
 		end
@@ -28,6 +41,8 @@ script WorldTimeManagement extends Logic
 		self._T.currentTween = tween
 	end
 
+	-- Tween callback, invoked every update with the interpolated value: pushes it to the
+	-- background material and lerps the tilemap colour from white toward the night tint.
 	method void OnTween(number value)
 		self.materialProps.BlendIntensity = value
 		_MaterialService:ChangeMaterialProperty(self._T.matId, self.materialProps)

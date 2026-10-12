@@ -1,15 +1,22 @@
+-- Behaviour-tree action node: waits for a duration read from the AI's blackboard, so the
+-- wait length can be changed at runtime. Returns Running until it elapses, then Success.
 @BTNode
 script WaitBlackboardTime extends ActionNode
 
+	-- Blackboard key holding the wait duration in seconds
 	property string WaitTimeKey = ""
 
+	-- Internal timer: seconds accumulated since the node was initialized
 	@HideFromInspector
 	property number ElapsedTime = 0.0
 
+	-- Called when the node is initialized by the behaviour tree; resets the timer.
 	method void OnInit()
 		self.ElapsedTime = 0.0
 	end
 
+	-- Called each tick while this node is active. Re-reads the duration every tick (Failure if
+	-- it is missing), accumulates delta, and returns Success once reached, otherwise Running.
 	method any OnBehave(number delta)
 		local waitTime = self.ParentAI.BlackBoard:GetNumber(self.WaitTimeKey)
 		if waitTime == nil then

@@ -8,13 +8,16 @@ script ParallelNode extends BTNode
 	readonly property int32 ChildCount
 
 	---@description "Initializes ParallerNode to the specified name."
+	---@deprecated
 	constructor ParallelNode(string name = "ParallelNode") end
 
 	---@description "Incorporates the node as a child."
+	---@deprecated
 	---@sealed
 	method void AttachChild(BTNode node) end
 
 	---@description "Incorporates the node as a child at the index position. Index starts at 1."
+	---@deprecated
 	---@sealed
 	method void AttachChildAt(BTNode node, int32 index) end
 
@@ -23,14 +26,17 @@ script ParallelNode extends BTNode
 	method BehaviourTreeStatus ChildBehave(int32 index, float deltaTime) end
 
 	---@description "Detaches a child node."
+	---@deprecated
 	---@sealed
 	method boolean DetachChild(BTNode node) end
 
 	---@description "Finds and detaches nodeName child node."
+	---@deprecated
 	---@sealed
 	method boolean DetachChild(string nodeName) end
 
 	---@description "Detaches the child node at index position. Index starts at 1."
+	---@deprecated
 	---@sealed
 	method void DetachChildAt(int32 index) end
 

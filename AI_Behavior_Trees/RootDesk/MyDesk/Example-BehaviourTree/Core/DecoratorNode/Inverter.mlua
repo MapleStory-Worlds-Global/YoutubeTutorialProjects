@@ -1,6 +1,9 @@
+-- Behaviour tree DecoratorNode that inverts its child's result: Success becomes Failure and
+-- Failure becomes Success; Running (or any other status) is passed through unchanged.
 @BTNode
 script Inverter extends DecoratorNode
 
+	-- Called each tick: ticks the child and returns its inverted result.
 	method any OnBehave(number delta)
 		local result = self:ChildBehave(delta)
 		
@@ -9,6 +12,7 @@ script Inverter extends DecoratorNode
 		elseif result == BehaviourTreeStatus.Failure then
 			return BehaviourTreeStatus.Success
 		else
+			-- Running: the child has not finished yet, so there is nothing to invert
 			return result
 		end
 	end

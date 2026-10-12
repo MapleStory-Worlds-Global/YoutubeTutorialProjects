@@ -1,6 +1,9 @@
+-- Behaviour tree DecoratorNode that always reports success once its child finishes: Running is
+-- passed through, while both Success and Failure from the child become Success.
 @BTNode
 script Succeeder extends DecoratorNode
 
+	-- Called each tick: ticks the child and returns Running while it runs, otherwise Success.
 	method any OnBehave(number delta)
 		local result = self:ChildBehave(delta)
 		if result == BehaviourTreeStatus.Running then

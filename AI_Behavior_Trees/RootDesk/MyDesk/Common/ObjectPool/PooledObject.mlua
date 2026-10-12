@@ -1,9 +1,13 @@
+-- Marker component added by ObjectPoolComponent to every entity it spawns. Its presence
+-- tells Release the entity belongs to a pool; Init/Return are empty hooks for future use.
 @Component
 script PooledObject extends Component
 	
+	-- Called once right after the pool spawns this entity (currently empty).
 	method void Init()
 	end
 
+	-- Called by ObjectPoolComponent:Release before the entity is disabled (currently empty).
 	method void Return()
 
 	end

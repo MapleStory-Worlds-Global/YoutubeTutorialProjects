@@ -1,10 +1,15 @@
+-- Simpler local player info HUD: shows the nickname in a text and HP as a slider value
+-- (Hp / MaxHp), refreshed every frame. Child entities are found by path.
 @Component
 script UIMyInfoSimple extends Component
 
+	-- Name label (child "Text_name")
 	property TextComponent myName = nil
 
+	-- HP slider (child "HP_bar"); Value is set to the 0..1 HP ratio
 	property SliderComponent myHP = nil
 
+	-- Client-only UI setup: caches the name text and HP slider references.
 	@ExecSpace("ClientOnly")
 	method void OnBeginPlay()
 		local currentPath = self.Entity.Path
@@ -12,6 +17,7 @@ script UIMyInfoSimple extends Component
 		self.myHP = _EntityService:GetEntityByPath(currentPath .. "/HP_bar").SliderComponent
 	end
 
+	-- Every frame: once the local player exists, updates the name and HP slider.
 	@ExecSpace("ClientOnly")
 	method void OnUpdate(number delta)
 		if _UserService.LocalPlayer == nil then

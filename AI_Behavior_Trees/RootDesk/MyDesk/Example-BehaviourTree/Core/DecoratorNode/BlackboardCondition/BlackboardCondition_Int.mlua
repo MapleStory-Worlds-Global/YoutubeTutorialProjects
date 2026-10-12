@@ -1,18 +1,31 @@
+-- Behaviour tree decorator: reads the Int blackboard variable named Key and compares it with
+-- CompareValue using Operator (see Util/Comparator). Ticks the child node only when the comparison
+-- passes; otherwise returns Failure without running the child.
+-- All eight operators are allowed for Int, including the ordering ones (Util/OperatorPolicy).
 @BTNode
 script BlackboardCondition_Int extends DecoratorNode
 
+	-- Name of the Int blackboard variable to test; an empty Key makes the node fail
 	property string Key = ""
 
+	-- Comparison operator (_Comparator values): 0 IsSet, 1 IsNotSet, 2 Equal, 3 NotEqual,
+	-- 4 Greater, 5 GreaterOrEqual, 6 Less, 7 LessOrEqual
 	property integer Operator = 0
 
+	-- Constant Int value the blackboard variable is compared against (ignored by IsSet / IsNotSet)
 	property integer CompareValue = 0
 
+	-- Called each tick by the behaviour tree. Returns the child's status when
+	-- "blackboard[Key] Operator CompareValue" passes, otherwise BehaviourTreeStatus.Failure.
 	method any OnBehave(number delta)
+		-- No variable named: fail without evaluating the child
 		if _UtilLogic:IsNilorEmptyString(self.Key) then
 			return BehaviourTreeStatus.Failure
 		end
 		
 		local compareValue = self.ParentAI.BlackBoard:GetInt(self.Key)
+		-- Compare fails if Operator is not allowed for Int, or (except for IsSet / IsNotSet)
+		-- if either value is nil or their Lua types differ
 		if _Comparator:Compare(_ValueType.Int, self.Operator, compareValue, self.CompareValue) then
 			return self:ChildBehave(delta)
 		end
